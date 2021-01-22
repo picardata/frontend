@@ -1,0 +1,50 @@
+defaultEntryPoints = ["http"]
+debug = true
+logLevel = "INFO"
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.api]
+  address = ":8080"
+
+[docker]
+  domain = "local.picardata.com"
+  endpoint = "unix:///var/run/docker.sock"
+  watch = true
+
+[api]
+  entryPoint = "api"
+
+[accesslog]
+  filePath = "/var/log/traefik/access.log"
+  bufferingSize = 100
+
+[file]
+  watch = true
+
+[frontends]
+  [frontends.papi]
+  priority = 20
+  backend = "papi_server"
+  passHostHeader = true
+    [frontends.papi.routes]
+      [frontends.papi.routes.papi]
+      rule = "Host:api.local.picardata.com"
+
+  [frontends.pfrontend]
+  priority = 19
+  backend = "pfrontend_server"
+  passHostHeader = true
+    [frontends.pfrontend.routes]
+      [frontends.pfrontend.routes.pfrontend]
+      rule = "Host:local.picardata.com"
+
+[backends]
+  [backends.papi_server]
+    [backends.papi_server.servers]
+      [backends.papi_server.servers.server1]
+      url = "http://10.5.3.21:8080"
+  [backends.pfrontend_server]
+    [backends.pfrontend_server.servers]
+      [backends.pfrontend_server.servers.server1]
+      url = "http://10.5.5.21:3000"
