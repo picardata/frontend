@@ -117,10 +117,10 @@
           <div class="font-weight-bold">
             General Information
           </div>
-          <AppControlInput v-model="profile.name" placeholder="Your Name" type="text"/>
-          <AppControlInput v-model="profile.email" placeholder="Email" type="text"/>
-          <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text"/>
-          <AppControlInput v-model="profile.location" placeholder="Location" type="text"/>
+          <AppControlInput v-model="profile.name" placeholder="Your Name" type="text" />
+          <AppControlInput v-model="profile.email" placeholder="Email" type="text" />
+          <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text" />
+          <AppControlInput v-model="profile.location" placeholder="Location" type="text" />
         </div>
         <div class="col-6">
           <div class="font-weight-bold">
@@ -130,11 +130,11 @@
             v-model="profile.occupation"
             :choices="choices"
             placeholder="Choose Occupation"
-            controlType="select"
+            control-type="select"
           />
-          <AppControlInput v-model="profile.role" placeholder="Role" type="text"/>
-          <AppControlInput v-model="profile.organization" placeholder="Organization" type="text"/>
-          <AppControlInput v-model="profile.workLocation" placeholder="Work Location" type="text"/>
+          <AppControlInput v-model="profile.role" placeholder="Role" type="text" />
+          <AppControlInput v-model="profile.organization" placeholder="Organization" type="text" />
+          <AppControlInput v-model="profile.workLocation" placeholder="Work Location" type="text" />
         </div>
       </div>
       <div class="row mt-5 justify-content-end">
@@ -201,20 +201,20 @@ export default {
       if (this.step === 3) {
         console.log()
         this.$axios.$post('/api/employees/', {
-            userProfile: {
-              firstname: this.profile.name,
-              lastname: '',
-              address: this.profile.location,
-              phone: this.profile.phone,
-              email: this.profile.email,
-              user: this.$auth.user.id
-            },
-            role: this.profile.role,
-            occupation: this.profile.occupation,
-            company: {
-              name: this.profile.organization,
-              location: this.profile.workLocation
-            }
+          userProfile: {
+            firstname: this.profile.name,
+            lastname: '',
+            address: this.profile.location,
+            phone: this.profile.phone,
+            email: this.profile.email,
+            user: this.$auth.user.id
+          },
+          role: this.profile.role,
+          occupation: this.profile.occupation,
+          company: {
+            name: this.profile.organization,
+            location: this.profile.workLocation
+          }
         }).then((data) => {
           this.$router.push('/')
         }).catch((e) => {

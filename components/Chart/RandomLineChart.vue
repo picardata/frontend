@@ -3,80 +3,80 @@
     <div class="text-left p-3">
       <h6>Inbound Conversion</h6>
     </div>
-    <line-chart :chart-data="datacollection"></line-chart>
+    <line-chart :chart-data="datacollection" />
   </div>
 </template>
 
 <script>
-  import LineChart from './LineChart'
+import LineChart from './LineChart'
 
-  export default {
-    components: {
-      LineChart
-    },
-    data () {
-      return {
-        datacollection: null
-      }
-    },
-    mounted () {
-      this.fillData()
-    },
-    methods: {
-      fillData () {
-        this.datacollection = {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-          responsive: true,
-          datasets: [
+export default {
+  components: {
+    LineChart
+  },
+  data () {
+    return {
+      datacollection: null
+    }
+  },
+  mounted () {
+    this.fillData()
+  },
+  methods: {
+    fillData () {
+      this.datacollection = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+        responsive: true,
+        datasets: [
+          {
+            label: 'Twitter',
+            borderColor: '#f87979',
+            fill: false,
+            data: [{
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
             {
-              label: 'Twitter',
-              borderColor: '#f87979',
-              fill: false,
-              data: [{
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                }]
-            }, {
-              label: 'Facebook',
-              borderColor: '#04c6ff',
-              fill: false,
-              data: [{
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                },
-                {
-                  x: this.getRandomInt(),
-                  y: this.getRandomInt()
-                }]
-            }
-          ]
-        }
-      },
-      getRandomInt () {
-        return Math.floor(Math.random() * (1000 - 50 + 10)) + 5
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
+            {
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
+            {
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            }]
+          }, {
+            label: 'Facebook',
+            borderColor: '#04c6ff',
+            fill: false,
+            data: [{
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
+            {
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
+            {
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            },
+            {
+              x: this.getRandomInt(),
+              y: this.getRandomInt()
+            }]
+          }
+        ]
       }
+    },
+    getRandomInt () {
+      return Math.floor(Math.random() * (1000 - 50 + 10)) + 5
     }
   }
+}
 </script>
 
 <style>

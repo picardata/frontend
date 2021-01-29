@@ -23,7 +23,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: "stylesheet", type: "text/css", href: "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" }
+      { rel: 'stylesheet', type: 'text/css', href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' }
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js' },
@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://api.picardata.com'
+    baseURL: 'http://api.local.picardata.com'
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -72,7 +72,7 @@ export default {
     }
   },
   env: {
-    apiUrl: 'http://api.picardata.com'
+    apiUrl: 'http://api.local.picardata.com'
   },
   router: {
     middleware: ['auth']
@@ -85,7 +85,7 @@ export default {
       home: '/books'
     },
     strategies: {
-    : {
+      local: {
         token: {
           property: 'token',
           required: true
