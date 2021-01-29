@@ -16,11 +16,11 @@ import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import SideBar from '~/components/SideBar.vue'
+import Navigation from '~/components/Navigation.vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 export default Vue.extend({
-  components: { SideBar }
+  components: { Navigation }
 })
 </script>

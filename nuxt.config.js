@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://api.local.picardata.com'
+    baseURL: 'https://api.picardata.com'
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -72,7 +72,7 @@ export default {
     }
   },
   env: {
-    apiUrl: 'http://api.local.picardata.com'
+    apiUrl: 'https://api.picardata.com'
   },
   router: {
     middleware: ['auth']

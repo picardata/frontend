@@ -8,14 +8,14 @@
           </h5>
           <div class="card-body">
             <form @submit.prevent="onSubmit">
-              <p v-if="errors.length" class="text-danger" >
+              <p v-if="errors.length" class="text-danger">
                 <b>Please correct the following error(s):</b>
-                <ul>
-                  <li v-for="error in errors">
-                    {{ error }}
-                  </li>
-                </ul>
               </p>
+              <ul>
+                <li v-for="error in errors" :key="error">
+                  {{ error }}
+                </li>
+              </ul>
               <AppControlInput v-model="email" required type="email">
                 E-Mail Address
               </AppControlInput>

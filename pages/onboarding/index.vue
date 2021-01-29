@@ -215,7 +215,7 @@ export default {
             name: this.profile.organization,
             location: this.profile.workLocation
           }
-        }).then((data) => {
+        }).then(() => {
           this.$router.push('/')
         }).catch((e) => {
           for (const field of ['username', 'password']) {
