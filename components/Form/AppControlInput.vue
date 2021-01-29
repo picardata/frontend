@@ -1,8 +1,19 @@
 <template>
   <div class="form-group">
     <label>
-      <slot/>
+      <slot />
     </label>
+    <select
+      v-if="controlType === 'select'"
+      class="form-control"
+      v-bind="$attrs"
+      :value="value"
+      @change="$emit('input', $event.target.value)"
+    >
+      <option v-for="choice in choices" :value="choice.id">
+        {{ choice.name }}
+      </option>
+    </select>
     <input
       v-if="controlType === 'input'"
       class="form-control"
@@ -31,6 +42,12 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    choices: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   }
 }

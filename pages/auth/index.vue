@@ -3,16 +3,34 @@
     <div class="row justify-content-center">
       <div class="col-8 mt-5">
         <div class="card align-self-center">
-          <h5 class="card-header">{{ isLogin ? 'Login' : 'Sign Up' }}</h5>
+          <h5 class="card-header">
+            {{ isLogin ? 'Login' : 'Sign Up' }}
+          </h5>
           <div class="card-body">
             <form @submit.prevent="onSubmit">
-              <AppControlInput type="email" v-model="email">E-Mail Address</AppControlInput>
-              <AppControlInput type="password" v-model="password">Password</AppControlInput>
-              <AppButton class="btn btn-primary" type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
+              <p v-if="errors.length" class="text-danger" >
+                <b>Please correct the following error(s):</b>
+                <ul>
+                  <li v-for="error in errors">
+                    {{ error }}
+                  </li>
+                </ul>
+              </p>
+              <AppControlInput v-model="email" required type="email">
+                E-Mail Address
+              </AppControlInput>
+              <AppControlInput v-model="password" required type="password">
+                Password
+              </AppControlInput>
+              <AppButton class="btn btn-primary" type="submit">
+                {{ isLogin ? 'Login' : 'Sign Up' }}
+              </AppButton>
               <AppButton
                 type="button"
                 btn-style="inverted"
-                @click="isLogin = !isLogin">Switch to {{ isLogin ? 'Signup' : 'Login' }}
+                @click="isLogin = !isLogin"
+              >
+                Switch to {{ isLogin ? 'Signup' : 'Login' }}
               </AppButton>
             </form>
           </div>
@@ -29,6 +47,7 @@ export default {
   auth: false,
   data () {
     return {
+      errors: [],
       isLogin: true,
       email: 'test@mailinator.com',
       password: 'password'
@@ -36,6 +55,28 @@ export default {
   },
   methods: {
     async onSubmit () {
+      if (!this.isLogin) {
+        const result = await this.$axios
+          .$post('/api/users/', {
+            username: this.email,
+            password: this.password
+          })
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((e) => {
+            for (const field of ['username', 'password']) {
+              const errors = e.response.data.errors[field]
+              if (errors !== undefined) {
+                this.errors = this.errors.concat(errors)
+              }
+            }
+            return false
+          })
+        if (result === false) {
+          return false
+        }
+      }
       try {
         await this.$auth.loginWith('local', {
           data: {
@@ -43,18 +84,15 @@ export default {
             password: this.password
           }
         })
-        this.$router.push('/books')
+        if (!this.isLogin) {
+          this.$router.push('/onboarding')
+        } else {
+          this.$router.push('/')
+        }
       } catch (err) {
         console.log('here')
         console.log(err)
       }
-      // this.$store.dispatch('authenticateUser', {
-      //   isLogin: this.isLogin,
-      //   email: this.email,
-      //   password: this.password
-      // }).then(() => {
-      //   this.$router.push('/')
-      // })
     }
   }
 }

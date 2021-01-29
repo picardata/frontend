@@ -1,3 +1,4 @@
+require('dotenv').config()
 export default {
   /*
   ** Nuxt rendering mode
@@ -21,9 +22,15 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "stylesheet", type: "text/css", href: "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" }
     ],
     script: [
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js' },
+      { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js' },
+      { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js' },
+      { src: 'https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js' }
     ]
   },
 
@@ -72,7 +79,7 @@ export default {
   },
   auth: {
     redirect: {
-      login: '/',
+      login: '/auth',
       logout: '/auth',
       callback: '/auth',
       home: '/books'
@@ -82,7 +89,6 @@ export default {
         token: {
           property: 'token',
           required: true
-          // type: 'Bearer'
         },
         user: {
           property: 'user',

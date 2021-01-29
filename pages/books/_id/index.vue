@@ -33,7 +33,7 @@
 
 export default {
   async asyncData (context) {
-    return await context.app.$axios.get('http://api.local.picardata.com/api/books/' + context.route.params.id)
+    return await context.app.$axios.get('/api/books/' + context.route.params.id)
       .then((data) => {
         return {
           id: data.data.id,

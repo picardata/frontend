@@ -25,7 +25,7 @@ export default {
   methods: {
     onSubmitted (postData) {
       // eslint-disable-next-line no-console
-      this.$axios.post('http://api.local.picardata.com/api/books/', postData)
+      this.$axios.post('/api/books/', postData)
         .then(() => this.$router.push('/books'))
         .catch((e) => {
           console.log(e)

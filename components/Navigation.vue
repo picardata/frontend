@@ -6,17 +6,28 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul v-if="$auth.loggedIn" class="navbar-nav mr-auto">
         <li class="nav-item active">
           <router-link to="/" class="nav-link">Dashboard</router-link>
         </li>
-        <li class="nav-item active">
+        <!-- <li class="nav-item active">
           <router-link to="/books" class="nav-link">Books</router-link>
+        </li> -->
+      </ul>
+      <ul v-if="$auth.loggedIn" class="navbar-nav text-right ">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu">
+            <nuxt-link to="/" class="dropdown-item">Profile</nuxt-link>
+            <a class="dropdown-item" href="#">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" @click.prevent="onLogout" >Logout</a>
+          </div>
         </li>
       </ul>
-      <ul class="navbar-nav text-right ">
+      <ul v-if="!$auth.loggedIn" class="navbar-nav text-right pull-right">
         <li class="nav-item active">
-          <AppButton style="margin-left: 10px" class="nav-link" @click="onLogout">Logout</AppButton>
+          <AppButton style="margin-left: 10px" class="nav-link" @click="this.$router.push('/auth')">Login</AppButton>
         </li>
       </ul>
     </div>

@@ -1,24 +1,22 @@
 <template>
-  <nav
-    class="top-navbar flex flex-row align-center p-2 fixed w-full"
-    style="z-index: 9001;"
-  >
-    <!-- Logo Brand -->
-    <div class="flex-grow">
-      <router-link to="/">Picardata
-      </router-link>
-    </div>
-    <!-- /Logo Brand -->
-
-    <!-- Menu Button -->
-    <div class="flex-grow">
-      <router-link to="/">Books
-      </router-link>
-    </div>
-  </nav>
+<div v-if="$auth.loggedIn">
+  <b-nav vertical class="w-25">
+    <router-link to="/" class="nav-link">Dashboard</router-link>
+    <router-link to="/books" class="nav-link">Books</router-link>
+    <b-nav-item active @click.prevent="onLogout">Logout</b-nav-item>
+  </b-nav>
+</div>
 </template>
 <script>
+import { SidebarPlugin } from 'bootstrap-vue'
+
 export default {
-  name: 'sidebar'
+  name: 'sidebar',
+  methods: {
+    onLogout () {
+      this.$auth.logout()
+      this.$router.push('/auth')
+    }
+  }
 }
 </script>

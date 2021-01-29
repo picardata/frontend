@@ -40,7 +40,7 @@ export default {
       console.log(postData)
       const id = postData.id
       delete postData.id
-      this.$axios.put('http://api.local.picardata.com/api/books/' + id, postData)
+      this.$axios.put('/api/books/' + id, postData)
         .then(() => this.$router.push('/books'))
         .catch(() => this.$router.push('/books'))
     }
