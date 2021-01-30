@@ -199,7 +199,6 @@ export default {
     next () {
       this.step = this.step + 1
       if (this.step === 3) {
-        console.log()
         this.$axios.$post('/api/employees/', {
           userProfile: {
             firstname: this.profile.name,
