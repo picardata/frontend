@@ -11,7 +11,7 @@
               <p v-if="errors.length" class="text-danger">
                 <b>Please correct the following error(s):</b>
               </p>
-              <ul>
+              <ul class="text-danger">
                 <li v-for="error in errors" :key="error">
                   {{ error }}
                 </li>
@@ -52,6 +52,10 @@ export default {
       email: 'test@mailinator.com',
       password: 'password'
     }
+  },
+  mounted() {
+    console.log(this.$axios.defaults.baseURL);
+    console.log(process.env.apiUrl);
   },
   methods: {
     async onSubmit () {

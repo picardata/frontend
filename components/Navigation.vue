@@ -25,7 +25,7 @@
         </li> -->
       </ul>
       <ul v-if="$auth.loggedIn" class="navbar-nav text-right ">
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" style="width: 100px;">
           <a
             class="nav-link dropdown-toggle active"
             data-toggle="dropdown"
@@ -33,7 +33,7 @@
             role="button"
             aria-haspopup="true"
             aria-expanded="false"
-          >Dropdown</a>
+          ><img src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" class="rounded" style="width: 30px;" /></a>
           <div class="dropdown-menu">
             <nuxt-link to="/profile/me" class="dropdown-item">
               Profile
@@ -42,13 +42,6 @@
             <div class="dropdown-divider" />
             <a class="dropdown-item" href="#" @click.prevent="onLogout">Logout</a>
           </div>
-        </li>
-      </ul>
-      <ul v-if="!$auth.loggedIn" class="navbar-nav text-right pull-right">
-        <li class="nav-item active">
-          <AppButton style="margin-left: 10px" class="nav-link" @click="this.$router.push('/auth')">
-            Login
-          </AppButton>
         </li>
       </ul>
     </div>

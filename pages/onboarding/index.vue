@@ -112,15 +112,16 @@
           <H1>Complete your Profile</H1>
         </div>
       </div>
+      <form>
       <div class="row mt-5">
         <div class="col-6">
           <div class="font-weight-bold">
             General Information
           </div>
-          <AppControlInput v-model="profile.name" placeholder="Your Name" type="text" />
-          <AppControlInput v-model="profile.email" placeholder="Email" type="text" />
-          <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text" />
-          <AppControlInput v-model="profile.location" placeholder="Location" type="text" />
+          <AppControlInput v-model="profile.name" name="name" placeholder="Your Name" type="text" />
+          <AppControlInput v-model="profile.email" placeholder="Email" type="email" />
+          <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="tel" />
+          <AppControlInput v-model="profile.location" name="address" placeholder="Location" type="address" />
         </div>
         <div class="col-6">
           <div class="font-weight-bold">
@@ -133,7 +134,7 @@
             control-type="select"
           />
           <AppControlInput v-model="profile.role" placeholder="Role" type="text" />
-          <AppControlInput v-model="profile.organization" placeholder="Organization" type="text" />
+          <AppControlInput v-model="profile.organization" name="job" placeholder="Organization" type="text" />
           <AppControlInput v-model="profile.workLocation" placeholder="Work Location" type="text" />
         </div>
       </div>
@@ -145,6 +146,7 @@
           Save Profile
         </button>
       </div>
+      </form>
     </div>
   </div>
 </template>
