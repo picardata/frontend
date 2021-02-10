@@ -2,6 +2,10 @@
 
 ## Prerequisite
 * Clone [Picardata API](https://github.com/picardata-labs/api) and put it in the same directory with `frontend` folder
+* Set Up API by going to it's root folder and running the command below.
+```shell script
+make setup-dev destroy
+```
 
 ## Installation
 Run the command below if you are setting up a new development environment

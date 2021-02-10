@@ -5,8 +5,9 @@ setup:
 
 setup-dev:
 	docker volume create picardata-data
-	make build-dev setup
-	docker exec -it frontend yarn install
+	make build-dev
+	docker run -it -v $(shell pwd):/app picardata/frontend:latest yarn install
+	make setup
 
 shell:
 	docker exec -it frontend bash

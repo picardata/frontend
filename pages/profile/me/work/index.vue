@@ -5,12 +5,24 @@
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title">{{ profile.firstname }} {{ profile.lastname }}</h5>
-            <p class="card-text"><b>Location:</b> {{ profile.location }}</p>
-            <p class="card-text"><b>Email:</b> {{ profile.email }}</p>
-            <p class="card-text"><b>Phone:</b> {{ profile.phone }}</p>
-            <nuxt-link to="/profile/me" class="nav-link">Edit General Information</nuxt-link>
-            <nuxt-link to="/profile/me/work" class="nav-link active">Edit Work Information</nuxt-link>
+            <h5 class="card-title">
+              {{ profile.firstname }} {{ profile.lastname }}
+            </h5>
+            <p class="card-text">
+              <b>Location:</b> {{ profile.location }}
+            </p>
+            <p class="card-text">
+              <b>Email:</b> {{ profile.email }}
+            </p>
+            <p class="card-text">
+              <b>Phone:</b> {{ profile.phone }}
+            </p>
+            <nuxt-link to="/profile/me" class="nav-link">
+              Edit General Information
+            </nuxt-link>
+            <nuxt-link to="/profile/me/work" class="nav-link active">
+              Edit Work Information
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -26,10 +38,18 @@
             :choices="choices"
             placeholder="Choose Occupation"
             control-type="select"
-          >Occupation</AppControlInput>
-          <AppControlInput v-model="employee.role" placeholder="Role" type="text" >Role</AppControlInput>
-          <AppControlInput v-model="employee.organization" placeholder="Organization" type="text" >Organization</AppControlInput>
-          <AppControlInput v-model="employee.workLocation" placeholder="Work Location" type="text" >Work Location</AppControlInput>
+          >
+            Occupation
+          </AppControlInput>
+          <AppControlInput v-model="employee.role" placeholder="Role" type="text">
+            Role
+          </AppControlInput>
+          <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
+            Organization
+          </AppControlInput>
+          <AppControlInput v-model="employee.workLocation" placeholder="Work Location" type="text">
+            Work Location
+          </AppControlInput>
         </div>
       </div>
       <div class="row mt-5 justify-content-center">
@@ -42,30 +62,8 @@
 </template>
 <script>
 export default {
-  data() {
-      return {
-        choices: [
-          {
-            name: 'Artist',
-            id: 1
-          },
-          {
-            name: 'Designer',
-            id: 2
-          },
-          {
-            name: 'Software Developer',
-            id: 3
-          },
-          {
-            name: 'Sales & Marketing',
-            id: 4
-          }
-        ],
-      }
-    },
   async asyncData (context) {
-    console.log(context);
+    console.log(context)
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
       .then((data) => {
         return {
@@ -87,26 +85,48 @@ export default {
         }
       })
   },
+  data () {
+    return {
+      choices: [
+        {
+          name: 'Artist',
+          id: 1
+        },
+        {
+          name: 'Designer',
+          id: 2
+        },
+        {
+          name: 'Software Developer',
+          id: 3
+        },
+        {
+          name: 'Sales & Marketing',
+          id: 4
+        }
+      ]
+    }
+  },
   methods: {
-    submitWork() {
+    submitWork () {
       this.$axios.$patch('/api/employees/' + this.employee.id, {
-          role: this.employee.role,
-          occupation: this.employee.occupation,
-          company: {
-            name: this.employee.organization,
-            location: this.employee.workLocation
+        role: this.employee.role,
+        occupation: this.employee.occupation,
+        company: {
+          name: this.employee.organization,
+          location: this.employee.workLocation
+        }
+      }).then(() => {
+        this.$router.push('/profile/me/work')
+      }).catch((e) => {
+        for (const field of ['username', 'password']) {
+          const errors = e.response.data.errors[field]
+          if (errors !== undefined) {
+            this.errors = this.errors.concat(errors)
           }
-        }).then(() => {
-          this.$router.push('/profile/me/work')
-        }).catch((e) => {
-          for (const field of ['username', 'password']) {
-            const errors = e.response.data.errors[field]
-            if (errors !== undefined) {
-              this.errors = this.errors.concat(errors)
-            }
-          }
-          return false
-        })
+        }
+        return false
+      })
     }
   }
 }
