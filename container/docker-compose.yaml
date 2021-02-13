@@ -31,13 +31,17 @@ services:
     image: 'picardata/api:latest'
     container_name: api
     volumes:
-      - ../../api:/app
+      - ../../api:/app:delegated
     depends_on:
       - mysql
       - redis
+    extra_hosts:
+      - "api.local.picardata.com:10.5.1.21"
+
     networks:
       vpcbr:
         ipv4_address: 10.5.3.21
+
   redis:
     container_name: redis
     restart: always
@@ -49,7 +53,7 @@ services:
     image: 'picardata/frontend:latest'
     container_name: frontend
     volumes:
-      - ../:/app
+      - ../:/app:delegated
 #      - ../../deployment-finished:/app
     command: "yarn dev"
     depends_on:

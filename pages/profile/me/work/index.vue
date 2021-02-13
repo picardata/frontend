@@ -28,40 +28,72 @@
       </div>
     </div>
     <div class="col-8">
-      <div class="row">
-        <div class="col-6">
-          <div class="font-weight-bold mb-4">
-            <h3>Work Information</h3>
+      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(submitWork)">
+          <div class="row">
+            <div class="col-6">
+              <div class="font-weight-bold mb-4">
+                <h3>Work Information</h3>
+              </div>
+              <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
+                <AppControlInput
+                  v-model="employee.occupation"
+                  :choices="choices"
+                  placeholder="Choose Occupation"
+                  control-type="select"
+                >
+                  Occupation
+                </AppControlInput>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" vid="profile.role" name="employee.role">
+                <AppControlInput v-model="employee.role" placeholder="Role" type="text">
+                  Role
+                </AppControlInput>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" vid="employee.organization" name="employee.organization">
+                <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
+                  Organization
+                </AppControlInput>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" vid="employee.workLocation" name="employee.workLocation">
+                <label>Location</label>
+                <div class="form-group">
+                  <country-select
+                    v-model="employee.workLocation"
+                    country-name="true"
+                    :country="employee.workLocation"
+                    top-country="US"
+                    name="address"
+                    class-name="form-control"
+                    placeholder="Work Location"
+                  />
+                </div>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
           </div>
-          <AppControlInput
-            v-model="employee.occupation"
-            :choices="choices"
-            placeholder="Choose Occupation"
-            control-type="select"
-          >
-            Occupation
-          </AppControlInput>
-          <AppControlInput v-model="employee.role" placeholder="Role" type="text">
-            Role
-          </AppControlInput>
-          <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
-            Organization
-          </AppControlInput>
-          <AppControlInput v-model="employee.workLocation" placeholder="Work Location" type="text">
-            Work Location
-          </AppControlInput>
-        </div>
-      </div>
-      <div class="row mt-5 justify-content-center">
-        <button type="button" class="btn btn-primary btn-lg" @click.prevent="submitWork">
-          Save Work Information
-        </button>
-      </div>
+          <div class="row mt-5 justify-content-center">
+            <button type="button" class="btn btn-primary btn-lg" @click.prevent="submitWork">
+              Save Work Information
+            </button>
+          </div>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
 <script>
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider
+  },
   async asyncData (context) {
     console.log(context)
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')

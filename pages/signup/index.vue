@@ -1,11 +1,53 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-8 mt-5">
+      <div class="col-8 mt-2">
+        <div class="row mt-5">
+          <div class="col-12">
+            <H1>How Picardata works?</H1>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body p-4">
+                <h5 class="card-title">
+                  YOUR APPS
+                </h5>
+                <p class="card-text">
+                  You probably have a tons of app to manage. Social media, design tools, sales and marketing and much more.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body p-4">
+                <h5 class="card-title">
+                  HANDLE YOUR APPS
+                </h5>
+                <p class="card-text">
+                  How do you manage your apps precisely? Picardata can do that for you to monitor and view how they work.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body p-4">
+                <h5 class="card-title">
+                  INTEGRATE YOUR APP
+                </h5>
+                <p class="card-text">
+                  Firstly you have to integrate them. You can add, revoke and view data and access within your app.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 mt-4">
         <div class="card align-self-center">
-          <h5 class="card-header">
-            {{ isLogin ? 'Login' : 'Sign Up' }}
-          </h5>
           <div class="card-body">
             <form @submit.prevent="onSubmit">
               <p v-if="errors.length" class="text-danger">
@@ -22,15 +64,8 @@
               <AppControlInput v-model="password" required type="password">
                 Password
               </AppControlInput>
-              <AppButton class="btn btn-primary" type="submit">
+              <AppButton class="btn btn-primary float-right" type="submit">
                 {{ isLogin ? 'Login' : 'Sign Up' }}
-              </AppButton>
-              <AppButton
-                type="button"
-                btn-style="inverted"
-                @click="isLogin = !isLogin"
-              >
-                Switch to {{ isLogin ? 'Signup' : 'Login' }}
               </AppButton>
             </form>
           </div>
@@ -39,7 +74,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'AdminAuthPage',
@@ -48,14 +82,15 @@ export default {
   data () {
     return {
       errors: [],
-      isLogin: true,
-      email: 'test@mailinator.com',
-      password: 'password'
+      isLogin: false,
+      email: '',
+      password: ''
     }
   },
-  mounted() {
-    console.log(this.$axios.defaults.baseURL);
-    console.log(process.env.apiUrl);
+  mounted () {
+    console.log(this.$axios.defaults.baseURL)
+    console.log(process.env.apiUrl)
+    console.log('here')
   },
   methods: {
     async onSubmit () {
@@ -72,7 +107,7 @@ export default {
             for (const field of ['username', 'password']) {
               const errors = e.response.data.errors[field]
               if (errors !== undefined) {
-                this.errors = this.errors.concat(errors)
+                this.errors = errors
               }
             }
             return false

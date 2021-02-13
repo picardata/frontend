@@ -10,13 +10,13 @@
       </div>
     </div>
   </div>
-</template>
+</template>vue-country-region-select
 <script lang="ts">
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Navigation from '~/components/Navigation.vue'
+const vueCountryRegionSelect = require('vue-country-region-select')
+Vue.use(vueCountryRegionSelect)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 

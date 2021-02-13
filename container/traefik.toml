@@ -43,7 +43,7 @@ logLevel = "INFO"
   [backends.papi_server]
     [backends.papi_server.servers]
       [backends.papi_server.servers.server1]
-      url = "http://10.5.3.21:8080"
+      url = "http://10.5.3.21"
   [backends.pfrontend_server]
     [backends.pfrontend_server.servers]
       [backends.pfrontend_server.servers.server1]

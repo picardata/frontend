@@ -40,6 +40,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    "~/plugins/vee-validate.js"
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -75,7 +76,8 @@ export default {
   build: {
     babel: {
       compact: true
-    }
+    },
+    transpile: ["vee-validate/dist/rules"]
   },
   env: {
     apiUrl: process.env.BASE_URL || 'http://api.local.picardata.com'
@@ -85,9 +87,9 @@ export default {
   },
   auth: {
     redirect: {
-      login: '/auth',
-      logout: '/auth',
-      callback: '/auth',
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
       home: '/books'
     },
     strategies: {

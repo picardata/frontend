@@ -19,6 +19,12 @@ If you already run `make setup-dev` before then you will just need to run the co
 make setup
 ```
 
+## Add this to your `/etc/host`
+```
+local.picardata.com 127.0.0.1
+api.local.picardata.com 127.0.0.1
+```
+
 ## Difference between `setup-dev` and `setup`
 `setup-dev` - This will create your database data, build the container, launch the containers and install package dependencies.
 `setup` - This will just launch the containers.
