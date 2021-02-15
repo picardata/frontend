@@ -14,8 +14,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import vueCountryRegionSelect from 'vue-country-region-select'
 import Navigation from '~/components/Navigation.vue'
-const vueCountryRegionSelect = require('vue-country-region-select')
+
 Vue.use(vueCountryRegionSelect)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

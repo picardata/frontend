@@ -40,7 +40,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    "~/plugins/vee-validate.js"
+    '~plugins/vee-validate.js',
+    '~plugins/vue-js-modal.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -77,7 +78,7 @@ export default {
     babel: {
       compact: true
     },
-    transpile: ["vee-validate/dist/rules"]
+    transpile: ['vee-validate/dist/rules']
   },
   env: {
     apiUrl: process.env.BASE_URL || 'http://api.local.picardata.com'

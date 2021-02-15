@@ -63,7 +63,7 @@
                 <div class="form-group">
                   <country-select
                     v-model="employee.workLocation"
-                    country-name="true"
+                    country-name=true
                     :country="employee.workLocation"
                     top-country="US"
                     name="address"

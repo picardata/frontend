@@ -68,6 +68,15 @@ services:
     environment:
       - NUXT_ENV_AXIOS_BASE_URL=http://api.local.picardata.com
       - BASE_URL=http://api.local.picardata.com
+  mailcatcher:
+    container_name: mailcatcher
+    restart: always
+    image: schickling/mailcatcher
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.6.21
+    ports:
+      - 1080:1080
 
 volumes:
   picardata-data:
