@@ -64,7 +64,7 @@
               <AppControlInput v-model="password" required type="password">
                 Password
               </AppControlInput>
-              <nuxt-link to="/signup">Forgot Password?</nuxt-link>
+              <nuxt-link to="/password/forgot">Forgot Password?</nuxt-link>
               <AppButton class="btn btn-primary float-right" type="submit">
                 {{ isLogin ? 'Login' : 'Sign Up' }}
               </AppButton>
