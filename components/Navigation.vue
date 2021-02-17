@@ -54,7 +54,7 @@ export default {
   methods: {
     onLogout () {
       this.$auth.logout()
-      this.$router.push('/auth')
+      this.$router.push('/login')
     }
   }
 }
