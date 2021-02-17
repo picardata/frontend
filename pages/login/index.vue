@@ -108,6 +108,7 @@ export default {
             console.log(data)
           })
           .catch((e) => {
+            this.errors = []
             for (const field of ['username', 'password']) {
               const errors = e.response.data.errors[field]
               if (errors !== undefined) {
@@ -133,6 +134,7 @@ export default {
           this.$router.push('/')
         }
       } catch (err) {
+        this.errors = []
         for (const field of ['username', 'password']) {
           const errors = err.response.data.errors[field]
           if (errors !== undefined) {
