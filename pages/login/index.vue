@@ -133,8 +133,13 @@ export default {
           this.$router.push('/')
         }
       } catch (err) {
-        console.log('here')
-        console.log(err)
+        for (const field of ['username', 'password']) {
+          const errors = err.response.data.errors[field]
+          if (errors !== undefined) {
+            this.errors = this.errors.concat(errors)
+          }
+        }
+        return false
       }
     }
   }
