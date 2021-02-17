@@ -119,7 +119,7 @@ export default {
         firstname: this.profile.firstname,
         lastname: this.profile.lastname,
         address: this.profile.location,
-        phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
+        phone: this.profile.phone.trim(),
         email: this.profile.email
       }).then(() => {
         this.$router.push('/profile/me')
