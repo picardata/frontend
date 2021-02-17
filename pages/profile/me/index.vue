@@ -53,9 +53,10 @@
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
-                <label>Phone</label>
-                <VuePhoneNumberInput v-model="profile.phone" required="required" placeholder="Phone Number" class="form-group" default-country-code="SG" type="tel" />
+              <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
+                <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="tel" required="required">
+                  Phone
+                </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
@@ -99,7 +100,6 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.get('/api/users/me')
       .then((data) => {
-        console.log(data)
         return {
           profile: {
             id: data.data.user.userProfile.id,
@@ -107,6 +107,7 @@ export default {
             lastname: data.data.user.userProfile.lastname,
             email: data.data.user.userProfile.email,
             phone: data.data.user.userProfile.phone,
+            formattedPhone: data.data.user.userProfile.phone,
             location: data.data.user.userProfile.address
           }
         }
@@ -118,7 +119,7 @@ export default {
         firstname: this.profile.firstname,
         lastname: this.profile.lastname,
         address: this.profile.location,
-        phone: this.profile.phone,
+        phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
         email: this.profile.email
       }).then(() => {
         this.$router.push('/profile/me')

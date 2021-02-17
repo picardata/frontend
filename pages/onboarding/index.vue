@@ -40,9 +40,6 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-light btn-lg" @click.prevent="next">
-            Skip for now
-          </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
             Next
           </button>
@@ -120,9 +117,6 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-light btn-lg" @click.prevent="next">
-            Skip for now
-          </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
             Next
           </button>
@@ -178,7 +172,7 @@
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
                   <label></label>
-                  <VuePhoneNumberInput v-model="profile.phone" placeholder="Phone Number" class="form-group" default-country-code="SG" type="tel" />
+                  <VuePhoneNumberInput v-model="profile.phone" @update="profile.formattedPhone = $event.e164" placeholder="Phone Number" class="form-group" default-country-code="SG" type="tel" />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.address" name="profile.address">
@@ -287,6 +281,7 @@ export default {
         name: '',
         email: this.$auth.user.username,
         phone: '',
+        formattedPhone: '',
         location: '',
         occupation: '',
         role: '',
@@ -311,10 +306,10 @@ export default {
       if (this.step === 3) {
         this.$axios.$post('/api/employees/', {
           userProfile: {
-            firstname: this.profile.name,
+            firstname: this.profile.name.trim(),
             lastname: '',
             address: this.profile.location,
-            phone: this.profile.phone,
+            phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
             email: this.profile.email,
             user: this.$auth.user.id
           },
