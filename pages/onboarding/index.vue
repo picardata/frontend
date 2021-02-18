@@ -167,20 +167,27 @@
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
-                  <AppControlInput v-model="profile.email" placeholder="Email" type="email" />
+                  <AppControlInput v-model="profile.email" placeholder="Email" type="email" required="required" />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                  <label></label>
-                  <VuePhoneNumberInput v-model="profile.phone" @update="profile.formattedPhone = $event.e164" placeholder="Phone Number" class="form-group" default-country-code="SG" type="tel" />
+                  <label />
+                  <VuePhoneNumberInput
+                    v-model="profile.phone"
+                    placeholder="Phone Number"
+                    class="form-group"
+                    default-country-code="SG"
+                    type="tel"
+                    @update="profile.formattedPhone = $event.e164"
+                  />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.address" name="profile.address">
-                  <label></label>
+                  <label />
                   <div class="form-group">
                     <country-select
-                      countryName="true"
                       v-model="profile.location"
+                      country-name="true"
                       :country="country"
                       top-country="US"
                       name="address"
@@ -213,11 +220,11 @@
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="company.location" name="company.location">
-                  <label></label>
+                  <label />
                   <div class="form-group">
                     <country-select
-                      countryName="true"
                       v-model="profile.workLocation"
+                      country-name="true"
                       :country="country"
                       top-country="US"
                       name="address"
