@@ -1,14 +1,20 @@
 <template>
   <div>
     <div class="row">
-      <div class="p-4 col-12">
+      <div class="col-12">
         <h3>My Applications</h3>
         <MostAccessedApplications></MostAccessedApplications>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
         <h3>Applications</h3>
         <ApplicationList></ApplicationList>
-        <h3 class="mt-5">
-          Overall Statistics
-        </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h3>Overall Statistics</h3>
         <div class="row over-stat">
           <div class="card shadow-sm mx-3 col-4">
             <div class="card-body p-1 text-center">
@@ -39,16 +45,12 @@ export default {
     border: none;
   }
 
-  .app-modal img {
-    width: 100px;
-  }
-
   .most-access div.card {
     border: none;
-    width: 100px;
+    width: 170px;
     font-size: 14px;
-    height: 150px;
   }
+
   .over-stat div.card {
     border: none;
     font-size: 14px;

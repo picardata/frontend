@@ -1,37 +1,36 @@
 <template>
   <div class="row most-access">
-    <div v-for="(application, index) in applications" :key="application.id" class="card shadow-sm mx-3">
-      <div class=" p-3">
-        <img class="card-img-top" :src="application.logo" alt="Card image cap" @click="appClick(index)">
-      </div>
+    <div v-for="(application, index) in applications" :key="application.id" class="card shadow-sm mx-3">      
+      <img class="card-img-top" :src="application.logo" alt="Card image cap">
       <div class="card-body p-1 text-center">
-        <p class="bold">
-          {{ application.name }}
-        </p>
+        <h5 class="card-title">{{ application.name }}</h5>
+        <p class="card-text">{{ application.detail }}</p>
+        <AppButton class="btn btn-primary" type="button" @click="appClick(index)">
+          add to picardata
+        </AppButton>
       </div>
     </div>
     <modal name="app-modal">
-      <div>
-        <div class="card shadow-sm mx-3 app-modal col-12">
-          <div class="card-body p-1 text-center">
-            <div>
-              <img class="card-img-top" :src="selectedApp.logo" alt="Card image cap">
-            </div>
-            <div>
-              <p class="bold">
-                {{ selectedApp.name }}
-              </p>
-              <p>{{ selectedApp.detail }}</p>
-              <a target="_blank" :href="selectedApp.oauthUrl" class="btn btn-primary">Integrate</a>
-            </div>
+      <div class="modal-mask">
+          <div class="modal-wrapper">
+              <div class="modal-container">
+                  <div class="modal-header">
+                      <h5>Integrate {{ selectedApp.name }}?</h5>
+                      <div class="cancel-integrate" @click="dismissModal">&times;</div>
+                  </div>
+                  <div class="modal-footer">
+                      <a target="_blank" :href="selectedApp.oauthUrl" class="btn btn-primary">Yes</a>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
     </modal>
   </div>
 </template>
 <script>
+import AppButton from '~/components/Form/AppButton'
 export default {
+  components: { AppButton },
   name: 'ApplicationList',
   data () {
     return {
@@ -49,10 +48,24 @@ export default {
       )
   },
   methods: {
-    appClick (index) {
+    appClick (index) {      
       this.selectedApp = this.applications[index]
       this.$modal.show('app-modal')
+    },
+    dismissModal() {
+      this.$modal.hide('app-modal')
     }
   }
 }
 </script>
+<style>
+.modal-header {
+  justify-content: space-between;
+}
+
+.cancel-integrate {
+  cursor: pointer;
+  font-size: 20px;
+  color: black;
+}
+</style>
