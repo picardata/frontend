@@ -32,7 +32,7 @@ export default {
   methods: {
     appClick (index) {
       const selectedIntegration = this.integrations[index]
-      this.$router.push('/app/' + selectedIntegration.id)
+      this.$router.push('/my-app/' + selectedIntegration.id)
     }
   }
 }

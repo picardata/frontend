@@ -1,7 +1,8 @@
 <template>
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
+  <div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
         <tr>
           <th scope="col">
             #
@@ -19,8 +20,8 @@
             Actions
           </th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <tr v-for="(user, index) in users" :key="index">
           <th scope="row">
             {{ index }}
@@ -32,8 +33,9 @@
             <a class="btn btn-sm btn-primary">edit</a>
           </td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -51,8 +53,10 @@ export default {
         console.log(data.data.users)
         this.users = data.data.users
       }).catch(
-        (e) => { console.log(e) }
-      )
+      (e) => {
+        console.log(e)
+      }
+    )
   }
 }
 </script>
