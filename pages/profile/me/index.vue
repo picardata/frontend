@@ -124,12 +124,15 @@ export default {
       }).then(() => {
         this.$router.push('/profile/me')
       }).catch((e) => {
-        for (const field of ['username', 'password']) {
-          const errors = e.response.data.errors[field]
-          if (errors !== undefined) {
-            this.errors = this.errors.concat(errors)
-          }
+        const errors = {}
+
+        if (e.response.data.errors !== undefined) {
+          Object.entries(e.response.data.errors).forEach(function (value) {
+            const key = 'profile.' + value[0]
+            errors[key] = value[1]
+          })
         }
+        this.$refs.form.setErrors(errors)
         return false
       })
     }

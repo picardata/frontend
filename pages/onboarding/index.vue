@@ -183,7 +183,7 @@
                   <span class="text-danger">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" vid="profile.address" name="profile.address">
-                  <label />
+                  <label>Location</label>
                   <div class="form-group">
                     <country-select
                       v-model="profile.location"
