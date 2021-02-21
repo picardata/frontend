@@ -1,14 +1,14 @@
 <template>
-  <div class="col-12">
-    <div v-if="step === 1" class="col-10">
+  <div class="row justify-content-center">
+    <div v-if="step === 1" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-primary"
+              class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 30%"
-              aria-valuenow="30"
+              style="width: 33%"
+              aria-valuenow="33"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -17,18 +17,18 @@
       </div>
       <div class="row mt-3">
         <div class="col-4 font-weight-bold">
-          01. Welcome on board
+          <span class="text-highlight">01.</span> Welcome on board
         </div>
         <div class="col-4">
-          02. Complete Profile
+          <span class="text-highlight">02.</span> Complete Profile
         </div>
         <div class="col-4">
-          03. Start Integrating
+          <span class="text-highlight">03.</span> Start Integrating
         </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <H1>Welcome to Picardata!</H1>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardta"> Welcome to Picardata!</h3>
         </div>
       </div>
       <div class="row mt-5">
@@ -40,21 +40,24 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+            Skip for now
+          </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
             Next
           </button>
         </div>
       </div>
     </div>
-    <div v-if="step === 2" class="col-10">
+    <div v-if="step === 2" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-primary"
+              class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 30%"
-              aria-valuenow="30"
+              style="width: 66%"
+              aria-valuenow="66"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -63,25 +66,25 @@
       </div>
       <div class="row mt-3">
         <div class="col-4 font-weight-bold">
-          01. Welcome on board
+          <span class="text-highlight">01.</span> Welcome on board
         </div>
         <div class="col-4">
-          02. Complete Profile
+          <span class="text-highlight">02.</span> Complete Profile
         </div>
         <div class="col-4">
-          03. Start Integrating
+          <span class="text-highlight">03.</span> Start Integrating
         </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <H1>How Picardata works?</H1>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> How Picardata works?</h3>
         </div>
       </div>
       <div class="row mt-5">
-        <div class="col-4">
+        <div class="card-deck">
           <div class="card">
             <div class="card-body p-4">
-              <h5 class="card-title">
+              <h5 class="card-title text-highlight">
                 YOUR APPS
               </h5>
               <p class="card-text">
@@ -89,11 +92,9 @@
               </p>
             </div>
           </div>
-        </div>
-        <div class="col-4">
           <div class="card">
             <div class="card-body p-4">
-              <h5 class="card-title">
+              <h5 class="card-title text-highlight">
                 HANDLE YOUR APPS
               </h5>
               <p class="card-text">
@@ -101,11 +102,9 @@
               </p>
             </div>
           </div>
-        </div>
-        <div class="col-4">
           <div class="card">
             <div class="card-body p-4">
-              <h5 class="card-title">
+              <h5 class="card-title text-highlight">
                 INTEGRATE YOUR APP
               </h5>
               <p class="card-text">
@@ -117,21 +116,24 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+            Skip for now
+          </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
             Next
           </button>
         </div>
       </div>
     </div>
-    <div v-if="step === 3" class="col-10">
+    <div v-if="step === 3" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-primary"
+              class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 60%"
-              aria-valuenow="60"
+              style="width: 100%"
+              aria-valuenow="100"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -140,18 +142,18 @@
       </div>
       <div class="row mt-3">
         <div class="col-4">
-          01. Welcome on board
+          <span class="text-highlight">01.</span> Welcome on board
         </div>
         <div class="col-4 font-weight-bold">
-          02. Complete Profile
+          <span class="text-highlight">02.</span> Complete Profile
         </div>
         <div class="col-4">
-          03. Start Integrating
+          <span class="text-highlight">03.</span> Start Integrating
         </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <H1>Complete your Profile</H1>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> Complete your Profile</h3>
         </div>
       </div>
       <div>
@@ -237,7 +239,7 @@
               </div>
             </div>
             <div class="row mt-5 justify-content-end">
-              <button type="button" class="btn btn-light btn-lg" @click.prevent="next">
+              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
                 Skip for now
               </button>
               <button type="submit" class="btn btn-primary btn-lg">
