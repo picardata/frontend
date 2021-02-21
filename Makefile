@@ -10,7 +10,7 @@ setup-dev:
 	make setup
 
 shell:
-	docker exec -it frontend bash
+	docker exec -it frontend sh
 
 destroy:
 	cd container && docker-compose down
