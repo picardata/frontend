@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 mt-5">
-        <h3><img src="~/assets/nav_logo_dark.png" /> How Picardata works?</h3>
+        <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> How Picardata works?</h3>
       </div>
       <div class="col-8 mt-2">
         <div class="card-deck">
@@ -63,7 +63,9 @@
               </div>
             </form>
             <div class="row mt-2 p-3">
-              Already have an account? &nbsp;<nuxt-link to="/login">Log In</nuxt-link>
+              Already have an account? &nbsp;<nuxt-link to="/login">
+                Log In
+              </nuxt-link>
             </div>
           </div>
         </div>

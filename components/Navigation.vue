@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="/"><img src="~/assets/nav_logo.png" />icardata</a>
+    <a class="navbar-brand" href="/"><img src="~/assets/nav_logo.png" alt="Logo">icardata</a>
     <button
       class="navbar-toggler"
       type="button"

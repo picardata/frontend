@@ -28,7 +28,7 @@
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" /> Welcome to Picardata!</h3>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardta"> Welcome to Picardata!</h3>
         </div>
       </div>
       <div class="row mt-5">
@@ -77,7 +77,7 @@
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" /> How Picardata works?</h3>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> How Picardata works?</h3>
         </div>
       </div>
       <div class="row mt-5">
@@ -153,7 +153,7 @@
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" /> Complete your Profile</h3>
+          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> Complete your Profile</h3>
         </div>
       </div>
       <div>
