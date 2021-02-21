@@ -9,11 +9,11 @@
 <script>
 export default {
   mounted () {
-    console.log(this.$route.query.code)
     this.$axios.get('/api/integrations/google/oauth2/callback?code=' + this.$route.query.code)
       .then(() => {
         this.$router.push('/')
       }).catch(
+      // eslint-disable-next-line no-console
         (e) => { console.log(e) }
       )
   }

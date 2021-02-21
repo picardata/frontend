@@ -25,7 +25,7 @@
               <AppButton class="btn btn-primary" type="submit">
                 Submit
               </AppButton>
-            </form>        
+            </form>
           </div>
         </div>
       </div>
@@ -46,29 +46,28 @@ export default {
     }
   },
   methods: {
-    onSubmit: async function() {
-        if(this.password != this.confirmPassword) {
-            this.errors = this.errors.concat("Confirm password doesn't match")
-        } else {
-            const result = await this.$axios
-            .put('api/users/' + this.id, {
-                username: this.username,
-                password: this.password
-            })
-            .then(() => {
-                console.log("redirect to login")
-                this.$router.push('/login')
-            })
-            .catch((e) => {
-                for (const field of ['username', 'password']) {
-                    const errors = e.response.data.errors[field]
-                    if (errors !== undefined) {
-                        this.errors = this.errors.concat(errors)
-                    }
-                }
-                return false
-            })
-        }
+    async onSubmit () {
+      if (this.password !== this.confirmPassword) {
+        this.errors = this.errors.concat("Confirm password doesn't match")
+      } else {
+        await this.$axios
+          .put('api/users/' + this.id, {
+            username: this.username,
+            password: this.password
+          })
+          .then(() => {
+            this.$router.push('/login')
+          })
+          .catch((e) => {
+            for (const field of ['username', 'password']) {
+              const errors = e.response.data.errors[field]
+              if (errors !== undefined) {
+                this.errors = this.errors.concat(errors)
+              }
+            }
+            return false
+          })
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="row justify-content-center" style="margin-bottom: 20px">
       <div class="col-8 mt-5">
         <div v-if="message != ''" class="alert alert-warning alert-dismissible fade show" role="alert">
-          {{message}}
+          {{ message }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -27,7 +27,7 @@
             <AppButton class="btn btn-primary float-center" type="submit">
               send
             </AppButton>
-          </div>              
+          </div>
         </form>
       </div>
     </div>
@@ -48,7 +48,7 @@
       <div class="col-8">
         <div class="d-flex justify-content-center">
           <AppButton class="btn btn-primary float-center" type="button" @click="toLogin">
-              back to login
+            back to login
           </AppButton>
         </div>
       </div>
@@ -68,21 +68,22 @@ export default {
     }
   },
   methods: {
-    onSubmit: function() {
-      const result = this.$axios
-        .$post("/api/forgot-password", {
+    onSubmit () {
+      this.$axios
+        .$post('/api/forgot-password', {
           email: this.email
-        })        
+        })
         .then((data) => {
+          // eslint-disable-next-line no-console
           console.log(data)
-          if(data.success == true) {
-            this.message = "Check your inbox!"
+          if (data.success === true) {
+            this.message = 'Check your inbox!'
           } else {
             this.message = "Couldn't find your email!"
           }
         })
     },
-    toLogin: function() {
+    toLogin () {
       this.$router.push('/login')
     }
   }

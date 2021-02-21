@@ -63,7 +63,7 @@
                 <div class="form-group">
                   <country-select
                     v-model="employee.workLocation"
-                    country-name=true
+                    country-name="true"
                     :country="employee.workLocation"
                     top-country="US"
                     name="address"
@@ -95,7 +95,6 @@ export default {
     ValidationProvider
   },
   async asyncData (context) {
-    console.log(context)
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
       .then((data) => {
         return {

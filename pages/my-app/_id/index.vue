@@ -1,10 +1,12 @@
 <template>
   <div class="mt-5">
     <div class="row">
-      <div class="col-2"><img class="logo" :src="data.application.logo"></div>
+      <div class="col-2">
+        <img class="logo" :src="data.application.logo" alt="Logo">
+      </div>
       <div class="col-10">
         <h3>{{ data.application.name }}</h3>
-        <p><a target="_blank" :href="data.application.site" >{{ data.application.site }}</a></p>
+        <p><a target="_blank" :href="data.application.site">{{ data.application.site }}</a></p>
         <p>{{ data.application.detail }}</p>
       </div>
     </div>
@@ -60,7 +62,7 @@
         </div>
         <div id="pills-users" class="tab-pane fade col-12" role="tabpanel" aria-labelledby="pills-users-tab">
           <div class="row">
-              <GoogleUserList/>
+            <GoogleUserList />
           </div>
         </div>
       </div>

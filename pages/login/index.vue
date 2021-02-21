@@ -64,13 +64,17 @@
               <AppControlInput v-model="password" required type="password">
                 Password
               </AppControlInput>
-              <nuxt-link to="/password/forgot">Forgot Password?</nuxt-link>
+              <nuxt-link to="/password/forgot">
+                Forgot Password?
+              </nuxt-link>
               <AppButton class="btn btn-primary float-right" type="submit">
                 {{ isLogin ? 'Login' : 'Sign Up' }}
               </AppButton>
             </form>
             <div class="row mt-5 p-3">
-              Don't have an account? <nuxt-link to="/signup">Sign Up</nuxt-link>
+              Don't have an account? <nuxt-link to="/signup">
+                Sign Up
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -91,11 +95,6 @@ export default {
       password: ''
     }
   },
-  mounted () {
-    console.log(this.$axios.defaults.baseURL)
-    console.log(process.env.apiUrl)
-    console.log('here')
-  },
   methods: {
     async onSubmit () {
       if (!this.isLogin) {
@@ -105,6 +104,7 @@ export default {
             password: this.password
           })
           .then((data) => {
+            // eslint-disable-next-line no-console
             console.log(data)
           })
           .catch((e) => {

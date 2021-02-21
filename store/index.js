@@ -24,12 +24,6 @@ const createStore = () => {
               username: authData.email,
               password: authData.password
             })
-            .then((data) => {
-              console.log(data)
-            })
-            .catch((e) => {
-              console.log(e)
-            })
         }
         return this.$axios
           .$post(authUrl, {
@@ -48,10 +42,8 @@ const createStore = () => {
               'expirationDate',
               new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
             )
-            console.log(result)
             this.$axios.setToken(result.accessToken, 'Bearer')
           })
-          .catch(e => console.log(e))
       },
       initAuth (vuexContext, req) {
         let token
@@ -76,7 +68,6 @@ const createStore = () => {
           expirationDate = localStorage.getItem('tokenExpiration')
         }
         if (new Date().getTime() > +expirationDate || !token) {
-          console.log('No token or invalid token')
           vuexContext.dispatch('logout')
           return
         }

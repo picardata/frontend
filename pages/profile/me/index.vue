@@ -64,7 +64,7 @@
                 <div class="form-group">
                   <country-select
                     v-model="profile.location"
-                    country-name=true
+                    country-name="true"
                     :country="profile.location"
                     top-country="US"
                     name="address"
@@ -88,14 +88,12 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import VuePhoneNumberInput from 'vue-phone-number-input'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider,
-    VuePhoneNumberInput
+    ValidationProvider
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/users/me')

@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-12">
         <h3>My Applications</h3>
-        <MostAccessedApplications></MostAccessedApplications>
+        <MostAccessedApplications />
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <h3>Applications</h3>
-        <ApplicationList></ApplicationList>
+        <ApplicationList />
       </div>
     </div>
     <div class="row">

@@ -3,9 +3,11 @@
     <div v-for="(integration, index) in integrations" :key="integration.id" class="card shadow-sm mx-3">
       <img class="card-img-top" :src="integration.application.logo" alt="Card image cap" @click="appClick(index)">
       <div class="card-body p-1 text-center">
-        <h5 class="card-title">{{ integration.application.name }}</h5>
+        <h5 class="card-title">
+          {{ integration.application.name }}
+        </h5>
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 <script>
@@ -22,6 +24,7 @@ export default {
       .then((data) => {
         this.integrations = data.data
       }).catch(
+      // eslint-disable-next-line no-console
         (e) => { console.log(e) }
       )
   },

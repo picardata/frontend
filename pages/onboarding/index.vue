@@ -344,6 +344,7 @@ export default {
             })
           }
 
+          // eslint-disable-next-line no-console
           console.log(errors)
           this.$refs.form.setErrors(errors)
           this.step = 3

@@ -87,11 +87,6 @@ export default {
       password: ''
     }
   },
-  mounted () {
-    console.log(this.$axios.defaults.baseURL)
-    console.log(process.env.apiUrl)
-    console.log('here')
-  },
   methods: {
     async onSubmit () {
       if (!this.isLogin) {
@@ -101,6 +96,7 @@ export default {
             password: this.password
           })
           .then((data) => {
+            // eslint-disable-next-line no-console
             console.log(data)
           })
           .catch((e) => {
@@ -129,7 +125,7 @@ export default {
           this.$router.push('/')
         }
       } catch (err) {
-        console.log('here')
+        // eslint-disable-next-line no-console
         console.log(err)
       }
     }

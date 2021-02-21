@@ -1,10 +1,14 @@
 <template>
   <div class="row most-access">
-    <div v-for="(application, index) in applications" :key="application.id" class="card shadow-sm mx-3">      
+    <div v-for="(application, index) in applications" :key="application.id" class="card shadow-sm mx-3">
       <img class="card-img-top" :src="application.logo" alt="Card image cap">
       <div class="card-body p-1 text-center">
-        <h5 class="card-title">{{ application.name }}</h5>
-        <p class="card-text">{{ application.detail }}</p>
+        <h5 class="card-title">
+          {{ application.name }}
+        </h5>
+        <p class="card-text">
+          {{ application.detail }}
+        </p>
         <AppButton class="btn btn-primary" type="button" @click="appClick(index)">
           add to picardata
         </AppButton>
@@ -12,17 +16,19 @@
     </div>
     <modal name="app-modal">
       <div class="modal-mask">
-          <div class="modal-wrapper">
-              <div class="modal-container">
-                  <div class="modal-header">
-                      <h5>Integrate {{ selectedApp.name }}?</h5>
-                      <div class="cancel-integrate" @click="dismissModal">&times;</div>
-                  </div>
-                  <div class="modal-footer">
-                      <a target="_blank" :href="selectedApp.oauthUrl" class="btn btn-primary">Yes</a>
-                  </div>
+        <div class="modal-wrapper">
+          <div class="modal-container">
+            <div class="modal-header">
+              <h5>Integrate {{ selectedApp.name }}?</h5>
+              <div class="cancel-integrate" @click="dismissModal">
+                &times;
               </div>
+            </div>
+            <div class="modal-footer">
+              <a target="_blank" :href="selectedApp.oauthUrl" class="btn btn-primary">Yes</a>
+            </div>
           </div>
+        </div>
       </div>
     </modal>
   </div>
@@ -30,8 +36,8 @@
 <script>
 import AppButton from '~/components/Form/AppButton'
 export default {
-  components: { AppButton },
   name: 'ApplicationList',
+  components: { AppButton },
   data () {
     return {
       selectedApp: {},
@@ -44,15 +50,16 @@ export default {
       .then((data) => {
         this.applications = data.data
       }).catch(
+      // eslint-disable-next-line no-console
         (e) => { console.log(e) }
       )
   },
   methods: {
-    appClick (index) {      
+    appClick (index) {
       this.selectedApp = this.applications[index]
       this.$modal.show('app-modal')
     },
-    dismissModal() {
+    dismissModal () {
       this.$modal.hide('app-modal')
     }
   }

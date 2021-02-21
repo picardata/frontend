@@ -1,7 +1,9 @@
 <template>
   <div class="mt-5">
     <div class="row">
-      <div class="col-2"><img class="logo" :src="data.application.logo"></div>
+      <div class="col-2">
+        <img class="logo" :src="data.application.logo" alt="Logo">
+      </div>
       <div class="col-10">
         <h3>{{ data.application.name }}</h3>
         <p>{{ data.application.website }}</p>
@@ -53,7 +55,7 @@
           Settings
         </div>
         <div id="pills-users" class="tab-pane fade" role="tabpanel" aria-labelledby="pills-users-tab">
-          <GoogleUserList/>
+          <GoogleUserList />
         </div>
       </div>
     </div>

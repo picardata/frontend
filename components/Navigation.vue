@@ -33,7 +33,7 @@
             role="button"
             aria-haspopup="true"
             aria-expanded="false"
-          ><img src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" class="rounded" style="width: 30px;" /></a>
+          ><img src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" class="rounded" style="width: 30px;" alt="Avatar"></a>
           <div class="dropdown-menu">
             <nuxt-link to="/profile/me" class="dropdown-item">
               Profile
