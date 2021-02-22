@@ -329,7 +329,7 @@ export default {
             location: this.profile.workLocation
           }
         }).then(() => {
-          this.$router.push('/')
+          this.$router.push('/library')
         }).catch((e) => {
           const errors = {}
 
