@@ -39,7 +39,7 @@
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
                 <AppControlInput v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text">
-                  First Nname
+                  First Name
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
