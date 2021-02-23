@@ -17,12 +17,14 @@
             <p class="card-text">
               <b>Phone:</b> {{ profile.phone }}
             </p>
-            <nuxt-link to="/profile/me" class="nav-link active">
-              Edit General Information
-            </nuxt-link>
-            <nuxt-link to="/profile/me/work" class="nav-link">
-              Edit Work Information
-            </nuxt-link>
+            <div class="btn-group-vertical">
+              <nuxt-link to="/profile/me" class="btn btn-primary  active">
+                Edit General Information
+              </nuxt-link>
+              <nuxt-link to="/profile/me/work" class="btn btn-primary">
+                Edit Work Information
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
@@ -37,13 +39,13 @@
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
                 <AppControlInput v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text">
-                  Firstname
+                  First Name
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
-                  Lastname
+                  Last Name
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
