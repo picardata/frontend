@@ -51,18 +51,18 @@
 <script>
 export default {
   name: 'Navigation',
-  watch: {
-    $route() {      
-      this.onboardingStatus = this.$auth.user.onboardingStatus
-    },
-  },
-  mounted() {
-    this.onboardingStatus = this.$auth.user.onboardingStatus
-  },
-  data() {
+  data () {
     return {
-      onboardingStatus : null
+      onboardingStatus: null
     }
+  },
+  watch: {
+    $route () {
+      this.onboardingStatus = this.$auth.user.onboardingStatus
+    }
+  },
+  mounted () {
+    this.onboardingStatus = this.$auth.user.onboardingStatus
   },
   methods: {
     onLogout () {
