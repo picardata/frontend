@@ -37,13 +37,13 @@
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
                 <AppControlInput v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text">
-                  Firstname
+                  First Nname
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
-                  Lastname
+                  Last Name
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
