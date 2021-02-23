@@ -17,12 +17,14 @@
             <p class="card-text">
               <b>Phone:</b> {{ profile.phone }}
             </p>
-            <nuxt-link to="/profile/me" class="nav-link active">
-              Edit General Information
-            </nuxt-link>
-            <nuxt-link to="/profile/me/work" class="nav-link">
-              Edit Work Information
-            </nuxt-link>
+            <div class="btn-group-vertical">
+              <nuxt-link to="/profile/me" class="btn btn-primary  active">
+                Edit General Information
+              </nuxt-link>
+              <nuxt-link to="/profile/me/work" class="btn btn-primary">
+                Edit Work Information
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
