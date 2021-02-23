@@ -56,9 +56,15 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="tel" required="required">
-                  Phone
-                </AppControlInput>
+                Phone
+                <VuePhoneNumberInput
+                  v-model="profile.phone"
+                  placeholder="Phone Number"
+                  class="form-group"
+                  default-country-code="SG"
+                  type="tel"
+                  @update="profile.formattedPhone = $event.e164"
+                />
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
@@ -90,12 +96,13 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import VuePhoneNumberInput from 'vue-phone-number-input'
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    VuePhoneNumberInput
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/users/me')
@@ -119,7 +126,7 @@ export default {
         firstname: this.profile.firstname,
         lastname: this.profile.lastname,
         address: this.profile.location,
-        phone: this.profile.phone.trim(),
+        phone: this.profile.phone ? this.profile.phone.trim() : '',
         email: this.profile.email
       }).then(() => {
         this.$router.push('/profile/me')
