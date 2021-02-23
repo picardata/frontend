@@ -14,7 +14,7 @@
     </button>
 
     <div id="navbarSupportedContent" class="collapse navbar-collapse">
-      <ul v-if="$auth.loggedIn" class="navbar-nav mr-auto">
+      <ul v-if="$auth.loggedIn && (onboardingStatus != 1)" class="navbar-nav mr-auto">
         <li class="nav-item active">
           <router-link to="/" class="nav-link">
             Dashboard
@@ -24,7 +24,7 @@
           <router-link to="/books" class="nav-link">Books</router-link>
         </li> -->
       </ul>
-      <ul v-if="$auth.loggedIn" class="navbar-nav text-right ">
+      <ul v-if="$auth.loggedIn && (onboardingStatus != 1)" class="navbar-nav text-right ">
         <li class="nav-item dropdown" style="width: 100px;">
           <a
             class="nav-link dropdown-toggle active"
@@ -51,6 +51,19 @@
 <script>
 export default {
   name: 'Navigation',
+  watch: {
+    $route() {      
+      this.onboardingStatus = this.$auth.user.onboardingStatus
+    },
+  },
+  mounted() {
+    this.onboardingStatus = this.$auth.user.onboardingStatus
+  },
+  data() {
+    return {
+      onboardingStatus : null
+    }
+  },
   methods: {
     onLogout () {
       this.$auth.logout()

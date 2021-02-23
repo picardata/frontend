@@ -328,7 +328,8 @@ export default {
             name: this.profile.organization,
             location: this.profile.workLocation
           }
-        }).then(() => {
+        }).then((data) => {
+          this.$auth.setUser(data)
           this.$router.push('/library')
         }).catch((e) => {
           const errors = {}
