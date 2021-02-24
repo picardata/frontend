@@ -93,66 +93,44 @@
 <script>
 export default {
   name: 'IndexVue',
-  data () {
-    return {
-      id: '',
-      name: 'Untitled form',
-      description: '',
-      questions: []
-    }
+  // data () {
+  //   return {
+  //     id: '',
+  //     name: 'Untitled form',
+  //     description: '',
+  //     questions: []
+  //   }
+  // },
+  async asyncData (context) {
+    return await context.app.$axios.get('/api/forms/' + context.route.params.id)
+      .then((data) => {
+        console.log(data)
+        return data.data
+      })
   },
   methods: {
     submit () {
-      if (this.id === '') {
-        this.$axios
-          .$post('/api/forms/', {
-            name: this.name,
-            description: this.description
-          })
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-            this.id = data.id
-            history.pushState(
-              {},
-              null,
-              this.$route.path.replace('new', this.id)
-            )
-          })
-          .catch((e) => {
-            this.errors = []
-            for (const field of ['username', 'password']) {
-              const errors = e.response.data.errors[field]
-              if (errors !== undefined) {
-                this.errors = this.errors.concat(errors)
-              }
+      this.$axios
+        .$patch('/api/forms/' + this.id, {
+          name: this.name,
+          description: this.description
+        })
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data)
+          this.id = data.id
+        })
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
             }
-            return false
-          })
-      } else {
-        this.$axios
-          .$patch('/api/forms/' + this.id, {
-            name: this.name,
-            description: this.description
-          })
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-            this.id = data.id
-          })
-          .catch((e) => {
-            this.errors = []
-            for (const field of ['username', 'password']) {
-              const errors = e.response.data.errors[field]
-              if (errors !== undefined) {
-                this.errors = this.errors.concat(errors)
-              }
-            }
-            return false
-          })
-      }
+          }
+          return false
+        })
     }
-
   }
 }
 </script>
