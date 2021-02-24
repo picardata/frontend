@@ -20,9 +20,11 @@
             Dashboard
           </router-link>
         </li>
-        <!-- <li class="nav-item active">
-          <router-link to="/books" class="nav-link">Books</router-link>
-        </li> -->
+        <li class="nav-item active">
+          <router-link to="/form" class="nav-link">
+            Forms
+          </router-link>
+        </li>
       </ul>
       <ul v-if="$auth.loggedIn && (onboardingStatus != 1)" class="navbar-nav text-right ">
         <li class="nav-item dropdown" style="width: 100px;">
@@ -58,11 +60,15 @@ export default {
   },
   watch: {
     $route () {
-      this.onboardingStatus = this.$auth.user.onboardingStatus
+      if (this.$auth.loggedIn) {
+        this.onboardingStatus = this.$auth.user.onboardingStatus
+      }
     }
   },
   mounted () {
-    this.onboardingStatus = this.$auth.user.onboardingStatus
+    if (this.$auth.loggedIn) {
+      this.onboardingStatus = this.$auth.user.onboardingStatus
+    }
   },
   methods: {
     onLogout () {

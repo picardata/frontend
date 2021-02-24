@@ -84,6 +84,17 @@ a {
     background: var(--white);
     border: 2px solid var(--secondary);
 }
+.bg-light-primary {
+  background: var(--white) !important;;
+  color: var(--primary);
+  font-weight: bolder;
+  border: 2px solid var(--primary);
+}
+.bg-default {
+  background: transparent !important;;
+  color: var(--primary);
+  font-weight: bolder;
+}
 .form-submission a.forgot-pass-link {
     line-height: 40px;
 }
