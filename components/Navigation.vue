@@ -60,11 +60,15 @@ export default {
   },
   watch: {
     $route () {
-      this.onboardingStatus = this.$auth.user.onboardingStatus
+      if (this.$auth.loggedIn) {
+        this.onboardingStatus = this.$auth.user.onboardingStatus
+      }
     }
   },
   mounted () {
-    this.onboardingStatus = this.$auth.user.onboardingStatus
+    if (this.$auth.loggedIn) {
+      this.onboardingStatus = this.$auth.user.onboardingStatus
+    }
   },
   methods: {
     onLogout () {
