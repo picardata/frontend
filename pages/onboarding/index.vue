@@ -40,7 +40,7 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="step = 3; next()">
             Skip for now
           </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
@@ -116,7 +116,7 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="step = 3; next()">
             Skip for now
           </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
@@ -208,7 +208,7 @@
                   <AppControlInput
                     v-model="profile.occupation"
                     :choices="choices"
-                    :choicesSelected="profile.occupation"
+                    :choices-selected="profile.occupation"
                     placeholder="Choose Occupation"
                     control-type="select"
                   />
@@ -240,7 +240,7 @@
               </div>
             </div>
             <div class="row mt-5 justify-content-end">
-              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="step = 3; next()">
                 Skip for now
               </button>
               <button type="submit" class="btn btn-primary btn-lg">
@@ -355,7 +355,7 @@ export default {
           // eslint-disable-next-line no-console
           console.log(errors)
           this.$refs.form.setErrors(errors)
-          this.step = 3
+          this.step = 3; next()
           return false
         })
       } else {
