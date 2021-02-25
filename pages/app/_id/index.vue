@@ -4,10 +4,6 @@
       <div class="col-2">
         <img class="logo" :src="data.application.logo" alt="Logo">
       </div>
-      <div class="col-10">
-        <h3>{{ data.application.name }}</h3>
-        <p>{{ data.application.website }}</p>
-      </div>
     </div>
     <div class="row mt-5">
       <ul id="pills-tab" class="nav nav-pills mb-3" role="tablist">

@@ -6,7 +6,7 @@
       </div>
       <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/new" class="btn btn-lg bg-light-primary btn-create">Create other blank form</nuxt-link>
+          <nuxt-link to="/form/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
         </span>
       </div>
     </div>
@@ -16,7 +16,7 @@
       </div>
       <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/share" class="btn btn-lg bg-default btn-share">
+          <nuxt-link to="/form/share" class="btn btn-lg bg-default text-primary btn-share">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
           <nuxt-link to="/form/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
@@ -35,7 +35,7 @@
                 v-model="name"
                 type="text"
                 name="name"
-                class="form-control title"
+                class="form-control title mat"
                 placeholder="Untitled form"
                 required="required"
                 @change="submit"
@@ -46,7 +46,7 @@
                 v-model="description"
                 type="text"
                 name="description"
-                class="form-control description"
+                class="form-control description mat"
                 placeholder="Form description"
                 @change="submit"
               >
@@ -165,7 +165,7 @@ h1 {
 .btn-create, .btn-share {
   height: 56px;
   border-radius: 40px;
-  font-weight: normal;
+  border-width: 2px;
   font-size: 16px;
   padding: 15px 15px;
 }
@@ -184,10 +184,6 @@ form {
 
 .form-control {
   color: black;
-}
-
-input.description, input.title {
-  border-width: 0;
 }
 
 input.title {
