@@ -208,7 +208,7 @@
                   <AppControlInput
                     v-model="profile.occupation"
                     :choices="choices"
-                    :choices-selected="profile.occupation"
+                    :choicesSelected="profile.occupation"
                     placeholder="Choose Occupation"
                     control-type="select"
                   />
@@ -297,7 +297,7 @@ export default {
         phone: '',
         formattedPhone: '',
         location: '',
-        occupation: 'Occupation',
+        occupation: 0,
         role: '',
         organization: '',
         workLocation: ''
@@ -328,7 +328,7 @@ export default {
             user: this.$auth.user.id
           },
           role: this.profile.role,
-          occupation: this.profile.occupation !== 'Occupation' ? this.profile.occupation : '',
+          occupation: this.profile.occupation,
           company: {
             name: this.profile.organization,
             location: this.profile.workLocation

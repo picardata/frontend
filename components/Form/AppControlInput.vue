@@ -7,7 +7,7 @@
       v-if="controlType === 'select'"
       class="form-control"
       v-bind="$attrs"
-      :value="value"
+      :value="choicesSelected"
       :selected="choicesSelected"
       @change="$emit('input', $event.target.value)"
     >
@@ -49,6 +49,10 @@ export default {
       default () {
         return []
       }
+    },
+    choicesSelected: {
+      type: String,
+      default: ''
     }
   }
 }
