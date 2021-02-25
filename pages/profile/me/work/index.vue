@@ -41,6 +41,7 @@
                 <AppControlInput
                   v-model="employee.occupation"
                   :choices="choices"
+                  :choicesSelected="employee.occupation"
                   placeholder="Choose Occupation"
                   control-type="select"
                 >
@@ -121,6 +122,10 @@ export default {
   data () {
     return {
       choices: [
+        {
+          name: 'Occupation',
+          id: 0
+        },
         {
           name: 'Artist',
           id: 1

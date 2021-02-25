@@ -208,6 +208,7 @@
                   <AppControlInput
                     v-model="profile.occupation"
                     :choices="choices"
+                    :choicesSelected="profile.occupation"
                     placeholder="Choose Occupation"
                     control-type="select"
                   />
@@ -270,6 +271,10 @@ export default {
       country: '',
       choices: [
         {
+          name: 'Occupation',
+          id: 0
+        },
+        {
           name: 'Artist',
           id: 1
         },
@@ -292,7 +297,7 @@ export default {
         phone: '',
         formattedPhone: '',
         location: '',
-        occupation: '',
+        occupation: 0,
         role: '',
         organization: '',
         workLocation: ''
