@@ -41,6 +41,7 @@
                 <AppControlInput
                   v-model="employee.occupation"
                   :choices="choices"
+                  :choices-selected="employee.occupation"
                   placeholder="Choose Occupation"
                   control-type="select"
                 >
@@ -122,6 +123,10 @@ export default {
     return {
       choices: [
         {
+          name: 'Occupation',
+          id: 0
+        },
+        {
           name: 'Artist',
           id: 1
         },
@@ -144,7 +149,7 @@ export default {
     submitWork () {
       this.$axios.$patch('/api/employees/' + this.employee.id, {
         role: this.employee.role,
-        occupation: this.employee.occupation,
+        occupation: this.employee.occupation !== 'Occupation' ? this.employee.occupation : '',
         company: {
           name: this.employee.organization,
           location: this.employee.workLocation

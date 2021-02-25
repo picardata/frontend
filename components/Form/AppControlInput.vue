@@ -8,6 +8,7 @@
       class="form-control"
       v-bind="$attrs"
       :value="value"
+      :selected="choicesSelected"
       @change="$emit('input', $event.target.value)"
     >
       <option v-for="choice in choices" :key="choice.id" :value="choice.id">

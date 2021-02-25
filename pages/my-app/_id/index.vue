@@ -1,7 +1,7 @@
 <template>
   <div>
     <PrevPage />
-    <ApplicationDetail :logo="data.application.logo" :name="data.application.name" :detail="data.application.detail"/>
+    <ApplicationDetail :logo="data.application.logo" :name="data.application.name" :detail="data.application.detail" />
   </div>
 </template>
 
