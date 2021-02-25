@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'index.vue'
+  name: 'IndexVue'
 }
 </script>
 

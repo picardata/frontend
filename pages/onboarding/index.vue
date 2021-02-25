@@ -40,7 +40,7 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
             Skip for now
           </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
@@ -116,7 +116,7 @@
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
             Skip for now
           </button>
           <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
@@ -208,7 +208,7 @@
                   <AppControlInput
                     v-model="profile.occupation"
                     :choices="choices"
-                    :choicesSelected="profile.occupation"
+                    :choices-selected="profile.occupation"
                     placeholder="Choose Occupation"
                     control-type="select"
                   />
@@ -240,7 +240,7 @@
               </div>
             </div>
             <div class="row mt-5 justify-content-end">
-              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="next">
+              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
                 Skip for now
               </button>
               <button type="submit" class="btn btn-primary btn-lg">
@@ -316,48 +316,51 @@ export default {
     }
   },
   methods: {
+    post () {
+      this.$axios.$post('/api/employees/', {
+        userProfile: {
+          firstname: this.profile.name.trim(),
+          lastname: '',
+          address: this.profile.location,
+          phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
+          email: this.profile.email,
+          user: this.$auth.user.id
+        },
+        role: this.profile.role,
+        occupation: this.profile.occupation,
+        company: {
+          name: this.profile.organization,
+          location: this.profile.workLocation
+        }
+      }).then((data) => {
+        this.$auth.setUser(data)
+        this.$router.push('/library')
+      }).catch((e) => {
+        const errors = {}
+
+        if (e.response.data.errors.userProfile !== undefined) {
+          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
+            const key = 'profile.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+        if (e.response.data.errors.company !== undefined) {
+          Object.entries(e.response.data.errors.company).forEach(function (value) {
+            const key = 'company.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+
+        // eslint-disable-next-line no-console
+        console.log(errors)
+        this.$refs.form.setErrors(errors)
+        this.step = 3
+        return false
+      })
+    },
     next () {
       if (this.step === 3) {
-        this.$axios.$post('/api/employees/', {
-          userProfile: {
-            firstname: this.profile.name.trim(),
-            lastname: '',
-            address: this.profile.location,
-            phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
-            email: this.profile.email,
-            user: this.$auth.user.id
-          },
-          role: this.profile.role,
-          occupation: this.profile.occupation,
-          company: {
-            name: this.profile.organization,
-            location: this.profile.workLocation
-          }
-        }).then((data) => {
-          this.$auth.setUser(data)
-          this.$router.push('/library')
-        }).catch((e) => {
-          const errors = {}
-
-          if (e.response.data.errors.userProfile !== undefined) {
-            Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-              const key = 'profile.' + value[0]
-              errors[key] = value[1]
-            })
-          }
-          if (e.response.data.errors.company !== undefined) {
-            Object.entries(e.response.data.errors.company).forEach(function (value) {
-              const key = 'company.' + value[0]
-              errors[key] = value[1]
-            })
-          }
-
-          // eslint-disable-next-line no-console
-          console.log(errors)
-          this.$refs.form.setErrors(errors)
-          this.step = 3
-          return false
-        })
+        this.post()
       } else {
         this.step = this.step + 1
       }

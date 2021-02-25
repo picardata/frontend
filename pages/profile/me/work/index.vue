@@ -41,7 +41,7 @@
                 <AppControlInput
                   v-model="employee.occupation"
                   :choices="choices"
-                  :choicesSelected="employee.occupation"
+                  :choices-selected="employee.occupation"
                   placeholder="Choose Occupation"
                   control-type="select"
                 >
