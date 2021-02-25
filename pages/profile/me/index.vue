@@ -61,7 +61,7 @@
                   v-model="profile.phone"
                   placeholder="Phone Number"
                   class="form-group"
-                  default-country-code="SG"
+                  :default-country-code="profile.phoneCountryCode ? profile.phoneCountryCode : 'SG'"
                   type="tel"
                   @update="profile.formattedPhone = $event.e164"
                 />
@@ -97,6 +97,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import VuePhoneNumberInput from 'vue-phone-number-input'
+import listCountryCode from '~/country-code.json'
 
 export default {
   components: {
@@ -107,13 +108,30 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.get('/api/users/me')
       .then((data) => {
+        const phoneCountryCode = (phone) => {
+          if (phone) {
+            const code = phone.split(' ')[0]
+            return listCountryCode.filter((i) => {
+              return i.dial_code === code
+            })[0].code
+          }
+        }
+
+        const phoneNoCode = (phone) => {
+          if (phone) {
+            const i = phone.indexOf(' ')
+            return phone.substr(i, phone.length)
+          }
+        }
+
         return {
           profile: {
             id: data.data.user.userProfile.id,
             firstname: data.data.user.userProfile.firstname,
             lastname: data.data.user.userProfile.lastname,
             email: data.data.user.userProfile.email,
-            phone: data.data.user.userProfile.phone,
+            phone: phoneNoCode(data.data.user.userProfile.phone),
+            phoneCountryCode: phoneCountryCode(data.data.user.userProfile.phone),
             formattedPhone: data.data.user.userProfile.phone,
             location: data.data.user.userProfile.address
           }
@@ -126,7 +144,7 @@ export default {
         firstname: this.profile.firstname,
         lastname: this.profile.lastname,
         address: this.profile.location,
-        phone: this.profile.phone ? this.profile.phone.trim() : '',
+        phone: this.profile.formattedPhone ? this.profile.formattedPhone : '',
         email: this.profile.email
       }).then(() => {
         this.$router.push('/profile/me')
