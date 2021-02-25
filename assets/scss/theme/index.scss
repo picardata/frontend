@@ -1,0 +1,39 @@
+@import 'base';
+@import 'forms';
+
+.card {
+  box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.04);
+  border-radius: 8px;
+  border: none;
+}
+.card-text {
+  line-height: 34px;
+  letter-spacing: 0.75px;
+  margin: 8px 0px;
+}
+
+input {
+  border: 0;
+  input.mat {
+    border-bottom: $primary;
+    border-bottom-width: 2px;
+  }
+}
+
+div.vl {
+  border-left: 2px solid #C4C4C4;
+  height: 16px;
+  margin: 12px 10px;
+}
+
+ul.nav {
+  li {
+    a {
+      color: #6E7191;
+    }
+    a.active {
+      color: #14142B;
+      font-weight: 600;
+    }
+  }
+}

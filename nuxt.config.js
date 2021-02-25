@@ -37,7 +37,7 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '~/assets/css/main.css'
+    '~/assets/scss/main.scss'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -68,13 +68,20 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/style-resources'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
   },
-
+  bootstrapVue: {
+    bootstrapCSS: false,
+    bootstrapVueCSS: false
+  },
+  styleResources: {
+    scss: '@/assets/scss/_variables.scss'
+  },
   publicRuntimeConfig: {
     axios: {
       baseURL: process.env.BASE_URL || 'http://api.local.picardata.com',
