@@ -158,9 +158,10 @@ const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export default {
   name: 'IndexVue',
+  auth: true,
   components: { PrevPage },
   async asyncData (context) {
-    return await context.app.$axios.get('/api/forms', { params: { 'order[updatedAt]': 'desc' } })
+    return await context.app.$axios.get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
       .then((data) => {
         console.log(data)
         return { data: data.data }
@@ -198,7 +199,7 @@ export default {
       } else {
         this.sort = 0
       }
-      this.$axios.get('/api/forms', {
+      this.$axios.get('/api/forms/', {
         params: this.sortParams
       })
         .then((data) => {
@@ -208,7 +209,7 @@ export default {
     },
     search () {
       if (this.qSearch.length > 2) {
-        this.$axios.get('/api/forms', {
+        this.$axios.get('/api/forms/', {
           params: this.sortParams
         })
           .then((data) => {
