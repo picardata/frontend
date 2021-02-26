@@ -28,7 +28,7 @@
             </div>
             <input
               v-model="qSearch"
-              @keyup="search"
+              @keyup="querySearch"
               type="text"
               class="form-control search-box border-0"
               placeholder="Search created forms"
@@ -104,7 +104,7 @@
       </div>
     </div>
     <div class="row mt-5">
-      <div v-for="form in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+      <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
         <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
           <div class="card-body">
             <h5 class="card-title">
@@ -138,7 +138,7 @@
                 </nuxt-link>
               </div>
               <div class="col-md-4 col-sm-12">
-                <a class="btn btn-gray-light" href="#">
+                <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
                   Delete
                 </a>
               </div>
@@ -147,6 +147,27 @@
         </div>
       </div>
     </div>
+    <modal name="delete-modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+            <div class="modal-header">
+              <h5>Move to Trash?</h5>
+              <div class="cancel-integrate" @click="dismissModal">
+                &times;
+              </div>
+            </div>
+            <div class="modal-body">
+              <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" @click.prevent="dismissModal" class="btn btn-default">Cancel</a>
+              <a href="#" @click.prevent="deleteConfirm" class="btn btn-primary">Move to Trash</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -170,7 +191,11 @@ export default {
   data () {
     return {
       sort: 0,
-      qSearch: ''
+      qSearch: '',
+      selectedDeletion: {
+        id: 0,
+        name: 'Untitled Form'
+      }
     }
   },
   computed: {
@@ -179,7 +204,7 @@ export default {
       if (this.sort === 1) {
         params['order[name]'] = 'asc'
       } else {
-        params['order[updatedAt]'] = 'asc'
+        params['order[updatedAt]'] = 'desc'
       }
       params.q = this.qSearch
       return params
@@ -208,16 +233,37 @@ export default {
         })
     },
     search () {
-      if (this.qSearch.length > 2) {
-        this.$axios.get('/api/forms/', {
-          params: this.sortParams
+      this.$axios.get('/api/forms/', {
+        params: this.sortParams
+      })
+        .then((data) => {
+          console.log(data)
+          this.data = data.data
         })
-          .then((data) => {
-            console.log(data)
-            this.data = data.data
-          })
+    },
+    querySearch () {
+      if (this.qSearch.length > 2) {
+        this.search()
       }
+    },
+    deletePop (index) {
+      this.selectedDeletion = this.data[index]
+      this.$modal.show('delete-modal')
+    },
+    dismissModal () {
+      this.$modal.hide('delete-modal')
+    },
+    deleteConfirm () {
+      this.$axios
+        .$delete('/api/forms/' + this.selectedDeletion.id)
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data)
+          this.search()
+          this.$modal.hide('delete-modal')
+        })
     }
+
   }
 }
 </script>
