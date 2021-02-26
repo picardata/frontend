@@ -22,8 +22,16 @@ input {
 
 div.vl {
   border-left: 2px solid #C4C4C4;
+  padding: 12px 10px;
   height: 16px;
-  margin: 12px 10px;
+}
+
+.btn-default {
+  color: $primary;
+}
+
+.btn-gray-light {
+  color: $gray-light;
 }
 
 ul.nav {
