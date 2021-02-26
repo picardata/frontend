@@ -4,10 +4,13 @@
     <div class="row mt-5">
       <div class="col-6">
         <h1>Create blank form</h1>
+        <div class="rox pl-1">
+          <p>Last Modified {{ formattedUpdatedAt }}</p>
+        </div>
       </div>
       <div class="col-6">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/new" class="btn btn-lg bg-light-primary btn-create">Create other blank form</nuxt-link>
+          <nuxt-link to="/form/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
         </span>
       </div>
     </div>
@@ -17,7 +20,7 @@
       </div>
       <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/share" class="btn btn-lg bg-default btn-share">
+          <nuxt-link to="/form/share" class="btn btn-lg bg-default btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
           <nuxt-link to="/form/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
@@ -103,6 +106,12 @@ export default {
         return data.data
       })
   },
+  computed: {
+    formattedUpdatedAt () {
+      console.log(this.updatedAt)
+      return this.$moment(this.updatedAt).calendar()
+    }
+  },
   methods: {
     submit () {
       this.$axios
@@ -135,15 +144,22 @@ h1 {
   font-weight: bolder;
 }
 
-.btn-create, .btn-share {
+.btn-create, .btn-share, .btn-preview {
   height: 56px;
   border-radius: 40px;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   padding: 15px 15px;
+  border-width: 2px;
+}
+
+.btn-preview {
+  color: var(--primary);
 }
 
 .btn-create {
+  border-color: var(--primary);
+  color: var(--primary);
   padding: 15px 15px;
 }
 
@@ -206,4 +222,5 @@ hr.header-break {
 .dropdown-toggle::after {
   display: none;
 }
+
 </style>
