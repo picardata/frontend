@@ -10,7 +10,7 @@
           {{ application.detail }}
         </p>
         <AppButton class="btn btn-primary" type="button" @click="appClick(index)">
-          add to picardata
+          Add to Picardata
         </AppButton>
       </div>
     </div>
