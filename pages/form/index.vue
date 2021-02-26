@@ -1,6 +1,7 @@
 <template>
   <div class="mt-5">
-    <div class="form-list">
+    <PrevPage/>
+    <div class="form-list mt-5">
       <div class="row">
         <div class="col-4">
           <h1>Forms</h1>
@@ -15,21 +16,208 @@
     <div class="form-search mt-5">
       <div class="row">
         <div class="form-group col-12">
-          <input type="search" class="form-control search-box" placeholder="Search created forms">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span id="inputGroupPrepend2" class="input-group-text border-0">
+                <font-awesome-icon
+                  class="search-icon"
+                  fixed-width
+                  size="2x"
+                  :icon="['fas', 'search']"
+                /></span>
+            </div>
+            <input
+              v-model="qSearch"
+              @keyup="search"
+              type="text"
+              class="form-control search-box border-0"
+              placeholder="Search created forms"
+              aria-describedby="inputGroupPrepend2"
+            >
+          </div>
         </div>
       </div>
     </div>
-    <div class="form-search mt-5">
+    <div class="mt-5">
       <div class="row">
-        <h4>All forms</h4>
+        <div class="col-4">
+          <h4>All forms</h4>
+        </div>
+        <div class="col-8">
+          <div class="dropdown col-3 fa-pull-right">
+            <button
+              v-if="sort === 0"
+              class="btn dropdown-toggle text-primary"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <font-awesome-icon
+                fixed-width
+                :icon="['fas', 'sort-amount-down-alt']"
+              />
+              Last updated
+            </button>
+            <button
+              v-if="sort === 1"
+              class="btn dropdown-toggle text-primary"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <font-awesome-icon
+                fixed-width
+                :icon="['fas', 'sort-amount-down-alt']"
+              />
+              Title
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sort-dropdown">
+              <button
+                v-if="sort === 1"
+                class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                type="button"
+                @click.prevent="toggleSort"
+              >
+                <font-awesome-icon
+                  fixed-width
+                  :icon="['fas', 'sort-amount-down-alt']"
+                />
+                Last updated
+              </button>
+              <button
+                v-if="sort === 0"
+                class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                type="button"
+                @click.prevent="toggleSort"
+              >
+                <font-awesome-icon
+                  fixed-width
+                  :icon="['fas', 'sort-amount-down-alt']"
+                />
+                Title
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div v-for="form in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+        <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
+          <div class="card-body">
+            <h5 class="card-title">
+              {{ form.name }}
+            </h5>
+            <div class="row">
+              <div class="col-2 pt-3 pl-4">
+                <font-awesome-icon
+                  fixed-width
+                  size="lg"
+                  class="sync-icon"
+                  :icon="['fas', 'sync']"
+                />
+              </div>
+              <div class="col-10">
+                <p class="card-text last-updated">
+                  Last updated:<br>
+                  {{ formatDate(form.updatedAt) }}
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-sm-12 border-right">
+                <nuxt-link class="btn btn-default" to="/form/share">
+                  Share
+                </nuxt-link>
+              </div>
+              <div class="col-md-4 col-sm-12 border-right">
+                <nuxt-link class="btn btn-default" :to="openLink(form.id)">
+                  Open
+                </nuxt-link>
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <a class="btn btn-gray-light" href="#">
+                  Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import PrevPage from '@/components/PrevPage'
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
+
 export default {
-  name: 'IndexVue'
+  name: 'IndexVue',
+  components: { PrevPage },
+  async asyncData (context) {
+    return await context.app.$axios.get('/api/forms', { params: { 'order[updatedAt]': 'desc' } })
+      .then((data) => {
+        console.log(data)
+        return { data: data.data }
+      })
+  },
+  data () {
+    return {
+      sort: 0,
+      qSearch: ''
+    }
+  },
+  computed: {
+    sortParams () {
+      const params = {}
+      if (this.sort === 1) {
+        params['order[name]'] = 'asc'
+      } else {
+        params['order[updatedAt]'] = 'asc'
+      }
+      params.q = this.qSearch
+      return params
+    }
+  },
+  methods: {
+    openLink (id) {
+      return '/form/' + id
+    },
+    formatDate (date) {
+      const dateTime = new Date(date)
+      return days[dateTime.getDay()] + ', ' + dateTime.getDate() + ' ' + months[dateTime.getMonth()] + ' ' + dateTime.getFullYear()
+    },
+    toggleSort () {
+      if (this.sort === 0) {
+        this.sort = 1
+      } else {
+        this.sort = 0
+      }
+      this.$axios.get('/api/forms', {
+        params: this.sortParams
+      })
+        .then((data) => {
+          console.log(data)
+          this.data = data.data
+        })
+    },
+    search () {
+      if (this.qSearch.length > 2) {
+        this.$axios.get('/api/forms', {
+          params: this.sortParams
+        })
+          .then((data) => {
+            console.log(data)
+            this.data = data.data
+          })
+      }
+    }
+  }
 }
 </script>
 
@@ -49,7 +237,50 @@ h1 {
 
 .search-box {
   height: 62px;
-  border-radius: 16px
+  border-radius: 16px;
+  background-color: #EFF0F6;
+  padding-left: 0px;
+}
+
+span.input-group-text {
+  background-color: #EFF0F6;
+  border-radius: 16px;
+}
+
+.search-icon, .sync-icon {
+  color: #A0A3BD;
+}
+
+div.dropdown button {
+  background-color: white;
+  border: 0;
+}
+
+div.dropdown button.dropdown-toggle:focus, div.dropdown button.dropdown-toggle:active {
+  background-color: white;
+  border-color: white;
+  box-shadow: none;
+}
+
+.last-updated {
+  color: #313131;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+div.dropdown button.dropdown-item {
+  padding-left: 10px;
+}
+
+.dropdown-toggle:after {
+  content: none
+}
+
+div.vl {
+  border-left: 2px solid #C4C4C4;
+  margin-top: 10px;
+  padding-top: 0;
+  height: 16px;
 }
 
 </style>

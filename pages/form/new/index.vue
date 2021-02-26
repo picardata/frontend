@@ -1,10 +1,11 @@
 <template>
   <div class="mt-5">
-    <div class="row">
-      <div class="col-4">
+    <PrevPage />
+    <div class="row mt-5">
+      <div class="col-6">
         <h1>Create blank form</h1>
       </div>
-      <div class="col-8">
+      <div class="col-6">
         <span class="align-middle float-right">
           <nuxt-link to="/form/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
         </span>
@@ -35,7 +36,7 @@
                 v-model="name"
                 type="text"
                 name="name"
-                class="form-control title mat"
+                class="form-control title mat border-0"
                 placeholder="Untitled form"
                 required="required"
                 @change="submit"
@@ -46,7 +47,7 @@
                 v-model="description"
                 type="text"
                 name="description"
-                class="form-control description mat"
+                class="form-control description mat border-0"
                 placeholder="Form description"
                 @change="submit"
               >
@@ -91,8 +92,10 @@
 </template>
 
 <script>
+import PrevPage from '@/components/PrevPage'
 export default {
   name: 'IndexVue',
+  components: { PrevPage },
   data () {
     return {
       id: '',
@@ -228,5 +231,9 @@ hr.header-break {
 
 .dropdown-toggle::after {
   display: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
 }
 </style>

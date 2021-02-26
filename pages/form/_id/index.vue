@@ -1,10 +1,11 @@
 <template>
   <div class="mt-5">
-    <div class="row">
-      <div class="col-4">
+    <PrevPage />
+    <div class="row mt-5">
+      <div class="col-6">
         <h1>Create blank form</h1>
       </div>
-      <div class="col-8">
+      <div class="col-6">
         <span class="align-middle float-right">
           <nuxt-link to="/form/new" class="btn btn-lg bg-light-primary btn-create">Create other blank form</nuxt-link>
         </span>
@@ -91,16 +92,10 @@
 </template>
 
 <script>
+import PrevPage from '@/components/PrevPage'
 export default {
   name: 'IndexVue',
-  // data () {
-  //   return {
-  //     id: '',
-  //     name: 'Untitled form',
-  //     description: '',
-  //     questions: []
-  //   }
-  // },
+  components: { PrevPage },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id)
       .then((data) => {
