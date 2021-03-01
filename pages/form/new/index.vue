@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-        <Field :questions="questions" :add_field="addField" :change_type="changeType"/>
+        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField"/>
       </form>
     </div>
     <div class="stick-bottom">
@@ -103,10 +103,8 @@ export default {
 
       if(fieldId) {
         axios = this.$axios.$put('/api/fields/' + fieldId, toSave)
-        console.log('/api/fields/' + fieldId, toSave)
       } else {
         axios = this.$axios.$post('/api/fields/', toSave)
-        console.log('/api/fields/', toSave)
       }
 
       axios.then((data) => {
@@ -151,6 +149,21 @@ export default {
         type: 0,
         required: false
       })
+    },
+    copyField(index) {      
+      const toCopy = this.questions[index]
+      const copied = {
+          id : undefined,
+          name: toCopy.name,
+          type: toCopy.type,
+          required: toCopy.required
+        }
+      this.questions.splice(index + 1, 0, copied)
+      this.addField(index + 1)
+    },
+    deleteField(index) {
+      this.$axios.$delete('/api/fields/' + this.questions[index].id)
+      this.questions.splice(index, 1)
     },
     async submit () {
       if (this.id === '') {

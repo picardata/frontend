@@ -25,10 +25,10 @@
         <div class="col-12 ">
           <div class="float-right">
             <div>
-              <button type="button" class="btn btn-lg bg-default text-primary btn-trash-field">
+              <button @click="copy_field(q_key)" type="button" class="btn btn-lg bg-default text-primary btn-trash-field">
                 <font-awesome-icon :icon="['fas', 'copy']" />
               </button>
-              <button type="button" class="btn btn-lg bg-default text-primary btn-copy-field">
+              <button @click="delete_field(q_key)" type="button" class="btn btn-lg bg-default text-primary btn-copy-field">
                 <font-awesome-icon :icon="['fas', 'trash']" />
               </button>
               <b-form-checkbox @change="add_field(q_key)" v-model="q.required" @click="q.required = !q.required" name="check-button" class="d-inline" switch>
@@ -52,7 +52,9 @@ export default {
       }
     },
     add_field: { type: Function },
-    change_type: { type: Function }
+    change_type: { type: Function },
+    copy_field: { type: Function },
+    delete_field: { type: Function }
   },
   data() {
     return {
