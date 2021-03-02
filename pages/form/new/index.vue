@@ -54,14 +54,14 @@
             </div>
           </div>
         </div>
-        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField"/>
+        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" />
       </form>
     </div>
     <div class="stick-bottom">
       <button
-        @click="newField"
         class="btn btn-primary btn-md "
         type="button"
+        @click="newField"
       >
         <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
@@ -82,7 +82,7 @@ export default {
       description: '',
       questions: [
         {
-          id : undefined,
+          id: undefined,
           name: '',
           type: 0,
           required: false
@@ -93,7 +93,7 @@ export default {
   methods: {
     submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
-      const toSave = {        
+      const toSave = {
         name: this.questions[index].name,
         type: this.questions[index].type,
         required: this.questions[index].required,
@@ -101,7 +101,7 @@ export default {
       }
       let axios
 
-      if(fieldId) {
+      if (fieldId) {
         axios = this.$axios.$put('/api/fields/' + fieldId, toSave)
       } else {
         axios = this.$axios.$post('/api/fields/', toSave)
@@ -109,7 +109,7 @@ export default {
 
       axios.then((data) => {
         this.questions[index].id = data.id
-        if(!this.id) {
+        if (!this.id) {
           this.id = data.form.id
           history.pushState(
             {},
@@ -118,50 +118,50 @@ export default {
           )
         }
       })
-      .catch((e) => {
-        this.errors = []
-        for (const field of ['username', 'password']) {
-          const errors = e.response.data.errors[field]
-          if (errors !== undefined) {
-            this.errors = this.errors.concat(errors)
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
+            }
           }
-        }
-        return false
-      })
+          return false
+        })
     },
     addField (index) {
-      if(this.id === '') {
+      if (this.id === '') {
         this.submit().then(() => {
           this.submitField(index, this.id)
-        })          
+        })
       } else {
         this.submitField(index, this.id)
       }
     },
-    changeType(question_id, type_id) {
-      this.questions[question_id].type = type_id
-      this.addField(question_id)
+    changeType (questionId, typeId) {
+      this.questions[questionId].type = typeId
+      this.addField(questionId)
     },
-    newField() {
+    newField () {
       this.questions.push({
-        id : undefined,
+        id: undefined,
         name: '',
         type: 0,
         required: false
       })
     },
-    copyField(index) {      
+    copyField (index) {
       const toCopy = this.questions[index]
       const copied = {
-          id : undefined,
-          name: toCopy.name,
-          type: toCopy.type,
-          required: toCopy.required
-        }
+        id: undefined,
+        name: toCopy.name,
+        type: toCopy.type,
+        required: toCopy.required
+      }
       this.questions.splice(index + 1, 0, copied)
       this.addField(index + 1)
     },
-    deleteField(index) {
+    deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
       this.questions.splice(index, 1)
     },

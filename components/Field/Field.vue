@@ -3,7 +3,14 @@
     <div v-for="(q, q_key) in questions" :key="q_key" class="card mt-5">
       <div class="card-body">
         <div class=" col-8">
-          <input v-model="q.name" @change="add_field(q_key)" type="text" name="question" class="form-control question" placeholder="Question">
+          <input
+            v-model="q.name"
+            type="text"
+            name="question"
+            class="form-control question"
+            placeholder="Question"
+            @change="add_field(q_key)"
+          >
           <div class="btn-group type-dropdown col-12 mt-5">
             <button
               class="btn btn-default btn-lg text-left dropdown-toggle"
@@ -12,26 +19,33 @@
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]" />&nbsp;{{typesOfQuestion[q.type].name}}
+              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]" />&nbsp;{{ typesOfQuestion[q.type].name }}
               <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
             </button>
             <div class="dropdown-menu">
-              <a @click="change_type(q_key, t_key)" v-for="(t, t_key) in typesOfQuestion" :key="t_key" class="dropdown-item">
-                <font-awesome-icon :icon="['fas', t.icon]" />&nbsp;{{t.name}}</a>
+              <a v-for="(t, t_key) in typesOfQuestion" :key="t_key" class="dropdown-item" @click="change_type(q_key, t_key)">
+                <font-awesome-icon :icon="['fas', t.icon]" />&nbsp;{{ t.name }}</a>
             </div>
           </div>
         </div>
-        <hr/>
+        <hr>
         <div class="col-12 ">
           <div class="float-right">
             <div>
-              <button @click="copy_field(q_key)" type="button" class="btn btn-lg bg-default text-primary btn-trash-field">
+              <button type="button" class="btn btn-lg bg-default text-primary btn-trash-field" @click="copy_field(q_key)">
                 <font-awesome-icon :icon="['fas', 'copy']" />
               </button>
-              <button @click="delete_field(q_key)" type="button" class="btn btn-lg bg-default text-primary btn-copy-field">
+              <button type="button" class="btn btn-lg bg-default text-primary btn-copy-field" @click="delete_field(q_key)">
                 <font-awesome-icon :icon="['fas', 'trash']" />
               </button>
-              <b-form-checkbox @change="add_field(q_key)" v-model="q.required" @click="q.required = !q.required" name="check-button" class="d-inline" switch>
+              <b-form-checkbox
+                v-model="q.required"
+                name="check-button"
+                class="d-inline"
+                switch
+                @change="add_field(q_key)"
+                @click="q.required = !q.required"
+              >
                 Required
               </b-form-checkbox>
             </div>
@@ -47,7 +61,7 @@ export default {
   props: {
     questions: {
       type: Array,
-      default() {
+      default () {
         return []
       }
     },
@@ -56,35 +70,35 @@ export default {
     copy_field: { type: Function },
     delete_field: { type: Function }
   },
-  data() {
+  data () {
     return {
       typesOfQuestion: [
-          {            
-            type: 1,
-            name: 'Short answer',
-            icon: 'grip-lines'
-          },
-          {            
-            type: 2,
-            name: 'Paragraph',
-            icon: 'align-left'
-          },
-          {            
-            type: 3,
-            name: 'Multiple Choice',
-            icon: 'dot-circle'
-          },
-          {            
-            type: 4,
-            name: 'Checkboxes',
-            icon: 'check-square'
-          },
-          {            
-            type: 5,
-            name: 'Dropdown',
-            icon: 'caret-square-down'
-          },
-        ]
+        {
+          type: 1,
+          name: 'Short answer',
+          icon: 'grip-lines'
+        },
+        {
+          type: 2,
+          name: 'Paragraph',
+          icon: 'align-left'
+        },
+        {
+          type: 3,
+          name: 'Multiple Choice',
+          icon: 'dot-circle'
+        },
+        {
+          type: 4,
+          name: 'Checkboxes',
+          icon: 'check-square'
+        },
+        {
+          type: 5,
+          name: 'Dropdown',
+          icon: 'caret-square-down'
+        }
+      ]
     }
   }
 }
