@@ -84,7 +84,7 @@ export default {
     }).then((res) => {
       const data = res.data[0].form
       data.questions = res.data.filter((x) => {
-        return x.status == 1
+        return x.status === 1
       })
 
       console.log(data)
@@ -139,9 +139,9 @@ export default {
     addField (index) {
       this.submitField(index, this.id)
     },
-    changeType (question_id, type_id) {
-      this.questions[question_id].type = type_id
-      this.addField(question_id)
+    changeType (questionId, typeId) {
+      this.questions[questionId].type = typeId
+      this.addField(questionId)
     },
     newField () {
       this.questions.push({

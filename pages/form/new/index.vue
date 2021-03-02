@@ -138,9 +138,9 @@ export default {
         this.submitField(index, this.id)
       }
     },
-    changeType (question_id, type_id) {
-      this.questions[question_id].type = type_id
-      this.addField(question_id)
+    changeType (questionId, typeId) {
+      this.questions[questionId].type = typeId
+      this.addField(questionId)
     },
     newField () {
       this.questions.push({
