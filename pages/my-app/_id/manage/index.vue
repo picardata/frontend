@@ -48,6 +48,17 @@
             aria-selected="false"
           >Teams</a>
         </li>
+        <li class="nav-item">
+          <a
+            id="pills-settings-tab"
+            class="nav-link"
+            data-toggle="pill"
+            href="#pills-settings"
+            role="tab"
+            aria-controls="pills-settings"
+            aria-selected="false"
+          >Settings</a>
+        </li>
       </ul>
       <div id="pills-tabContent" class="tab-content col-12">
         <div id="pills-overview" class="tab-pane fade show active" role="tabpanel" aria-labelledby="pills-overview-tab">
@@ -70,6 +81,14 @@
         <div id="pills-teams" class="tab-pane fade col-12" role="tabpanel" aria-labelledby="pills-teams-tab">
           <div class="row">
             <p>Coming soon</p>
+          </div>
+        </div>
+        <div id="pills-settings" class="tab-pane fade col-12" role="tabpanel" aria-labelledby="pills-settings-tab">
+          <div class="row">
+            <button class="btn btn-primary btn-md " @click="deleteModal">
+              Uninstall {{ data.application.name }}
+            </button>
+            <v-dialog />
           </div>
         </div>
       </div>
@@ -96,6 +115,31 @@ export default {
           data: data.data
         }
       })
+  },
+  methods: {
+    deleteModal () {
+      this.$modal.show('dialog', {
+        title: 'Uninstall ' + this.data.application.name,
+        text: 'Uninstall?',
+        buttons: [
+          {
+            title: 'Uninstall',
+            handler: () => {
+              this.$axios.delete('/api/integrations/' + this.data.application.id)
+                .then(res => console.log(res))
+                .catch(e => console.log(e))
+              this.$router.push('/')
+            }
+          },
+          {
+            title: 'Cancel',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          }
+        ]
+      })
+    }
   }
 }
 </script>
