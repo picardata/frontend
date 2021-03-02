@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5">
-    <PrevPage/>
+    <PrevPage />
     <div class="form-list mt-5">
       <div class="row">
         <div class="col-4">
@@ -28,11 +28,11 @@
             </div>
             <input
               v-model="qSearch"
-              @keyup="querySearch"
               type="text"
               class="form-control search-box border-0"
               placeholder="Search created forms"
               aria-describedby="inputGroupPrepend2"
+              @keyup="querySearch"
             >
           </div>
         </div>
@@ -161,8 +161,8 @@
               <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
             </div>
             <div class="modal-footer">
-              <a href="#" @click.prevent="dismissModal" class="btn btn-default">Cancel</a>
-              <a href="#" @click.prevent="deleteConfirm" class="btn btn-primary">Move to Trash</a>
+              <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
+              <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
             </div>
           </div>
         </div>
