@@ -57,54 +57,39 @@
             </div>
           </div>
         </div>
-        <div class="card mt-5">
-          <div class="card-body">
-            <div class=" col-8">
-              <input type="text" name="question" class="form-control question" placeholder="Question">
-              <div class="btn-group type-dropdown col-12 mt-5">
-                <button
-                  class="btn btn-default btn-lg text-left dropdown-toggle"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="true"
-                >
-                  <font-awesome-icon :icon="['fas', 'grip-lines']" />&nbsp;Short answer
-                  <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">
-                    <font-awesome-icon :icon="['fas', 'grip-lines']" />&nbsp;Short answer</a>
-                  <a class="dropdown-item" href="#">
-                    <font-awesome-icon :icon="['fas', 'align-left']" />&nbsp;Paragraph</a>
-                  <div class="dropdown-divider" />
-                  <a class="dropdown-item" href="#">
-                    <font-awesome-icon :icon="['fas', 'dot-circle']" />&nbsp;Multiple Choice</a>
-                  <a class="dropdown-item" href="#">
-                    <font-awesome-icon :icon="['fas', 'check-square']" />&nbsp;Checkboxes</a>
-                  <a class="dropdown-item" href="#">
-                    <font-awesome-icon :icon="['fas', 'caret-square-down']" />&nbsp;Dropdown</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField"/>
       </form>
+    </div>
+    <div class="stick-bottom">
+      <button
+        @click="newField"
+        class="btn btn-primary btn-md "
+        type="button"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import PrevPage from '@/components/PrevPage'
+import Field from '@/components/Field/Field'
 export default {
   name: 'IndexVue',
-  components: { PrevPage },
+  components: { PrevPage, Field },
   async asyncData (context) {
-    return await context.app.$axios.get('/api/forms/' + context.route.params.id)
-      .then((data) => {
-        console.log(data)
-        return data.data
+    return await context.app.$axios.get('/api/fields/', {
+      form: context.route.params.id
+    }).then((res) => {
+      var data = res.data[0].form
+      data.questions = res.data.filter((x) => {
+        return x.status == 1
       })
+
+      console.log(data)
+      return data
+    })
   },
   computed: {
     formattedUpdatedAt () {
@@ -113,6 +98,74 @@ export default {
     }
   },
   methods: {
+    submitField (index, formId) {
+      const fieldId = this.questions[index].id ? this.questions[index].id : undefined
+      const toSave = {        
+        name: this.questions[index].name,
+        type: this.questions[index].type,
+        required: this.questions[index].required,
+        form: formId
+      }
+      let axios
+
+      if(fieldId) {
+        axios = this.$axios.$put('/api/fields/' + fieldId, toSave)
+      } else {
+        axios = this.$axios.$post('/api/fields/', toSave)
+      }
+
+      axios.then((data) => {
+        this.questions[index].id = data.id
+        if(!this.id) {
+          this.id = data.form.id
+          history.pushState(
+            {},
+            null,
+            this.$route.path.replace('new', data.form.id)
+          )
+        }
+      })
+      .catch((e) => {
+        this.errors = []
+        for (const field of ['username', 'password']) {
+          const errors = e.response.data.errors[field]
+          if (errors !== undefined) {
+            this.errors = this.errors.concat(errors)
+          }
+        }
+        return false
+      })
+    },
+    addField (index) {
+      this.submitField(index, this.id)
+    },
+    changeType(question_id, type_id) {
+      this.questions[question_id].type = type_id
+      this.addField(question_id)
+    },
+    newField() {
+      this.questions.push({
+        id : undefined,
+        name: '',
+        type: 0,
+        required: false
+      })
+    },
+    copyField(index) {      
+      const toCopy = this.questions[index]
+      const copied = {
+          id : undefined,
+          name: toCopy.name,
+          type: toCopy.type,
+          required: toCopy.required
+        }
+      this.questions.splice(index + 1, 0, copied)
+      this.addField(index + 1)
+    },
+    deleteField(index) {
+      this.$axios.$delete('/api/fields/' + this.questions[index].id)
+      this.questions.splice(index, 1)
+    },
     submit () {
       this.$axios
         .$patch('/api/forms/' + this.id, {
@@ -139,6 +192,14 @@ export default {
 }
 </script>
 <style scoped>
+.stick-bottom {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 240px;
+    margin-bottom: 70px;
+}
+
 h1 {
   font-size: 36px;
   font-weight: bolder;
