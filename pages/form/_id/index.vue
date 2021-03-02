@@ -79,16 +79,12 @@ export default {
   name: 'IndexVue',
   components: { PrevPage, Field },
   async asyncData (context) {
-    return await context.app.$axios.get('/api/fields/', {
-      form: context.route.params.id
-    }).then((res) => {
-      const data = res.data[0].form
-      data.questions = res.data.filter((x) => {
+    return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
+      data.data.questions = data.data.fields.filter((x) => {
         return x.status === 1
       })
 
-      console.log(data)
-      return data
+      return data.data
     })
   },
   computed: {
