@@ -85,7 +85,23 @@ export default {
           id: undefined,
           name: '',
           type: 0,
-          required: false
+          required: false,
+          fieldChoice: [
+            {
+              id: undefined,
+              order: 0,
+              type: 1,
+              name: 'Add option',
+              edit: true
+            },
+            {
+              id: undefined,
+              order: 0,
+              type: 1,
+              name: 'Add option',
+              edit: false
+            }
+          ]
         }
       ]
     }
@@ -140,14 +156,55 @@ export default {
     },
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
+      this.bulkDeleteFieldChoice(questionId)
       this.addField(questionId)
+    },
+    bulkDeleteFieldChoice (questionId) {
+      this.questions[questionId].fieldChoice.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-choices/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldChoice = [
+        {
+          id: undefined,
+          order: 0,
+          type: 1,
+          name: 'Add option',
+          edit: true
+        },
+        {
+          id: undefined,
+          order: 0,
+          type: 1,
+          name: 'Add option',
+          edit: false
+        }
+      ]
     },
     newField () {
       this.questions.push({
         id: undefined,
         name: '',
         type: 0,
-        required: false
+        required: false,
+        fieldChoice: [
+          {
+            id: undefined,
+            order: 0,
+            type: 1,
+            name: 'Add option',
+            edit: true
+          },
+          {
+            id: undefined,
+            order: 0,
+            type: 1,
+            name: 'Add option',
+            edit: false
+          }
+        ]
       })
     },
     copyField (index) {

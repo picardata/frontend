@@ -81,6 +81,18 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
+        x.fieldChoice = x.fieldChoice.filter((y) => {
+          y.edit = false
+          return y.status === 1
+        })
+        x.fieldChoice.push({
+          id: undefined,
+          order: 0,
+          type: 1,
+          name: 'Add option',
+          edit: false
+        })
+
         return x.status === 1
       })
 
@@ -137,7 +149,32 @@ export default {
     },
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
+      this.bulkDeleteFieldChoice(questionId)
       this.addField(questionId)
+    },
+    bulkDeleteFieldChoice (questionId) {
+      this.questions[questionId].fieldChoice.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-choices/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldChoice = [
+        {
+          id: undefined,
+          order: 0,
+          type: 1,
+          name: 'Add option',
+          edit: true
+        },
+        {
+          id: undefined,
+          order: 0,
+          type: 1,
+          name: 'Add option',
+          edit: false
+        }
+      ]
     },
     newField () {
       this.questions.push({
