@@ -15,7 +15,7 @@
               <b>Email:</b> {{ profile.email }}
             </p>
             <p class="card-text">
-              <b>Phone:</b> {{ profile.phone }}
+              <b>Phone:</b> {{ profile.formattedPhone }}
             </p>
             <div class="btn-group-vertical">
               <nuxt-link to="/profile/me" class="btn btn-primary  active">
