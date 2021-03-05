@@ -28,6 +28,7 @@
             </div>
           </div>
         </div>
+        <Choice v-if="q.type >= 2" :question="questions[q_key]" />
         <hr>
         <div class="col-12 ">
           <div class="float-right">
@@ -56,8 +57,10 @@
   </div>
 </template>
 <script>
+import Choice from '~/components/Field/Choice'
 export default {
   name: 'Field',
+  components: { Choice },
   props: {
     questions: {
       type: Array,
@@ -74,27 +77,27 @@ export default {
     return {
       typesOfQuestion: [
         {
-          type: 1,
+          type: 0,
           name: 'Short answer',
           icon: 'grip-lines'
         },
         {
-          type: 2,
+          type: 1,
           name: 'Paragraph',
           icon: 'align-left'
         },
         {
-          type: 3,
+          type: 2,
           name: 'Multiple Choice',
           icon: 'dot-circle'
         },
         {
-          type: 4,
+          type: 3,
           name: 'Checkboxes',
           icon: 'check-square'
         },
         {
-          type: 5,
+          type: 4,
           name: 'Dropdown',
           icon: 'caret-square-down'
         }
