@@ -23,8 +23,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Poppins' }
+      // { rel: 'stylesheet', type: 'text/css', href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' },
+      // { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Poppins' }
+      { rel: 'icon', type: 'image/png', href: 'favicon.png' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.6.3/css/all.css', integrity: 'sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/', crossorigin: 'anonymous' }
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js' },
@@ -35,15 +38,22 @@ export default {
     ]
   },
 
+  loading: { color: '#fff' },
+
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '~/assets/scss/main.scss'
+    // '~/assets/scss/main.scss',
+    'assets/css/nucleo/css/nucleo.css',
+    'assets/sass/argon.scss'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~plugins/vee-validate.js',
-    '~plugins/vue-js-modal.js'
+    '~plugins/vue-js-modal.js',
+    '~/plugins/dashboard/dashboard-plugin',
+    { src: '~/plugins/dashboard/full-calendar', ssr: false },
+    { src: '~/plugins/dashboard/world-map', ssr: false }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -92,10 +102,26 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    babel: {
-      compact: true
+    transpile: ['vee-validate/dist/rules'],
+    /*
+    ** You can extend webpack config here
+    */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    extend (config, ctx) {
+
     },
-    transpile: ['vee-validate/dist/rules']
+    extractCSS: process.env.NODE_ENV === 'production',
+    babel: {
+      plugins: [
+        [
+          'component',
+          {
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
+      ]
+    }
   },
   env: {
     apiUrl: process.env.BASE_URL || 'http://api.local.picardata.com'

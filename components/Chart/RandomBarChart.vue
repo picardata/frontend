@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import BarChart from './BarChart'
+import BarChart from '../argon-core/Charts/BarChart'
 
 export default {
   components: {

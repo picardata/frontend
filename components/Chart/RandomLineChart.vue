@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import LineChart from './LineChart'
+import LineChart from '../argon-core/Charts/LineChart'
 
 export default {
   components: {
