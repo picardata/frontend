@@ -10,7 +10,7 @@
             <div
               :class="{
                 'col-2': index === lastIndex,
-                'col-10': index !== lastIndex
+                'col-9': index !== lastIndex
               }"
               class="col-text"
             >
@@ -20,10 +20,10 @@
                 type="text"
                 class="form-control choice"
                 placeholder="Add option"
-                @change="submitChoice(choice, question.id)"
+                @keyup="checkDuplicate(choice)"
                 @keyup.esc="cancelEdit(choice)"
-                @keyup.enter="doneEdit(choice)"
-                @blur="doneEdit(choice)"
+                @keyup.enter="doneEdit(choice, question.id)"
+                @blur="doneEdit(choice, question.id)"
               >
               <span v-else :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice)">{{ choice.name }}</span>
             </div>
@@ -42,6 +42,13 @@
                 class="list-icon remove-icon"
                 :icon="['fas', 'times']"
                 @click="removeChoice(index)"
+              />
+            </div>
+            <div v-if="index !== lastIndex && choice.alert !== ''" class="col-1">
+              <font-awesome-icon
+                v-b-tooltip.hover
+                :title="choice.alert"
+                :icon="['fas', 'exclamation-triangle']"
               />
             </div>
           </div>
@@ -93,16 +100,32 @@ export default {
     }
   },
   mounted () {
-    if (this.question.type !== 4) {
+    if (this.question.type === 4) {
       this.question.fieldChoice = this.question.fieldChoice.filter(x => x.type === 1)
     }
   },
   methods: {
+    findDuplicate (choice) {
+      let exist = -1
+      this.question.fieldChoice.map((x) => {
+        if (x.name === choice.name && x.name !== 'Add option') {
+          exist++
+        }
+      })
+      return exist
+    },
+    checkDuplicate (choice) {
+      const check = this.findDuplicate(choice)
+      if (check > 0) {
+        choice.alert = 'duplicate options not supported'
+      } else {
+        choice.alert = ''
+      }
+    },
     findIcon (type) {
       return this.icons.filter(x => x.type === type)[0].icon
     },
     edit (choice) {
-      console.log(choice)
       if (choice.type === 1) {
         if (choice.name) {
           this.beforeEditCache = choice.name
@@ -113,11 +136,17 @@ export default {
         choice.edit = true
       }
     },
-    doneEdit (choice) {
+    doneEdit (choice, fieldId) {
       if (choice.name.trim().length === 0) {
         choice.name = this.beforeEditCache
       }
 
+      if (this.findDuplicate(choice) > 0) {
+        choice.name = this.beforeEditCache
+        choice.alert = ''
+      }
+
+      this.submitChoice(choice, fieldId)
       choice.edit = false
     },
     cancelEdit (choice) {
@@ -147,7 +176,8 @@ export default {
             order: this.lastIndex,
             type: 2,
             name: 'Other',
-            edit: false
+            edit: false,
+            alert: ''
           }
         }
 

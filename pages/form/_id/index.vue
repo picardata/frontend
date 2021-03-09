@@ -83,6 +83,7 @@ export default {
       data.data.questions = data.data.fields.filter((x) => {
         x.fieldChoice = x.fieldChoice.filter((y) => {
           y.edit = false
+          y.alert = ''
           return y.status === 1
         })
         x.fieldChoice.push({
@@ -90,7 +91,8 @@ export default {
           order: 0,
           type: 1,
           name: 'Add option',
-          edit: false
+          edit: false,
+          alert: ''
         })
 
         return x.status === 1
@@ -165,14 +167,16 @@ export default {
           order: 0,
           type: 1,
           name: 'Add option',
-          edit: true
+          edit: true,
+          alert: ''
         },
         {
           id: undefined,
           order: 0,
           type: 1,
           name: 'Add option',
-          edit: false
+          edit: false,
+          alert: ''
         }
       ]
     },
@@ -188,14 +192,16 @@ export default {
             order: 0,
             type: 1,
             name: 'Add option',
-            edit: true
+            edit: true,
+            alert: ''
           },
           {
             id: undefined,
             order: 0,
             type: 1,
             name: 'Add option',
-            edit: false
+            edit: false,
+            alert: ''
           }
         ]
       })
