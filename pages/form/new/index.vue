@@ -92,14 +92,16 @@ export default {
               order: 0,
               type: 1,
               name: 'Add option',
-              edit: true
+              edit: true,
+              alert: ''
             },
             {
               id: undefined,
               order: 0,
               type: 1,
               name: 'Add option',
-              edit: false
+              edit: false,
+              alert: ''
             }
           ]
         }
@@ -172,14 +174,16 @@ export default {
           order: 0,
           type: 1,
           name: 'Add option',
-          edit: true
+          edit: true,
+          alert: ''
         },
         {
           id: undefined,
           order: 0,
           type: 1,
           name: 'Add option',
-          edit: false
+          edit: false,
+          alert: ''
         }
       ]
     },
@@ -195,14 +199,16 @@ export default {
             order: 0,
             type: 1,
             name: 'Add option',
-            edit: true
+            edit: true,
+            alert: ''
           },
           {
             id: undefined,
             order: 0,
             type: 1,
             name: 'Add option',
-            edit: false
+            edit: false,
+            alert: ''
           }
         ]
       })
