@@ -108,7 +108,7 @@ export default {
     findDuplicate (choice) {
       let exist = -1
       this.question.fieldChoice.map((x) => {
-        if (x.name === choice.name && x.name !== 'Add option') {
+        if (x.name.trim() === choice.name.trim() && x.name !== 'Add option') {
           exist++
         }
       })
