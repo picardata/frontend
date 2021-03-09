@@ -100,7 +100,7 @@ export default {
     }
   },
   mounted () {
-    if (this.question.type !== 4) {
+    if (this.question.type === 4) {
       this.question.fieldChoice = this.question.fieldChoice.filter(x => x.type === 1)
     }
   },
@@ -176,7 +176,8 @@ export default {
             order: this.lastIndex,
             type: 2,
             name: 'Other',
-            edit: false
+            edit: false,
+            alert: ''
           }
         }
 
