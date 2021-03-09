@@ -213,7 +213,8 @@ export default {
         id: undefined,
         name: toCopy.name,
         type: toCopy.type,
-        required: toCopy.required
+        required: toCopy.required,
+        fieldChoice: toCopy.fieldChoice
       }
       this.questions.splice(index + 1, 0, copied)
       this.addField(index + 1)
