@@ -182,10 +182,19 @@ export default {
         }
 
         if (this.otherInChoice) {
+          choice.edit = true
+          choice.name = this.defaultChoice
           this.question.fieldChoice.splice(this.lastIndex - 1, 0, choice)
+          this.$nextTick(() => {
+            this.$refs.choices[this.lastIndex - 2].focus()
+          })
         } else {
           this.question.fieldChoice.push(choice)
           this.question.fieldChoice[index].edit = true
+          this.question.fieldChoice[index].name = this.defaultChoice
+          this.$nextTick(() => {
+            this.$refs.choices[index].focus()
+          })
         }
 
         if (type === 2) {
@@ -197,13 +206,7 @@ export default {
             edit: false,
             alert: ''
           }
-        } else {
-          this.question.fieldChoice[index].name = this.defaultChoice
-          this.$nextTick(() => {
-            this.$refs.choices[index].focus()
-          })
         }
-
         this.submitChoice(this.question.fieldChoice[index], this.question.id)
       }
     },
