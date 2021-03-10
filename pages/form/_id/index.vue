@@ -166,8 +166,8 @@ export default {
           id: undefined,
           order: 0,
           type: 1,
-          name: 'Add option',
-          edit: true,
+          name: 'Option 1',
+          edit: false,
           alert: ''
         },
         {
@@ -191,8 +191,8 @@ export default {
             id: undefined,
             order: 0,
             type: 1,
-            name: 'Add option',
-            edit: true,
+            name: 'Option 1',
+            edit: false,
             alert: ''
           },
           {

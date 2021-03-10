@@ -15,7 +15,8 @@
               class="col-text"
             >
               <input
-                v-if="choice.edit == true"
+                v-show="choice.edit === true"
+                ref="choices"
                 v-model="choice.name"
                 type="text"
                 class="form-control choice"
@@ -25,7 +26,7 @@
                 @keyup.enter="doneEdit(choice, question.id)"
                 @blur="doneEdit(choice, question.id)"
               >
-              <span v-else :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice)">{{ choice.name }}</span>
+              <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
             </div>
             <div
               v-if="question.type !== 4 &&
@@ -68,7 +69,7 @@ export default {
   },
   data () {
     return {
-      beforeEditCache: 'Add option',
+      beforeEditCache: '',
       icons: [
         {
           type: 2,
@@ -97,6 +98,20 @@ export default {
     },
     totalChoices () {
       return this.question.fieldChoice.length
+    },
+    highestDefaultChoice () {
+      let h = 0
+      const temp = this.question.fieldChoice
+      for (const x in temp) {
+        if (/Option \d/.test(temp[x].name)) {
+          const i = parseInt(temp[x].name.replace('Option ', ''))
+          h = h >= i ? h : i
+        }
+      }
+      return h + 1
+    },
+    defaultChoice () {
+      return 'Option ' + this.highestDefaultChoice
     }
   },
   mounted () {
@@ -125,15 +140,17 @@ export default {
     findIcon (type) {
       return this.icons.filter(x => x.type === type)[0].icon
     },
-    edit (choice) {
+    edit (choice, index) {
       if (choice.type === 1) {
         if (choice.name) {
           this.beforeEditCache = choice.name
         } else {
-          this.beforeEditCache = 'Add option'
+          this.beforeEditCache = this.defaultChoice
         }
-
         choice.edit = true
+        this.$nextTick(() => {
+          this.$refs.choices[index].focus()
+        })
       }
     },
     doneEdit (choice, fieldId) {
@@ -160,7 +177,8 @@ export default {
           order: this.otherInChoice ? this.lastIndex - 2 : this.lastIndex + 1,
           type: 1,
           name: 'Add option',
-          edit: !!this.otherInChoice
+          edit: !!this.otherInChoice,
+          alert: ''
         }
 
         if (this.otherInChoice) {
@@ -179,6 +197,11 @@ export default {
             edit: false,
             alert: ''
           }
+        } else {
+          this.question.fieldChoice[index].name = this.defaultChoice
+          this.$nextTick(() => {
+            this.$refs.choices[index].focus()
+          })
         }
 
         this.submitChoice(this.question.fieldChoice[index], this.question.id)
