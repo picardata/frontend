@@ -91,8 +91,8 @@ export default {
               id: undefined,
               order: 0,
               type: 1,
-              name: 'Add option',
-              edit: true,
+              name: 'Option 1',
+              edit: false,
               alert: ''
             },
             {
@@ -109,7 +109,7 @@ export default {
     }
   },
   methods: {
-    submitField (index, formId) {
+    async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
         name: this.questions[index].name,
@@ -125,7 +125,7 @@ export default {
         axios = this.$axios.$post('/api/fields/', toSave)
       }
 
-      axios.then((data) => {
+      await axios.then((data) => {
         this.questions[index].id = data.id
         if (!this.id) {
           this.id = data.form.id
@@ -147,13 +147,13 @@ export default {
           return false
         })
     },
-    addField (index) {
+    async addField (index) {
       if (this.id === '') {
-        this.submit().then(() => {
+        await this.submit().then(() => {
           this.submitField(index, this.id)
         })
       } else {
-        this.submitField(index, this.id)
+        await this.submitField(index, this.id)
       }
     },
     changeType (questionId, typeId) {
@@ -173,8 +173,8 @@ export default {
           id: undefined,
           order: 0,
           type: 1,
-          name: 'Add option',
-          edit: true,
+          name: 'Option 1',
+          edit: false,
           alert: ''
         },
         {
@@ -198,8 +198,8 @@ export default {
             id: undefined,
             order: 0,
             type: 1,
-            name: 'Add option',
-            edit: true,
+            name: 'Option 1',
+            edit: false,
             alert: ''
           },
           {
@@ -223,7 +223,26 @@ export default {
         fieldChoice: toCopy.fieldChoice
       }
       this.questions.splice(index + 1, 0, copied)
-      this.addField(index + 1)
+      this.addField(index + 1).then(() => {
+        if (copied.type > 1) {
+          this.addChoices(index + 1)
+        }
+      })
+    },
+    addChoices (index) {
+      const lastIndex = this.questions[index].fieldChoice.length - 1
+      this.questions[index]
+        .fieldChoice
+        .map((v, i) => {
+          if (i < lastIndex) {
+            this.$axios.$post('/api/field-choices/', {
+              name: v.name,
+              type: v.type,
+              field: this.questions[index].id
+            })
+              .then(res => console.log(res))
+          }
+        })
     },
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
