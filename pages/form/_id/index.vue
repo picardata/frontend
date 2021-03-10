@@ -213,12 +213,24 @@ export default {
         name: toCopy.name,
         type: toCopy.type,
         required: toCopy.required,
-        fieldChoice: toCopy.fieldChoice
+        fieldChoice: this.copyChoices(toCopy.fieldChoice)
       }
       this.questions.splice(index + 1, 0, copied)
       this.submitField(index + 1, this.id).then(() => {
         if (copied.type > 1) {
           this.addChoices(index + 1)
+        }
+      })
+    },
+    copyChoices (choices) {
+      return choices.map((v) => {
+        return {
+          id: undefined,
+          order: v.order,
+          type: v.type,
+          name: v.name,
+          edit: false,
+          alert: v.alert
         }
       })
     },
@@ -233,7 +245,9 @@ export default {
               type: v.type,
               field: this.questions[index].id
             })
-              .then(res => console.log(res))
+              .then((res) => {
+                v.id = res.id
+              })
           }
         })
     },
