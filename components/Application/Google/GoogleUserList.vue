@@ -1,44 +1,38 @@
 <template>
-  <div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">
-              #
-            </th>
-            <th scope="col">
-              First
-            </th>
-            <th scope="col">
-              Last
-            </th>
-            <th scope="col">
-              Email
-            </th>
-            <th scope="col">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(user, index) in users" :key="index">
-            <th scope="row">
-              {{ index }}
-            </th>
-            <td>{{ user.name.givenName }}</td>
-            <td>{{ user.name.familyName }}</td>
-            <td>{{ user.primaryEmail }}</td>
-            <td>
-              <a class="btn btn-sm btn-primary">edit</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="card col-12 mt-3">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="row">
+          <div class="col-6">
+            <h4 id="users">
+              Users ({{ usersCount }})
+            </h4>
+          </div>
+          <div class="col-6">
+            <a
+              class="nav-link fa-pull-right"
+              href="#users"
+            >
+              <font-awesome-icon
+                fixed-width
+                :icon="['fas', 'plus']"
+              />
+              Create New User</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="row">
+          <ul class="list-group">
+            <li v-for="(user, index) in users" :key="index" class="list-group-item border-0">
+              <a href="#" class="text-dark">{{ user.name.givenName }} {{ user.name.familyName }} ({{ user.primaryEmail }})</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'GoogleUserList',
@@ -59,6 +53,16 @@ export default {
     return {
       users: []
     }
+  },
+  computed: {
+    usersCount () {
+      return this.users.length
+    }
   }
 }
 </script>
+<style scoped>
+.card-title h4  {
+  font-size: 28px;
+}
+</style>

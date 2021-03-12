@@ -86,7 +86,7 @@ $colors: map-merge((
 ), $colors);
 
 $default:       #172b4d !default;
-$primary:       #5e72e4 !default;
+$primary:       #2534B6 !default;
 $secondary:     #f7fafc !default;
 $success:       $green !default;
 $info:          $teal !default;
@@ -318,7 +318,7 @@ $border-radius-lg:            .4375rem !default;
 $border-radius-sm:            .25rem !default;
 
 $box-shadow-sm:               0 0 .5rem rgba($gray-600, .075) !default;
-$box-shadow:                  0 0 2rem 0 rgba($gray-600, .15) !default;
+$box-shadow:                  0 8px 16px rgba(17, 17, 17, 0.04);
 $box-shadow-lg:               0 0 3rem rgba($gray-600, .175) !default;
 
 

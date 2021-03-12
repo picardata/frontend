@@ -38,28 +38,28 @@ export default {
       users: [
         {
           id: 1,
-          img: 'img/theme/team-1.jpg',
+          img: '/img/theme/team-1.jpg',
           name: 'John Michael',
           status: 'Online',
           statusType: 'success'
         },
         {
           id: 2,
-          img: 'img/theme/team-2.jpg',
+          img: '/img/theme/team-2.jpg',
           name: 'Alex Smith',
           status: 'In a meeting',
           statusType: 'danger'
         },
         {
           id: 3,
-          img: 'img/theme/team-3.jpg',
+          img: '/img/theme/team-3.jpg',
           name: 'Samantha Ivy',
           status: 'Offline',
           statusType: 'danger'
         },
         {
           id: 4,
-          img: 'img/theme/team-4.jpg',
+          img: '/img/theme/team-4.jpg',
           name: 'John Michael',
           status: 'Online',
           statusType: 'success'

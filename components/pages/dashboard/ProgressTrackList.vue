@@ -40,35 +40,35 @@
         items: [
           {
             id: 1,
-            img: 'img/theme/bootstrap.jpg',
+            img: '/img/theme/bootstrap.jpg',
             title: 'Argon Design System',
             progress: 60,
             progressType: 'orange'
           },
           {
             id: 2,
-            img: 'img/theme/angular.jpg',
+            img: '/img/theme/angular.jpg',
             title: 'Angular Now UI Kit PRO',
             progress: 100,
             progressType: 'green'
           },
           {
             id: 3,
-            img: 'img/theme/sketch.jpg',
+            img: '/img/theme/sketch.jpg',
             title: 'Black Dashboard',
             progress: 72,
             progressType: 'red'
           },
           {
             id: 4,
-            img: 'img/theme/react.jpg',
+            img: '/img/theme/react.jpg',
             title: 'React Material Dashboard',
             progress: 90,
             progressType: 'teal'
           },
           {
             id: 5,
-            img: 'img/theme/vue.jpg',
+            img: '/img/theme/vue.jpg',
             title: 'Vue Paper UI Kit PRO',
             progress: 100,
             progressType: 'success'

@@ -2,7 +2,7 @@
   <base-nav
     container-classes="container-fluid"
     class="navbar-top border-bottom navbar-expand"
-    :class="{'bg-success navbar-dark': type === 'default'}"
+    :class="{'bg-primary navbar-dark': type === 'default'}"
   >
     <!-- Search form -->
     <form
@@ -70,7 +70,7 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <!-- Avatar -->
-                  <img alt="Image placeholder" src="img/theme/team-1.jpg" class="avatar rounded-circle">
+                  <img alt="Image placeholder" src="/img/theme/team-1.jpg" class="avatar rounded-circle">
                 </div>
                 <div class="col ml--2">
                   <div class="d-flex justify-content-between align-items-center">
@@ -89,7 +89,7 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <!-- Avatar -->
-                  <img alt="Image placeholder" src="img/theme/team-2.jpg" class="avatar rounded-circle">
+                  <img alt="Image placeholder" src="/img/theme/team-2.jpg" class="avatar rounded-circle">
                 </div>
                 <div class="col ml--2">
                   <div class="d-flex justify-content-between align-items-center">
@@ -108,7 +108,7 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <!-- Avatar -->
-                  <img alt="Image placeholder" src="img/theme/team-3.jpg" class="avatar rounded-circle">
+                  <img alt="Image placeholder" src="/img/theme/team-3.jpg" class="avatar rounded-circle">
                 </div>
                 <div class="col ml--2">
                   <div class="d-flex justify-content-between align-items-center">
@@ -127,7 +127,7 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <!-- Avatar -->
-                  <img alt="Image placeholder" src="img/theme/team-4.jpg" class="avatar rounded-circle">
+                  <img alt="Image placeholder" src="/img/theme/team-4.jpg" class="avatar rounded-circle">
                 </div>
                 <div class="col ml--2">
                   <div class="d-flex justify-content-between align-items-center">
@@ -146,7 +146,7 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <!-- Avatar -->
-                  <img alt="Image placeholder" src="img/theme/team-5.jpg" class="avatar rounded-circle">
+                  <img alt="Image placeholder" src="/img/theme/team-5.jpg" class="avatar rounded-circle">
                 </div>
                 <div class="col ml--2">
                   <div class="d-flex justify-content-between align-items-center">
@@ -227,7 +227,7 @@
         <a slot="title-container" href="#" class="nav-link pr-0" @click.prevent>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="img/theme/team-4.jpg">
+              <img alt="Image placeholder" src="/img/theme/team-4.jpg">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm  font-weight-bold">John Snow</span>

@@ -4,6 +4,7 @@
 
 .card {
     margin-bottom: $grid-gutter-width;
+    border-radius: 16px;
 
     @if $enable-shadows {
         box-shadow: $card-box-shadow;
@@ -21,6 +22,10 @@
         margin-left: -1px;
         margin-top: -1px;
     }
+}
+
+.card-img-logo {
+  width: 100px;
 }
 
 .card-img-bottom {

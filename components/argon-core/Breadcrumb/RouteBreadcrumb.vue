@@ -1,45 +1,60 @@
 <template>
   <no-ssr>
-    <bread-crumb list-classes="breadcrumb-links breadcrumb-dark">
+    <bread-crumb list-classes="breadcrumb-links breadcrumb-light">
       <BreadCrumbItem>
-        <nuxt-link to="/" aria-label="Home">
-          <i class="fas fa-home"></i>
+        <nuxt-link to="/" aria-label="Dashboard">
+          {{ home }}
         </nuxt-link>
       </BreadCrumbItem>
       <BreadCrumbItem
-        v-for="(route, index) in $route.matched.slice()"
-        :key="route.name"
-        :active="index === $route.matched.length - 1"
+        v-for="(crumb, index) in crumbs"
+        :key="crumb.name"
+        :active="index === crumbs.length - 1"
         style="display:inline-block"
       >
         <nuxt-link
-          :to="{ name: route.name }"
-          v-if="index < $route.matched.length - 1"
+          :to="crumb.path"
+          v-if="index < crumbs.length - 1"
         >
-          {{ route.name }}
+          {{ crumb.name }}
         </nuxt-link>
-        <span v-else>{{ route.name }}</span>
+        <span v-else>{{ crumb.name }}</span>
       </BreadCrumbItem>
     </bread-crumb>
   </no-ssr>
 </template>
 
 <script>
-  import BreadCrumb from './Breadcrumb';
-  import BreadCrumbItem from './BreadcrumbItem';
+import BreadCrumb from './Breadcrumb'
+import BreadCrumbItem from './BreadcrumbItem'
 
-  export default {
-    name: 'route-breadcrumb',
-    components: {
-      BreadCrumb,
-      BreadCrumbItem
+export default {
+  name: 'RouteBreadcrumb',
+  components: {
+    BreadCrumb,
+    BreadCrumbItem
+  },
+  props: {
+    home: {
+      type: String,
+      default: 'Dashboard'
     },
-    methods: {
-      getBreadName(route) {
-        return route.name;
-      }
+    crumbs: {
+      type: Array,
+      default: () => []
     }
-  };
+  },
+  methods: {
+    getBreadName (route) {
+      return route.name
+    }
+  }
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+  li.breadcrumb-item a, li.breadcrumb-item span {
+    text-transform: capitalize;
+  }
+
+</style>

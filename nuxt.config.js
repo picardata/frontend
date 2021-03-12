@@ -42,7 +42,6 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    // '~/assets/scss/main.scss',
     'assets/css/nucleo/css/nucleo.css',
     'assets/sass/argon.scss'
   ],
@@ -51,6 +50,7 @@ export default {
   plugins: [
     '~plugins/vee-validate.js',
     '~plugins/vue-js-modal.js',
+    '~plugins/truncate.js',
     '~/plugins/dashboard/dashboard-plugin',
     { src: '~/plugins/dashboard/full-calendar', ssr: false },
     { src: '~/plugins/dashboard/world-map', ssr: false }

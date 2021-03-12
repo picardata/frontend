@@ -5,9 +5,7 @@
        :data="backgroundColor">
     <div class="scrollbar-inner" ref="sidebarScrollArea">
       <div class="sidenav-header d-flex align-items-center">
-        <a class="navbar-brand" href="#">
-          <img :src="logo" class="navbar-brand-img" alt="Sidebar logo">
-        </a>
+        <a class="navbar-brand text-white" href="/"><img src="~/assets/nav_logo.png" alt="Picardata Logo">icardata</a>
         <div class="ml-auto">
           <!-- Sidenav toggler -->
           <div class="sidenav-toggler d-none d-xl-block"

@@ -26,6 +26,13 @@
     margin-top: 3rem;
 }
 
+div.divider {
+  border-left: 1px solid #C4C4C4;
+  width: 1px;
+  height: 14px;
+  margin: 7px 0 0 0;
+  padding: 0 14px 0 0;
+}
 
 // Negative margins and paddings
 
@@ -34,7 +41,7 @@
     [class*="mr--"],
     [class*="mb--"],
     [class*="ml--"] {
-        
+
     }
 
 
