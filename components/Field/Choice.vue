@@ -185,6 +185,7 @@ export default {
           choice.edit = true
           choice.name = this.defaultChoice
           this.question.fieldChoice.splice(this.lastIndex - 1, 0, choice)
+          this.beforeEditCache = this.question.fieldChoice[this.lastIndex - 2].name
           this.$nextTick(() => {
             this.$refs.choices[this.lastIndex - 2].focus()
           })
@@ -192,6 +193,7 @@ export default {
           this.question.fieldChoice.push(choice)
           this.question.fieldChoice[index].edit = true
           this.question.fieldChoice[index].name = this.defaultChoice
+          this.beforeEditCache = this.question.fieldChoice[index].name
           this.$nextTick(() => {
             this.$refs.choices[index].focus()
           })
