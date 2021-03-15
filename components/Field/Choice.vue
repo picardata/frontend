@@ -23,7 +23,6 @@
                 placeholder="Add option"
                 @keyup="checkDuplicate(choice)"
                 @keyup.esc="cancelEdit(choice)"
-                @keyup.enter="doneEdit(choice, index, question.id)"
                 @blur="doneEdit(choice, index, question.id)"
               >
               <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
@@ -118,14 +117,6 @@ export default {
     if (this.question.type === 4) {
       this.question.fieldChoice = this.question.fieldChoice.filter(x => x.type === 1)
     }
-    this.question.fieldChoice.push({
-      id: undefined,
-      order: 0,
-      type: 1,
-      name: 'Add option',
-      edit: false,
-      alert: ''
-    })
   },
   methods: {
     findDuplicate (choice) {
