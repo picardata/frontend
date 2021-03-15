@@ -168,6 +168,7 @@ export default {
     cancelEdit (choice) {
       choice.name = this.beforeEditCache
       choice.edit = false
+      choice.alert = ''
     },
     addChoice (index, type) {
       if (this.totalChoices < 2 || this.lastIndex === index) {
@@ -214,6 +215,7 @@ export default {
         this.$axios.$delete('/api/field-choices/' + this.question.fieldChoice[index].id)
       }
       this.question.fieldChoice.splice(index, 1)
+      this.reIndexChoices()
     },
     submitChoice (choice, key, fieldId) {
       const toSave = {
@@ -243,6 +245,20 @@ export default {
           }
           return false
         })
+      
+      this.reIndexChoices()
+    },
+    reIndexChoices() {      
+      this.question.fieldChoice.map((choice, key) => {
+        if(choice.id !== undefined) {
+          this.$axios.$put('/api/field-choices/' + choice.id, {
+            name: choice.name,
+            type: choice.type,
+            field: this.question.id,
+            choice_order: key
+          })
+        }
+      })
     }
   }
 }
