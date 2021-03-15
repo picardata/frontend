@@ -163,10 +163,13 @@ export default {
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
       this.bulkDeleteFieldChoice(questionId)
-      this.submitField(questionId, this.id).then(() => {        
-        if (typeId > 1) {
-          this.addChoices(questionId)
-        }
+
+      this.submit().then(() => {
+        this.submitField(questionId, this.id).then(() => {        
+          if (typeId > 1) {
+            this.addChoices(questionId)
+          }
+        })
       })
     },
     bulkDeleteFieldChoice (questionId) {
