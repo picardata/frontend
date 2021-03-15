@@ -87,6 +87,14 @@ export default {
           return y.status === 1
         }).sort((a,b) => a.choiceOrder - b.choiceOrder);
 
+        x.fieldChoice.push({
+          id: undefined,
+          type: 1,
+          name: 'Add option',
+          edit: false,
+          alert: ''
+        })
+
         return x.status === 1
       })
 
@@ -167,6 +175,13 @@ export default {
           name: 'Option 1',
           edit: false,
           alert: ''
+        },
+        {
+          id: undefined,
+          type: 1,
+          name: 'Add option',
+          edit: false,
+          alert: ''
         }
       ]
     },
@@ -181,6 +196,14 @@ export default {
             id: undefined,
             type: 1,
             name: 'Option 1',
+            edit: false,
+            alert: ''
+          },
+          {
+            id: undefined,
+            order: 0,
+            type: 1,
+            name: 'Add option',
             edit: false,
             alert: ''
           }

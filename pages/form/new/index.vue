@@ -93,6 +93,13 @@ export default {
               name: 'Option 1',
               edit: false,
               alert: ''
+            },
+            {
+              id: undefined,            
+              type: 1,
+              name: 'Add option',
+              edit: false,
+              alert: ''
             }            
           ]
         }
@@ -176,7 +183,14 @@ export default {
           name: 'Option 1',
           edit: false,
           alert: ''
-        }        
+        },
+        {
+          id: undefined,            
+          type: 1,
+          name: 'Add option',
+          edit: false,
+          alert: ''
+        }
       ]
     },
     newField () {
@@ -191,6 +205,13 @@ export default {
             order: 0,
             type: 1,
             name: 'Option 1',
+            edit: false,
+            alert: ''
+          },
+          {
+            id: undefined,
+            type: 1,
+            name: 'Add option',
             edit: false,
             alert: ''
           }
