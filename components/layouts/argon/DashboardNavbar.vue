@@ -227,7 +227,7 @@
         <a slot="title-container" href="#" class="nav-link pr-0" @click.prevent>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="/img/theme/team-4.jpg">
+              <img alt="Image placeholder" src="/img/theme/team-5.jpg">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm  font-weight-bold">John Snow</span>

@@ -20,7 +20,7 @@
                 :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
               >
                 <div class="form-group mb-0">
-                  <div class="input-group input-group-alternative input-group-merge">
+                  <div class="input-group input-group-alternative input-group-merge search-button">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-search" /></span>
                     </div>
@@ -113,5 +113,8 @@ li.list-group-item {
 
 li.list-group-item a {
   color: black;
+}
+div.search-button {
+  background-color: #EFF0F7;
 }
 </style>

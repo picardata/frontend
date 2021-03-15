@@ -131,6 +131,4 @@ li.list-group-item a {
 div.search-button {
   background-color: #EFF0F7;
 }
-
-
 </style>

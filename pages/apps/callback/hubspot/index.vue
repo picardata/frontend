@@ -9,7 +9,7 @@
 <script>
 export default {
   mounted () {
-    this.$axios.get('/api/integrations/slack/oauth2/callback?code=' + this.$route.query.code)
+    this.$axios.get('/api/integrations/hubspot/oauth2/callback?code=' + this.$route.query.code)
       .then(() => {
         this.$router.push('/apps/integrated-apps')
       }).catch(
