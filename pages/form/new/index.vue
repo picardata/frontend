@@ -88,19 +88,19 @@ export default {
           required: false,
           fieldChoice: [
             {
-              id: undefined,            
+              id: undefined,
               type: 1,
               name: 'Option 1',
               edit: false,
               alert: ''
             },
             {
-              id: undefined,            
+              id: undefined,
               type: 1,
               name: 'Add option',
               edit: false,
               alert: ''
-            }            
+            }
           ]
         }
       ]
@@ -109,7 +109,7 @@ export default {
   computed:
   {
     questionsLength () {
-      return this.questions.length;
+      return this.questions.length
     }
   },
   methods: {
@@ -165,7 +165,7 @@ export default {
       this.bulkDeleteFieldChoice(questionId)
 
       this.submit().then(() => {
-        this.submitField(questionId, this.id).then(() => {        
+        this.submitField(questionId, this.id).then(() => {
           if (typeId > 1) {
             this.addChoices(questionId)
           }
@@ -188,7 +188,7 @@ export default {
           alert: ''
         },
         {
-          id: undefined,            
+          id: undefined,
           type: 1,
           name: 'Add option',
           edit: false,
@@ -220,7 +220,7 @@ export default {
           }
         ]
       })
-      this.submitField(this.questionsLength - 1, this.id).then(() => {        
+      this.submitField(this.questionsLength - 1, this.id).then(() => {
         if (this.questions[this.questionsLength - 1].type > 1) {
           this.addChoices(this.questionsLength - 1)
         }
@@ -228,7 +228,7 @@ export default {
     },
     copyField (index) {
       const toCopy = this.questions[index]
-      var copied = {
+      const copied = {
         id: undefined,
         name: toCopy.name,
         type: toCopy.type,

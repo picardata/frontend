@@ -172,7 +172,7 @@ export default {
     },
     addChoice (index, type) {
       if (this.totalChoices < 2 || this.lastIndex === index) {
-        var targetInput
+        let targetInput
         const choice = {
           id: undefined,
           type: 1,
@@ -185,7 +185,7 @@ export default {
           choice.edit = true
           choice.name = this.defaultChoice
           this.question.fieldChoice.splice(this.lastIndex - 1, 0, choice)
-          this.beforeEditCache = this.question.fieldChoice[this.lastIndex - 2].name          
+          this.beforeEditCache = this.question.fieldChoice[this.lastIndex - 2].name
           targetInput = this.lastIndex - 2
         } else {
           this.question.fieldChoice.push(choice)
@@ -245,12 +245,12 @@ export default {
           }
           return false
         })
-      
+
       this.reIndexChoices()
     },
-    reIndexChoices() {      
+    reIndexChoices () {
       this.question.fieldChoice.map((choice, key) => {
-        if(choice.id !== undefined) {
+        if (choice.id !== undefined) {
           this.$axios.$put('/api/field-choices/' + choice.id, {
             name: choice.name,
             type: choice.type,

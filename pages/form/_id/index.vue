@@ -85,7 +85,7 @@ export default {
           y.edit = false
           y.alert = ''
           return y.status === 1
-        }).sort((a,b) => a.choiceOrder - b.choiceOrder);
+        }).sort((a, b) => a.choiceOrder - b.choiceOrder)
 
         x.fieldChoice.push({
           id: undefined,
@@ -107,7 +107,7 @@ export default {
       return this.$moment(this.updatedAt).calendar()
     },
     questionsLength () {
-      return this.questions.length;
+      return this.questions.length
     }
   },
   methods: {
@@ -155,7 +155,7 @@ export default {
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
       this.bulkDeleteFieldChoice(questionId)
-      this.submitField(questionId, this.id).then(() => {        
+      this.submitField(questionId, this.id).then(() => {
         if (typeId > 1) {
           this.addChoices(questionId)
         }
@@ -209,15 +209,15 @@ export default {
           }
         ]
       })
-      this.submitField(this.questionsLength - 1, this.id).then(() => {        
+      this.submitField(this.questionsLength - 1, this.id).then(() => {
         if (this.questions[this.questionsLength - 1].type > 1) {
           this.addChoices(this.questionsLength - 1)
         }
-      })      
+      })
     },
     copyField (index) {
       const toCopy = this.questions[index]
-      var copied = {
+      const copied = {
         id: undefined,
         name: toCopy.name,
         type: toCopy.type,
