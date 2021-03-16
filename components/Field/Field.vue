@@ -19,37 +19,37 @@
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]" />&nbsp;{{ typesOfQuestion[q.type].name }}
-              <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
+              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]"/>&nbsp;{{ typesOfQuestion[q.type].name }}
+              <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right"/>
             </button>
             <div class="dropdown-menu">
-              <a v-for="(t, t_key) in typesOfQuestion" :key="t_key" class="dropdown-item" @click="change_type(q_key, t_key)">
-                <font-awesome-icon :icon="['fas', t.icon]" />&nbsp;{{ t.name }}</a>
+              <a v-for="(t, t_key) in typesOfQuestion" :key="t_key" class="dropdown-item"
+                 @click="change_type(q_key, t_key)">
+                <font-awesome-icon :icon="['fas', t.icon]"/>&nbsp;{{ t.name }}</a>
             </div>
           </div>
         </div>
-        <Choice v-if="q.type >= 2" :question="questions[q_key]" />
+        <Choice v-if="q.type >= 2" :question="questions[q_key]"/>
         <hr>
         <div class="col-12 ">
-          <div class="float-right">
-            <div>
-              <button type="button" class="btn btn-lg bg-default text-primary btn-trash-field" @click="copy_field(q_key)">
-                <font-awesome-icon :icon="['fas', 'copy']" />
-              </button>
-              <button type="button" class="btn btn-lg bg-default text-primary btn-copy-field" @click="delete_field(q_key)">
-                <font-awesome-icon :icon="['fas', 'trash']" />
-              </button>
-              <b-form-checkbox
-                v-model="q.required"
-                name="check-button"
-                class="d-inline"
-                switch
-                @change="add_field(q_key)"
-                @click="q.required = !q.required"
-              >
-                Required
-              </b-form-checkbox>
-            </div>
+          <div>
+            <b-form-checkbox
+              v-model="q.required"
+              name="check-button"
+              class="d-inline text-primary font-weight-600"
+              switch
+              @change="add_field(q_key)"
+              @click="q.required = !q.required"
+            ><span class="button-required">Required</span>
+            </b-form-checkbox>
+            <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
+              <font-awesome-icon :icon="['fas', 'copy']"/>
+              <span>Duplicate</span>
+            </button>
+            <button type="button" class="btn btn-lg bg-white text-primary btn-copy-field" @click="delete_field(q_key)">
+              <font-awesome-icon :icon="['fas', 'trash']"/>
+              <span>Remove</span>
+            </button>
           </div>
         </div>
       </div>
@@ -58,6 +58,7 @@
 </template>
 <script>
 import Choice from '~/components/Field/Choice'
+
 export default {
   name: 'Field',
   components: { Choice },
@@ -122,36 +123,12 @@ h1 {
   font-weight: bolder;
 }
 
-.btn-create, .btn-share {
-  height: 56px;
-  border-radius: 40px;
-  border-width: 2px;
-  font-size: 16px;
-  padding: 15px 15px;
-}
-
-.btn-create {
-  padding: 15px 15px;
-}
-
-.btn-share {
-  padding: 15px 30px;
-}
-
 form {
   width: 100%;
 }
 
 .form-control {
   color: black;
-}
-
-input.title {
-  font-size: 48px;
-}
-
-input.description {
-  font-size: 18px;
 }
 
 input.question:focus {
@@ -180,17 +157,34 @@ input.question {
   box-shadow: none;
 }
 
-hr.header-break {
-  border-top: 8px solid var(--blue);
-  margin-left: 15px;
-  width: 130px;
-}
-
 .dropdown-toggle::after {
   display: none;
 }
 
+.dropdown-toggle:hover {
+  color: #172b4d;
+}
+
 .form-control:focus {
   box-shadow: none;
+}
+
+button {
+  border-width: 0;
+  color: #14142B;
+}
+
+button span {
+  font-size: 1rem;
+}
+
+span.button-required {
+  margin-left: -15px;
+}
+.custom-control-label::before {
+  top: 6px;
+}
+.custom-switch .custom-control-label::after {
+  top: 6px;
 }
 </style>

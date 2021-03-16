@@ -93,6 +93,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 
 export default {
+  layout: 'argon',
   components: {
     ValidationObserver,
     ValidationProvider

@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <notifications />
     <side-bar>
       <template slot="links" slot-scope="props">
         <sidebar-item
@@ -20,7 +21,7 @@
           }"
         >
           <sidebar-item :link="{ name: 'Integrated Apps', path: '/apps/integrated-apps' }" />
-          <sidebar-item :link="{ name: 'Manage All Apps', path: '/app/integrated' }" />
+          <sidebar-item :link="{ name: 'Manage All Apps', path: '/app/integrated-apps' }" />
           <sidebar-item :link="{ name: 'App Library', path: '/apps/app-library' }" />
         </sidebar-item>
 
@@ -30,9 +31,9 @@
             icon: 'ni ni-ui-04 text-info'
           }"
         >
-          <sidebar-item :link="{ name: 'Create a blank Form', path: '/form/new' }" />
-          <sidebar-item :link="{ name: 'All forms', path: '/form' }" />
-          <sidebar-item :link="{ name: 'Manage all forms', path: '/form' }" />
+          <sidebar-item :link="{ name: 'Create a blank Form', path: '/forms/new' }" />
+          <sidebar-item :link="{ name: 'All forms', path: '/forms' }" />
+          <sidebar-item :link="{ name: 'Manage all forms', path: '/forms' }" />
         </sidebar-item>
         <sidebar-item
           :link="{
@@ -40,7 +41,7 @@
             icon: 'ni ni-single-copy-04 text-pink'
           }"
         >
-          <sidebar-item :link="{ name: 'My Profile', path: '/argon/forms/elements' }" />
+          <sidebar-item :link="{ name: 'My Profile', path: '/profile/me' }" />
         </sidebar-item>
 
         <sidebar-item

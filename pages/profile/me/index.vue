@@ -100,6 +100,7 @@ import VuePhoneNumberInput from 'vue-phone-number-input'
 import listCountryCode from '~/country-code.json'
 
 export default {
+  layout: 'argon',
   components: {
     ValidationObserver,
     ValidationProvider,
