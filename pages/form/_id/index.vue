@@ -20,7 +20,7 @@
       </div>
       <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/share" class="btn btn-lg bg-default btn-preview">
+          <nuxt-link :to="'/form/preview/' + id" class="btn btn-lg bg-default btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
           <nuxt-link to="/form/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
@@ -85,10 +85,10 @@ export default {
           y.edit = false
           y.alert = ''
           return y.status === 1
-        })
+        }).sort((a, b) => a.choiceOrder - b.choiceOrder)
+
         x.fieldChoice.push({
           id: undefined,
-          order: 0,
           type: 1,
           name: 'Add option',
           edit: false,
@@ -105,13 +105,16 @@ export default {
     formattedUpdatedAt () {
       console.log(this.updatedAt)
       return this.$moment(this.updatedAt).calendar()
+    },
+    questionsLength () {
+      return this.questions.length
     }
   },
   methods: {
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
-        name: this.questions[index].name,
+        name: this.questions[index].name ? this.questions[index].name : 'Question',
         type: this.questions[index].type,
         required: this.questions[index].required,
         form: formId
@@ -152,7 +155,11 @@ export default {
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
       this.bulkDeleteFieldChoice(questionId)
-      this.addField(questionId)
+      this.submitField(questionId, this.id).then(() => {
+        if (typeId > 1) {
+          this.addChoices(questionId)
+        }
+      })
     },
     bulkDeleteFieldChoice (questionId) {
       this.questions[questionId].fieldChoice.map((x) => {
@@ -164,7 +171,6 @@ export default {
       this.questions[questionId].fieldChoice = [
         {
           id: undefined,
-          order: 0,
           type: 1,
           name: 'Option 1',
           edit: false,
@@ -172,7 +178,6 @@ export default {
         },
         {
           id: undefined,
-          order: 0,
           type: 1,
           name: 'Add option',
           edit: false,
@@ -189,7 +194,6 @@ export default {
         fieldChoice: [
           {
             id: undefined,
-            order: 0,
             type: 1,
             name: 'Option 1',
             edit: false,
@@ -204,6 +208,11 @@ export default {
             alert: ''
           }
         ]
+      })
+      this.submitField(this.questionsLength - 1, this.id).then(() => {
+        if (this.questions[this.questionsLength - 1].type > 1) {
+          this.addChoices(this.questionsLength - 1)
+        }
       })
     },
     copyField (index) {
@@ -226,7 +235,6 @@ export default {
       return choices.map((v) => {
         return {
           id: undefined,
-          order: v.order,
           type: v.type,
           name: v.name,
           edit: false,
@@ -243,7 +251,8 @@ export default {
             this.$axios.$post('/api/field-choices/', {
               name: v.name,
               type: v.type,
-              field: this.questions[index].id
+              field: this.questions[index].id,
+              choice_order: i
             })
               .then((res) => {
                 v.id = res.id

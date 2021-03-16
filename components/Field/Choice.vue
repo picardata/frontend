@@ -23,8 +23,7 @@
                 placeholder="Add option"
                 @keyup="checkDuplicate(choice)"
                 @keyup.esc="cancelEdit(choice)"
-                @keyup.enter="doneEdit(choice, question.id)"
-                @blur="doneEdit(choice, question.id)"
+                @blur="doneEdit(choice, index, question.id)"
               >
               <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
             </div>
@@ -153,7 +152,7 @@ export default {
         })
       }
     },
-    doneEdit (choice, fieldId) {
+    doneEdit (choice, key, fieldId) {
       if (choice.name.trim().length === 0) {
         choice.name = this.beforeEditCache
       }
@@ -163,18 +162,19 @@ export default {
         choice.alert = ''
       }
 
-      this.submitChoice(choice, fieldId)
+      this.submitChoice(choice, key, fieldId)
       choice.edit = false
     },
     cancelEdit (choice) {
       choice.name = this.beforeEditCache
       choice.edit = false
+      choice.alert = ''
     },
     addChoice (index, type) {
       if (this.totalChoices < 2 || this.lastIndex === index) {
+        let targetInput
         const choice = {
           id: undefined,
-          order: this.otherInChoice ? this.lastIndex - 2 : this.lastIndex + 1,
           type: 1,
           name: 'Add option',
           edit: !!this.otherInChoice,
@@ -186,30 +186,28 @@ export default {
           choice.name = this.defaultChoice
           this.question.fieldChoice.splice(this.lastIndex - 1, 0, choice)
           this.beforeEditCache = this.question.fieldChoice[this.lastIndex - 2].name
-          this.$nextTick(() => {
-            this.$refs.choices[this.lastIndex - 2].focus()
-          })
+          targetInput = this.lastIndex - 2
         } else {
           this.question.fieldChoice.push(choice)
           this.question.fieldChoice[index].edit = true
           this.question.fieldChoice[index].name = this.defaultChoice
           this.beforeEditCache = this.question.fieldChoice[index].name
-          this.$nextTick(() => {
-            this.$refs.choices[index].focus()
-          })
+          targetInput = index
         }
 
         if (type === 2) {
           this.question.fieldChoice[index] = {
             id: undefined,
-            order: this.lastIndex,
             type: 2,
             name: 'Other',
             edit: false,
             alert: ''
           }
         }
-        this.submitChoice(this.question.fieldChoice[index], this.question.id)
+        this.submitChoice(this.question.fieldChoice[index], index, this.question.id)
+        this.$nextTick(() => {
+          this.$refs.choices[targetInput].focus()
+        })
       }
     },
     removeChoice (index) {
@@ -217,12 +215,14 @@ export default {
         this.$axios.$delete('/api/field-choices/' + this.question.fieldChoice[index].id)
       }
       this.question.fieldChoice.splice(index, 1)
+      this.reIndexChoices()
     },
-    submitChoice (choice, fieldId) {
+    submitChoice (choice, key, fieldId) {
       const toSave = {
         name: choice.name,
         type: choice.type,
-        field: fieldId
+        field: fieldId,
+        choice_order: key
       }
       let axios
 
@@ -245,6 +245,20 @@ export default {
           }
           return false
         })
+
+      this.reIndexChoices()
+    },
+    reIndexChoices () {
+      this.question.fieldChoice.map((choice, key) => {
+        if (choice.id !== undefined) {
+          this.$axios.$put('/api/field-choices/' + choice.id, {
+            name: choice.name,
+            type: choice.type,
+            field: this.question.id,
+            choice_order: key
+          })
+        }
+      })
     }
   }
 }
