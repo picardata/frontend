@@ -20,7 +20,7 @@
             <div class="form-group mb-0">
               <div class="input-group input-group-alternative input-group-merge search-button">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-search"/></span>
+                  <span class="input-group-text"><i class="fas fa-search" /></span>
                 </div>
                 <input class="form-control app-search" placeholder="Search app" type="text">
               </div>
@@ -97,6 +97,7 @@ import ItegratedAppsList from '@/components/Application/Google/IntegratedAppsLis
 export default {
   name: 'Index',
   layout: 'argon',
+  components: { ItegratedAppsList },
   data () {
     return {
       crumbs: [
@@ -110,8 +111,7 @@ export default {
         }
       ]
     }
-  },
-  components: { ItegratedAppsList }
+  }
 }
 </script>
 

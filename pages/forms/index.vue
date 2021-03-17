@@ -136,13 +136,13 @@
                   </nuxt-link>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                  <div class="divider d-inline"></div>
+                  <div class="divider d-inline" />
                   <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
                     <span class="text-primary">Open</span>
                   </nuxt-link>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                  <div class="divider d-inline"></div>
+                  <div class="divider d-inline" />
                   <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
                     Delete
                   </a>

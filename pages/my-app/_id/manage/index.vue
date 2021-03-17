@@ -156,11 +156,6 @@ export default {
     GoogleGroupList,
     ApplicationDetail
   },
-  data () {
-    return {
-      dialog: true
-    }
-  },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
@@ -168,6 +163,11 @@ export default {
           data: data.data
         }
       })
+  },
+  data () {
+    return {
+      dialog: true
+    }
   },
   methods: {
     deleteModal () {

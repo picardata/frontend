@@ -4,12 +4,16 @@
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb/>
+            <route-breadcrumb />
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <base-button size="sm" type="neutral">New</base-button>
-          <base-button size="sm" type="neutral">Filters</base-button>
+          <base-button size="sm" type="neutral">
+            New
+          </base-button>
+          <base-button size="sm" type="neutral">
+            Filters
+          </base-button>
         </div>
       </div>
     </base-header>
@@ -47,7 +51,7 @@
             <h5 slot="header" class="h3 mb-0">
               Team members
             </h5>
-            <user-list/>
+            <user-list />
           </card>
         </div>
       </div>
@@ -58,7 +62,7 @@
 <script>
 
 export default {
-  name: 'index',
+  name: 'Index',
   layout: 'argon',
   components: {}
 }

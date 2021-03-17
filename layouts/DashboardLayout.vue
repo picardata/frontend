@@ -2,7 +2,7 @@
   <div class="wrapper">
     <notifications />
     <side-bar>
-      <template slot="links" slot-scope="props">
+      <template slot="links">
         <sidebar-item
           :link="{
             name: 'Dashboards',
@@ -176,7 +176,6 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
 import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
 import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
-import DashboardContent from '~/components/layouts/argon/Content.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -196,8 +195,7 @@ function initScrollbar (className) {
 export default {
   components: {
     DashboardNavbar,
-    ContentFooter,
-    DashboardContent
+    ContentFooter
   },
   mounted () {
     this.initScrollbar()

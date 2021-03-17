@@ -21,10 +21,8 @@
 </template>
 <script>
 import RandomLineChart from '~/components/Chart/RandomLineChart.vue'
-import ApplicationList from '~/components/Application/ApplicationList'
-import MostAccessedApplications from '~/components/Application/MostAccessedApplications'
 export default {
-  components: { RandomLineChart, ApplicationList, MostAccessedApplications },
+  components: { RandomLineChart },
   auth: true
 }
 </script>

@@ -1,8 +1,9 @@
 <template>
   <ul class="list-group list-group-flush list my--3">
-    <li class="list-group-item px-0"
-        v-for="user in users"
-        :key="user.id"
+    <li
+      v-for="user in users"
+      :key="user.id"
+      class="list-group-item px-0"
     >
       <div class="row align-items-center">
         <div class="col-auto">
@@ -13,27 +14,29 @@
         </div>
         <div class="col ml--2">
           <h4 class="mb-0">
-            <a href="#!">{{user.name}}</a>
+            <a href="#!">{{ user.name }}</a>
           </h4>
           <span :class="`text-${user.statusType}`">● </span>
-          <small>{{user.status}}</small>
+          <small>{{ user.status }}</small>
         </div>
         <div class="col-auto">
-          <base-button type="primary" size="sm">Add</base-button>
+          <base-button type="primary" size="sm">
+            Add
+          </base-button>
         </div>
       </div>
     </li>
   </ul>
 </template>
 <script>
-import BaseProgress from '@/components/argon-core/BaseProgress.vue';
+import BaseProgress from '@/components/argon-core/BaseProgress.vue'
 
 export default {
-  name: 'user-list',
+  name: 'UserList',
   components: {
     BaseProgress
   },
-  data() {
+  data () {
     return {
       users: [
         {
@@ -65,8 +68,8 @@ export default {
           statusType: 'success'
         }
       ]
-    };
+    }
   }
-};
+}
 </script>
 <style></style>

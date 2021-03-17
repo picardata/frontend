@@ -1,28 +1,34 @@
 <template>
   <ul class="list-group list-group-flush" data-toggle="checklist">
-    <li class="list-group-item px-0"
-        v-for="item in items"
-        :key="item.title"
+    <li
+      v-for="item in items"
+      :key="item.title"
+      class="list-group-item px-0"
     >
-      <div class="checklist-item"
-           :class="{'checklist-item-checked': item.done, [`checklist-item-${item.checkType}`]: item.checkType}">
+      <div
+        class="checklist-item"
+        :class="{'checklist-item-checked': item.done, [`checklist-item-${item.checkType}`]: item.checkType}"
+      >
         <div class="checklist-info">
-          <h5 class="checklist-title mb-0">{{item.title}}</h5>
-          <small>{{item.description}}</small>
+          <h5 class="checklist-title mb-0">
+            {{ item.title }}
+          </h5>
+          <small>{{ item.description }}</small>
         </div>
         <div>
-          <base-checkbox v-model="item.done"
-                         :aria-label="`${item.title} checkbox`"
-                         :type="item.checkType"/>
+          <base-checkbox
+            v-model="item.done"
+            :aria-label="`${item.title} checkbox`"
+            :type="item.checkType"
+          />
         </div>
       </div>
-
     </li>
   </ul>
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       items: [
         {
@@ -50,7 +56,7 @@ export default {
           checkType: 'danger'
         }
       ]
-    };
+    }
   }
-};
+}
 </script>

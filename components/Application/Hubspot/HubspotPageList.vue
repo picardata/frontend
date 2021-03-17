@@ -44,11 +44,11 @@ export default {
         // eslint-disable-next-line no-console
         this.pages = data.data
       }).catch(
-      (e) => {
+        (e) => {
         // eslint-disable-next-line no-console
-        console.log(e)
-      }
-    )
+          console.log(e)
+        }
+      )
   },
   data () {
     return {

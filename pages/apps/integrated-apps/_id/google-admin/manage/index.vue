@@ -102,14 +102,20 @@
     </div>
     <modal :show.sync="modals.modal0">
       <template slot="header">
-        <h5 class="modal-title" id="exampleModalLabel">Uninstall {{ this.data.application.name }}</h5>
+        <h5 id="exampleModalLabel" class="modal-title">
+          Uninstall {{ this.data.application.name }}
+        </h5>
       </template>
       <div>
         Are you sure you want to uninstall {{ this.data.application.name }}?
       </div>
       <template slot="footer">
-        <base-button type="secondary" @click="modals.modal0 = false">Cancel</base-button>
-        <base-button type="primary" @click.prevent="deleteModal">Uninstall</base-button>
+        <base-button type="secondary" @click="modals.modal0 = false">
+          Cancel
+        </base-button>
+        <base-button type="primary" @click.prevent="deleteModal">
+          Uninstall
+        </base-button>
       </template>
     </modal>
   </div>
@@ -127,6 +133,14 @@ export default {
     GoogleUserList,
     GoogleGroupList,
     ApplicationDetail
+  },
+  async asyncData (context) {
+    return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
+      .then((data) => {
+        return {
+          data: data.data
+        }
+      })
   },
   data () {
     return {
@@ -153,14 +167,6 @@ export default {
         }
       ]
     }
-  },
-  async asyncData (context) {
-    return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
-      .then((data) => {
-        return {
-          data: data.data
-        }
-      })
   },
   methods: {
     deleteModal () {

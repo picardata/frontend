@@ -268,15 +268,11 @@
   </base-nav>
 </template>
 <script>
-import { CollapseTransition } from 'vue2-transitions'
 import BaseNav from '@/components/argon-core/Navbar/BaseNav.vue'
-import Modal from '@/components/argon-core/Modal.vue'
 
 export default {
   components: {
-    CollapseTransition,
-    BaseNav,
-    Modal
+    BaseNav
   },
   props: {
     type: {

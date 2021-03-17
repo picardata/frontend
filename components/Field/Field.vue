@@ -19,17 +19,21 @@
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]"/>&nbsp;{{ typesOfQuestion[q.type].name }}
-              <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right"/>
+              <font-awesome-icon :icon="['fas', typesOfQuestion[q.type].icon]" />&nbsp;{{ typesOfQuestion[q.type].name }}
+              <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
             </button>
             <div class="dropdown-menu">
-              <a v-for="(t, t_key) in typesOfQuestion" :key="t_key" class="dropdown-item"
-                 @click="change_type(q_key, t_key)">
-                <font-awesome-icon :icon="['fas', t.icon]"/>&nbsp;{{ t.name }}</a>
+              <a
+                v-for="(t, t_key) in typesOfQuestion"
+                :key="t_key"
+                class="dropdown-item"
+                @click="change_type(q_key, t_key)"
+              >
+                <font-awesome-icon :icon="['fas', t.icon]" />&nbsp;{{ t.name }}</a>
             </div>
           </div>
         </div>
-        <Choice v-if="q.type >= 2" :question="questions[q_key]"/>
+        <Choice v-if="q.type >= 2" :question="questions[q_key]" />
         <hr>
         <div class="col-12 ">
           <div>
@@ -40,14 +44,15 @@
               switch
               @change="add_field(q_key)"
               @click="q.required = !q.required"
-            ><span class="button-required">Required</span>
+            >
+              <span class="button-required">Required</span>
             </b-form-checkbox>
             <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
-              <font-awesome-icon :icon="['fas', 'copy']"/>
+              <font-awesome-icon :icon="['fas', 'copy']" />
               <span>Duplicate</span>
             </button>
             <button type="button" class="btn btn-lg bg-white text-primary btn-copy-field" @click="delete_field(q_key)">
-              <font-awesome-icon :icon="['fas', 'trash']"/>
+              <font-awesome-icon :icon="['fas', 'trash']" />
               <span>Remove</span>
             </button>
           </div>

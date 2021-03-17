@@ -38,5 +38,5 @@ export default [
     createdAt: '30/09/2018',
     product: 'Vue Argon Dashboard',
     active: true
-  },
-];
+  }
+]

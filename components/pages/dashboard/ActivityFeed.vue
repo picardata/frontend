@@ -1,7 +1,9 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h5 class="h3 mb-0">Activity feed</h5>
+      <h5 class="h3 mb-0">
+        Activity feed
+      </h5>
     </div>
     <div class="card-header d-flex align-items-center">
       <div class="d-flex align-items-center">
@@ -15,7 +17,7 @@
       </div>
       <div class="text-right ml-auto">
         <button type="button" class="btn btn-sm btn-primary btn-icon">
-          <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+          <span class="btn-inner--icon"><i class="ni ni-fat-add" /></span>
           <span class="btn-inner--text">Follow</span>
         </button>
       </div>
@@ -30,15 +32,15 @@
         <div class="col-sm-6">
           <div class="icon-actions">
             <a href="#" class="like active">
-              <i class="ni ni-like-2"></i>
+              <i class="ni ni-like-2" />
               <span class="text-muted">150</span>
             </a>
             <a href="#">
-              <i class="ni ni-chat-round"></i>
+              <i class="ni ni-chat-round" />
               <span class="text-muted">36</span>
             </a>
             <a href="#">
-              <i class="ni ni-curved-next"></i>
+              <i class="ni ni-curved-next" />
               <span class="text-muted">12</span>
             </a>
           </div>
@@ -62,26 +64,27 @@
       </div>
       <!-- Comments -->
       <div class="mb-1">
-
-        <comment user-image="img/theme/team-1.jpg"
-                 user-name="Michael Lewis"
-                 text="Cras sit amet nibh libero nulla vel metus scelerisque ante sollicitudin. Cras purus odio vestibulum in vulputate viverra turpis."
-                 :like-count="3"
-                 :share-count="2"
+        <comment
+          user-image="img/theme/team-1.jpg"
+          user-name="Michael Lewis"
+          text="Cras sit amet nibh libero nulla vel metus scelerisque ante sollicitudin. Cras purus odio vestibulum in vulputate viverra turpis."
+          :like-count="3"
+          :share-count="2"
         />
 
-        <comment user-image="img/theme/team-2.jpg"
-                 user-name="Jessica Stones"
-                 text="Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis."
-                 :like-count="10"
-                 :share-count="3"
+        <comment
+          user-image="img/theme/team-2.jpg"
+          user-name="Jessica Stones"
+          text="Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis."
+          :like-count="10"
+          :share-count="3"
         />
         <hr>
         <div class="media align-items-center">
           <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mr-4" src="img/theme/team-3.jpg">
           <div class="media-body">
             <form>
-              <textarea class="form-control" placeholder="Write your comment" rows="1" aria-label="Comment textarea"></textarea>
+              <textarea class="form-control" placeholder="Write your comment" rows="1" aria-label="Comment textarea" />
             </form>
           </div>
         </div>
@@ -90,14 +93,14 @@
   </div>
 </template>
 <script>
-  import Comment from '@/components/feed/Comment';
+import Comment from '@/components/feed/Comment'
 
-  export default {
-    name: 'activity-feed',
-    components: {
-      Comment
-    }
+export default {
+  name: 'ActivityFeed',
+  components: {
+    Comment
   }
+}
 </script>
 <style>
 </style>

@@ -14,7 +14,7 @@
           {{ application.name }}
         </h5>
         <p class="card-text">
-          {{ application.detail | truncate(90, '...')}}
+          {{ application.detail | truncate(90, '...') }}
         </p>
         <div class="card-body p-0">
           <div class="row">
@@ -37,12 +37,11 @@
           </base-button>
           <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
         </div>
-
       </card>
     </div>
     <modal :show.sync="modals.modal0">
       <template slot="header">
-        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <h5 id="exampleModalLabel" class="modal-title" />
       </template>
       <div>
         <img
@@ -51,8 +50,12 @@
           :src="selectedApp.logo"
           alt="Card image cap"
         >
-        <p class="mt-3 notify-text font-weight-bolder">Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account</p>
-        <p class="content-text">This will allow Picardata to:</p>
+        <p class="mt-3 notify-text font-weight-bolder">
+          Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
+        </p>
+        <p class="content-text">
+          This will allow Picardata to:
+        </p>
         <ul class="content-text">
           <li>View and access your data</li>
         </ul>
