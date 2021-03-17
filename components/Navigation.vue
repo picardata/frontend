@@ -25,6 +25,11 @@
             Forms
           </router-link>
         </li>
+        <li class="nav-item active">
+          <router-link to="/apps/app-library" class="nav-link">
+            App Library
+          </router-link>
+        </li>
       </ul>
       <ul v-if="$auth.loggedIn && (onboardingStatus != 1)" class="navbar-nav text-right ">
         <li class="nav-item dropdown" style="width: 100px;">

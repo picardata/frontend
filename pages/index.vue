@@ -2,18 +2,6 @@
   <div>
     <div class="row">
       <div class="col-12">
-        <h3>My Applications</h3>
-        <MostAccessedApplications />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <h3>Applications</h3>
-        <ApplicationList />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
         <h3>Overall Statistics</h3>
         <div class="row over-stat">
           <div class="card shadow-sm mx-3 col-4">
@@ -33,10 +21,8 @@
 </template>
 <script>
 import RandomLineChart from '~/components/Chart/RandomLineChart.vue'
-import ApplicationList from '~/components/Application/ApplicationList'
-import MostAccessedApplications from '~/components/Application/MostAccessedApplications'
 export default {
-  components: { RandomLineChart, ApplicationList, MostAccessedApplications },
+  components: { RandomLineChart },
   auth: true
 }
 </script>

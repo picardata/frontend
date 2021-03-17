@@ -4,6 +4,7 @@ services:
   reverse-proxy:
     container_name: traefik
     image: traefik:alpine
+    restart: always
     ports:
       - "80:80"
       - "8080:8080"
@@ -30,6 +31,7 @@ services:
   api:
     image: 'picardata/api:latest'
     container_name: api
+    restart: always
     volumes:
       - ../../api:/app:delegated
     depends_on:
@@ -52,6 +54,7 @@ services:
   frontend:
     image: 'picardata/frontend:latest'
     container_name: frontend
+    restart: always
     volumes:
       - ../:/app:delegated
 #      - ../../deployment-finished:/app
