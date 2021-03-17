@@ -8,8 +8,12 @@
     </div>
     <div v-for="field, index in fields" :key="index" class="card mt-5">
       <div class="card-body">
-        <h3 class="d-inline">{{ field.name }}</h3>
-        <h3 v-if="field.required == 1" class="d-inline" style="color: red">*</h3>
+        <h3 class="d-inline">
+          {{ field.name }}
+        </h3>
+        <h3 v-if="field.required == 1" class="d-inline" style="color: red">
+          *
+        </h3>
         <div v-show="field.type === 0" class="form-group">
           <input
             type="text"
@@ -24,22 +28,25 @@
         </div>
         <div v-show="field.type === 2" class="form-group">
           <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
-            <input class="form-check-input" type="radio" :id="choice.id" :name="formName(field.name)" :value="choice.name">
-            <label :for="choice.id" class="form-check-label">{{choice.name}}</label><br><br>
-            <input v-show="choice.name === 'Other'"  class="form-control" type="text">
+            <input :id="choice.id" class="form-check-input" type="radio" :name="formName(field.name)" :value="choice.name">
+            <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
+            <input v-show="choice.name === 'Other'" class="form-control" type="text">
           </div>
         </div>
-        <div v-show="field.type === 3" class="form-group">          
+        <div v-show="field.type === 3" class="form-group">
           <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
-            <input class="form-check-input" type="checkbox" :id="choice.id" :name="formName(field.name)" :value="choice.name">
-            <label :for="choice.id" class="form-check-label">{{choice.name}}</label><br><br>
+            <input :id="choice.id" class="form-check-input" type="checkbox" :name="formName(field.name)" :value="choice.name">
+            <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
             <input v-show="choice.name === 'Other'" class="form-control" type="text">
           </div>
         </div>
         <div v-show="field.type === 4" class="form-group">
-          <div><br>
+          <div>
+            <br>
             <select class="form-select" :name="formName(field.name)">
-              <option v-for="choice in field.fieldChoice" :key="choice.id" :value="choice.name">{{choice.name}}</option>
+              <option v-for="choice in field.fieldChoice" :key="choice.id" :value="choice.name">
+                {{ choice.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -53,11 +60,11 @@ export default {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {
         data.answers = []
-        data.fields = data.fields.filter(field => {
-          field.fieldChoice = field.fieldChoice.filter(choice => {            
+        data.fields = data.fields.filter((field) => {
+          field.fieldChoice = field.fieldChoice.filter((choice) => {
             return choice.status === 1
           })
-          data.answers.push({fieldId: field.id, name: ''})
+          data.answers.push({ fieldId: field.id, name: '' })
           return field.status === 1
         })
         console.log(data)
@@ -66,19 +73,19 @@ export default {
       .catch(e => console.log(e))
   },
   methods: {
-    extractChoiceObject(choice) {
+    extractChoiceObject (choice) {
       return choice.map(value => value.name)
     },
-    formName(name) {
+    formName (name) {
       return name.trim().toLowerCase()
     }
   }
 }
 </script>
 <style scoped>
-input.form-control {  
+input.form-control {
   border-width: 0 0 2px 0;
-  border-radius: 0;  
+  border-radius: 0;
   box-shadow: none;
 }
 
