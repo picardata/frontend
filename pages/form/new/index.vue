@@ -20,7 +20,7 @@
           <nuxt-link to="/form/preview" class="btn btn-lg bg-default text-primary btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
-                    <button @click="shareModal" class="btn btn-lg btn-primary btn-share">Share form</button>
+          <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
         </span>
       </div>
     </div>
@@ -68,19 +68,19 @@
     </div>
     <modal :show.sync="modals.modal0">
       <div class="modal-header">
-        <h3>Share form {{name}}</h3>
-      </div>            
+        <h3>Share form {{ name }}</h3>
+      </div>
       <div class="modal-body">
         <div>
           <label for="">Send to</label>
-          <input type="text" class="form-control" v-model="formRecipient">
+          <input v-model="formRecipient" type="text" class="form-control">
         </div>
       </div>
       <div class="modal-footer">
         <base-button tag="button" type="primary" @click="sendForm">
           Send form
         </base-button>
-      </div>                        
+      </div>
     </modal>
   </div>
 </template>
@@ -133,20 +133,20 @@ export default {
     }
   },
   methods: {
-    shareModal() {
+    shareModal () {
       this.modals.modal0 = true
     },
-    dismissModal() {
+    dismissModal () {
       this.modals.modal0 = false
     },
-    async sendForm() {
-      const users = this.formRecipient.split(",").map((v) => {
-        return {'username' : v.trim()}
+    async sendForm () {
+      const users = this.formRecipient.split(',').map((v) => {
+        return { username: v.trim() }
       })
 
       return await this.$axios.$post('/api/share-form/' + this.id, users)
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err))
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined

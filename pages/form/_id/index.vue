@@ -23,7 +23,7 @@
           <nuxt-link :to="'/form/preview/' + id" class="btn btn-lg bg-default btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
-          <button @click="shareModal" class="btn btn-lg btn-primary btn-share">Share form</button>          
+          <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
         </span>
       </div>
     </div>
@@ -117,20 +117,20 @@ export default {
     }
   },
   methods: {
-    shareModal() {
+    shareModal () {
       this.modals.modal0 = true
     },
-    dismissModal() {
+    dismissModal () {
       this.modals.modal0 = false
     },
-    async sendForm() {
-      const users = this.formRecipient.split(",").map((v) => {
-        return {'username' : v.trim()}
+    async sendForm () {
+      const users = this.formRecipient.split(',').map((v) => {
+        return { username: v.trim() }
       })
 
       return await this.$axios.$post('/api/share-form/' + this.id, users)
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err))
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
