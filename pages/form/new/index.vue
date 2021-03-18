@@ -20,7 +20,7 @@
           <nuxt-link to="/form/preview" class="btn btn-lg bg-default text-primary btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
-          <nuxt-link to="/form/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
+                    <button @click="shareModal" class="btn btn-lg btn-primary btn-share">Share form</button>
         </span>
       </div>
     </div>
@@ -66,6 +66,22 @@
         <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
     </div>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{name}}</h3>
+      </div>            
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input type="text" class="form-control" v-model="formRecipient">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>                        
+    </modal>
   </div>
 </template>
 
@@ -103,7 +119,11 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      modals: {
+        modal0: false
+      },
+      formRecipient: ''
     }
   },
   computed:
@@ -113,6 +133,21 @@ export default {
     }
   },
   methods: {
+    shareModal() {
+      this.modals.modal0 = true
+    },
+    dismissModal() {
+      this.modals.modal0 = false
+    },
+    async sendForm() {
+      const users = this.formRecipient.split(",").map((v) => {
+        return {'username' : v.trim()}
+      })
+
+      return await this.$axios.$post('/api/share-form/' + this.id, users)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err))
+    },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
