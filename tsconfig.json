@@ -31,6 +31,9 @@
       "@nuxtjs/moment"
     ]
   },
+  "files": [
+    "./type/vueCountryRegionSelect.d.ts"
+  ],
   "exclude": [
     "node_modules",
     ".nuxt",

@@ -94,7 +94,6 @@ export default {
       browserBaseURL: process.env.BASE_URL || 'http://api.local.picardata.com'
     }
   },
-
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     transpile: ['vee-validate/dist/rules'],
