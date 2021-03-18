@@ -128,9 +128,9 @@
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-12 border-right">
-                <nuxt-link class="btn btn-default" to="/form/share">
+                <button class="btn btn-default" @click="shareModal(form)">
                   Share
-                </nuxt-link>
+                </button>
               </div>
               <div class="col-md-4 col-sm-12 border-right">
                 <nuxt-link class="btn btn-default" :to="openLink(form.id)">
@@ -168,6 +168,22 @@
         </div>
       </div>
     </modal>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{ selectedShare.name }}</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input v-model="formRecipient" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -195,7 +211,12 @@ export default {
       selectedDeletion: {
         id: 0,
         name: 'Untitled Form'
-      }
+      },
+      selectedShare: {},
+      modals: {
+        modal0: false
+      },
+      formRecipient: ''
     }
   },
   computed: {
@@ -211,6 +232,19 @@ export default {
     }
   },
   methods: {
+    shareModal (form) {
+      this.modals.modal0 = true
+      this.selectedShare = form
+    },
+    async sendForm () {
+      const users = this.formRecipient.split(',').map((v) => {
+        return { username: v.trim() }
+      })
+
+      return await this.$axios.$post('/api/share-form/' + this.selectedShare.id, users)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    },
     openLink (id) {
       return '/form/' + id
     },
