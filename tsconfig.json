@@ -24,6 +24,9 @@
         "./*"
       ]
     },
+    "files": [
+      "./type/vueCountryRegionSelect.d.ts"
+    ],
     "types": [
       "@types/node",
       "@nuxt/types",
