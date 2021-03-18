@@ -173,7 +173,7 @@ export default {
       this.$axios.delete('/api/integrations/' + this.data.id)
         .then(res => console.log(res))
         .catch(e => console.log(e))
-      this.$router.push('/')
+      this.$router.push('/apps/integrated-apps')
     }
   }
 }
