@@ -14,33 +14,33 @@
         <h3 v-if="field.required == 1" class="d-inline" style="color: red">
           *
         </h3>
-        <div v-show="field.type === 0" class="form-group">
+        <div v-if="field.type === 0" class="form-group">
           <input
             type="text"
             class="form-control question"
           >
         </div>
-        <div v-show="field.type === 1" class="form-group">
+        <div v-if="field.type === 1" class="form-group">
           <input
             type="text"
             class="form-control question"
           >
         </div>
-        <div v-show="field.type === 2" class="form-group">
+        <div v-if="field.type === 2" class="form-group">
           <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
             <input :id="choice.id" class="form-check-input" type="radio" :name="formName(field.name)" :value="choice.name">
             <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
-            <input v-show="choice.name === 'Other'" class="form-control" type="text">
+            <input v-if="choice.name === 'Other'" class="form-control" type="text">
           </div>
         </div>
-        <div v-show="field.type === 3" class="form-group">
+        <div v-if="field.type === 3" class="form-group">
           <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
             <input :id="choice.id" class="form-check-input" type="checkbox" :name="formName(field.name)" :value="choice.name">
             <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
-            <input v-show="choice.name === 'Other'" class="form-control" type="text">
+            <input v-if="choice.name === 'Other'" class="form-control" type="text">
           </div>
         </div>
-        <div v-show="field.type === 4" class="form-group">
+        <div v-if="field.type === 4" class="form-group">
           <div>
             <br>
             <select class="form-select" :name="formName(field.name)">
