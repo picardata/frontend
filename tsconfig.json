@@ -24,9 +24,6 @@
         "./*"
       ]
     },
-    "files": [
-      "./type/vueCountryRegionSelect.d.ts"
-    ],
     "types": [
       "@types/node",
       "@nuxt/types",
@@ -34,6 +31,9 @@
       "@nuxtjs/moment"
     ]
   },
+  "files": [
+    "./type/vueCountryRegionSelect.d.ts"
+  ],
   "exclude": [
     "node_modules",
     ".nuxt",
