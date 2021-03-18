@@ -69,6 +69,22 @@
         <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
     </div>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{ name }}</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input v-model="formRecipient" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>
+    </modal>
   </div>
 </template>
 
