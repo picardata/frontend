@@ -152,7 +152,7 @@ export default {
         })
       }
     },
-    doneEdit (choice, key, fieldId) {
+    async doneEdit (choice, key, fieldId) {
       if (choice.name.trim().length === 0) {
         choice.name = this.beforeEditCache
       }
@@ -162,7 +162,7 @@ export default {
         choice.alert = ''
       }
 
-      this.submitChoice(choice, key, fieldId)
+      await this.submitChoice(choice, key, fieldId)
       choice.edit = false
     },
     cancelEdit (choice) {
@@ -170,7 +170,7 @@ export default {
       choice.edit = false
       choice.alert = ''
     },
-    addChoice (index, type) {
+    async addChoice (index, type) {
       if (this.totalChoices < 2 || this.lastIndex === index) {
         let targetInput
         const choice = {
@@ -204,7 +204,7 @@ export default {
             alert: ''
           }
         }
-        this.submitChoice(this.question.fieldChoice[index], index, this.question.id)
+        await this.submitChoice(this.question.fieldChoice[index], index, this.question.id)
         this.$nextTick(() => {
           this.$refs.choices[targetInput].focus()
         })
@@ -217,7 +217,7 @@ export default {
       this.question.fieldChoice.splice(index, 1)
       this.reIndexChoices()
     },
-    submitChoice (choice, key, fieldId) {
+    async submitChoice (choice, key, fieldId) {
       const toSave = {
         name: choice.name,
         type: choice.type,
@@ -232,7 +232,7 @@ export default {
         axios = this.$axios.$post('/api/field-choices/', toSave)
       }
 
-      axios.then((res) => {
+      await axios.then((res) => {
         choice.id = res.id
       })
         .catch((e) => {
