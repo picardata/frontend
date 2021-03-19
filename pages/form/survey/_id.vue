@@ -46,12 +46,12 @@
               :value="choice.name"
             >
             <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
-            <input 
-              v-if="choice.name === 'Other'" 
-              v-model="answers[index].other" 
-              @focus="answers[index].name = 'Other'" 
-              class="form-control" 
+            <input
+              v-if="choice.name === 'Other'"
+              v-model="answers[index].other"
+              class="form-control"
               type="text"
+              @focus="answers[index].name = 'Other'"
             >
           </div>
         </div>
@@ -66,12 +66,12 @@
               :value="choice.name"
             >
             <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
-            <input 
-              v-if="choice.name === 'Other'" 
+            <input
+              v-if="choice.name === 'Other'"
               v-model="answers[index].other"
-              @focus="answers[index].name.push('Other')" 
-              class="form-control" 
+              class="form-control"
               type="text"
+              @focus="answers[index].name.push('Other')"
             >
           </div>
         </div>
@@ -106,7 +106,7 @@ export default {
           return field.status === 1
         })
 
-        data.fields.map(field => {
+        data.fields.map((field) => {
           if (field.type === 3) {
             data.answers.push({ fieldId: field.id, name: [], other: '' })
           } else if (field.type === 4) {
@@ -129,12 +129,12 @@ export default {
     },
     async submit () {
       const errors = this.checkRequiredFields()
-      if(errors == false) {
-        await this.answers.map((v,i) => {
-          var name = v.name
-          if(typeof name === 'object') {
-            name = name.map(a => {
-              if(a === 'Other') {
+      if (errors === 0) {
+        await this.answers.map((v, i) => {
+          let name = v.name
+          if (typeof name === 'object') {
+            name = name.map((a) => {
+              if (a === 'Other') {
                 return v.other
               } else {
                 return a
@@ -149,17 +149,17 @@ export default {
             email: this.$auth.user.username,
             field: this.fields[i].id
           })
-          .then(() => {
-            this.$router.push('/form/survey/thank-you?form=' + this.id)
-          })
-          .catch(res => console.log(res))
+            .then(() => {
+              this.$router.push('/form/survey/thank-you?form=' + this.id)
+            })
+            .catch(res => console.log(res))
         })
       }
     },
     checkRequiredFields () {
-      var warning = 0
+      let warning = 0
       for (const i in this.fields) {
-        if (this.fields[i].required && this.answers[i].name == false) {
+        if (this.fields[i].required && !this.answers[i].name) {
           this.fields[i].errors.push('This form is required')
           warning++
         }
