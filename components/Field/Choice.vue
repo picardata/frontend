@@ -23,7 +23,7 @@
                 placeholder="Add option"
                 @keyup="checkDuplicate(choice)"
                 @keyup.esc="cancelEdit(choice)"
-                @change="doneEdit(choice, index, question.id)"
+                @blur="doneEdit(choice, index, question.id)"
               >
               <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
             </div>
