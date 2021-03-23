@@ -60,12 +60,15 @@
               class="card-img-top app-img"
               :src="application.logo"
               :alt="application.name"
+              @click="$router.push('/apps/app-library/' + application.id)"
             >
           </div>
           <h5 class="card-title">
-            {{ application.name }}
+            <nuxt-link :to="'/apps/app-library/' + application.id">
+              {{ application.name }}
+            </nuxt-link>
           </h5>
-          <p class="card-text">
+          <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
             {{ application.detail | truncate(90, '...') }}
           </p>
           <div class="card-body p-0">
@@ -239,5 +242,9 @@ a.list-group-item a {
 
 div.search-button {
   background-color: #EFF0F7;
+}
+
+.card-text, .card-img-top {
+  cursor: pointer;
 }
 </style>

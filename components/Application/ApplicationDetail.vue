@@ -12,7 +12,7 @@
         Manage app
       </nuxt-link>
     </div>
-    <div class="row mt-3 ml-3">
+    <div v-if="detailPage" class="row mt-3 ml-3">
       <p class="text-default mt-2 mr-2">
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
@@ -66,6 +66,10 @@ export default {
       default: ''
     },
     detailPage: {
+      type: Boolean,
+      default: true
+    },
+    withIntegration: {
       type: Boolean,
       default: true
     }
