@@ -2,7 +2,7 @@
   <div class="mt-5">
     <div class="card-body">
       <ul class="list-group">
-        <li v-for="(choice, index) in question.fieldChoice" :key="index" class="list-group-item">
+        <li v-for="(choice, index) in question.fieldChoices" :key="index" class="list-group-item">
           <div class="row">
             <div class="col-1">
               <font-awesome-icon class="list-icon" :icon="['fas', findIcon(question.type)]" />
@@ -87,20 +87,20 @@ export default {
   },
   computed: {
     minimumChoices () {
-      return this.question.fieldChoice.length > 2
+      return this.question.fieldChoices.length > 2
     },
     otherInChoice () {
-      return this.question.fieldChoice.filter(x => x.type === 2).length
+      return this.question.fieldChoices.filter(x => x.type === 2).length
     },
     lastIndex () {
-      return this.question.fieldChoice.length - 1
+      return this.question.fieldChoices.length - 1
     },
     totalChoices () {
-      return this.question.fieldChoice.length
+      return this.question.fieldChoices.length
     },
     highestDefaultChoice () {
       let h = 0
-      const temp = this.question.fieldChoice
+      const temp = this.question.fieldChoices
       for (const x in temp) {
         if (/Option \d/.test(temp[x].name)) {
           const i = parseInt(temp[x].name.replace('Option ', ''))
@@ -115,13 +115,13 @@ export default {
   },
   mounted () {
     if (this.question.type === 4) {
-      this.question.fieldChoice = this.question.fieldChoice.filter(x => x.type === 1)
+      this.question.fieldChoices = this.question.fieldChoices.filter(x => x.type === 1)
     }
   },
   methods: {
     findDuplicate (choice) {
       let exist = -1
-      this.question.fieldChoice.map((x) => {
+      this.question.fieldChoices.map((x) => {
         if (x.name.trim() === choice.name.trim() && x.name !== 'Add option') {
           exist++
         }
@@ -184,19 +184,19 @@ export default {
         if (this.otherInChoice) {
           choice.edit = true
           choice.name = this.defaultChoice
-          this.question.fieldChoice.splice(this.lastIndex - 1, 0, choice)
-          this.beforeEditCache = this.question.fieldChoice[this.lastIndex - 2].name
+          this.question.fieldChoices.splice(this.lastIndex - 1, 0, choice)
+          this.beforeEditCache = this.question.fieldChoices[this.lastIndex - 2].name
           targetInput = this.lastIndex - 2
         } else {
-          this.question.fieldChoice.push(choice)
-          this.question.fieldChoice[index].edit = true
-          this.question.fieldChoice[index].name = this.defaultChoice
-          this.beforeEditCache = this.question.fieldChoice[index].name
+          this.question.fieldChoices.push(choice)
+          this.question.fieldChoices[index].edit = true
+          this.question.fieldChoices[index].name = this.defaultChoice
+          this.beforeEditCache = this.question.fieldChoices[index].name
           targetInput = index
         }
 
         if (type === 2) {
-          this.question.fieldChoice[index] = {
+          this.question.fieldChoices[index] = {
             id: undefined,
             type: 2,
             name: 'Other',
@@ -204,17 +204,17 @@ export default {
             alert: ''
           }
         }
-        await this.submitChoice(this.question.fieldChoice[index], index, this.question.id)
+        await this.submitChoice(this.question.fieldChoices[index], index, this.question.id)
         this.$nextTick(() => {
           this.$refs.choices[targetInput].focus()
         })
       }
     },
     removeChoice (index) {
-      if (this.question.fieldChoice[index].id) {
-        this.$axios.$delete('/api/field-choices/' + this.question.fieldChoice[index].id)
+      if (this.question.fieldChoices[index].id) {
+        this.$axios.$delete('/api/field-choices/' + this.question.fieldChoices[index].id)
       }
-      this.question.fieldChoice.splice(index, 1)
+      this.question.fieldChoices.splice(index, 1)
       this.reIndexChoices()
     },
     async submitChoice (choice, key, fieldId) {
@@ -249,7 +249,7 @@ export default {
       this.reIndexChoices()
     },
     reIndexChoices () {
-      this.question.fieldChoice.map((choice, key) => {
+      this.question.fieldChoices.map((choice, key) => {
         if (choice.id !== undefined) {
           this.$axios.$put('/api/field-choices/' + choice.id, {
             name: choice.name,

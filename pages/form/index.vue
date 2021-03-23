@@ -176,6 +176,10 @@
         <div>
           <label for="">Send to</label>
           <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
         </div>
       </div>
       <div class="modal-footer">
@@ -213,6 +217,8 @@ export default {
         name: 'Untitled Form'
       },
       selectedShare: {},
+      subject: '',
+      content: '',
       modals: {
         modal0: false
       },
@@ -236,14 +242,19 @@ export default {
       this.modals.modal0 = true
       this.selectedShare = form
     },
-    async sendForm () {
-      const users = this.formRecipient.split(',').map((v) => {
-        return { username: v.trim() }
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.selectedShare.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       })
-
-      return await this.$axios.$post('/api/share-form/' + this.selectedShare.id, users)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
     },
     openLink (id) {
       return '/form/' + id

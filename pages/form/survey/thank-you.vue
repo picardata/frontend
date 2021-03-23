@@ -6,6 +6,7 @@
 </template>
 <script>
 export default {
+  auth: false,
   data () {
     return {
       form: this.$route.query.form

@@ -77,6 +77,10 @@
         <div>
           <label for="">Send to</label>
           <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
         </div>
       </div>
       <div class="modal-footer">
@@ -97,13 +101,13 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
-        x.fieldChoice = x.fieldChoice.filter((y) => {
+        x.fieldChoices = x.fieldChoices.filter((y) => {
           y.edit = false
           y.alert = ''
           return y.status === 1
         }).sort((a, b) => a.choiceOrder - b.choiceOrder)
 
-        x.fieldChoice.push({
+        x.fieldChoices.push({
           id: undefined,
           type: 1,
           name: 'Add option',
@@ -119,6 +123,8 @@ export default {
       }
 
       data.data.formRecipient = ''
+      data.data.subject = ''
+      data.data.content = ''
 
       return data.data
     })
@@ -139,14 +145,19 @@ export default {
     dismissModal () {
       this.modals.modal0 = false
     },
-    async sendForm () {
-      const users = this.formRecipient.split(',').map((v) => {
-        return { username: v.trim() }
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       })
-
-      return await this.$axios.$post('/api/share-form/' + this.id, users)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
     },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
@@ -191,21 +202,21 @@ export default {
     },
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
-      this.bulkDeleteFieldChoice(questionId)
+      this.bulkDeleteFieldChoices(questionId)
       this.submitField(questionId, this.id).then(() => {
         if (typeId > 1) {
           this.addChoices(questionId)
         }
       })
     },
-    bulkDeleteFieldChoice (questionId) {
-      this.questions[questionId].fieldChoice.map((x) => {
+    bulkDeleteFieldChoices (questionId) {
+      this.questions[questionId].fieldChoices.map((x) => {
         if (x.id) {
           this.$axios.$delete('/api/field-choices/' + x.id)
         }
       })
 
-      this.questions[questionId].fieldChoice = [
+      this.questions[questionId].fieldChoices = [
         {
           id: undefined,
           type: 1,
@@ -228,7 +239,7 @@ export default {
         name: '',
         type: 0,
         required: false,
-        fieldChoice: [
+        fieldChoices: [
           {
             id: undefined,
             type: 1,
@@ -259,7 +270,7 @@ export default {
         name: toCopy.name,
         type: toCopy.type,
         required: toCopy.required,
-        fieldChoice: this.copyChoices(toCopy.fieldChoice)
+        fieldChoices: this.copyChoices(toCopy.fieldChoices)
       }
       this.questions.splice(index + 1, 0, copied)
       this.submitField(index + 1, this.id).then(() => {
@@ -280,9 +291,9 @@ export default {
       })
     },
     addChoices (index) {
-      const lastIndex = this.questions[index].fieldChoice.length - 1
+      const lastIndex = this.questions[index].fieldChoices.length - 1
       this.questions[index]
-        .fieldChoice
+        .fieldChoices
         .map((v, i) => {
           if (i < lastIndex) {
             this.$axios.$post('/api/field-choices/', {
