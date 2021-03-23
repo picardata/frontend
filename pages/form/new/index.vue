@@ -102,7 +102,7 @@ export default {
           name: '',
           type: 0,
           required: false,
-          fieldChoice: [
+          fieldChoices: [
             {
               id: undefined,
               type: 1,
@@ -197,7 +197,7 @@ export default {
     },
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
-      this.bulkDeleteFieldChoice(questionId)
+      this.bulkDeleteFieldChoices(questionId)
 
       this.submit().then(() => {
         this.submitField(questionId, this.id).then(() => {
@@ -207,14 +207,14 @@ export default {
         })
       })
     },
-    bulkDeleteFieldChoice (questionId) {
-      this.questions[questionId].fieldChoice.map((x) => {
+    bulkDeleteFieldChoices (questionId) {
+      this.questions[questionId].fieldChoices.map((x) => {
         if (x.id) {
           this.$axios.$delete('/api/field-choices/' + x.id)
         }
       })
 
-      this.questions[questionId].fieldChoice = [
+      this.questions[questionId].fieldChoices = [
         {
           id: undefined,
           type: 1,
@@ -237,7 +237,7 @@ export default {
         name: '',
         type: 0,
         required: false,
-        fieldChoice: [
+        fieldChoices: [
           {
             id: undefined,
             order: 0,
@@ -268,7 +268,7 @@ export default {
         name: toCopy.name,
         type: toCopy.type,
         required: toCopy.required,
-        fieldChoice: this.copyChoices(toCopy.fieldChoice)
+        fieldChoices: this.copyChoices(toCopy.fieldChoices)
       }
       this.questions.splice(index + 1, 0, copied)
       this.addField(index + 1).then(() => {
@@ -289,9 +289,9 @@ export default {
       })
     },
     addChoices (index) {
-      const lastIndex = this.questions[index].fieldChoice.length - 1
+      const lastIndex = this.questions[index].fieldChoices.length - 1
       this.questions[index]
-        .fieldChoice
+        .fieldChoices
         .map((v, i) => {
           if (i < lastIndex) {
             this.$axios.$post('/api/field-choices/', {

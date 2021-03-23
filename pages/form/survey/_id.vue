@@ -36,7 +36,7 @@
           >
         </div>
         <div v-if="field.type === 2" class="form-group">
-          <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
+          <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
             <input
               :id="choice.id"
               v-model="answers[index].name"
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div v-if="field.type === 3" class="form-group">
-          <div v-for="choice in field.fieldChoice" :key="choice.id" class="form-inline">
+          <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
             <input
               :id="choice.id"
               v-model="answers[index].name"
@@ -79,7 +79,7 @@
           <div>
             <br>
             <select v-model="answers[index].name" class="form-select" :name="formName(field.name)">
-              <option v-for="choice in field.fieldChoice" :key="choice.id" :value="choice.name">
+              <option v-for="choice in field.fieldChoices" :key="choice.id" :value="choice.name">
                 {{ choice.name }}
               </option>
             </select>
@@ -95,28 +95,30 @@
 <script>
 export default {
   async asyncData (context) {
-    return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
+    return await context.app.$axios.$get('/api/form-respondents/' + context.route.params.id)
       .then((data) => {
-        data.answers = []
-        data.fields = data.fields.filter((field) => {
+        data.form.id = data.id
+        data.form.email = data.email
+        data.form.answers = []
+        data.form.fields = data.form.fields.filter((field) => {
           field.errors = []
-          field.fieldChoice = field.fieldChoice.filter((choice) => {
+          field.fieldChoices = field.fieldChoices.filter((choice) => {
             return choice.status === 1
           })
           return field.status === 1
         })
 
-        data.fields.map((field) => {
+        data.form.fields.map((field) => {
           if (field.type === 3) {
-            data.answers.push({ fieldId: field.id, name: [], other: '' })
+            data.form.answers.push({ fieldId: field.id, name: [], other: '' })
           } else if (field.type === 4) {
-            data.answers.push({ fieldId: field.id, name: field.fieldChoice[0].name })
+            data.form.answers.push({ fieldId: field.id, name: field.fieldChoices[0].name })
           } else {
-            data.answers.push({ fieldId: field.id, name: '', other: '' })
+            data.form.answers.push({ fieldId: field.id, name: '', other: '' })
           }
         })
 
-        return data
+        return data.form
       })
       .catch(e => console.log(e))
   },
@@ -146,7 +148,7 @@ export default {
 
           this.$axios.$post('/api/field-answers/', {
             name: typeof name === 'object' ? name.join(',') : name,
-            email: this.$auth.user.username,
+            formRespondent: this.$route.params.id,
             field: this.fields[i].id
           })
             .then(() => {
@@ -159,12 +161,19 @@ export default {
     checkRequiredFields () {
       let warning = 0
       for (const i in this.fields) {
-        if (this.fields[i].required && !this.answers[i].name) {
+        if (this.falsyValue(this.answers[i].name) && this.fields[i].required) {
           this.fields[i].errors.push('This form is required')
           warning++
         }
       }
       return warning
+    },
+    falsyValue (value) {
+      if (typeof value === 'object') {
+        return !value.map(x => x).length
+      } else {
+        return !value
+      }
     }
   }
 }
