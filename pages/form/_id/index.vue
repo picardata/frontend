@@ -77,6 +77,10 @@
         <div>
           <label for="">Send to</label>
           <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
         </div>
       </div>
       <div class="modal-footer">
@@ -119,6 +123,8 @@ export default {
       }
 
       data.data.formRecipient = ''
+      data.data.subject = ''
+      data.data.content = ''
 
       return data.data
     })
@@ -139,14 +145,19 @@ export default {
     dismissModal () {
       this.modals.modal0 = false
     },
-    async sendForm () {
-      const users = this.formRecipient.split(',').map((v) => {
-        return { username: v.trim() }
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       })
-
-      return await this.$axios.$post('/api/share-form/' + this.id, users)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
     },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined

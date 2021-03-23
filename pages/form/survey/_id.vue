@@ -94,6 +94,7 @@
 </template>
 <script>
 export default {
+  auth: false,
   async asyncData (context) {
     return await context.app.$axios.$get('/api/form-respondents/' + context.route.params.id)
       .then((data) => {
