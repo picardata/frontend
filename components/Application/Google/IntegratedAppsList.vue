@@ -60,6 +60,7 @@ export default {
     this.$axios.get('/api/integrations/?order%5Bid%5D=desc&items_per_page=10&page_number=1')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
+        console.log(data)
         this.integrations = data.data.filter(x => x.status === 1)
       }).catch(
       // eslint-disable-next-line no-console
