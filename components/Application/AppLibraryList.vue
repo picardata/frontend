@@ -40,7 +40,7 @@
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(1)">Essential
                 app</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(2)">Collaboration
-                Tools</a>
+                tools</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(3)">Communication</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(4)">CRM</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(5)">Social
