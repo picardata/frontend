@@ -135,7 +135,7 @@ export default {
     },
     appClass: {
       type: String,
-      default: 'col-3'
+      default: 'col-4'
     }
   },
   data () {
