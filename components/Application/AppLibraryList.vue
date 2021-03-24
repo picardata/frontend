@@ -40,7 +40,7 @@
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(1)">Essential
                 app</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(2)">Collaboration
-                Tools</a>
+                tools</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(3)">Communication</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(4)">CRM</a>
               <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(5)">Social
@@ -60,12 +60,15 @@
               class="card-img-top app-img"
               :src="application.logo"
               :alt="application.name"
+              @click="$router.push('/apps/app-library/' + application.id)"
             >
           </div>
           <h5 class="card-title">
-            {{ application.name }}
+            <nuxt-link :to="'/apps/app-library/' + application.id">
+              {{ application.name }}
+            </nuxt-link>
           </h5>
-          <p class="card-text">
+          <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
             {{ application.detail | truncate(90, '...') }}
           </p>
           <div class="card-body p-0">
@@ -132,7 +135,7 @@ export default {
     },
     appClass: {
       type: String,
-      default: 'col-3'
+      default: 'col-4'
     }
   },
   data () {
@@ -239,5 +242,9 @@ a.list-group-item a {
 
 div.search-button {
   background-color: #EFF0F7;
+}
+
+.card-text, .card-img-top {
+  cursor: pointer;
 }
 </style>
