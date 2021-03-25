@@ -17,10 +17,13 @@
       </div>
       <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link to="/form/preview" class="btn btn-lg bg-default text-primary btn-preview">
+          <nuxt-link :to="id ? '/form/preview/' + id : ''" class="btn btn-lg bg-default text-primary btn-preview">
             <font-awesome-icon :icon="['fas', 'eye']" />
             Preview form</nuxt-link>
           <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+          <nuxt-link :to="id ? '/form/result/' + id : ''" class="btn btn-lg bg-default btn-preview">
+            <font-awesome-icon :icon="['fas', 'poll']" />
+            Survey results</nuxt-link>
         </span>
       </div>
     </div>
