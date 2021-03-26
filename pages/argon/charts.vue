@@ -287,7 +287,7 @@
           extraOptions: {
             responsive: true,
             legend: {
-              position: 'top',
+              position: 'bottom',
             },
             animation: {
               animateScale: true,
