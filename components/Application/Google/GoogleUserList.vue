@@ -26,7 +26,9 @@
         <div class="row">
           <ul class="list-group">
             <li v-for="(user, index) in users" :key="index" class="list-group-item border-0">
-              <a href="#" class="text-dark">{{ user.name.givenName }} {{ user.name.familyName }} ({{ user.primaryEmail }})</a>
+              <a href="#" @click.prevent="updateForm(index)" class="text-dark">{{ user.name.givenName }} {{ user.name.familyName }} ({{
+                  user.primaryEmail
+                }})</a>
             </li>
           </ul>
         </div>
@@ -42,7 +44,7 @@
         <div class="form-group">
           <input
             id="givenName"
-            v-model="newUser.givenName"
+            v-model="user.name.givenName"
             type="text"
             name="givenName"
             class="form-control"
@@ -53,7 +55,7 @@
         <div class="form-group">
           <input
             id="familyName"
-            v-model="newUser.familyName"
+            v-model="user.name.familyName"
             type="text"
             name="familyName"
             class="form-control"
@@ -64,7 +66,7 @@
         <div class="form-group">
           <input
             id="primaryEmail"
-            v-model="newUser.primaryEmail"
+            v-model="user.primaryEmail"
             type="email"
             name="primaryEmail"
             class="form-control"
@@ -74,8 +76,9 @@
         </div>
         <div class="form-group">
           <input
+            v-if="form.new"
             id="password"
-            v-model="newUser.password"
+            v-model="user.password"
             type="password"
             name="password"
             class="form-control"
@@ -87,6 +90,9 @@
       <template slot="footer">
         <base-button type="secondary" @click="modals.createUser = false">
           Cancel
+        </base-button>
+        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteUser">
+          Delete
         </base-button>
         <base-button type="primary" @click.prevent="saveUser">
           Save
@@ -105,11 +111,11 @@ export default {
         console.log(data.data.users)
         this.users = data.data.users
       }).catch(
-        (e) => {
-          // eslint-disable-next-line no-console
-          console.log(e)
-        }
-      )
+      (e) => {
+        // eslint-disable-next-line no-console
+        console.log(e)
+      }
+    )
   },
   data () {
     return {
@@ -117,11 +123,16 @@ export default {
       modals: {
         createUser: false
       },
-      newUser: {
+      form: {
+        new: true
+      },
+      user: {
         password: '',
         primaryEmail: '',
-        givenName: '',
-        familyName: ''
+        name: {
+          familyName: '',
+          givenName: ''
+        }
       }
     }
   },
@@ -132,31 +143,69 @@ export default {
   },
   methods: {
     clearForm () {
-      this.newUser = {
+      this.user = {
+        index: 0,
         password: '',
         primaryEmail: '',
-        givenName: '',
-        familyName: ''
+        name: {
+          familyName: '',
+          givenName: ''
+        }
       }
     },
     saveUser () {
-      this.$axios.$post('/api/google-directories/users', this.newUser)
+      this.$axios.$post('/api/google-directories/users', {
+        password: this.user.password,
+        primaryEmail: this.user.primaryEmail,
+        givenName: this.user.name.givenName,
+        familyName: this.user.name.familyName
+      })
         .then((data) => {
           console.log(data)
           this.modals.createUser = false
+          this.users.push(
+            {
+              password: '',
+              primaryEmail: data.primaryEmail,
+              name: {
+                familyName: data.name.familyName,
+                givenName: data.name.givenName
+              }
+            }
+          )
+          this.clearForm()
         }).catch((e) => {
-          console.log(e)
-        })
+        console.log(e)
+      })
+    },
+    deleteUser () {
+      this.$axios.$delete('/api/google-directories/users/' + this.user.primaryEmail, this.user)
+        .then((data) => {
+          this.modals.createUser = false
+          const index = this.user.index
+          this.clearForm()
+          this.users.splice(index, 1)
+          console.log(data)
+        }).catch((e) => {
+        console.log(e)
+      })
     },
     openForm () {
+      this.form.new = true
       this.clearForm()
+      this.modals.createUser = true
+    },
+    updateForm (index) {
+      this.form.new = false
+      this.user = this.users[index]
+      this.user.index = index
       this.modals.createUser = true
     }
   }
 }
 </script>
 <style scoped>
-.card-title h4  {
+.card-title h4 {
   font-size: 28px;
 }
 
