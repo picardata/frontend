@@ -26,9 +26,9 @@
         <div class="row">
           <ul class="list-group">
             <li v-for="(user, index) in users" :key="index" class="list-group-item border-0">
-              <a href="#" @click.prevent="updateForm(index)" class="text-dark">{{ user.name.givenName }} {{ user.name.familyName }} ({{
-                  user.primaryEmail
-                }})</a>
+              <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ user.name.givenName }} {{ user.name.familyName }} ({{
+                user.primaryEmail
+              }})</a>
             </li>
           </ul>
         </div>
@@ -111,11 +111,11 @@ export default {
         console.log(data.data.users)
         this.users = data.data.users
       }).catch(
-      (e) => {
+        (e) => {
         // eslint-disable-next-line no-console
-        console.log(e)
-      }
-    )
+          console.log(e)
+        }
+      )
   },
   data () {
     return {
@@ -175,8 +175,8 @@ export default {
           )
           this.clearForm()
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     deleteUser () {
       this.$axios.$delete('/api/google-directories/users/' + this.user.primaryEmail, this.user)
@@ -187,8 +187,8 @@ export default {
           this.users.splice(index, 1)
           console.log(data)
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     openForm () {
       this.form.new = true
