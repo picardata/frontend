@@ -23,6 +23,12 @@
         Add chart to Dashboard
       </nuxt-link>
     </div>
+    <div v-if="withIntegrationButton" class="row mt-3 ml-3">
+      <a href="#" class="text-primary btn" @click.prevent="modals.modal0 = true">
+        <font-awesome-icon :icon="['fas', 'plus']" />
+        Add to Picardata
+      </a>
+    </div>
     <div class="col-12">
       <p v-if="detailPage">
         {{ detail }}
@@ -42,6 +48,33 @@
         </div>
       </div>
     </div>
+    <modal :show.sync="modals.modal0">
+      <template slot="header">
+        <h5 id="exampleModalLabel" class="modal-title" />
+      </template>
+      <div>
+        <img
+          slot="image"
+          class="card-img-top card-img-logo"
+          :src="logo"
+          alt="Card image cap"
+        >
+        <p class="mt-3 notify-text font-weight-bolder">
+          Picardata wants to access your <span class="text-primary">{{ name }}</span> account
+        </p>
+        <p class="content-text">
+          This will allow Picardata to:
+        </p>
+        <ul class="content-text">
+          <li>View and access your data</li>
+        </ul>
+      </div>
+      <template slot="footer">
+        <base-button tag="a" type="primary" target="_blank" :href="oauthUrl">
+          Integrate now
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -72,6 +105,21 @@ export default {
     withIntegration: {
       type: Boolean,
       default: true
+    },
+    withIntegrationButton: {
+      type: Boolean,
+      default: false
+    },
+    oauthUrl: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    return {
+      modals: {
+        modal0: false
+      }
     }
   },
   computed: {

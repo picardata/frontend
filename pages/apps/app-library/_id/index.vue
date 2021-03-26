@@ -15,7 +15,8 @@
         :name="data.name"
         :instruction="data.detail"
         :detail-page="false"
-        :with-integration="false"
+        :oauth-url="data.oauthUrl"
+        :with-integration-button="true"
       />
     </div>
   </div>
