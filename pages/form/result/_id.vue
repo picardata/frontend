@@ -51,6 +51,25 @@
               :chart-data="field.chartData"
             />
           </div>
+          <div class="legends">
+            <div v-for="label, index in field.chartData.labels" :key="index">
+              <div class="justify-content: space-between;">
+                <div
+                  :style="{
+                    'color': field.chartData.colors[index],
+                    'width': '12px',
+                    'height': '12px'}"
+                />
+                <font-awesome-icon
+                  :style="{'color': field.chartData.colors[index]}"
+                  :icon="['fas', 'circle']"
+                />
+                <span>
+                  {{ label }}
+                </span>
+              </div>
+            </div>
+          </div>
         </card>
       </div>
       <div v-if="field.type === 3" class="col-xl-12">
@@ -90,6 +109,12 @@
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import PieChart from '~/components/argon-core/Charts/PieChart'
 
+function getRandomColor (i) {
+  return 'hsl(' + (i + 15) * 360 * Math.random() + ',' +
+             (25 + 70 * Math.random()) + '%,' +
+             (55 + 10 * Math.random()) + '%)'
+}
+
 function pieChartData (field) {
   const answers = {}
   field.fieldAnswers.forEach((v) => {
@@ -97,6 +122,12 @@ function pieChartData (field) {
       answers[v.name] = 1
     } else {
       answers[v.name]++
+    }
+  })
+
+  field.fieldChoices.map((v) => {
+    if (!Object.prototype.hasOwnProperty.call(answers, v.name)) {
+      answers[v.name] = 0
     }
   })
   return answers
@@ -115,12 +146,6 @@ function barChartData (field) {
     })
   })
   return answers
-}
-
-function legends (field) {
-  return field.fieldChoices.map((value) => {
-    return value.name
-  })
 }
 
 export default {
@@ -154,13 +179,15 @@ export default {
       return this.fields.filter((field) => {
         if (field.chart === 'pie') {
           const data = pieChartData(field)
+          const colors = [...Array(Object.keys(data).length).keys()].map(i => getRandomColor(i + 1))
           field.chartData = {
             labels: Object.keys(data),
             datasets: [{
               label: field.name,
-              data: Object.keys(data).map(i => data[i])
+              data: Object.keys(data).map(i => data[i]),
+              backgroundColor: colors
             }],
-            legends: legends(field)
+            colors
           }
         }
 
