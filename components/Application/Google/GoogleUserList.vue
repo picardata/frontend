@@ -12,6 +12,7 @@
             <a
               class="nav-link fa-pull-right"
               href="#users"
+              @click.prevent="openForm"
             >
               <font-awesome-icon
                 fixed-width
@@ -31,6 +32,67 @@
         </div>
       </div>
     </div>
+    <modal :show.sync="modals.createUser">
+      <template slot="header">
+        <h5 class="modal-title">
+          Add User
+        </h5>
+      </template>
+      <div>
+        <div class="form-group">
+          <input
+            id="givenName"
+            v-model="newUser.givenName"
+            type="text"
+            name="givenName"
+            class="form-control"
+            placeholder="First Name"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="familyName"
+            v-model="newUser.familyName"
+            type="text"
+            name="familyName"
+            class="form-control"
+            placeholder="Last Name"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="primaryEmail"
+            v-model="newUser.primaryEmail"
+            type="email"
+            name="primaryEmail"
+            class="form-control"
+            placeholder="Email"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="password"
+            v-model="newUser.password"
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Password"
+            required="required"
+          >
+        </div>
+      </div>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.createUser = false">
+          Cancel
+        </base-button>
+        <base-button type="primary" @click.prevent="saveUser">
+          Save
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
@@ -51,12 +113,44 @@ export default {
   },
   data () {
     return {
-      users: []
+      users: [],
+      modals: {
+        createUser: false
+      },
+      newUser: {
+        password: '',
+        primaryEmail: '',
+        givenName: '',
+        familyName: ''
+      }
     }
   },
   computed: {
     usersCount () {
       return this.users.length
+    }
+  },
+  methods: {
+    clearForm () {
+      this.newUser = {
+        password: '',
+        primaryEmail: '',
+        givenName: '',
+        familyName: ''
+      }
+    },
+    saveUser () {
+      this.$axios.$post('/api/google-directories/users', this.newUser)
+          .then((data) => {
+            console.log(data)
+            this.modals.createUser = false
+          }).catch((e) => {
+        console.log(e)
+      })
+    },
+    openForm () {
+      this.clearForm()
+      this.modals.createUser = true
     }
   }
 }
@@ -64,5 +158,12 @@ export default {
 <style scoped>
 .card-title h4  {
   font-size: 28px;
+}
+
+input {
+  border-width: 0 0 2px 0;
+  border-radius: 0;
+  border-color: var(--primary);
+  padding-left: 0;
 }
 </style>
