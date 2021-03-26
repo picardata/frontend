@@ -26,7 +26,7 @@
         <div class="row">
           <ul class="list-group">
             <li v-for="(group, index) in groups" :key="index" class="list-group-item border-0">
-              <a href="#" @click.prevent="updateForm(index)" class="text-dark">{{ group.name }} ({{ group.email }})</a>
+              <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ group.name }} ({{ group.email }})</a>
             </li>
           </ul>
         </div>
@@ -160,8 +160,8 @@ export default {
           this.groups.splice(index, 1)
           console.log(data)
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     openForm () {
       this.form.new = true

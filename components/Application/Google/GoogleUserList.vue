@@ -141,12 +141,12 @@ export default {
     },
     saveUser () {
       this.$axios.$post('/api/google-directories/users', this.newUser)
-          .then((data) => {
-            console.log(data)
-            this.modals.createUser = false
-          }).catch((e) => {
-        console.log(e)
-      })
+        .then((data) => {
+          console.log(data)
+          this.modals.createUser = false
+        }).catch((e) => {
+          console.log(e)
+        })
     },
     openForm () {
       this.clearForm()
