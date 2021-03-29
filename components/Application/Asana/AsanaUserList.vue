@@ -49,7 +49,8 @@
     <modal :show.sync="modals.createUser">
       <template slot="header">
         <h5 class="modal-title">
-          Add User
+          <span v-if="form.new">Add User</span>
+          <span v-else>User Information</span>
         </h5>
       </template>
       <div>
@@ -135,8 +136,8 @@ export default {
           )
           this.clearForm()
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     deleteUser () {
       this.$axios.$delete('/api/asana/users/' + this.user.email, this.user)
@@ -147,8 +148,8 @@ export default {
           this.users.splice(index, 1)
           console.log(data)
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     openForm () {
       this.form.new = true

@@ -37,7 +37,8 @@
     <modal :show.sync="modals.createUser">
       <template slot="header">
         <h5 class="modal-title">
-          Add User
+          <span v-if="form.new">Add User</span>
+          <span v-else>User Information</span>
         </h5>
       </template>
       <div>

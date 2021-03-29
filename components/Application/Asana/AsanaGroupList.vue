@@ -26,7 +26,7 @@
         <div class="row">
           <ul class="list-team">
             <li v-for="(team, index) in teams" :key="index" class="list-group-item border-0">
-              <a href="#" class="text-dark" @click.prevent="updateForm(index)" >{{ team.name }}</a>
+              <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ team.name }}</a>
             </li>
           </ul>
         </div>
@@ -114,8 +114,8 @@ export default {
           this.clearForm()
           console.log(data)
         }).catch((e) => {
-        console.log(e)
-      })
+          console.log(e)
+        })
     },
     openForm () {
       this.form.new = true
