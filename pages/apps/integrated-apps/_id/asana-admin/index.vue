@@ -22,8 +22,8 @@
         </h3>
       </div>
       <div class="row mt-3">
-        <div class="col-6 ">
-          <ZoomMeetingWidget />
+        <div class="col-6">
+          <AsanaTasksWidget />
         </div>
       </div>
     </div>
@@ -31,15 +31,12 @@
 </template>
 
 <script>
-import ZoomMeetingWidget from '@/components/Application/Zoom/ZoomMeetingWidget'
+import AsanaTasksWidget from '@/components/Application/Asana/AsanaTaskWidget'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',
-  components: {
-    ZoomMeetingWidget,
-    ApplicationDetail
-  },
+  components: { AsanaTasksWidget, ApplicationDetail },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
@@ -60,7 +57,7 @@ export default {
           path: '/apps/integrated-apps'
         },
         {
-          name: 'Zoom',
+          name: 'Asana',
           path: '/apps/integrated-apps'
         }
       ]

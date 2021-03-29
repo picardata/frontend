@@ -23,10 +23,30 @@
         </div>
       </div>
       <div class="card-text">
-        <div class="row">
-          <ul class="list-group">
+        <div class="row col-12">
+          <ul class="list-group list-group-flush list">
             <li v-for="(group, index) in groups" :key="index" class="list-group-item border-0">
-              <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ group.name }} ({{ group.email }})</a>
+              <div class="row align-items-center">
+                <div class="col-9">
+                  <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ group.name }} ({{
+                    group.email
+                  }})</a>
+                </div>
+                <div class="col-3 text-right">
+                  <a href="#" class="btn btn-sm btn-outline-primary" @click.prevent="updateForm(index)">
+                    <font-awesome-icon
+                      fixed-width
+                      :icon="['fas', 'pen']"
+                    />
+                    View</a>
+                  <a href="#" class="btn btn-sm btn-outline-primary" @click.prevent="openAddUser(index)">
+                    <font-awesome-icon
+                      fixed-width
+                      :icon="['fas', 'plus']"
+                    />
+                    Add User</a>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -35,7 +55,8 @@
     <modal :show.sync="modals.createGroup">
       <template slot="header">
         <h5 class="modal-title">
-          Add Group
+          <span v-if="form.new">Add Group</span>
+          <span v-else>Group Information</span>
         </h5>
       </template>
       <div>
@@ -85,6 +106,48 @@
         </base-button>
       </template>
     </modal>
+    <modal size="lg" :show.sync="modals.addUser">
+      <template slot="header">
+        <h5 class="modal-title">
+          <span>Add user to {{ group.name }}</span>
+        </h5>
+      </template>
+      <div>
+        <di class="row">
+          <div class="col-12">
+            <ul class="list-group list-group-flush list">
+              <li v-for="(user, index) in groupUsers" :key="index" class="list-group-item border-0">
+                <div class="row align-items-center">
+                  <div class="col-9">
+                    <span href="#" class="text-dark">{{ user.name }}</span>
+                    <small>{{ user.email }}</small>
+                  </div>
+                  <div class="col-3 text-right">
+                    <a v-if="user.isAMember" href="#" class="btn btn-sm btn-outline-danger" @click.prevent="removeUserToGroup(index)">
+                      <font-awesome-icon
+                        fixed-width
+                        :icon="['fas', 'plus']"
+                      />
+                      Remove</a>
+                    <a v-else href="#" class="btn btn-sm btn-outline-primary" @click.prevent="addUserToGroup(index)">
+                      <font-awesome-icon
+                        fixed-width
+                        :icon="['fas', 'plus']"
+                      />
+                      Add</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </di>
+      </div>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.addUser = false">
+          Close
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -99,7 +162,7 @@ export default {
         this.groups = data.data.groups
       }).catch(
         (e) => {
-          // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console
           console.log(e)
         }
       )
@@ -108,11 +171,13 @@ export default {
     return {
       groups: [],
       modals: {
-        createGroup: false
+        createGroup: false,
+        addUser: false
       },
       form: {
         new: true
       },
+      groupUsers: {},
       group: {
         index: 0,
         name: '',
@@ -168,11 +233,59 @@ export default {
       this.clearForm()
       this.modals.createGroup = true
     },
+    openAddUser (index) {
+      this.group = this.groups[index]
+      this.$axios.get('/api/google-directories/groups/' + this.group.email + '/users')
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data.data)
+          this.groupUsers = data.data
+          this.modals.addUser = true
+        }).catch(
+          (e) => {
+          // eslint-disable-next-line no-console
+            console.log(e)
+            this.modals.addUser = false
+          }
+        )
+    },
     updateForm (index) {
       this.form.new = false
       this.group = this.groups[index]
       this.group.index = index
       this.modals.createGroup = true
+    },
+    addUserToGroup (index) {
+      const user = this.groupUsers[index]
+      this.$axios.post('/api/google-directories/groups/' + this.group.email + '/users', {
+        userEmail: user.email
+      })
+        .then((data) => {
+          this.groupUsers[index].isAMember = true
+          // eslint-disable-next-line no-console
+          console.log(data.data)
+        }).catch(
+          (e) => {
+          // eslint-disable-next-line no-console
+            console.log(e)
+            this.modals.addUser = false
+          }
+        )
+    },
+    removeUserToGroup (index) {
+      const user = this.groupUsers[index]
+      this.$axios.delete('/api/google-directories/groups/' + this.group.email + '/users/' + user.email)
+        .then((data) => {
+          this.groupUsers[index].isAMember = false
+          // eslint-disable-next-line no-console
+          console.log(data.data)
+        }).catch(
+          (e) => {
+          // eslint-disable-next-line no-console
+            console.log(e)
+            this.modals.addUser = false
+          }
+        )
     }
   }
 }
@@ -180,6 +293,10 @@ export default {
 <style scoped>
 .card-title h4 {
   font-size: 28px;
+}
+
+.list-group, .list-group li {
+  width: 100%;
 }
 
 input {

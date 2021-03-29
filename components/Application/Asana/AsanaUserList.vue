@@ -11,7 +11,7 @@
           <div class="col-6">
             <a
               class="nav-link fa-pull-right"
-              href="#users"
+              href="#"
               @click.prevent="openForm"
             >
               <font-awesome-icon
@@ -26,9 +26,21 @@
         <div class="row">
           <ul class="list-group">
             <li v-for="(user, index) in users" :key="index" class="list-group-item border-0">
-              <a href="#" class="text-dark" @click.prevent="updateForm(index)">{{ user.name.givenName }} {{ user.name.familyName }} ({{
-                user.primaryEmail
-              }})</a>
+              <a href="#" class="text-dark" @click.prevent="updateForm(index)">
+                <div class="media align-items-center">
+                  <span class="avatar avatar-sm rounded-circle">
+                    <img
+                      :alt="user.name"
+                      :src="user.profilePic"
+                    ></span>
+                  <div class="media-body ml-2 d-none d-lg-block">
+                    <span
+                      class="mb-0 text-sm  font-weight-bold"
+                    >{{ user.name }} {{ user.email.trim() === ''?'':'(' + user.email + ')' }}
+                    </span>
+                  </div>
+                </div>
+              </a>
             </li>
           </ul>
         </div>
@@ -44,46 +56,12 @@
       <div>
         <div class="form-group">
           <input
-            id="givenName"
-            v-model="user.name.givenName"
-            type="text"
-            name="givenName"
-            class="form-control"
-            placeholder="First Name"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="familyName"
-            v-model="user.name.familyName"
-            type="text"
-            name="familyName"
-            class="form-control"
-            placeholder="Last Name"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="primaryEmail"
-            v-model="user.primaryEmail"
+            id="email"
+            v-model="user.email"
             type="email"
-            name="primaryEmail"
+            name="email"
             class="form-control"
             placeholder="Email"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            v-if="form.new"
-            id="password"
-            v-model="user.password"
-            type="password"
-            name="password"
-            class="form-control"
-            placeholder="Password"
             required="required"
           >
         </div>
@@ -104,13 +82,13 @@
 </template>
 <script>
 export default {
-  name: 'GoogleUserList',
+  name: 'AsanaUserList',
   fetch () {
-    this.$axios.get('/api/google-directories/users')
+    this.$axios.get('/api/asana/users')
       .then((data) => {
         // eslint-disable-next-line no-console
-        console.log(data.data.users)
-        this.users = data.data.users
+        console.log(data.data)
+        this.users = data.data
       }).catch(
         (e) => {
         // eslint-disable-next-line no-console
@@ -128,12 +106,7 @@ export default {
         new: true
       },
       user: {
-        password: '',
-        primaryEmail: '',
-        name: {
-          familyName: '',
-          givenName: ''
-        }
+        email: ''
       }
     }
   },
@@ -146,32 +119,19 @@ export default {
     clearForm () {
       this.user = {
         index: 0,
-        password: '',
-        primaryEmail: '',
-        name: {
-          familyName: '',
-          givenName: ''
-        }
+        email: ''
       }
     },
     saveUser () {
-      this.$axios.$post('/api/google-directories/users', {
-        password: this.user.password,
-        primaryEmail: this.user.primaryEmail,
-        givenName: this.user.name.givenName,
-        familyName: this.user.name.familyName
+      this.$axios.$post('/api/asana/users', {
+        email: this.user.email
       })
         .then((data) => {
           console.log(data)
           this.modals.createUser = false
           this.users.push(
             {
-              password: '',
-              primaryEmail: data.primaryEmail,
-              name: {
-                familyName: data.name.familyName,
-                givenName: data.name.givenName
-              }
+              email: data.email
             }
           )
           this.clearForm()
@@ -180,7 +140,7 @@ export default {
         })
     },
     deleteUser () {
-      this.$axios.$delete('/api/google-directories/users/' + this.user.primaryEmail, this.user)
+      this.$axios.$delete('/api/asana/users/' + this.user.email, this.user)
         .then((data) => {
           this.modals.createUser = false
           const index = this.user.index
@@ -216,4 +176,5 @@ input {
   border-color: var(--primary);
   padding-left: 0;
 }
+
 </style>
