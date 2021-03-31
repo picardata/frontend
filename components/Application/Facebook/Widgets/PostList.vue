@@ -85,24 +85,13 @@ export default {
     [DropdownMenu.name]: DropdownMenu
   },
   async fetch () {
-    await this.$axios.get('/api/facebook/pages')
-      .then(async (data) => {
-        const res = data.data.map((d) => {
-          return {
-            pageId: d.id,
-            pageAccessToken: d.access_token,
-            insightUrl: `/api/facebook/page-posts?id=${d.id}&token=${d.access_token}`
-          }
+    await this.$axios.$get('/api/facebook/page-posts')
+      .then((data) => {
+        data.map((v) => {
+          v.formattedDate = moment(v.created_time.date).format('DD/MM/YYYY')
         })
-
-        return await this.$axios.$get(res[0].insightUrl)
-          .then((data) => {
-            data.map((v) => {
-              v.formattedDate = moment(v.created_time.date).format('DD/MM/YYYY')
-            })
-            this.posts = data
-            console.log(data)
-          })
+        this.posts = data
+        console.log(data)
       })
   },
   data () {

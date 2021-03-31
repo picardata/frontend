@@ -29,31 +29,20 @@ export default {
   name: 'VideosViews',
   components: { LineChart },
   async fetch () {
-    await this.$axios.get('/api/facebook/pages')
-      .then(async (data) => {
-        const res = data.data.map((d) => {
-          return {
-            pageId: d.id,
-            pageAccessToken: d.access_token,
-            insightUrl: `/api/facebook/videos-views?id=${d.id}&token=${d.access_token}`
-          }
-        })
+    await this.$axios.$get('/api/facebook/videos-views')
+      .then((data) => {
+        const labels = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(date => moment(date.end_time.date).format('MMM DD'))
 
-        await this.$axios.$get(res[0].insightUrl)
-          .then((data) => {
-            const labels = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(date => moment(date.end_time.date).format('MMM DD'))
+        const videosViewsData = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(view => view.value)
 
-            const videosViewsData = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(view => view.value)
-
-            this.videosViewsChart.chartData.labels = labels
-            this.videosViewsChart.chartData.datasets[0].data = videosViewsData
-          })
+        this.videosViewsChart.chartData.labels = labels
+        this.videosViewsChart.chartData.datasets[0].data = videosViewsData
       })
   },
   data () {

@@ -29,31 +29,20 @@ export default {
   name: 'PostReach',
   components: { LineChart },
   async fetch () {
-    await this.$axios.get('/api/facebook/pages')
-      .then(async (data) => {
-        const res = data.data.map((d) => {
-          return {
-            pageId: d.id,
-            pageAccessToken: d.access_token,
-            insightUrl: `/api/facebook/post-reach?id=${d.id}&token=${d.access_token}`
-          }
-        })
+    await this.$axios.$get('/api/facebook/post-reach')
+      .then((data) => {
+        const labels = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(date => moment(date.end_time.date).format('MMM DD'))
 
-        await this.$axios.$get(res[0].insightUrl)
-          .then((data) => {
-            const labels = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(date => moment(date.end_time.date).format('MMM DD'))
+        const postReachData = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(reach => reach.value)
 
-            const postReachData = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(reach => reach.value)
-
-            this.postReachChart.chartData.labels = labels
-            this.postReachChart.chartData.datasets[0].data = postReachData
-          })
+        this.postReachChart.chartData.labels = labels
+        this.postReachChart.chartData.datasets[0].data = postReachData
       })
   },
   data () {

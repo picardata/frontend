@@ -29,31 +29,20 @@ export default {
   name: 'PageViews',
   components: { LineChart },
   async fetch () {
-    await this.$axios.get('/api/facebook/pages')
-      .then(async (data) => {
-        const res = data.data.map((d) => {
-          return {
-            pageId: d.id,
-            pageAccessToken: d.access_token,
-            insightUrl: `/api/facebook/page-views?id=${d.id}&token=${d.access_token}`
-          }
-        })
+    await this.$axios.$get('/api/facebook/page-views')
+      .then((data) => {
+        const labels = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(date => moment(date.end_time.date).format('MMM DD'))
 
-        await this.$axios.$get(res[0].insightUrl)
-          .then((data) => {
-            const labels = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(date => moment(date.end_time.date).format('MMM DD'))
+        const pageViewsData = data
+          .filter(d => d.period === 'day')[0]
+          .values
+          .map(view => view.value)
 
-            const pageViewsData = data
-              .filter(d => d.period === 'day')[0]
-              .values
-              .map(view => view.value)
-
-            this.pageViewsChart.chartData.labels = labels
-            this.pageViewsChart.chartData.datasets[0].data = pageViewsData
-          })
+        this.pageViewsChart.chartData.labels = labels
+        this.pageViewsChart.chartData.datasets[0].data = pageViewsData
       })
   },
   data () {
