@@ -22,9 +22,8 @@
         </h3>
       </div>
       <div class="row mt-3">
-        <div class="col-3 ">
+        <!-- <div class="col-3 ">
           <stats-card>
-            <!-- Card body -->
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">
@@ -43,10 +42,9 @@
               <span class="text-nowrap">Since last month</span>
             </p>
           </stats-card>
-        </div>
-        <div class="col-3">
+        </div> -->
+        <!-- <div class="col-3">
           <stats-card>
-            <!-- Card body -->
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">
@@ -65,10 +63,9 @@
               <span class="text-nowrap">Since last month</span>
             </p>
           </stats-card>
-        </div>
-        <div class="col-3">
+        </div> -->
+        <!-- <div class="col-3">
           <stats-card>
-            <!-- Card body -->
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">
@@ -87,10 +84,9 @@
               <span class="text-nowrap">Since last month</span>
             </p>
           </stats-card>
-        </div>
-        <div class="col-3">
+        </div> -->
+        <!-- <div class="col-3">
           <stats-card>
-            <!-- Card body -->
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">
@@ -109,7 +105,7 @@
               <span class="text-nowrap">Since last month</span>
             </p>
           </stats-card>
-        </div>
+        </div> -->
         <div class="col-3">
           <PageViews />
         </div>
@@ -125,6 +121,9 @@
         <div class="col-3">
           <VideosViews />
         </div>
+        <div class="col-12">
+          <PostList />
+        </div>
       </div>
     </div>
   </div>
@@ -137,6 +136,7 @@ import PageLikes from '~/components/Application/Facebook/Widgets/PageLikes'
 import PageFollowers from '~/components/Application/Facebook/Widgets/PageFollowers'
 import PostReach from '~/components/Application/Facebook/Widgets/PostReach'
 import VideosViews from '~/components/Application/Facebook/Widgets/VideosViews'
+import PostList from '~/components/Application/Facebook/Widgets/PostList'
 
 export default {
   layout: 'argon',
@@ -146,7 +146,8 @@ export default {
     PageLikes,
     PageFollowers,
     PostReach,
-    VideosViews
+    VideosViews,
+    PostList
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)

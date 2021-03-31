@@ -39,11 +39,17 @@ export default {
           }
         })
 
-        return await this.$axios.$get(res[0].insightUrl)
+        await this.$axios.$get(res[0].insightUrl)
           .then((data) => {
-            const labels = [moment().format('MMM DD')]
+            const labels = data
+              .filter(d => d.period === 'day')[0]
+              .values
+              .map(date => moment(date.end_time.date).format('MMM DD'))
 
-            const pageLikesData = [data.fan_count]
+            const pageLikesData = data
+              .filter(d => d.period === 'day')[0]
+              .values
+              .map(like => like.value)
 
             this.pageLikesChart.chartData.labels = labels
             this.pageLikesChart.chartData.datasets[0].data = pageLikesData

@@ -41,7 +41,7 @@ export default {
 
         return await this.$axios.$get(res[0].insightUrl)
           .then((data) => {
-            const labels = [moment().format('MMM DD')]
+            const labels = [moment().subtract(1, 'days').format('MMM DD')]
 
             const pageFollowersData = [data.followers_count]
 

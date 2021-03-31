@@ -39,7 +39,7 @@ export default {
           }
         })
 
-        return await this.$axios.$get(res[0].insightUrl)
+        await this.$axios.$get(res[0].insightUrl)
           .then((data) => {
             const labels = data
               .filter(d => d.period === 'day')[0]
