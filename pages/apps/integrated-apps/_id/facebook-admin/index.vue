@@ -110,6 +110,21 @@
             </p>
           </stats-card>
         </div>
+        <div class="col-3">
+          <PageViews />
+        </div>
+        <div class="col-3">
+          <PageLikes />
+        </div>
+        <div class="col-3">
+          <PageFollowers />
+        </div>
+        <div class="col-3">
+          <PostReach />
+        </div>
+        <div class="col-3">
+          <VideosViews />
+        </div>
       </div>
     </div>
   </div>
@@ -117,10 +132,22 @@
 
 <script>
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import PageViews from '~/components/Application/Facebook/Widgets/PageViews'
+import PageLikes from '~/components/Application/Facebook/Widgets/PageLikes'
+import PageFollowers from '~/components/Application/Facebook/Widgets/PageFollowers'
+import PostReach from '~/components/Application/Facebook/Widgets/PostReach'
+import VideosViews from '~/components/Application/Facebook/Widgets/VideosViews'
 
 export default {
   layout: 'argon',
-  components: { ApplicationDetail },
+  components: {
+    ApplicationDetail,
+    PageViews,
+    PageLikes,
+    PageFollowers,
+    PostReach,
+    VideosViews
+  },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
