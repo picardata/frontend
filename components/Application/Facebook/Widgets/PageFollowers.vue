@@ -29,25 +29,14 @@ export default {
   name: 'PageFollowers',
   components: { LineChart },
   async fetch () {
-    await this.$axios.get('/api/facebook/pages')
-      .then(async (data) => {
-        const res = data.data.map((d) => {
-          return {
-            pageId: d.id,
-            pageAccessToken: d.access_token,
-            insightUrl: `/api/facebook/page-followers?id=${d.id}&token=${d.access_token}`
-          }
-        })
+    return await this.$axios.$get('/api/facebook/page-followers')
+      .then((data) => {
+        const labels = [moment().subtract(1, 'days').format('MMM DD')]
 
-        return await this.$axios.$get(res[0].insightUrl)
-          .then((data) => {
-            const labels = [moment().subtract(1, 'days').format('MMM DD')]
+        const pageFollowersData = [data.followers_count]
 
-            const pageFollowersData = [data.followers_count]
-
-            this.pageFollowersChart.chartData.labels = labels
-            this.pageFollowersChart.chartData.datasets[0].data = pageFollowersData
-          })
+        this.pageFollowersChart.chartData.labels = labels
+        this.pageFollowersChart.chartData.datasets[0].data = pageFollowersData
       })
   },
   data () {
