@@ -35,8 +35,8 @@
 
 <script>
 import HubspotContactListWidget from '@/components/Application/Hubspot/HubspotContactListWidget'
-import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import HubspotCompanyListWidget from '@/components/Application/Hubspot/HubspotCompanyListWidget'
+import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',
