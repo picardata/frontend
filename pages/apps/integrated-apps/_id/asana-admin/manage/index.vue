@@ -153,7 +153,7 @@ export default {
         },
         {
           name: 'Asana',
-          path: '/apps/integrated-apps/' + this.$route.params.id + '/zoom-admin'
+          path: '/apps/integrated-apps/' + this.$route.params.id + '/asana-admin'
         },
         {
           name: 'Manage Asana',
