@@ -46,14 +46,18 @@
       >
         <template v-slot="{row}">
           <div v-if="row.status_type === 'added_photos' || row.status_type === 'added_video'" class="media align-items-center">
-            <a href="#" class="avatar square mr-3">
+            <div class="avatar square mr-3">
               <img alt="Image placeholder" :src="row.picture">
-            </a>
+            </div>
             <div class="media-body">
-              <span class="font-weight-600 name mb-0 text-sm">{{ !row.message ? row.story : row.message }}</span>
+              <span class="font-weight-600 name mb-0 text-sm">
+                <a :href="'https://www.facebook.com/' + row.id" target="_blank">{{ !row.message ? row.story : row.message }}</a>
+              </span>
             </div>
           </div>
-          <span v-else class="font-weight-600 name mb-0 text-sm">{{ row.message }}</span>
+          <span v-else class="font-weight-600 name mb-0 text-sm">
+            <a :href="'https://www.facebook.com/' + row.id" target="_blank">{{ row.message }}</a>
+          </span>
         </template>
       </el-table-column>
       <el-table-column
