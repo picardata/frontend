@@ -111,8 +111,8 @@ export default {
   mounted () {
     this.$axios.get('/api/hubspot/companies')
       .then((data) => {
-        console.log(data.data)
-        this.companies = data.data
+        console.log(data.data.companies)
+        this.companies = data.data.companies
       })
   }
 }

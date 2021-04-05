@@ -25,6 +25,9 @@
         <div class="col-6 ">
           <ZoomMeetingWidget />
         </div>
+        <div class="col-6 ">
+          <ZoomWebinarWidget />
+        </div>
       </div>
     </div>
   </div>
@@ -33,10 +36,12 @@
 <script>
 import ZoomMeetingWidget from '@/components/Application/Zoom/ZoomMeetingWidget'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import ZoomWebinarWidget from '@/components/Application/Zoom/ZoomWebinarWidget'
 
 export default {
   layout: 'argon',
   components: {
+    ZoomWebinarWidget,
     ZoomMeetingWidget,
     ApplicationDetail
   },

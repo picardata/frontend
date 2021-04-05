@@ -97,8 +97,8 @@ export default {
   mounted () {
     this.$axios.get('/api/hubspot/contacts')
       .then((data) => {
-        console.log(data.data)
-        this.contacts = data.data
+        console.log(data.data.contacts)
+        this.contacts = data.data.contacts
       })
   }
 }

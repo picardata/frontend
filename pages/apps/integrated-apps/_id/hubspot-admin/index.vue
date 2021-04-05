@@ -22,11 +22,20 @@
         </h3>
       </div>
       <div class="row mt-3">
+        <div class="col-3 ">
+          <HubspotUserCount />
+        </div>
+        <div class="col-3 ">
+          <HubspotCompanyCount />
+        </div>
         <div class="col-12 ">
           <HubspotContactListWidget />
         </div>
         <div class="col-12 ">
           <HubspotCompanyListWidget />
+        </div>
+        <div class="col-12 ">
+          <HubspotDealListWidget />
         </div>
       </div>
     </div>
@@ -36,11 +45,21 @@
 <script>
 import HubspotContactListWidget from '@/components/Application/Hubspot/HubspotContactListWidget'
 import HubspotCompanyListWidget from '@/components/Application/Hubspot/HubspotCompanyListWidget'
+import HubspotDealListWidget from '@/components/Application/Hubspot/HubspotDealListWidget'
+import HubspotUserCount from '@/components/Application/Hubspot/HubspotUserCount'
+import HubspotCompanyCount from '@/components/Application/Hubspot/HubspotCompanyCount'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',
-  components: { HubspotCompanyListWidget, HubspotContactListWidget, ApplicationDetail },
+  components: {
+    HubspotCompanyCount,
+    HubspotUserCount,
+    HubspotDealListWidget,
+    HubspotCompanyListWidget,
+    HubspotContactListWidget,
+    ApplicationDetail
+  },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
