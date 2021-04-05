@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import SlackUserCount from '@/components/Application/Slack/SlackUserCount'
+import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',

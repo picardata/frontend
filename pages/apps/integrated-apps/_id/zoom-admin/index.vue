@@ -35,8 +35,8 @@
 
 <script>
 import ZoomMeetingWidget from '@/components/Application/Zoom/ZoomMeetingWidget'
-import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import ZoomWebinarWidget from '@/components/Application/Zoom/ZoomWebinarWidget'
+import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',

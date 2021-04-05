@@ -32,8 +32,8 @@
               </div>
               <p class="text-sm mb-0">{{ project.notes | truncate(90, '...') }}</p>
               <p class="text-sm mb-0">{{ $moment(project.startOn).calendar() }} - {{
-                  $moment(project.dueOn).calendar()
-                }}</p>
+                $moment(project.dueOn).calendar()
+              }}</p>
             </div>
           </div>
         </a>
