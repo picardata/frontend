@@ -14,49 +14,26 @@
       <div class="chart">
         <line-chart
           :height="350"
-          :chart-data="pageLikesChart.chartData"
+          :chart-data="chartdata"
         />
       </div>
     </card>
   </div>
 </template>
 <script>
-import moment from 'moment'
 import LineChart from '~/components/argon-core/Charts/LineChart'
-import * as chartConfigs from '~/components/argon-core/Charts/config'
 
 export default {
   name: 'PageLikes',
   components: { LineChart },
-  async fetch () {
-    await this.$axios.$get('/api/facebook/page-likes')
-      .then((data) => {
-        const labels = data
-          .filter(d => d.period === 'day')[0]
-          .values
-          .map(date => moment(date.end_time.date).format('MMM DD'))
-
-        const pageLikesData = data
-          .filter(d => d.period === 'day')[0]
-          .values
-          .map(like => like.value)
-
-        this.pageLikesChart.chartData.labels = labels
-        this.pageLikesChart.chartData.datasets[0].data = pageLikesData
-      })
-  },
-  data () {
-    return {
-      pageLikesChart: {
-        chartData: {
-          labels: [],
-          datasets: [{
-            label: 'total',
-            data: []
-          }]
-        },
-        extraOptions: chartConfigs.blueChartOptions
-      }
+  props: {
+    chartdata: {
+      type: Object,
+      default: null
+    },
+    options: {
+      type: Object,
+      default: null
     }
   }
 }
