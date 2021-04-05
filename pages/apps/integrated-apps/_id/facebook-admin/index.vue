@@ -237,9 +237,9 @@ export default {
             labels: data.filter(d => d.period === 'day')[0].values
               .map(date => moment(date.end_time.date).format('MMM DD')),
             datasets: [{
-                data: data.filter(d => d.period === 'day')[0].values
-                  .map(reach => reach.value)
-              }]
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(reach => reach.value)
+            }]
           }
           this.postReachChart.loaded = true
         })
@@ -251,9 +251,9 @@ export default {
             labels: data.filter(d => d.period === 'day')[0].values
               .map(date => moment(date.end_time.date).format('MMM DD')),
             datasets: [{
-                data: data.filter(d => d.period === 'day')[0].values
-                  .map(view => view.value)
-              }]
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(view => view.value)
+            }]
           }
           this.pageViewsChart.loaded = true
         })
@@ -273,7 +273,7 @@ export default {
           this.pageLikesChart.loaded = true
         })
     },
-    async getPageFollowers() {
+    async getPageFollowers () {
       await this.$axios.$get('/api/facebook/page-followers')
         .then((data) => {
           this.pageFollowersChart.chartdata = {
@@ -286,16 +286,16 @@ export default {
           this.pageFollowersChart.loaded = true
         })
     },
-    async getVideosViews() {
+    async getVideosViews () {
       await this.$axios.$get('/api/facebook/videos-views')
         .then((data) => {
           this.videosViewsChart.chartdata = {
             labels: data.filter(d => d.period === 'day')[0].values
               .map(date => moment(date.end_time.date).format('MMM DD')),
-           datasets: [{
-             data: data.filter(d => d.period === 'day')[0].values
-              .map(view => view.value)
-           }] 
+            datasets: [{
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(view => view.value)
+            }]
           }
 
           this.videosViewsChart.loaded = true
