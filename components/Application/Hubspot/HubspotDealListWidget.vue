@@ -3,10 +3,10 @@
     <div class="card-header">
       <div class="row">
         <div class="col-9">
-          <h3>Companies</h3>
+          <h3>Deals</h3>
         </div>
         <div class="col-3 text-right">
-          <a class="btn btn-sm btn-primary pull-right" target="_blank" href="#">Create company</a>
+          <a class="btn btn-sm btn-primary pull-right" target="_blank" href="#">Create deal</a>
         </div>
       </div>
     </div>
@@ -14,53 +14,53 @@
       <el-table
         class="table-responsive table-flush"
         header-row-class-name="thead-light"
-        :data="companies"
+        :data="deals"
       >
         <el-table-column
-          label="Name"
-          min-width="250px"
-          prop="firstname"
+          label="Deal name"
+          min-width="150px"
+          prop="dealName"
           sortable
         >
           <template v-slot="{row}">
             <div class="media align-items-center">
               <div class="media-body">
-                <span class="font-weight-600 name mb-0 text-sm">{{ row.name }}</span>
+                <span class="font-weight-600 name mb-0 text-sm">{{ row.dealName }}</span>
               </div>
             </div>
           </template>
         </el-table-column>
         <el-table-column
-          label="Phone"
-          prop="phone"
+          label="Deal stage"
+          prop="dealStageDisplay"
           min-width="140px"
           sortable
         >
           <template v-slot="{row}">
             <div class="media align-items-center">
               <div class="media-body">
-                <span class="name mb-0 text-sm">{{ row.phone }}</span>
+                <span class="name mb-0 text-sm">{{ row.dealStageDisplay }}</span>
               </div>
             </div>
           </template>
         </el-table-column>
         <el-table-column
-          label="Created Date"
+          label="Deal owner"
           min-width="250px"
-          prop="createDate"
+          prop="ownerName"
           sortable
         >
           <template v-slot="{row}">
             <div class="media align-items-center">
               <div class="media-body">
-                <span class="name mb-0 text-sm">{{ $moment(row.createDate).calendar() }}</span>
+                <span class="name mb-0 text-sm">{{ row.ownerName }} ({{ row.ownerEmail }})</span>
               </div>
             </div>
           </template>
         </el-table-column>
         <el-table-column
           label="Last Modified Date"
-          min-width="250px"
+          min-width="200px"
           prop="lastModifiedDate"
           sortable
         >
@@ -73,11 +73,19 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="City"
-          prop="city"
-          min-width="200px"
+          label="Amount"
+          prop="amount"
+          min-width="100px"
           sortable
-        />
+        >
+          <template v-slot="{row}">
+            <div class="media align-items-center">
+              <div class="media-body">
+                <span class="name mb-0 text-sm">{{ row.amount }}</span>
+              </div>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column
           label="Actions"
         >
@@ -98,21 +106,21 @@
 import { Table, TableColumn } from 'element-ui'
 
 export default {
-  name: 'HubspotCompanyListWidget',
+  name: 'HubspotDealListWidget',
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn
   },
   data () {
     return {
-      companies: []
+      deals: []
     }
   },
   mounted () {
-    this.$axios.get('/api/hubspot/companies')
+    this.$axios.get('/api/hubspot/deals')
       .then((data) => {
-        console.log(data.data.companies)
-        this.companies = data.data.companies
+        console.log(data.data)
+        this.deals = data.data
       })
   }
 }

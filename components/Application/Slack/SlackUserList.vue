@@ -55,7 +55,7 @@ export default {
       .then((data) => {
         // eslint-disable-next-line no-console
         console.log(data.data)
-        this.users = data.data
+        this.users = data.data.users
       }).catch(
         (e) => {
         // eslint-disable-next-line no-console

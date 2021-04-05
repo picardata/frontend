@@ -25,6 +25,9 @@
         <div class="col-6">
           <AsanaTasksWidget />
         </div>
+        <div class="col-6">
+          <AsanaProjectWidget />
+        </div>
       </div>
     </div>
   </div>
@@ -32,11 +35,12 @@
 
 <script>
 import AsanaTasksWidget from '@/components/Application/Asana/AsanaTaskWidget'
+import AsanaProjectWidget from '@/components/Application/Asana/AsanaProjectWidget'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',
-  components: { AsanaTasksWidget, ApplicationDetail },
+  components: { AsanaProjectWidget, AsanaTasksWidget, ApplicationDetail },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
