@@ -93,6 +93,14 @@
             required="required"
           >
         </div>
+        <div>
+          <h4>Group Members</h4>
+          <table>
+            <tr v-for="member,index in group.members" :key="index">
+              <td>{{ member.name.fullName }}</td>
+            </tr>
+          </table>
+        </div>
       </div>
       <template slot="footer">
         <base-button type="secondary" @click="modals.createGroup = false">
@@ -154,8 +162,8 @@
 <script>
 export default {
   name: 'GoogleGroupList',
-  fetch () {
-    this.$axios.get('/api/google-directories/groups')
+  async fetch () {
+    await this.$axios.get('/api/google-directories/get-groups-and-members')
       .then((data) => {
         // eslint-disable-next-line no-console
         console.log(data.data.groups)
