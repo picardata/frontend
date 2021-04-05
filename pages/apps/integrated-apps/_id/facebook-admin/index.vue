@@ -107,23 +107,27 @@
           </stats-card>
         </div> -->
         <div class="col-3">
-          <PageViews 
-            v-if="this.pageViewsChart.loaded === true" 
-            :chartdata="this.pageViewsChart.chartdata" 
-            :options="this.pageViewsChart.extraOptions" 
+          <PageViews
+            v-if="this.pageViewsChart.loaded === true"
+            :chartdata="this.pageViewsChart.chartdata"
+            :options="this.pageViewsChart.extraOptions"
+          />
+        </div>
+        <div class="col-3">
+          <PageLikes
+            v-if="this.pageLikesChart.loaded === true"
+            :chartdata="this.pageLikesChart.chartdata"
+            :options="this.pageLikesChart.extraOptions"
           />
         </div>
         <!-- <div class="col-3">
-          <PageLikes />
-        </div>
-        <div class="col-3">
           <PageFollowers />
         </div> -->
         <div class="col-3">
-          <PostReach 
-            v-if="this.postReachChart.loaded === true" 
-            :chartdata="this.postReachChart.chartdata" 
-            :options="this.postReachChart.extraOptions" 
+          <PostReach
+            v-if="this.postReachChart.loaded === true"
+            :chartdata="this.postReachChart.chartdata"
+            :options="this.postReachChart.extraOptions"
           />
         </div>
         <!-- <div class="col-3">
@@ -167,44 +171,6 @@ export default {
         }
       })
   },
-  mounted() {
-    this.getPostReach()
-    this.getPageViews()
-  },
-  methods: {
-    async getPostReach() {
-      await this.$axios.$get('/api/facebook/post-reach')
-      .then((data) => {
-        this.postReachChart.chartdata = {
-          labels: data.filter(d => d.period === 'day')[0].values
-            .map(date => moment(date.end_time.date).format('MMM DD')),
-          datasets: [
-            {
-              data: data.filter(d => d.period === 'day')[0].values
-                .map(reach => reach.value)
-            }
-          ]
-        }
-        this.postReachChart.loaded = true
-      })
-    },
-    async getPageViews() {
-      await this.$axios.$get('/api/facebook/page-views')
-      .then((data) => {
-        this.pageViewsChart.chartdata = {
-          labels: data.filter(d => d.period === 'day')[0].values
-            .map(date => moment(date.end_time.date).format('MMM DD')),
-          datasets: [
-            {
-              data: data.filter(d => d.period === 'day')[0].values
-                .map(view => view.value)
-            }
-          ]
-        }
-        this.pageViewsChart.loaded = true
-      })
-    }
-  },
   data () {
     return {
       postReachChart: {
@@ -213,6 +179,11 @@ export default {
         extraOptions: chartConfigs.blueChartOptions
       },
       pageViewsChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
+      pageLikesChart: {
         chartdata: null,
         loaded: false,
         extraOptions: chartConfigs.blueChartOptions
@@ -231,6 +202,60 @@ export default {
           path: '/apps/integrated-apps'
         }
       ]
+    }
+  },
+  mounted () {
+    this.getPostReach()
+    this.getPageViews()
+    this.getPageLikes()
+  },
+  methods: {
+    async getPostReach () {
+      await this.$axios.$get('/api/facebook/post-reach')
+        .then((data) => {
+          this.postReachChart.chartdata = {
+            labels: data.filter(d => d.period === 'day')[0].values
+              .map(date => moment(date.end_time.date).format('MMM DD')),
+            datasets: [
+              {
+                data: data.filter(d => d.period === 'day')[0].values
+                  .map(reach => reach.value)
+              }
+            ]
+          }
+          this.postReachChart.loaded = true
+        })
+    },
+    async getPageViews () {
+      await this.$axios.$get('/api/facebook/page-views')
+        .then((data) => {
+          this.pageViewsChart.chartdata = {
+            labels: data.filter(d => d.period === 'day')[0].values
+              .map(date => moment(date.end_time.date).format('MMM DD')),
+            datasets: [
+              {
+                data: data.filter(d => d.period === 'day')[0].values
+                  .map(view => view.value)
+              }
+            ]
+          }
+          this.pageViewsChart.loaded = true
+        })
+    },
+    async getPageLikes () {
+      await this.$axios.$get('/api/facebook/page-likes')
+        .then((data) => {
+          this.pageLikesChart.chartdata = {
+            labels: data.filter(d => d.period === 'day')[0].values
+              .map(date => moment(date.end_time.date).format('MMM DD')),
+            datasets: [{
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(like => like.value)
+            }]
+          }
+          console.log(this.pageLikesChart.chartdata)
+          this.pageLikesChart.loaded = true
+        })
     }
   }
 }
