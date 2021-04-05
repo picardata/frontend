@@ -134,12 +134,16 @@
             :options="this.postReachChart.extraOptions"
           />
         </div>
-        <!-- <div class="col-3">
-          <VideosViews />
+        <div class="col-3">
+          <VideosViews
+            v-if="this.videosViewsChart.loaded === true"
+            :chartdata="this.videosViewsChart.chartdata"
+            :options="this.videosViewsChart.extraOptions"
+          />
         </div>
         <div class="col-12">
           <PostList />
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -197,6 +201,11 @@ export default {
         loaded: false,
         extraOptions: chartConfigs.blueChartOptions
       },
+      videosViewsChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
       crumbs: [
         {
           name: 'Apps',
@@ -218,6 +227,7 @@ export default {
     this.getPageViews()
     this.getPageLikes()
     this.getPageFollowers()
+    this.getVideosViews()
   },
   methods: {
     async getPostReach () {
@@ -226,12 +236,10 @@ export default {
           this.postReachChart.chartdata = {
             labels: data.filter(d => d.period === 'day')[0].values
               .map(date => moment(date.end_time.date).format('MMM DD')),
-            datasets: [
-              {
+            datasets: [{
                 data: data.filter(d => d.period === 'day')[0].values
                   .map(reach => reach.value)
-              }
-            ]
+              }]
           }
           this.postReachChart.loaded = true
         })
@@ -242,12 +250,10 @@ export default {
           this.pageViewsChart.chartdata = {
             labels: data.filter(d => d.period === 'day')[0].values
               .map(date => moment(date.end_time.date).format('MMM DD')),
-            datasets: [
-              {
+            datasets: [{
                 data: data.filter(d => d.period === 'day')[0].values
                   .map(view => view.value)
-              }
-            ]
+              }]
           }
           this.pageViewsChart.loaded = true
         })
@@ -278,6 +284,21 @@ export default {
           }
 
           this.pageFollowersChart.loaded = true
+        })
+    },
+    async getVideosViews() {
+      await this.$axios.$get('/api/facebook/videos-views')
+        .then((data) => {
+          this.videosViewsChart.chartdata = {
+            labels: data.filter(d => d.period === 'day')[0].values
+              .map(date => moment(date.end_time.date).format('MMM DD')),
+           datasets: [{
+             data: data.filter(d => d.period === 'day')[0].values
+              .map(view => view.value)
+           }] 
+          }
+
+          this.videosViewsChart.loaded = true
         })
     }
   }
