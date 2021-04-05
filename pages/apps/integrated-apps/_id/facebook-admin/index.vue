@@ -120,9 +120,13 @@
             :options="this.pageLikesChart.extraOptions"
           />
         </div>
-        <!-- <div class="col-3">
-          <PageFollowers />
-        </div> -->
+        <div class="col-3">
+          <PageFollowers
+            v-if="this.pageFollowersChart.loaded === true"
+            :chartdata="this.pageFollowersChart.chartdata"
+            :options="this.pageFollowersChart.extraOptions"
+          />
+        </div>
         <div class="col-3">
           <PostReach
             v-if="this.postReachChart.loaded === true"
@@ -188,6 +192,11 @@ export default {
         loaded: false,
         extraOptions: chartConfigs.blueChartOptions
       },
+      pageFollowersChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
       crumbs: [
         {
           name: 'Apps',
@@ -208,6 +217,7 @@ export default {
     this.getPostReach()
     this.getPageViews()
     this.getPageLikes()
+    this.getPageFollowers()
   },
   methods: {
     async getPostReach () {
@@ -255,6 +265,19 @@ export default {
           }
           console.log(this.pageLikesChart.chartdata)
           this.pageLikesChart.loaded = true
+        })
+    },
+    async getPageFollowers() {
+      await this.$axios.$get('/api/facebook/page-followers')
+        .then((data) => {
+          this.pageFollowersChart.chartdata = {
+            labels: [moment().subtract(1, 'days').format('MMM DD')],
+            datasets: [{
+              data: [data.followers_count]
+            }]
+          }
+
+          this.pageFollowersChart.loaded = true
         })
     }
   }
