@@ -107,29 +107,38 @@
           </stats-card>
         </div> -->
         <div class="col-3">
-          <PageViews />
+          <PageViews 
+            v-if="this.pageViewsChart.loaded === true" 
+            :chartdata="this.pageViewsChart.chartdata" 
+            :options="this.pageViewsChart.extraOptions" 
+          />
         </div>
-        <div class="col-3">
+        <!-- <div class="col-3">
           <PageLikes />
         </div>
         <div class="col-3">
           <PageFollowers />
-        </div>
+        </div> -->
         <div class="col-3">
-          <PostReach />
+          <PostReach 
+            v-if="this.postReachChart.loaded === true" 
+            :chartdata="this.postReachChart.chartdata" 
+            :options="this.postReachChart.extraOptions" 
+          />
         </div>
-        <div class="col-3">
+        <!-- <div class="col-3">
           <VideosViews />
         </div>
         <div class="col-12">
           <PostList />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import PageViews from '~/components/Application/Facebook/Widgets/PageViews'
 import PageLikes from '~/components/Application/Facebook/Widgets/PageLikes'
@@ -137,6 +146,7 @@ import PageFollowers from '~/components/Application/Facebook/Widgets/PageFollowe
 import PostReach from '~/components/Application/Facebook/Widgets/PostReach'
 import VideosViews from '~/components/Application/Facebook/Widgets/VideosViews'
 import PostList from '~/components/Application/Facebook/Widgets/PostList'
+import * as chartConfigs from '~/components/argon-core/Charts/config'
 
 export default {
   layout: 'argon',
@@ -157,8 +167,56 @@ export default {
         }
       })
   },
+  mounted() {
+    this.getPostReach()
+    this.getPageViews()
+  },
+  methods: {
+    async getPostReach() {
+      await this.$axios.$get('/api/facebook/post-reach')
+      .then((data) => {
+        this.postReachChart.chartdata = {
+          labels: data.filter(d => d.period === 'day')[0].values
+            .map(date => moment(date.end_time.date).format('MMM DD')),
+          datasets: [
+            {
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(reach => reach.value)
+            }
+          ]
+        }
+        this.postReachChart.loaded = true
+      })
+    },
+    async getPageViews() {
+      await this.$axios.$get('/api/facebook/page-views')
+      .then((data) => {
+        this.pageViewsChart.chartdata = {
+          labels: data.filter(d => d.period === 'day')[0].values
+            .map(date => moment(date.end_time.date).format('MMM DD')),
+          datasets: [
+            {
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(view => view.value)
+            }
+          ]
+        }
+        this.pageViewsChart.loaded = true
+      })
+    }
+  },
   data () {
     return {
+      postReachChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
+      pageViewsChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
       crumbs: [
         {
           name: 'Apps',
