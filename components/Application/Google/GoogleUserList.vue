@@ -87,6 +87,23 @@
             required="required"
           >
         </div>
+        <div>
+          <h4>Joined Groups</h4>
+          <table v-for="group,index in user.groups" :key="index" style="margin-bottom: 10px">
+            <tr>
+              <td width="5px">
+                Department
+              </td>
+              <td>: {{ group.name }}</td>
+            </tr>
+            <tr>
+              <td width="5px">
+                Role
+              </td>
+              <td>: {{ group.userRole }}</td>
+            </tr>
+          </table>
+        </div>
       </div>
       <template slot="footer">
         <base-button type="secondary" @click="modals.createUser = false">
@@ -105,12 +122,12 @@
 <script>
 export default {
   name: 'GoogleUserList',
-  fetch () {
-    this.$axios.get('/api/google-directories/users')
+  async fetch () {
+    await this.$axios.get('/api/google-directories/get-groups-and-members')
       .then((data) => {
         // eslint-disable-next-line no-console
-        console.log(data.data.users)
-        this.users = data.data.users
+        console.log(data.data.groups)
+        this.groups = data.data.groups
       }).catch(
         (e) => {
         // eslint-disable-next-line no-console
@@ -120,7 +137,7 @@ export default {
   },
   data () {
     return {
-      users: [],
+      groups: [],
       modals: {
         createUser: false
       },
@@ -138,6 +155,55 @@ export default {
     }
   },
   computed: {
+    users () {
+      const users = []
+      const result = []
+
+      this.groups.map((group) => {
+        return group.members.filter((member) => {
+          if (member.isAMember === true) {
+            member.primaryEmail = member.email
+            member.groups = [{
+              id: group.id,
+              name: group.name,
+              email: group.email,
+              userRole: member.role
+            }]
+            delete member.role
+            users.push(member)
+          }
+        })
+      })
+
+      function checkDuplicate (email, obj) {
+        let index
+        obj.forEach((o, i) => {
+          if (o.email === email) {
+            index = i
+          }
+        })
+        return index
+      }
+
+      function mergeUser (from, to) {
+        from.groups.map((f) => {
+          to.groups.push(f)
+        })
+        return to
+      }
+
+      users.forEach((user) => {
+        const isDuplicate = checkDuplicate(user.email, result)
+        if (isDuplicate !== undefined) {
+          const toMerge = result[isDuplicate]
+          result[isDuplicate] = mergeUser(user, toMerge)
+        } else {
+          result.push(user)
+        }
+      })
+
+      return result
+    },
     usersCount () {
       return this.users.length
     }
@@ -206,6 +272,14 @@ export default {
 }
 </script>
 <style scoped>
+.left {
+  margin-left: -40px;
+}
+
+.no-bullet {
+  list-style-type: none;
+}
+
 .card-title h4 {
   font-size: 28px;
 }
