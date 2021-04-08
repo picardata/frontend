@@ -3,8 +3,17 @@
     <div class="card-header">
       <div class="row">
         <div class="col-9">
-          <h3>Meetings</h3>
-        </div>
+          <div class="row">
+            <div class="col-3">
+              <h3>Meetings</h3>
+            </div>
+            <div v-if="totalUpcomingMeeting" class="col-9 total-meeting">
+              <div class="rounded-rectangular">
+                <span class="font-weight-bold d-inline" style="margin-left:8px">{{totalUpcomingMeeting}}</span>
+              </div>
+            </div>
+          </div>          
+        </div>        
         <div class="col-auto text-right">
           <a class="btn btn-sm btn-primary" target="_blank" href="https://zoom.us/meeting/schedule">Schedule a
             Meeting</a>
@@ -48,6 +57,11 @@ export default {
       meetings: {}
     }
   },
+  computed: {
+    totalUpcomingMeeting () {
+      return this.meetings.length
+    }
+  },
   mounted () {
     this.$axios.get('/api/zoom/meetings')
       .then((data) => {
@@ -59,5 +73,17 @@ export default {
 </script>
 
 <style scoped>
+.rounded-rectangular {
+  margin-left: 6px;
+  height:24px;
+  width:30px;
+  background-color:#3AAF85;
+  color:white;
+  border-radius:14%;
+}
 
+.total-meeting {
+  margin-left:-54px;
+  margin-top:2px;
+}
 </style>
