@@ -1,8 +1,8 @@
 <template>
-  <div class="row p-4">
-    <div class="col-4">
+  <div class="row p-4 mr-0">
+    <div class="col-sm-4 col-xs-12">
       <div class="row">
-        <div class="card" style="width: 18rem;">
+        <div class="card">
           <img class="card-img-top" src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">
@@ -17,8 +17,8 @@
             <p class="card-text">
               <b>Phone:</b> {{ profile.formattedPhone }}
             </p>
-            <div class="btn-group-vertical">
-              <nuxt-link to="/profile/me" class="btn btn-primary  active">
+            <div class="btn-group-vertical justify-content-center w-100">
+              <nuxt-link to="/profile/me" class="btn btn-primary active">
                 Edit General Information
               </nuxt-link>
               <nuxt-link to="/profile/me/work" class="btn btn-primary">
@@ -29,11 +29,11 @@
         </div>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-sm-8 col-xs-12">
       <ValidationObserver ref="form" v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(submitGeneral)">
           <div class="row">
-            <div class="col-6">
+            <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
                 <h3>General Information</h3>
               </div>
@@ -84,10 +84,12 @@
               </ValidationProvider>
             </div>
           </div>
-          <div class="row mt-5 justify-content-center">
-            <button type="submit" class="btn btn-primary btn-lg">
-              Save Profile Information
-            </button>
+          <div class="row mt-5">
+            <div class="col-sm-8 col-xs-12 text-right">
+              <button type="submit" class="btn btn-primary btn-lg">
+                Save Profile Information
+              </button>
+            </div>
           </div>
         </form>
       </ValidationObserver>
