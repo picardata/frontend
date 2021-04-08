@@ -45,7 +45,6 @@
             <nuxt-link to="/profile/me" class="dropdown-item">
               Profile
             </nuxt-link>
-            <!-- <a class="dropdown-item" href="#">Settings</a> -->
             <div class="dropdown-divider" />
             <a class="dropdown-item" href="#" @click.prevent="onLogout">Logout</a>
           </div>
