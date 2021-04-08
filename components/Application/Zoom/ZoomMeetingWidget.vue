@@ -9,11 +9,11 @@
             </div>
             <div v-if="totalUpcomingMeeting" class="col-9 total-meeting">
               <div class="rounded-rectangular">
-                <span class="font-weight-bold d-inline" style="margin-left:8px">{{totalUpcomingMeeting}}</span>
+                <span class="font-weight-bold d-inline" style="margin-left:8px">{{ totalUpcomingMeeting }}</span>
               </div>
             </div>
-          </div>          
-        </div>        
+          </div>
+        </div>
         <div class="col-auto text-right">
           <a class="btn btn-sm btn-primary" target="_blank" href="https://zoom.us/meeting/schedule">Schedule a
             Meeting</a>
