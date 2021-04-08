@@ -54,12 +54,26 @@ export default {
   name: 'ZoomMeetingWidget',
   data () {
     return {
-      meetings: {}
+      meetings: []
     }
   },
   computed: {
     totalUpcomingMeeting () {
-      return this.meetings.length
+      if (this.meetings.length !== 0) {
+        let timezone = this.meetings.map((meeting) => {
+          return meeting.timezone
+        })
+        timezone = timezone ? timezone[0] : Intl.DateTimeFormat().resolvedOptions().timeZone
+
+        const today = new Date().toLocaleString({ timeZone: timezone })
+
+        return this.meetings.filter((meeting) => {
+          const startTime = new Date(meeting.startTime).toLocaleString({ timeZone: timezone })
+          return new Date(startTime) >= new Date(today)
+        }).length
+      } else {
+        return 0
+      }
     }
   },
   mounted () {
