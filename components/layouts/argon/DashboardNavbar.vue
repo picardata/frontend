@@ -258,7 +258,7 @@
             <span>Support</span>
           </a>
           <div class="dropdown-divider" />
-          <a href="#!" class="dropdown-item">
+          <a href="#" class="dropdown-item" @click.prevent="onLogout">
             <i class="ni ni-user-run" />
             <span>Logout</span>
           </a>
@@ -310,6 +310,10 @@ export default {
     },
     hideSidebar () {
       this.$sidebar.displaySidebar(false)
+    },
+    onLogout () {
+      this.$auth.logout()
+      this.$router.push('/login')
     }
   }
 }
