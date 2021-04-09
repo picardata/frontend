@@ -33,7 +33,7 @@
             <div class="col ml--2">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="mb-0 text-sm">{{ meeting.topic }}</h4>
+                  <h4 class="mb-0 text-sm">{{ meeting.topic }} <span v-if="meeting.upcoming === true" style="color:red;">*</span></h4>
                 </div>
                 <div class="text-right text-muted">
                   <a :href="meeting.joinUrl" target="_blank" class="btn btn-sm btn-secondary">Join</a>
@@ -60,27 +60,39 @@ export default {
   computed: {
     totalUpcomingMeeting () {
       if (this.meetings.length !== 0) {
-        let timezone = this.meetings.map((meeting) => {
-          return meeting.timezone
-        })
-        timezone = timezone ? timezone[0] : Intl.DateTimeFormat().resolvedOptions().timeZone
-
-        const today = new Date().toLocaleString({ timeZone: timezone })
-
         return this.meetings.filter((meeting) => {
-          const startTime = new Date(meeting.startTime).toLocaleString({ timeZone: timezone })
-          return new Date(startTime) >= new Date(today)
+          return meeting.upcoming === true
         }).length
       } else {
         return 0
       }
+    },
+    timeZone () {
+      if (this.meetings.length !== 0) {
+        return this.meetings.map((meeting) => {
+          return meeting.timezone
+        })[0]
+      } else {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone
+      }
+    },
+    today () {
+      return new Date().toLocaleString({ timeZone: this.timeZone })
     }
   },
   mounted () {
     this.$axios.get('/api/zoom/meetings')
       .then((data) => {
         console.log(data)
-        this.meetings = data.data
+        this.meetings = data.data.map((meeting) => {
+          const startTime = new Date(meeting.startTime).toLocaleString({ timeZone: this.timeZone })
+          if (new Date(startTime) >= new Date(this.today)) {
+            meeting.upcoming = true
+          } else {
+            meeting.upcoming = false
+          }
+          return meeting
+        })
       })
   }
 }
