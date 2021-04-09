@@ -33,7 +33,7 @@
             <div class="col ml--2">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="mb-0 text-sm">{{ meeting.topic }}</h4>
+                  <h4 class="mb-0 text-sm">{{ meeting.topic }} <span v-if="meeting.upcoming === true" style="color:red;">*</span></h4>
                 </div>
                 <div class="text-right text-muted">
                   <a :href="meeting.joinUrl" target="_blank" class="btn btn-sm btn-secondary">Join</a>
@@ -54,19 +54,45 @@ export default {
   name: 'ZoomMeetingWidget',
   data () {
     return {
-      meetings: {}
+      meetings: []
     }
   },
   computed: {
     totalUpcomingMeeting () {
-      return this.meetings.length
+      if (this.meetings.length !== 0) {
+        return this.meetings.filter((meeting) => {
+          return meeting.upcoming === true
+        }).length
+      } else {
+        return 0
+      }
+    },
+    timeZone () {
+      if (this.meetings.length !== 0) {
+        return this.meetings.map((meeting) => {
+          return meeting.timezone
+        })[0]
+      } else {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone
+      }
+    },
+    today () {
+      return new Date().toLocaleString({ timeZone: this.timeZone })
     }
   },
   mounted () {
     this.$axios.get('/api/zoom/meetings')
       .then((data) => {
         console.log(data)
-        this.meetings = data.data
+        this.meetings = data.data.map((meeting) => {
+          const startTime = new Date(meeting.startTime).toLocaleString({ timeZone: this.timeZone })
+          if (new Date(startTime) >= new Date(this.today)) {
+            meeting.upcoming = true
+          } else {
+            meeting.upcoming = false
+          }
+          return meeting
+        })
       })
   }
 }
