@@ -50,7 +50,7 @@
 <script>
 export default {
   name: 'SlackUserList',
-  fetch () {
+  mounted () {
     this.$axios.get('/api/slack/users')
       .then((data) => {
         // eslint-disable-next-line no-console
