@@ -38,7 +38,7 @@
 <script>
 export default {
   name: 'SlackChannelList',
-  fetch () {
+  mounted () {
     this.$axios.get('/api/slack/channels')
       .then((data) => {
         // eslint-disable-next-line no-console

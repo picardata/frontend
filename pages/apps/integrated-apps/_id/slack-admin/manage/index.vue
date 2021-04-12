@@ -78,6 +78,7 @@
         </div>
         <SlackUserList />
         <SlackChannelList />
+        <SlackUnreadMessages />
         <div class="card col-12 mt-3">
           <div class="card-body">
             <div class="card-title">
@@ -126,13 +127,15 @@
 import SlackChannelList from '@/components/Application/Slack/SlackChannelList'
 import SlackUserList from '@/components/Application/Slack/SlackUserList'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import SlackUnreadMessages from '~/components/Application/Slack/SlackUnreadMessages'
 
 export default {
   layout: 'argon',
   components: {
     SlackUserList,
     SlackChannelList,
-    ApplicationDetail
+    ApplicationDetail,
+    SlackUnreadMessages
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
