@@ -38,6 +38,11 @@
 <script>
 export default {
   name: 'SlackChannelList',
+  data () {
+    return {
+      channels: []
+    }
+  },
   mounted () {
     this.$axios.get('/api/slack/channels')
       .then((data) => {
@@ -49,11 +54,6 @@ export default {
           console.log(e)
         }
       )
-  },
-  data () {
-    return {
-      channels: []
-    }
   }
 }
 </script>

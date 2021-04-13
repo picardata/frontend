@@ -8,8 +8,7 @@
               Unread Messages ({{ messageCount }})
             </h4>
           </div>
-          <div class="col-6">
-          </div>
+          <div class="col-6" />
         </div>
       </div>
       <div class="card-text">
@@ -20,12 +19,12 @@
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
                     <img
-                        :alt="message.user_name"
-                        :src="message.profilePic"
+                      :alt="message.user_name"
+                      :src="message.profilePic"
                     ></span>
                   <div class="media-body ml-2 d-none d-lg-block">
                     <span
-                        class="mb-0 text-sm  font-weight-bold"
+                      class="mb-0 text-sm  font-weight-bold"
                     >{{ message.user_name }} <badge rounded type="danger">{{ message.unreadCount }}</badge>
                     </span>
                   </div>
@@ -42,6 +41,17 @@
 <script>
 export default {
   name: 'SlackUnreadMessages',
+  data () {
+    return {
+      users: [],
+      messages: []
+    }
+  },
+  computed: {
+    messageCount () {
+      return this.messages.length
+    }
+  },
   mounted () {
     this.$axios.get('/api/slack/users')
       .then((data) => {
@@ -64,12 +74,6 @@ export default {
         }
       )
   },
-  data () {
-    return {
-      users: [],
-      messages: []
-    }
-  },
   methods: {
     reformatMessage () {
       const self = this
@@ -87,11 +91,6 @@ export default {
 
       console.log(newMessages)
       this.messages = newMessages
-    }
-  },
-  computed: {
-    messageCount () {
-      return this.messages.length
     }
   }
 }

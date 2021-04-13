@@ -245,7 +245,7 @@ export default {
           }
           this.postEngagementsChart.loaded = true
         })
-    },
+    }
   }
 }
 </script>
