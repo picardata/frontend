@@ -22,39 +22,46 @@
         </h3>
       </div>
       <div class="row mt-3">
-        <div class="col-3">
+        <div class="col-4">
           <PageViews
             v-if="this.pageViewsChart.loaded === true"
             :chartdata="this.pageViewsChart.chartdata"
             :options="this.pageViewsChart.extraOptions"
           />
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <PageLikes
             v-if="this.pageLikesChart.loaded === true"
             :chartdata="this.pageLikesChart.chartdata"
             :options="this.pageLikesChart.extraOptions"
           />
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <PageFollowers
             v-if="this.pageFollowersChart.loaded === true"
             :chartdata="this.pageFollowersChart.chartdata"
             :options="this.pageFollowersChart.extraOptions"
           />
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <PostReach
             v-if="this.postReachChart.loaded === true"
             :chartdata="this.postReachChart.chartdata"
             :options="this.postReachChart.extraOptions"
           />
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <VideosViews
             v-if="this.videosViewsChart.loaded === true"
             :chartdata="this.videosViewsChart.chartdata"
             :options="this.videosViewsChart.extraOptions"
+          />
+        </div>
+        <div class="col-4">
+          <PostEngagements
+            v-if="this.postEngagementsChart.loaded === true"
+            :chartdata="this.postEngagementsChart.chartdata"
+            :options="this.postEngagementsChart.extraOptions"
           />
         </div>
         <div class="col-12">
@@ -74,6 +81,7 @@ import PageFollowers from '~/components/Application/Facebook/Widgets/PageFollowe
 import PostReach from '~/components/Application/Facebook/Widgets/PostReach'
 import VideosViews from '~/components/Application/Facebook/Widgets/VideosViews'
 import PostList from '~/components/Application/Facebook/Widgets/PostList'
+import PostEngagements from '~/components/Application/Facebook/Widgets/PostEngagements'
 import * as chartConfigs from '~/components/argon-core/Charts/config'
 
 export default {
@@ -85,7 +93,8 @@ export default {
     PageFollowers,
     PostReach,
     VideosViews,
-    PostList
+    PostList,
+    PostEngagements
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
@@ -122,6 +131,11 @@ export default {
         loaded: false,
         extraOptions: chartConfigs.blueChartOptions
       },
+      postEngagementsChart: {
+        chartdata: null,
+        loaded: false,
+        extraOptions: chartConfigs.blueChartOptions
+      },
       crumbs: [
         {
           name: 'Apps',
@@ -144,6 +158,7 @@ export default {
     this.getPageLikes()
     this.getPageFollowers()
     this.getVideosViews()
+    this.getPostEngagements()
   },
   methods: {
     async getPostReach () {
@@ -216,7 +231,21 @@ export default {
 
           this.videosViewsChart.loaded = true
         })
-    }
+    },
+    async getPostEngagements () {
+      await this.$axios.$get('/api/facebook/post-engagements')
+        .then((data) => {
+          this.postEngagementsChart.chartdata = {
+            labels: data.filter(d => d.period === 'day')[0].values
+              .map(date => moment(date.end_time.date).format('MMM DD')),
+            datasets: [{
+              data: data.filter(d => d.period === 'day')[0].values
+                .map(engage => engage.value)
+            }]
+          }
+          this.postEngagementsChart.loaded = true
+        })
+    },
   }
 }
 </script>
