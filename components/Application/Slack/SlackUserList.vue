@@ -50,6 +50,16 @@
 <script>
 export default {
   name: 'SlackUserList',
+  data () {
+    return {
+      users: []
+    }
+  },
+  computed: {
+    usersCount () {
+      return this.users.length
+    }
+  },
   mounted () {
     this.$axios.get('/api/slack/users')
       .then((data) => {
@@ -62,16 +72,6 @@ export default {
           console.log(e)
         }
       )
-  },
-  data () {
-    return {
-      users: []
-    }
-  },
-  computed: {
-    usersCount () {
-      return this.users.length
-    }
   }
 }
 </script>
