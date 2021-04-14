@@ -28,6 +28,9 @@
         <div class="col-3 ">
           <HubspotCompanyCount />
         </div>
+        <div class="col-3">
+          <HubspotContactCount />
+        </div>
         <div class="col-12 ">
           <HubspotContactListWidget />
         </div>
@@ -48,6 +51,7 @@ import HubspotCompanyListWidget from '@/components/Application/Hubspot/HubspotCo
 import HubspotDealListWidget from '@/components/Application/Hubspot/HubspotDealListWidget'
 import HubspotUserCount from '@/components/Application/Hubspot/HubspotUserCount'
 import HubspotCompanyCount from '@/components/Application/Hubspot/HubspotCompanyCount'
+import HubspotContactCount from '@/components/Application/Hubspot/HubspotContactCount'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
@@ -58,7 +62,8 @@ export default {
     HubspotDealListWidget,
     HubspotCompanyListWidget,
     HubspotContactListWidget,
-    ApplicationDetail
+    ApplicationDetail,
+    HubspotContactCount
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
