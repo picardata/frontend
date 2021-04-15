@@ -113,11 +113,11 @@
         <div class="form-group">
           <input
             id="domain"
-            v-model="group.email"
+            v-model="group.domain"
             type="text"
             name="domain"
             class="form-control"
-            placeholder="Domain"
+            placeholder="ex: test.com"
             required="required"
           >
         </div>
@@ -161,8 +161,7 @@ export default {
       group: {
         index: 0,
         name: '',
-        email: '',
-        description: ''
+        domain: ''
       }
     }
   },
