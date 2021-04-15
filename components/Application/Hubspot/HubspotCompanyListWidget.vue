@@ -6,7 +6,7 @@
           <h3>Companies</h3>
         </div>
         <div class="col-3 text-right">
-          <a class="btn btn-sm btn-primary pull-right" @click.prevent="openForm" href="#">Create company</a>
+          <a class="btn btn-sm btn-primary pull-right" href="#" @click.prevent="openForm">Create company</a>
         </div>
       </div>
     </div>
@@ -146,41 +146,6 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn
   },
-  methods: {
-      async saveGroup () {
-        try {
-          const data = await this.$axios.$post('/api/hubspot/companies', {
-            name: this.group.name,
-            domain: this.group.domain
-          });
-  
-          this.modals.createGroup = false
-          this.groups.push(
-            {
-              name: data.name,
-              domain: data.domain,
-            }
-          )
-          window.open(data.url, '_blank').focus();
-          this.clearForm();
-
-        } catch(e) {
-          console.log('Failed');
-        }
-    },
-    clearForm () {
-      this.group = {
-        index: 0,
-        name: '',
-        domain: ''
-      }
-    },
-    openForm () {
-        this.form.new = true
-        this.clearForm()
-        this.modals.createGroup = true
-    },
-  },
   data () {
     return {
       companies: [],
@@ -208,6 +173,40 @@ export default {
         this.companies = data.data.companies
         // this.modals.createGroup = false;
       })
+  },
+  methods: {
+    async saveGroup () {
+      try {
+        const data = await this.$axios.$post('/api/hubspot/companies', {
+          name: this.group.name,
+          domain: this.group.domain
+        })
+
+        this.modals.createGroup = false
+        this.groups.push(
+          {
+            name: data.name,
+            domain: data.domain
+          }
+        )
+        window.open(data.url, '_blank').focus()
+        this.clearForm()
+      } catch (e) {
+        console.log('Failed')
+      }
+    },
+    clearForm () {
+      this.group = {
+        index: 0,
+        name: '',
+        domain: ''
+      }
+    },
+    openForm () {
+      this.form.new = true
+      this.clearForm()
+      this.modals.createGroup = true
+    }
   }
 }
 </script>
