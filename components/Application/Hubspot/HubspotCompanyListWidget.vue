@@ -91,6 +91,68 @@
         </el-table-column>
       </el-table>
     </div>
+    <modal :show.sync="modals.createGroup">
+      <template slot="header">
+        <h5 class="modal-title">
+          <span v-if="form.new">Add Group</span>
+          <span v-else>Group Information</span>
+        </h5>
+      </template>
+      <div>
+        <div class="form-group">
+          <input
+            id="name"
+            v-model="group.name"
+            type="text"
+            name="name"
+            class="form-control"
+            placeholder="Group Name"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="primaryEmail"
+            v-model="group.email"
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Email"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="description"
+            v-model="group.description"
+            type="text"
+            name="description"
+            class="form-control"
+            placeholder="Description"
+            required="required"
+          >
+        </div>
+        <div>
+          <h4>Group Members</h4>
+          <table>
+            <tr v-for="member,index in group.members" :key="index">
+              <td>{{ member.name.fullName }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.createGroup = false">
+          Cancel
+        </base-button>
+        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
+          Delete
+        </base-button>
+        <base-button type="primary" @click.prevent="saveGroup">
+          Save
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -105,7 +167,22 @@ export default {
   },
   data () {
     return {
-      companies: []
+      companies: [],
+      groups: [],
+      modals: {
+        createGroup: false,
+        addUser: false
+      },
+      form: {
+        new: true
+      },
+      groupUsers: {},
+      group: {
+        index: 0,
+        name: '',
+        email: '',
+        description: ''
+      }
     }
   },
   mounted () {
@@ -113,6 +190,7 @@ export default {
       .then((data) => {
         console.log(data.data.companies)
         this.companies = data.data.companies
+        // this.modals.createGroup = false;
       })
   }
 }
