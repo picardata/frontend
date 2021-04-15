@@ -94,8 +94,8 @@
     <modal :show.sync="modals.createGroup">
       <template slot="header">
         <h5 class="modal-title">
-          <span v-if="form.new">Add Group</span>
-          <span v-else>Group Information</span>
+          <span v-if="form.new">Add Company</span>
+          <span v-else>Company Information</span>
         </h5>
       </template>
       <div>
@@ -106,39 +106,20 @@
             type="text"
             name="name"
             class="form-control"
-            placeholder="Group Name"
+            placeholder="Company Name"
             required="required"
           >
         </div>
         <div class="form-group">
           <input
-            id="primaryEmail"
+            id="domain"
             v-model="group.email"
-            type="email"
-            name="email"
-            class="form-control"
-            placeholder="Email"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="description"
-            v-model="group.description"
             type="text"
-            name="description"
+            name="domain"
             class="form-control"
-            placeholder="Description"
+            placeholder="Domain"
             required="required"
           >
-        </div>
-        <div>
-          <h4>Group Members</h4>
-          <table>
-            <tr v-for="member,index in group.members" :key="index">
-              <td>{{ member.name.fullName }}</td>
-            </tr>
-          </table>
         </div>
       </div>
       <template slot="footer">
