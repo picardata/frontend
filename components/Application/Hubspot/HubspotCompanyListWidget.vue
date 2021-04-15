@@ -6,7 +6,7 @@
           <h3>Companies</h3>
         </div>
         <div class="col-3 text-right">
-          <a class="btn btn-sm btn-primary pull-right" target="_blank" href="#">Create company</a>
+          <a class="btn btn-sm btn-primary pull-right" @click.prevent="openForm" href="#">Create company</a>
         </div>
       </div>
     </div>
@@ -164,6 +164,21 @@ export default {
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn
+  },
+  methods: {
+    clearForm () {
+      this.group = {
+        index: 0,
+        name: '',
+        email: '',
+        description: ''
+      }
+    },
+    openForm () {
+        this.form.new = true
+        this.clearForm()
+        this.modals.createGroup = true
+    },
   },
   data () {
     return {
