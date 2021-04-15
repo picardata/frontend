@@ -147,12 +147,32 @@ export default {
     [TableColumn.name]: TableColumn
   },
   methods: {
+      async saveGroup () {
+        try {
+          const data = await this.$axios.$post('/api/hubspot/companies', {
+            name: this.group.name,
+            domain: this.group.domain
+          });
+  
+          this.modals.createGroup = false
+          this.groups.push(
+            {
+              name: data.name,
+              domain: data.domain,
+            }
+          )
+          window.open(data.url, '_blank').focus();
+          this.clearForm();
+
+        } catch(e) {
+          console.log('Failed');
+        }
+    },
     clearForm () {
       this.group = {
         index: 0,
         name: '',
-        email: '',
-        description: ''
+        domain: ''
       }
     },
     openForm () {
