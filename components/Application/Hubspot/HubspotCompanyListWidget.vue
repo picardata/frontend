@@ -114,10 +114,10 @@
           <input
             id="domain"
             v-model="group.domain"
-            type="text"
+            type="url"
             name="domain"
             class="form-control"
-            placeholder="ex: test.com"
+            placeholder="Domain, ex: test.com"
             required="required"
           >
         </div>
