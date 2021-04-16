@@ -111,8 +111,8 @@
           <input
             id="name"
             v-model="group.amount"
-            type="text"
-            name="number"
+            type="number"
+            name="amount"
             class="form-control"
             placeholder="Amount"
             required="required"
@@ -197,7 +197,7 @@ export default {
       try {
         console.log('close date = ');
         console.log(new Date(this.group.closedate));
-        if(this.group.closedate) {
+        if(this.group.closedate && this.group.amount && this.group.dealname) {
           const newCloseDate =  new Date(this.group.closedate).toISOString()
           const data = await this.$axios.$post('/api/hubspot/deals', {
             amount: this.group.amount,
