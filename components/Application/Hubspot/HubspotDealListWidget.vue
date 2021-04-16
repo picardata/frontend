@@ -99,6 +99,49 @@
         </el-table-column>
       </el-table>
     </div>
+    <modal :show.sync="modals.createGroup">
+      <template slot="header">
+        <h5 class="modal-title">
+          <span v-if="form.new">Add Company</span>
+          <span v-else>Company Information</span>
+        </h5>
+      </template>
+      <div>
+        <div class="form-group">
+          <input
+            id="name"
+            v-model="group.name"
+            type="text"
+            name="name"
+            class="form-control"
+            placeholder="Company Name"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="domain"
+            v-model="group.domain"
+            type="url"
+            name="domain"
+            class="form-control"
+            placeholder="Domain, ex: test.com"
+            required="required"
+          >
+        </div>
+      </div>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.createGroup = false">
+          Cancel
+        </base-button>
+        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
+          Delete
+        </base-button>
+        <base-button type="primary" @click.prevent="saveGroup">
+          Save
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -113,7 +156,21 @@ export default {
   },
   data () {
     return {
-      deals: []
+      deals: [],
+      groups: [],
+      modals: {
+        createGroup: false,
+        addUser: false
+      },
+      form: {
+        new: true
+      },
+      groupUsers: {},
+      group: {
+        index: 0,
+        name: '',
+        domain: ''
+      }
     }
   },
   mounted () {
@@ -122,6 +179,40 @@ export default {
         console.log(data.data)
         this.deals = data.data
       })
+  },
+    methods: {
+    async saveGroup () {
+      try {
+        const data = await this.$axios.$post('/api/hubspot/companies', {
+          name: this.group.name,
+          domain: this.group.domain
+        })
+
+        this.modals.createGroup = false
+        this.groups.push(
+          {
+            name: data.name,
+            domain: data.domain
+          }
+        )
+        window.open(data.url, '_blank').focus()
+        this.clearForm()
+      } catch (e) {
+        console.log('Failed')
+      }
+    },
+    clearForm () {
+      this.group = {
+        index: 0,
+        name: '',
+        domain: ''
+      }
+    },
+    openForm () {
+      this.form.new = true
+      this.clearForm()
+      this.modals.createGroup = true
+    }
   }
 }
 </script>
