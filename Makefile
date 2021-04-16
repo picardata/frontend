@@ -18,3 +18,5 @@ destroy:
 build-dev:
 	cd container && docker -D build --tag picardata/frontend:latest .
 
+lint:
+	yarn lint -- --fix
