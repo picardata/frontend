@@ -6,7 +6,7 @@
           <h3>Deals</h3>
         </div>
         <div class="col-3 text-right">
-          <a class="btn btn-sm btn-primary pull-right" target="_blank" href="#">Create deal</a>
+          <a class="btn btn-sm btn-primary pull-right" @click.prevent="openForm" href="#">Create deal</a>
         </div>
       </div>
     </div>
