@@ -110,22 +110,33 @@
         <div class="form-group">
           <input
             id="name"
-            v-model="group.name"
+            v-model="group.amount"
             type="text"
-            name="name"
+            name="number"
             class="form-control"
-            placeholder="Company Name"
+            placeholder="Amount"
             required="required"
           >
         </div>
         <div class="form-group">
           <input
-            id="domain"
-            v-model="group.domain"
-            type="url"
-            name="domain"
+            id="deal"
+            v-model="group.dealname"
+            type="text"
+            name="deal"
             class="form-control"
-            placeholder="Domain, ex: test.com"
+            placeholder="Deal name"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="closedate"
+            v-model="group.closedate"
+            type="date"
+            name="closedate"
+            class="form-control"
+            placeholder="Close date"
             required="required"
           >
         </div>
@@ -168,8 +179,9 @@ export default {
       groupUsers: {},
       group: {
         index: 0,
-        name: '',
-        domain: ''
+        amount: '',
+        dealname: '',
+        closedate: ''
       }
     }
   },
@@ -183,20 +195,27 @@ export default {
     methods: {
     async saveGroup () {
       try {
-        const data = await this.$axios.$post('/api/hubspot/companies', {
-          name: this.group.name,
-          domain: this.group.domain
-        })
+        console.log('close date = ');
+        console.log(new Date(this.group.closedate));
+        if(this.group.closedate) {
+          const newCloseDate =  new Date(this.group.closedate).toISOString()
+          const data = await this.$axios.$post('/api/hubspot/deals', {
+            amount: this.group.amount,
+            closedate: newCloseDate,
+            dealname: this.group.dealname
+          })
 
-        this.modals.createGroup = false
-        this.groups.push(
-          {
-            name: data.name,
-            domain: data.domain
-          }
-        )
-        window.open(data.url, '_blank').focus()
-        this.clearForm()
+          this.modals.createGroup = false
+          this.groups.push(
+            {
+              amount: data.amount,
+              closedate: data.closedate,
+              dealname: data.dealname
+            }
+          )
+          window.open(data.url, '_blank').focus()
+          this.clearForm()
+        }
       } catch (e) {
         console.log('Failed')
       }
@@ -204,8 +223,9 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        name: '',
-        domain: ''
+        amount: 0,
+        closedate: '',
+        dealname: ''
       }
     },
     openForm () {
