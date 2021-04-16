@@ -6,7 +6,7 @@
           <h3>Deals</h3>
         </div>
         <div class="col-3 text-right">
-          <a class="btn btn-sm btn-primary pull-right" @click.prevent="openForm" href="#">Create deal</a>
+          <a class="btn btn-sm btn-primary pull-right" href="#" @click.prevent="openForm">Create deal</a>
         </div>
       </div>
     </div>
@@ -196,13 +196,13 @@ export default {
         this.deals = data.data
       })
   },
-    methods: {
+  methods: {
     async saveGroup () {
       try {
-        console.log('close date = ');
-        console.log(new Date(this.group.closedate));
-        if(this.group.closedate && this.group.amount && this.group.dealname) {
-          const newCloseDate =  new Date(this.group.closedate).toISOString()
+        console.log('close date = ')
+        console.log(new Date(this.group.closedate))
+        if (this.group.closedate && this.group.amount && this.group.dealname) {
+          const newCloseDate = new Date(this.group.closedate).toISOString()
           const data = await this.$axios.$post('/api/hubspot/deals', {
             amount: this.group.amount,
             closedate: newCloseDate,
