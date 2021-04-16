@@ -102,12 +102,13 @@
     <modal :show.sync="modals.createGroup">
       <template slot="header">
         <h5 class="modal-title">
-          <span v-if="form.new">Add Company</span>
+          <span v-if="form.new">Add Deal</span>
           <span v-else>Company Information</span>
         </h5>
       </template>
       <div>
         <div class="form-group">
+          <label>Amount</label>
           <input
             id="name"
             v-model="group.amount"
@@ -115,10 +116,12 @@
             name="amount"
             class="form-control"
             placeholder="Amount"
+            min="0"
             required="required"
           >
         </div>
         <div class="form-group">
+          <label>Deal name</label>
           <input
             id="deal"
             v-model="group.dealname"
@@ -130,6 +133,7 @@
           >
         </div>
         <div class="form-group">
+          <label>Close date</label>
           <input
             id="closedate"
             v-model="group.closedate"
