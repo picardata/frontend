@@ -209,27 +209,34 @@ export default {
   methods: {
     async saveGroup () {
       try {
-        const data = await this.$axios.$post('/api/hubspot/contacts', {
-          company: this.group.company,
-          email: this.group.email,
-          firstname: this.group.firstname,
-          lastname: this.group.lastname,
-          phone: this.group.phone,
-          website: this.group.website
-        })
-
-        this.modals.createGroup = false
-        this.groups.push(
-          {
-            company: data.company,
-            email: data.email,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            phone: data.phone,
-            website: data.website
+        if(this.group.company
+           && this.group.email
+           && this.group.firstname
+           && this.group.lastname
+           && this.group.phone
+           && this.group.website) {
+          const data = await this.$axios.$post('/api/hubspot/contacts', {
+            company: this.group.company,
+            email: this.group.email,
+            firstname: this.group.firstname,
+            lastname: this.group.lastname,
+            phone: this.group.phone,
+            website: this.group.website
           })
-        window.open(data.url, '_blank').focus()
-        this.clearForm()
+
+          this.modals.createGroup = false
+          this.groups.push(
+            {
+              company: data.company,
+              email: data.email,
+              firstname: data.firstname,
+              lastname: data.lastname,
+              phone: data.phone,
+              website: data.website
+            })
+          window.open(data.url, '_blank').focus()
+          this.clearForm()
+        }
       } catch (e) {
         console.log('Failed')
       }
