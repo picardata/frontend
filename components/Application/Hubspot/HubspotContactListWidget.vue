@@ -80,17 +80,17 @@
     <modal :show.sync="modals.createGroup">
       <template slot="header">
         <h5 class="modal-title">
-          <span v-if="form.new">Add Company</span>
-          <span v-else>Company Information</span>
+          <span v-if="form.new">Add Contact</span>
+          <span v-else>Contact Information</span>
         </h5>
       </template>
       <div>
         <div class="form-group">
           <input
-            id="name"
-            v-model="group.name"
+            id="company"
+            v-model="group.company"
             type="text"
-            name="name"
+            name="company"
             class="form-control"
             placeholder="Company Name"
             required="required"
@@ -98,12 +98,56 @@
         </div>
         <div class="form-group">
           <input
-            id="domain"
-            v-model="group.domain"
-            type="url"
-            name="domain"
+            id="email"
+            v-model="group.email"
+            type="email"
+            name="email"
             class="form-control"
-            placeholder="Domain, ex: test.com"
+            placeholder="Email"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="firstname"
+            v-model="group.firstname"
+            type="firstname"
+            name="firstname"
+            class="form-control"
+            placeholder="Firstname"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="lastname"
+            v-model="group.lastname"
+            type="lastname"
+            name="lastname"
+            class="form-control"
+            placeholder="Lastname"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="phone"
+            v-model="group.phone"
+            type="phone"
+            name="phone"
+            class="form-control"
+            placeholder="Phone"
+            required="required"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            id="website"
+            v-model="group.website"
+            type="website"
+            name="website"
+            class="form-control"
+            placeholder="Website, ex: test.com"
             required="required"
           >
         </div>
@@ -146,8 +190,12 @@ export default {
       groupUsers: {},
       group: {
         index: 0,
-        name: '',
-        domain: ''
+        company: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        website: ""
       }
     }
   },
@@ -161,18 +209,25 @@ export default {
   methods: {
     async saveGroup () {
       try {
-        const data = await this.$axios.$post('/api/hubspot/companies', {
-          name: this.group.name,
-          domain: this.group.domain
-        })
+        const data = await this.$axios.$post('/api/hubspot/contacts', {
+          company: this.group.company,
+          email: this.group.email,
+          firstname: this.group.firstname,
+          lastname: this.group.lastname,
+          phone: this.group.phone,
+          website: this.group.website
+        });
 
         this.modals.createGroup = false
         this.groups.push(
           {
-            name: data.name,
-            domain: data.domain
-          }
-        )
+            company: data.company,
+            email: data.email,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            phone: data.phone,
+            website: data.website
+          })
         window.open(data.url, '_blank').focus()
         this.clearForm()
       } catch (e) {
@@ -182,8 +237,12 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        name: '',
-        domain: ''
+        company: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        website: ""
       }
     },
     openForm () {
