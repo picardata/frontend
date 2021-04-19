@@ -190,12 +190,12 @@ export default {
       groupUsers: {},
       group: {
         index: 0,
-        company: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        website: ""
+        company: '',
+        email: '',
+        firstname: '',
+        lastname: '',
+        phone: '',
+        website: ''
       }
     }
   },
@@ -216,7 +216,7 @@ export default {
           lastname: this.group.lastname,
           phone: this.group.phone,
           website: this.group.website
-        });
+        })
 
         this.modals.createGroup = false
         this.groups.push(
@@ -237,12 +237,12 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        company: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        website: ""
+        company: '',
+        email: '',
+        firstname: '',
+        lastname: '',
+        phone: '',
+        website: ''
       }
     },
     openForm () {
