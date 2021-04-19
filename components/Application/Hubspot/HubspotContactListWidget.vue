@@ -209,12 +209,12 @@ export default {
   methods: {
     async saveGroup () {
       try {
-        if(this.group.company
-           && this.group.email
-           && this.group.firstname
-           && this.group.lastname
-           && this.group.phone
-           && this.group.website) {
+        if (this.group.company &&
+           this.group.email &&
+           this.group.firstname &&
+           this.group.lastname &&
+           this.group.phone &&
+           this.group.website) {
           const data = await this.$axios.$post('/api/hubspot/contacts', {
             company: this.group.company,
             email: this.group.email,
