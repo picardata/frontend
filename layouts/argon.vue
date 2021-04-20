@@ -65,11 +65,12 @@
         </sidebar-item>
 
         <sidebar-item
-            :link="{
-              name: 'Logout',
-              icon: 'ni ni-user-run text-primary',
-              path: '/login'
-            }">
+          :link="{
+            name: 'Logout',
+            icon: 'ni ni-user-run text-primary',
+            path: '/login'
+          }"
+        >
           <!-- <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
           <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" /> -->
         </sidebar-item>
