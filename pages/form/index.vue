@@ -1,8 +1,17 @@
 <template>
-  <div class="mt-5">
-    <PrevPage />
-    <div class="form-list mt-5">
-      <div class="row">
+  <div>
+    <base-header type="white" class="pb-6">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <route-breadcrumb :crumbs="crumbs" />
+          </nav>
+        </div>
+      </div>
+    </base-header>
+    <div class="container-fluid mt--6">
+      <prev-page />
+      <div class="row mt-3">
         <div class="col-4">
           <h1>Forms</h1>
         </div>
@@ -12,9 +21,7 @@
           </span>
         </div>
       </div>
-    </div>
-    <div class="form-search mt-5">
-      <div class="row">
+      <div class="row mt-3">
         <div class="form-group col-12">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -37,9 +44,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="mt-5">
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-4">
           <h4>All forms</h4>
         </div>
@@ -102,45 +107,47 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mt-5">
-      <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
-        <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-          <div class="card-body">
-            <h5 class="card-title">
-              {{ form.name }}
-            </h5>
-            <div class="row">
-              <div class="col-2 pt-3 pl-4">
-                <font-awesome-icon
-                  fixed-width
-                  size="lg"
-                  class="sync-icon"
-                  :icon="['fas', 'sync']"
-                />
+      <div class="row mt-3">
+        <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+          <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ form.name }}
+              </h5>
+              <div class="row">
+                <div class="col-2 pt-3 pl-4">
+                  <font-awesome-icon
+                    fixed-width
+                    size="lg"
+                    class="sync-icon"
+                    :icon="['fas', 'sync']"
+                  />
+                </div>
+                <div class="col-10">
+                  <p class="card-text last-updated">
+                    Last updated:<br>
+                    {{ formatDate(form.updatedAt) }}
+                  </p>
+                </div>
               </div>
-              <div class="col-10">
-                <p class="card-text last-updated">
-                  Last updated:<br>
-                  {{ formatDate(form.updatedAt) }}
-                </p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 col-sm-12 border-right">
-                <button class="btn btn-default" @click="shareModal(form)">
-                  Share
-                </button>
-              </div>
-              <div class="col-md-4 col-sm-12 border-right">
-                <nuxt-link class="btn btn-default" :to="openLink(form.id)">
-                  Open
-                </nuxt-link>
-              </div>
-              <div class="col-md-4 col-sm-12">
-                <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
-                  Delete
-                </a>
+              <div class="row mt-2">
+                <div class="col-md-4 col-sm-12">
+                  <button class="btn btn-gray-light" @click="shareModal(form)">
+                    <span class="text-primary">Share</span>
+                  </button>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <div class="divider d-inline" />
+                  <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
+                    <span class="text-primary">Open</span>
+                  </nuxt-link>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <div class="divider d-inline" />
+                  <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
+                    Delete
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -199,6 +206,7 @@ const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export default {
   name: 'IndexVue',
+  layout: 'argon',
   auth: true,
   components: { PrevPage },
   async asyncData (context) {
@@ -210,6 +218,12 @@ export default {
   },
   data () {
     return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        }
+      ],
       sort: 0,
       qSearch: '',
       selectedDeletion: {
@@ -374,5 +388,4 @@ div.vl {
   padding-top: 0;
   height: 16px;
 }
-
 </style>

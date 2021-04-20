@@ -1,64 +1,76 @@
 <template>
-  <div class="mt-5">
-    <PrevPage />
-    <div class="row mt-5">
-      <div class="col-6">
-        <h1>Create blank form</h1>
+  <div>
+    <base-header type="white" class="pb-6">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <route-breadcrumb :crumbs="crumbs" />
+          </nav>
+        </div>
       </div>
-      <div class="col-6">
+    </base-header>
+    <div class="container-fluid mt--6">
+      <prev-page />
+      <div class="row mt-3">
+        <div class="col-6">
+          <h1>Create blank form</h1>
+        </div>
+        <div class="col-6">
         <span class="align-middle float-right">
           <nuxt-link to="/form/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
         </span>
+        </div>
       </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-4">
-        <h5><b>Questions</b></h5>
-      </div>
-      <div class="col-8">
+      <div class="row mt-5">
+        <div class="col-4">
+          <span>Questions</span>
+        </div>
+        <div class="col-8">
         <span class="align-middle float-right">
-          <nuxt-link :to="id ? '/form/preview/' + id : ''" class="btn btn-lg bg-default text-primary btn-preview">
-            <font-awesome-icon :icon="['fas', 'eye']" />
+          <nuxt-link :to="id ? '/form/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+            <font-awesome-icon :icon="['fas', 'eye']"/>
             Preview form</nuxt-link>
           <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
-          <nuxt-link :to="id ? '/form/result/' + id : ''" class="btn btn-lg bg-default btn-preview">
-            <font-awesome-icon :icon="['fas', 'poll']" />
+          <nuxt-link :to="id ? '/form/result/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+            <font-awesome-icon :icon="['fas', 'poll']"/>
             Survey results</nuxt-link>
         </span>
+        </div>
       </div>
-    </div>
-    <div class="row mt-5">
-      <form>
-        <div class="card">
-          <div class="card-body">
-            <div>
-              <hr class="header-break">
-            </div>
-            <div class="form-group">
-              <input
-                v-model="name"
-                type="text"
-                name="name"
-                class="form-control title mat border-0"
-                placeholder="Untitled form"
-                required="required"
-                @change="submit"
-              >
-            </div>
-            <div class="form-group">
-              <input
-                v-model="description"
-                type="text"
-                name="description"
-                class="form-control description mat border-0"
-                placeholder="Form description"
-                @change="submit"
-              >
+      <div class="row mt-5">
+        <form>
+          <div class="card">
+            <div class="card-body">
+              <div>
+                <hr class="header-break">
+              </div>
+              <div class="form-group">
+                <input
+                  v-model="name"
+                  type="text"
+                  name="name"
+                  class="form-control title mat border-0"
+                  placeholder="Untitled form"
+                  required="required"
+                  @change="submit"
+                >
+              </div>
+              <div class="form-group">
+                <input
+                  v-model="description"
+                  type="text"
+                  name="description"
+                  class="form-control description mat border-0"
+                  placeholder="Form description"
+                  @change="submit"
+                >
+              </div>
             </div>
           </div>
-        </div>
-        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" />
-      </form>
+          <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField"
+                 :delete_field="deleteField"/>
+        </form>
+      </div>
     </div>
     <div class="stick-bottom">
       <button
@@ -66,7 +78,7 @@
         type="button"
         @click="newField"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" />
+        <font-awesome-icon :icon="['fas', 'plus']"/>
       </button>
     </div>
     <modal :show.sync="modals.modal0">
@@ -95,13 +107,28 @@
 <script>
 import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
+
 export default {
   name: 'IndexVue',
-  components: { PrevPage, Field },
+  layout: 'argon',
+  components: {
+    PrevPage,
+    Field
+  },
   data () {
     return {
       id: '',
       name: 'Untitled form',
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        },
+        {
+          name: 'New Form',
+          path: '/form/new'
+        }
+      ],
       description: '',
       questions: [
         {
@@ -136,11 +163,11 @@ export default {
     }
   },
   computed:
-  {
-    questionsLength () {
-      return this.questions.length
-    }
-  },
+    {
+      questionsLength () {
+        return this.questions.length
+      }
+    },
   methods: {
     shareModal () {
       this.modals.modal0 = true
@@ -380,11 +407,11 @@ export default {
 </script>
 <style scoped>
 .stick-bottom {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin-right: 240px;
-    margin-bottom: 70px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 240px;
+  margin-bottom: 70px;
 }
 
 h1 {
@@ -413,7 +440,8 @@ form {
 }
 
 .form-control {
-  color: black;
+  color: #313131;
+  font-weight: 600;
 }
 
 input.title {

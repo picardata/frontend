@@ -1,67 +1,80 @@
 <template>
-  <div class="mt-5">
-    <PrevPage />
-    <div class="row mt-5">
-      <div class="col-6">
-        <h1>Create blank form</h1>
-        <div class="rox pl-1">
-          <p>Last Modified {{ formattedUpdatedAt }}</p>
+  <div>
+    <base-header type="white" class="pb-6">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <route-breadcrumb :crumbs="crumbs" />
+          </nav>
         </div>
       </div>
-      <div class="col-6">
-        <span class="align-middle float-right">
-          <nuxt-link to="/form/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
-        </span>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-4">
-        <h5><b>Questions</b></h5>
-      </div>
-      <div class="col-8">
-        <span class="align-middle float-right">
-          <nuxt-link :to="'/form/preview/' + id" class="btn btn-lg bg-default btn-preview">
-            <font-awesome-icon :icon="['fas', 'eye']" />
-            Preview form</nuxt-link>
-          <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
-          <nuxt-link :to="'/form/result/' + id" class="btn btn-lg bg-default btn-preview">
-            <font-awesome-icon :icon="['fas', 'poll']" />
-            Survey results</nuxt-link>
-        </span>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <form>
-        <div class="card">
-          <div class="card-body">
-            <div>
-              <hr class="header-break">
-            </div>
-            <div class="form-group">
-              <input
-                v-model="name"
-                type="text"
-                name="name"
-                class="form-control title"
-                placeholder="Untitled form"
-                required="required"
-                @change="submit"
-              >
-            </div>
-            <div class="form-group">
-              <input
-                v-model="description"
-                type="text"
-                name="description"
-                class="form-control description"
-                placeholder="Form description"
-                @change="submit"
-              >
-            </div>
+    </base-header>
+    <div class="container-fluid mt--6">
+      <prev-page />
+      <div class="row mt-3">
+        <div class="col-6">
+          <h1>{{ name }}</h1>
+          <div class="rox pl-1">
+            <p>Last Modified {{ formattedUpdatedAt }}</p>
           </div>
         </div>
-        <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" />
-      </form>
+        <div class="col-6">
+          <span class="align-middle float-right">
+            <nuxt-link to="/form/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
+          </span>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-4">
+          <nav class="nav">
+            <a class="nav-link disabled" href="#">Questions</a>
+            <nuxt-link class="nav-link" :to="'/form/result/' + id">
+              View Responses
+            </nuxt-link>
+          </nav>
+        </div>
+        <div class="col-8">
+          <span class="align-middle float-right">
+            <nuxt-link :to="'/form/preview/' + id" class="btn btn-lg bg-white btn-preview">
+              <font-awesome-icon :icon="['fas', 'eye']" />
+              Preview form</nuxt-link>
+            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+          </span>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <form>
+          <div class="card">
+            <div class="card-body">
+              <div>
+                <hr class="header-break">
+              </div>
+              <div class="form-group">
+                <input
+                  v-model="name"
+                  type="text"
+                  name="name"
+                  class="form-control title"
+                  placeholder="Untitled form"
+                  required="required"
+                  @change="submit"
+                >
+              </div>
+              <div class="form-group">
+                <input
+                  v-model="description"
+                  type="text"
+                  name="description"
+                  class="form-control description"
+                  placeholder="Form description"
+                  @change="submit"
+                >
+              </div>
+            </div>
+          </div>
+          <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" />
+        </form>
+      </div>
     </div>
     <div class="stick-bottom">
       <button
@@ -100,7 +113,22 @@ import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
 export default {
   name: 'IndexVue',
+  layout: 'argon',
   components: { PrevPage, Field },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        },
+        {
+          name: 'Edit Form',
+          path: '/form/id/' + this.$route.params.id
+        }
+      ]
+    }
+  },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
@@ -134,7 +162,6 @@ export default {
   },
   computed: {
     formattedUpdatedAt () {
-      console.log(this.updatedAt)
       return this.$moment(this.updatedAt).calendar()
     },
     questionsLength () {
@@ -325,6 +352,8 @@ export default {
           // eslint-disable-next-line no-console
           console.log(data)
           this.id = data.id
+          console.log(data.updatedAt)
+          this.updatedAt = data.updatedAt
         })
         .catch((e) => {
           this.errors = []
@@ -390,7 +419,10 @@ input.description, input.title {
 }
 
 input.title {
-  font-size: 48px;
+  font-size: 36px;
+  font-weight: 600;
+  color: #313131;
+  line-height: 48px;
 }
 
 input.description {
@@ -424,13 +456,21 @@ input.question {
 }
 
 hr.header-break {
+  border-radius: 20px;
   border-top: 8px solid var(--blue);
   margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 0;
   width: 130px;
 }
 
 .dropdown-toggle::after {
   display: none;
+}
+
+nav a.disabled {
+  color: #14142B;
+  font-weight: 600;
 }
 
 </style>
