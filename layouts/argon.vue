@@ -90,7 +90,7 @@
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
-import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
+// import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
 import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
 
 function hasElement (className) {
@@ -110,7 +110,7 @@ function initScrollbar (className) {
 
 export default {
   components: {
-    DashboardNavbar,
+    // DashboardNavbar,
     ContentFooter
   },
   mounted () {
