@@ -88,8 +88,8 @@
       </div>
       <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" :totalPage="totalPage" @setTotalPage="setTotalPage"/>
       <div class="row" style="margin-bottom: 2%;"> 
-        <div class="col-md-12">  
-          <div class="picardata-paging">
+        <div class="col-md-12 ">  
+          <div class="picardata-paging float-right">
             <div class="col-sm">
               <span class="pd-icon pdicon-Chevron-Left"></span>
             </div>
@@ -164,7 +164,7 @@ div.search-button {
   padding: 16px;
   cursor: pointer;
   position: static;
-  width: 205px;
+  width: atuo;
   /*height: 60px;
   left: 689px;
   top: 2066px; */
