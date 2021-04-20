@@ -25,6 +25,9 @@
         <div class="col-3 ">
           <SlackUserCount />
         </div>
+        <div class="col-3 ">
+          <SlackUserGroupCount />
+        </div>
       </div>
     </div>
   </div>
@@ -32,11 +35,12 @@
 
 <script>
 import SlackUserCount from '@/components/Application/Slack/SlackUserCount'
+import SlackUserGroupCount from '@/components/Application/Slack/SlackUserGroupCount'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 
 export default {
   layout: 'argon',
-  components: { SlackUserCount, ApplicationDetail },
+  components: { SlackUserCount, ApplicationDetail, SlackUserGroupCount },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
