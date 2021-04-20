@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navigation />
+    <!-- <Navigation /> -->
     <div id="wrapper">
       <div id="content-wrapper">
         <div class="container container-fluid">
@@ -15,13 +15,13 @@
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import vueCountryRegionSelect from 'vue-country-region-select'
-import Navigation from '~/components/Navigation.vue'
+// import Navigation from '~/components/Navigation.vue'
 
 Vue.use(vueCountryRegionSelect)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 export default Vue.extend({
-  components: { Navigation }
+  // components: { Navigation }
 })
 </script>
