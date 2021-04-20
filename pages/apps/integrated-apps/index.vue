@@ -87,16 +87,21 @@
         </div>
       </div>
       <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" />
+      <div class="row" style="margin-bottom: 2%;"> 
+        <div class="col-md-12">  
+          <div class="picardata-paging float-right">
+            <div class="col-sm">
+              <span class="pd-icon pdicon-Chevron-Left"></span>
+            </div>
+            <span class="col-sm">1</span>
+            <span class="col-sm">2</span>
+            <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
+          </div>
+        </div>
+      </div>
     </div>
  
-    <div class="picardata-paging">
-      <div class="col-sm">
-        <span class="pd-icon pdicon-Chevron-Left"></span>
-      </div>
-      <span class="col-sm">1</span>
-      <span class="col-sm">2</span>
-      <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
-    </div>
+
   </div>
 </template>
 
