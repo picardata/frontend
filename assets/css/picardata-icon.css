@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'picardata';
+  src:  url('fonts/picardata.eot?d3orc8');
+  src:  url('fonts/picardata.eot?d3orc8#iefix') format('embedded-opentype'),
+    url('fonts/picardata.ttf?d3orc8') format('truetype'),
+    url('fonts/picardata.woff?d3orc8') format('woff'),
+    url('fonts/picardata.svg?d3orc8#picardata') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.pd-icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'picardata' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pdicon-Home:before {
+  content: "\e900";
+}
+.pdicon-Alert-info:before {
+  content: "\e901";
+}
+.pdicon-Apps:before {
+  content: "\e902";
+}
+.pdicon-Back-Arrow:before {
+  content: "\e903";
+}
+.pdicon-Check:before {
+  content: "\e904";
+}
+.pdicon-Chevron-Down:before {
+  content: "\e905";
+}
+.pdicon-Chevron-Left:before {
+  content: "\e907";
+}
+.pdicon-Chevron-Right:before {
+  content: "\e906";
+}
+.pdicon-Collapse:before {
+  content: "\e908";
+}
+.pdicon-Configure:before {
+  content: "\e909";
+}
+.pdicon-Cross:before {
+  content: "\e90a";
+}
+.pdicon-Delete:before {
+  content: "\e90b";
+}
+.pdicon-Expand:before {
+  content: "\e90d";
+}
+.pdicon-Forms:before {
+  content: "\e90c";
+}
+.pdicon-Logout:before {
+  content: "\e910";
+}
+.pdicon-Profile:before {
+  content: "\e90f";
+}
+.pdicon-Settings:before {
+  content: "\e90e";
+}
