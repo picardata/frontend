@@ -68,7 +68,7 @@
           :link="{
             name: 'Logout',
             icon: 'ni ni-user-run text-primary',
-            path: '/login'
+            path: '/logout'
           }"
         >
           <!-- <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
