@@ -86,15 +86,14 @@
           </base-button>
         </div>
       </div>
-      <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" />
+      <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" :totalPage="totalPage" @setTotalPage="setTotalPage"/>
       <div class="row" style="margin-bottom: 2%;"> 
         <div class="col-md-12">  
-          <div class="picardata-paging float-right">
+          <div class="picardata-paging">
             <div class="col-sm">
               <span class="pd-icon pdicon-Chevron-Left"></span>
             </div>
-            <span class="col-sm">1</span>
-            <span class="col-sm">2</span>
+            <span v-for="n in this.totalPage" class="col-sm">{{ n }} </span>
             <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
           </div>
         </div>
@@ -107,7 +106,7 @@
 
 <script>
 
-import ItegratedAppsList from '@/components/Application/Google/IntegratedAppsList'
+import ItegratedAppsList from '@/components/Application/IntegratedAppsList'
 export default {
   name: 'Index',
   layout: 'argon',
@@ -123,7 +122,14 @@ export default {
           name: 'Integrated Apps',
           path: '/apps/integrated-apps'
         }
-      ]
+      ],
+      totalPage: 1
+    }
+  },
+  methods: {
+    setTotalPage (totalPage) {
+      console.log('Mantab !');
+      this.totalPage = totalPage;
     }
   }
 }
