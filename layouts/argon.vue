@@ -63,10 +63,21 @@
           <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
           <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" />
         </sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: 'Logout',
+            icon: 'ni ni-user-run text-primary',
+            path: '/logout'
+          }"
+        >
+          <!-- <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
+          <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" /> -->
+        </sidebar-item>
       </template>
     </side-bar>
     <div class="main-content">
-      <dashboard-navbar type="default" />
+      <!-- <dashboard-navbar type="default" /> -->
       <div @click="$sidebar.displaySidebar(false)">
         <nuxt />
       </div>
@@ -79,7 +90,7 @@
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
-import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
+// import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
 import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
 
 function hasElement (className) {
@@ -99,7 +110,7 @@ function initScrollbar (className) {
 
 export default {
   components: {
-    DashboardNavbar,
+    // DashboardNavbar,
     ContentFooter
   },
   mounted () {
