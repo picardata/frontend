@@ -88,6 +88,15 @@
       </div>
       <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" />
     </div>
+ 
+    <div class="picardata-paging">
+      <div class="col-sm">
+        <span class="pd-icon pdicon-Chevron-Left"></span>
+      </div>
+      <span class="col-sm">1</span>
+      <span class="col-sm">2</span>
+      <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
+    </div>
   </div>
 </template>
 
@@ -130,5 +139,35 @@ li.list-group-item a {
 }
 div.search-button {
   background-color: #EFF0F7;
+}
+
+.picardata-paging {
+  /* Frame 266 */
+
+
+  /* Auto Layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 16px;
+  cursor: pointer;
+  position: static;
+  width: 205px;
+  /*height: 60px;
+  left: 689px;
+  top: 2066px; */
+
+  background: #FAFAFA;
+  border-radius: 8px;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 6;
+  align-self: flex-end;
+  flex-grow: 0;
+  /* margin: 56px 0px; */
+  font-family: picardata;
 }
 </style>
