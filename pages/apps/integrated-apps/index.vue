@@ -378,6 +378,8 @@ div.search-button {
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
+  font-weight: bold;
+
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -388,6 +390,7 @@ div.search-button {
   letter-spacing: 0.75px;
 
   /* Body Text */
+  
 
   color: #313131;
 }
