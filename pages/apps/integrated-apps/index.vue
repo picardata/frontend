@@ -379,7 +379,7 @@ div.search-button {
   left: 143px;
   top: 0px;
 
-  font-family: Poppins;
+  /* font-family: Poppins; */
   font-style: normal;
   font-weight: normal;
   font-weight: bold;
@@ -423,7 +423,7 @@ div.search-button {
   align-self: flex-end;
   flex-grow: 0;
   /* margin: 56px 0px; */
-  font-family: picardata;
+  /* font-family: picardata; */
 }
 
 p.notify-text {
@@ -466,9 +466,9 @@ div.divider {
 /* left: 0px; */
 /* top: calc(50% - 48px/2 - 3px); */
 margin: auto;
-font-family: Poppins;
+/* font-family: Poppins; */
 font-style: normal;
-font-weight: bold;
+font-weight: bolder;
 font-size: 32px;
 color: #313131;
 /* line-height: 48px; */
@@ -486,7 +486,7 @@ bottom: 28.44%; */
 
 /* Desktop / Link Small */
 
-font-family: Poppins;
+/* font-family: Poppins; */
 font-style: normal;
 font-weight: 600;
 font-size: 16px;
