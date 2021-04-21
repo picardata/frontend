@@ -133,6 +133,43 @@
               </template>
             </modal>
           </div>
+          <div class="row" style="margin-bottom: 2%;">
+            <div class="col-md-12 ">
+              <div class="picardata-paging float-right">
+                <div class="col-sm" @click="setPrevious()">
+                  <span
+                    v-if="isLastForPrev()"
+                    class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
+                  />
+                  <span
+                    v-else
+                    class="pd-icon pdicon-Chevron-Left picardata-nav"
+                  />
+                </div>
+                <span
+                  v-for="n in this.totalPage"
+                  v-bind:key="n"
+                  class="col-sm picardata-paging-text"
+                  @click="setCurrentPage(n)"
+                >
+                  <span
+                    v-if="isCurrentPage(n)"
+                    class="picardata-paging-active"
+                  >
+                    {{ n }}
+                  </span>
+                  <span v-else>{{ n }}</span>
+                </span>
+                <div class="col-sm" @click="setNext()">
+                  <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
+                  <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-12 ">   -->
+
+            <!-- </div> -->
+          </div>
         </div>
       <!-- <AppLibraryList /> -->
     </div>
@@ -175,7 +212,15 @@ export default {
       },
       filteredApplications: [],
       applications: [],
-      qSearch: ''
+      qSearch: '',
+      totalPage: 1,
+      currentPage: 1,
+      size: 5,
+      modals: {
+        modal0: false
+      },
+      totalIntegrations: [],
+      integrations: []
     }
   },
   mounted () {
@@ -225,7 +270,65 @@ export default {
         console.log(application.name.match(re) !== null)
         return application.name.search(re) !== -1
       })
-    }
+    },
+    isCurrentPage (n) {
+      return this.currentPage === n
+    },
+
+    setCurrentPage (currentPage) {
+      if (currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ')
+        console.log(currentPage)
+        this.currentPage = currentPage
+
+        // const newIntegrations = this.integrations;
+        const startIndex = ((this.currentPage * this.size) - this.size)
+        const finishIndex = this.currentPage * this.size
+
+        console.log('start index = ')
+        console.log(startIndex)
+
+        console.log('finish index = ')
+        console.log(finishIndex)
+
+        // console.log('start form = ');
+        // console.log(startForm);
+
+        // console.log('size = ');
+        // console.log(size);
+
+        const newIntegrations = []
+        for (let i = startIndex; i < finishIndex; i++) {
+          if (typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i])
+          }
+        }
+
+        console.log('new integrations = ')
+        console.log(newIntegrations)
+
+        this.integrations = newIntegrations
+        // this.setIntegration(newIntegrations);
+      }
+    },
+
+    setNext () {
+      this.setCurrentPage(this.currentPage + 1)
+    },
+
+    isLastForPrev () {
+      // console.log('current page = ');
+      // console.log(n);
+      return this.currentPage === 1
+    },
+
+    isLastForNext () {
+      return this.currentPage === this.totalPage
+    },
+
+    setPrevious () {
+      this.setCurrentPage(this.currentPage - 1)
+    },
   }
 }
 </script>
@@ -275,6 +378,120 @@ div.search-button {
 
 .card-text, .card-img-top {
   cursor: pointer;
+}
+
+.picardata-paging-active {
+  color: #3E4EDD;
+}
+
+.picardata-nav {
+  /* position: absolute; */
+  /* left: 25%;
+  right: 25%;
+  top: 8.33%;
+  bottom: 8.33%; */
+  margin: auto;
+  /* Neutral / N-800 Tundora */
+
+  /* background: #404040; */
+}
+
+.picardata-paging-text {
+  position: static;
+  width: 13px;
+  /* height: 28px; */
+  left: 143px;
+  top: 0px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-weight: bold;
+
+  /* font-size: 20px; */
+  /* line-height: 28px; */
+  /* identical to box height, or 140% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.75px;
+
+  /* Body Text */
+
+  color: #313131;
+}
+.picardata-paging {
+  /* Frame 266 */
+
+  /* Auto Layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 16px;
+  cursor: pointer;
+  position: static;
+  width: atuo;
+  /*height: 60px;
+  left: 689px;
+  top: 2066px; */
+
+  background: #FAFAFA;
+  border-radius: 8px;
+  color: #313131;
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 6;
+  align-self: flex-end;
+  flex-grow: 0;
+  /* margin: 56px 0px; */
+  font-family: picardata;
+}
+
+ .picardata-title {
+  /* position: absolute; */
+/* width: 278px; */
+/* height: 48px; */
+/* left: 0px; */
+/* top: calc(50% - 48px/2 - 3px); */
+margin: auto;
+font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 32px;
+color: #313131;
+/* line-height: 48px; */
+/* identical to box height */
+
+/* letter-spacing: 0.75px; */
+}
+
+.picardata-title-manage-app {
+  /* position: absolute;
+left: 6.28%;
+right: 4.83%;
+top: 27.81%;
+bottom: 28.44%; */
+
+/* Desktop / Link Small */
+
+font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 28px;
+/* identical to box height, or 175% */
+
+/* display: flex;
+align-items: center;
+text-align: right;
+letter-spacing: 0.75px; */
+
+/* Main Button */
+
+color: #2534B6;
 }
 </style>
 
