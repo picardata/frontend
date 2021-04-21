@@ -11,25 +11,25 @@
     </base-header>
     <div class="container min-vh-80">
       <div class="row">
-                  <div class="col-sm-6 float-right">
-            <div class="row">
+            <div class="col-sm-6 float-right picardata-title">
+            <div class="row ">
               <div class="col-sm-1">
                 <span class="pd-icon pdicon-Back-Arrow"></span>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-7">
                 Integrated Apps
               </div>
-              <div class="col-sm-7"></div>
+              <div class="col-sm-4"></div>
             </div>
           </div>
 
-          <div class="col-sm-6 float-left">
+          <div class="col-sm-6 float-left picardata-title-manage-app">
             <div class="row">
-              <div class="col-sm-7"></div>
+              <div class="col-sm-5"></div>
               <div class="col-sm-1">
                 <span class="pd-icon pdicon-Configure"></span>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 Manage Apps
               </div>
             </div>
@@ -446,5 +446,48 @@ div.divider {
 
 .app-img {
   width: 80px;
+}
+
+ .picardata-title {
+  /* position: absolute; */
+/* width: 278px; */
+/* height: 48px; */
+/* left: 0px; */
+/* top: calc(50% - 48px/2 - 3px); */
+margin: auto;
+font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 32px;
+/* line-height: 48px; */
+/* identical to box height */
+
+/* letter-spacing: 0.75px; */
+}
+
+.picardata-title-manage-app {
+  /* position: absolute;
+left: 6.28%;
+right: 4.83%;
+top: 27.81%;
+bottom: 28.44%; */
+
+/* Desktop / Link Small */
+
+font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 28px;
+/* identical to box height, or 175% */
+
+/* display: flex;
+align-items: center;
+text-align: right;
+letter-spacing: 0.75px; */
+
+/* Main Button */
+
+color: #2534B6;
 }
 </style>
