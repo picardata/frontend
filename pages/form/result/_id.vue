@@ -17,26 +17,28 @@
         </div>
       </div>
       <div class="row mt-5">
-        <div class="col-4">
-          <nav class="nav">
-            <a class="nav-link disabled" href="#">Summary</a>
-          </nav>
-        </div>
         <div class="col-8">
           <b-form-checkbox
             v-model="acceptingResponses"
             name="check-button"
-            class="d-inline text-primary ml-2 font-weight-600 float-right"
+            class="d-inline text-primary ml-4 font-weight-600"
             switch
             @change="submitAcceptingResponses"
           >
             {{ acceptingResponses ? 'Still accepting responses' : 'Not accepting responses' }}
           </b-form-checkbox>
           <br><br>
-          <div v-if="!acceptingResponses">
+          <div class="ml-4" v-if="!acceptingResponses">
             <label for="">Message for respondents</label>
             <input v-model="completedMessage" type="text" class="form-control" @change="submitAcceptingResponses">
           </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-4">
+          <nav class="nav">
+            <a class="nav-link disabled" href="#">Summary</a>
+          </nav>
         </div>
       </div>
       <div class="row mt-5">

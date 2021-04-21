@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content p-0">
     <div v-if="!completedMessage.length" class="title-container">
       <div class="row">
         <div class="col-8 mx-auto">
@@ -100,7 +100,7 @@
     <div v-else class="mt-5">
       <h3>{{ completedMessage }}</h3>
     </div>
-    <div class="footer bg-white fixed-bottom p-2">
+    <div v-if="!completedMessage.length" class="footer bg-white fixed-bottom p-2">
       <div class="row">
         <div class="col-12">
           <button class="mr-3 btn btn-lg btn-primary float-right btn-submit" @click="submit">
