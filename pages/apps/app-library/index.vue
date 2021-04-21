@@ -36,7 +36,8 @@
                   class="navbar-search form-inline light"
                 >
                   <div class="form-group mb-0">
-                    <div class="input-group input-group-alternative input-group-merge search-button">
+                    <div class="input-group input-group-alternative input-group-merge search-button" 
+                         style="flex-wrap: none">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search" /></span>
                       </div>
