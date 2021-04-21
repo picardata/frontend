@@ -10,7 +10,7 @@
       </div>
     </base-header>
     <div class="container min-vh-80">
-      <div class="">
+      <!-- <div class=""> -->
         <div class="row">
           <div class="col-sm-6 float-right picardata-title">
             <div class="row ">
@@ -37,7 +37,7 @@
             </a>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
       <div class="row">
         <!-- <div class=""> -->
         <form
@@ -45,12 +45,16 @@
           class="navbar-search form-inline"
           :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
         >
-          <div class="form-group mb-0">
-            <div class="input-group input-group-alternative input-group-merge search-button">
+          <div class="form-group" style="margin-top: 4%; margin-bottom: 4%">
+            <div class="input-group input-group-alternative input-group-merge search-button"
+                style="background: #EFF0F7;border-radius: 12px;border: none; width: 100%">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-search" /></span>
               </div>
-              <input class="form-control app-search" placeholder="Search app" type="text">
+              <input class="form-control app-search" 
+                     placeholder="Search your integrated app" 
+                     type="text" 
+                     >
             </div>
           </div>
           <button
