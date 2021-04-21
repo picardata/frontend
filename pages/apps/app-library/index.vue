@@ -63,7 +63,7 @@
             </card>
           </div>
           <div :class="'row p-0 ' + classAdded">
-            <div v-for="(application, index) in filteredApplications" :key="application.id" :class="appClass">
+            <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
               <card>
                 <div class="text-center p-3">
                   <img
@@ -229,6 +229,14 @@ export default {
       .then((data) => {
         this.applications = data.data
         this.filteredApplications = this.applications
+
+        this.totalIntegrations = data.data.filter(x => x.status === 1)
+        console.log('total integration = ')
+
+        this.integrations = [...this.totalIntegrations]
+        // this.totalPage = 5;
+        this.totalPage = Math.ceil(this.filteredApplications.length / 5)
+        this.setCurrentPage(1)
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
