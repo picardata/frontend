@@ -11,6 +11,36 @@
     </base-header>
     <div class="container min-vh-80">
       <div class="row">
+                  <div class="col-sm-6 float-right">
+            <div class="row">
+              <div class="col-sm-1">
+                <span class="pd-icon pdicon-Back-Arrow"></span>
+              </div>
+              <div class="col-sm-4">
+                Integrated Apps
+              </div>
+              <div class="col-sm-7"></div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 float-left">
+            <div class="row">
+              <div class="col-sm-7"></div>
+              <div class="col-sm-1">
+                <span class="pd-icon pdicon-Configure"></span>
+              </div>
+              <div class="col-sm-4">
+                Manage Apps
+              </div>
+            </div>
+          </div>
+        <div class="col-xl-10 p-4">
+
+
+        </div>
+
+      </div>
+      <div class="row">
         <div class="col-xl-10 p-4">
           <form
             id="navbar-search-main"
@@ -67,7 +97,7 @@
           </div>
         </div>
       </div>
-      <div class="row ml-1 mb-5">
+      <div class="row">
         <div class="col">
           <base-button type="primary">
             All
