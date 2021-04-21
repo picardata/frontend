@@ -212,39 +212,41 @@ export default {
     },
 
     setCurrentPage (currentPage) {
-      console.log('current page = ');
-      console.log(currentPage);
-      this.currentPage = currentPage;
-      
-      // const newIntegrations = this.integrations;
-      const startIndex = ((this.currentPage*this.size)-this.size);
-      const finishIndex = this.currentPage*this.size; 
+      if(currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ');
+        console.log(currentPage);
+        this.currentPage = currentPage;
+        
+        // const newIntegrations = this.integrations;
+        const startIndex = ((this.currentPage*this.size)-this.size);
+        const finishIndex = this.currentPage*this.size; 
 
 
-      console.log('start index = ');
-      console.log(startIndex);
+        console.log('start index = ');
+        console.log(startIndex);
 
-      console.log('finish index = ');
-      console.log(finishIndex);
+        console.log('finish index = ');
+        console.log(finishIndex);
 
-      // console.log('start form = ');
-      // console.log(startForm);
+        // console.log('start form = ');
+        // console.log(startForm);
 
-      // console.log('size = ');
-      // console.log(size);
+        // console.log('size = ');
+        // console.log(size);
 
-      const newIntegrations = [];
-      for(let i=startIndex;i<finishIndex;i++) {
-        if(typeof this.totalIntegrations[i] !== 'undefined') {
-          newIntegrations.push(this.totalIntegrations[i]);
+        const newIntegrations = [];
+        for(let i=startIndex;i<finishIndex;i++) {
+          if(typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i]);
+          }
         }
+
+        console.log('new integrations = ');
+        console.log(newIntegrations);
+
+        this.integrations = newIntegrations;
+        // this.setIntegration(newIntegrations);
       }
-
-      console.log('new integrations = ');
-      console.log(newIntegrations);
-
-      this.integrations = newIntegrations;
-      // this.setIntegration(newIntegrations);
     },
 
     setNext() {
