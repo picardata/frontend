@@ -132,7 +132,12 @@
         <div class="col-md-12 ">  
           <div class="picardata-paging float-right">
             <div class="col-sm" v-on:click="setPrevious()">
-              <span class="pd-icon pdicon-Chevron-Left"></span>
+              <span v-if="isLastForPrev()"
+                    class="pd-icon pdicon-Chevron-Left nav-last">
+              </span>
+              <span v-else
+                    class="pd-icon pdicon-Chevron-Left">
+              </span>
             </div>
             <span 
               v-for="n in this.totalPage" 
@@ -144,7 +149,10 @@
               </span>
               <span v-else>{{ n }}</span>
             </span>
-            <div class="col-sm" v-on:click="setNext()"><span class="pd-icon pdicon-Chevron-Right"></span></div>
+            <div class="col-sm" v-on:click="setNext()">
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last"></span>
+              <span v-else class="pd-icon pdicon-Chevron-Right"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -243,6 +251,16 @@ export default {
       this.setCurrentPage(this.currentPage+1);
     },
 
+    isLastForPrev() {
+      // console.log('current page = ');
+      // console.log(n);
+      return this.currentPage === 1;
+    },
+
+    isLastForNext() {
+      return this.currentPage === this.totalPage;
+    },
+
     setPrevious() {
       this.setCurrentPage(this.currentPage-1);
     },
@@ -275,6 +293,11 @@ export default {
 </script>
 
 <style scoped>
+
+.nav-last {
+  opacity: 0.3;
+}
+
 form, .input-group, .form-group {
   width: 100% !important;
 }
