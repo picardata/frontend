@@ -96,7 +96,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" width="100%">
+            <div class="row" style="width: 100%">
               <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
                 <card>
                   <div class="text-center p-3">
@@ -455,7 +455,7 @@ div.search-button {
   left: 143px;
   top: 0px;
 
-  font-family: Poppins;
+  /* font-family: Poppins; */
   font-style: normal;
   font-weight: normal;
   font-weight: bold;
@@ -499,7 +499,7 @@ div.search-button {
   align-self: flex-end;
   flex-grow: 0;
   /* margin: 56px 0px; */
-  font-family: picardata;
+  /* font-family: picardata; */
 }
 
  .picardata-title {
@@ -509,7 +509,7 @@ div.search-button {
 /* left: 0px; */
 /* top: calc(50% - 48px/2 - 3px); */
 margin: auto;
-font-family: Poppins;
+/* font-family: Poppins; */
 font-style: normal;
 font-weight: bold;
 font-size: 32px;
@@ -529,7 +529,7 @@ bottom: 28.44%; */
 
 /* Desktop / Link Small */
 
-font-family: Poppins;
+/* font-family: Poppins; */
 font-style: normal;
 font-weight: 600;
 font-size: 16px;
@@ -560,7 +560,7 @@ height: 27px;
 left: 0px;
 top: calc(50% - 27px/2 + 0.5px);
 
-font-family: Poppins;
+/* font-family: Poppins; */
 font-style: normal;
 font-weight: 600;
 font-size: 18px;
@@ -576,7 +576,7 @@ color: #313131;
 }
 
 .see-app-list {
-  font-family: Poppins;
+  /* font-family: Poppins; */
 font-style: normal;
 font-weight: 600;
 font-size: 12px;
