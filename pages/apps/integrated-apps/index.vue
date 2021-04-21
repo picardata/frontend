@@ -91,6 +91,7 @@
         app-class="col-4" 
         :totalPage="totalPage" 
         @setTotalPage="setTotalPage"
+        :size="size"
         :currentPage="currentPage" 
         @setCurrentPage="setCurrentPage"/>
       <div class="row" style="margin-bottom: 2%;"> 

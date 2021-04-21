@@ -50,6 +50,10 @@ export default {
     totalPage: {
       type: Number,
       default: 1
+    },
+    size: {
+      type: Number,
+      default: 5
     }
   },
   data () {
@@ -67,7 +71,8 @@ export default {
         console.log(data)
         this.integrations = data.data.filter(x => x.status === 1)
         // this.totalPage = 5;
-        this.$emit('setTotalPage', 5);
+        
+        this.$emit('setTotalPage', Math.ceil(this.integrations.length / 5));
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
