@@ -127,8 +127,8 @@
               <li v-for="(user, index) in groupUsers" :key="index" class="list-group-item border-0">
                 <div class="row align-items-center">
                   <div class="col-9">
-                    <span href="#" class="text-dark">{{ user.name }}</span>
-                    <small>{{ user.email }}</small>
+                    <span href="#" class="text-dark">{{ user.name.fullName }}</span>
+                    <small>({{ user.email }})</small>
                   </div>
                   <div class="col-3 text-right">
                     <a v-if="user.isAMember" href="#" class="btn btn-sm btn-outline-danger" @click.prevent="removeUserToGroup(index)">

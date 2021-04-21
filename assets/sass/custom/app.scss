@@ -1,3 +1,19 @@
 body {
   background-color: white !important;
 }
+
+.breadcrumb-item {
+  font-size: 18px;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  display: none;
+}
+
+.breadcrumb-item i {
+  color: #404040;
+  margin: 0 10px 3px 10px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  color: #313131;
+}

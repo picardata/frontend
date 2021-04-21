@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col">
         <h5 class="card-title text-uppercase text-muted mb-0">
-          Total users
+          {{ title }}
         </h5>
         <span class="h2 font-weight-bold mb-0">{{ usersCount }}</span>
       </div>
@@ -23,6 +23,12 @@
 <script>
 export default {
   name: 'HubspotUserCount',
+  props: {
+    title: {
+      type: String,
+      default: 'Total users'
+    }
+  },
   data () {
     return {
       stats: []

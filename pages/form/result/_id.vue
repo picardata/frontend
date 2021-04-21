@@ -1,103 +1,127 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="card mt-5">
-          <div class="card-body">
-            <b-form-checkbox
-              v-model="acceptingResponses"
-              style="margin-left: 30px"
-              name="check-button"
-              class="d-inline text-primary font-weight-600 col-xl-12"
-              switch
-              @change="submitAcceptingResponses"
-            >
-              {{ acceptingResponses ? 'Accepting responses' : 'Not accepting responses' }}
-            </b-form-checkbox><br><br>
-            <div v-if="!acceptingResponses">
-              <label for="">Message for respondents</label>
-              <input v-model="completedMessage" type="text" class="form-control" @change="submitAcceptingResponses">
-            </div>
+    <base-header type="white" class="pb-6">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <route-breadcrumb :crumbs="crumbs" />
+          </nav>
+        </div>
+      </div>
+    </base-header>
+    <div class="container-fluid mt--6">
+      <prev-page />
+      <div class="row title-container mt-3">
+        <div class="col-12 mx-auto">
+          <h1>{{ name }}</h1>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-8">
+          <b-form-checkbox
+            v-model="acceptingResponses"
+            name="check-button"
+            class="d-inline text-primary ml-4 font-weight-600"
+            switch
+            @change="submitAcceptingResponses"
+          >
+            {{ acceptingResponses ? 'Still accepting responses' : 'Not accepting responses' }}
+          </b-form-checkbox>
+          <br><br>
+          <div v-if="!acceptingResponses" class="ml-4">
+            <label for="">Message for respondents</label>
+            <input v-model="completedMessage" type="text" class="form-control" @change="submitAcceptingResponses">
           </div>
         </div>
       </div>
-    </div>
-    <div v-for="field,index in chartData" :key="index" class="row">
-      <div v-if="field.type === 0 || field.type === 1" class="col-xl-12">
-        <div class="card mt-5">
-          <div class="card-body">
-            <h5 class="h2 mb-0">
-              {{ field.name }}
-            </h5>
-            <div v-for="answer in field.fieldAnswers" :key="answer.id">
-              <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
-              <h4 style="font-size: 15px" class="d-inline">
-                {{ answer.name }}
-              </h4>
-            </div>
-          </div>
+      <div class="row mt-5">
+        <div class="col-4">
+          <nav class="nav">
+            <a class="nav-link disabled" href="#">Summary</a>
+          </nav>
         </div>
       </div>
-      <div v-if="field.type === 2 || field.type === 4" class="col-xl-12">
-        <card>
-          <template slot="header">
-            <h5 class="h2 mb-0">
-              {{ field.name }}
-            </h5>
-          </template>
-          <div class="chart">
-            <pie-chart
-              :height="350"
-              :chart-data="field.chartData"
-            />
-          </div>
-          <div class="legends">
-            <div v-for="label, index in field.chartData.labels" :key="index">
-              <div class="justify-content: space-between;">
-                <div
-                  :style="{
-                    'color': field.chartData.colors[index],
-                    'width': '12px',
-                    'height': '12px'}"
-                />
-                <font-awesome-icon
-                  :style="{'color': field.chartData.colors[index]}"
-                  :icon="['fas', 'circle']"
-                />
-                <span>
-                  {{ label }}
-                </span>
+      <div class="row mt-5">
+        <div class="col-12">
+          <div v-for="(field,index) in chartData" :key="index" class="row">
+            <div v-if="field.type === 0 || field.type === 1" class="col-xl-12">
+              <div class="card mt-5">
+                <div class="card-body">
+                  <h5 class="h2 mb-0">
+                    {{ field.name }}
+                  </h5>
+                  <div v-for="answer in field.fieldAnswers" :key="answer.id">
+                    <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
+                    <h4 style="font-size: 15px" class="d-inline">
+                      {{ answer.name }}
+                    </h4>
+                  </div>
+                </div>
               </div>
             </div>
+            <div v-if="field.type === 2 || field.type === 4" class="col-xl-12">
+              <card>
+                <template slot="header">
+                  <h5 class="h2 mb-0">
+                    {{ field.name }}
+                  </h5>
+                </template>
+                <div class="chart">
+                  <pie-chart
+                    :height="350"
+                    :chart-data="field.chartData"
+                  />
+                </div>
+                <div class="legends">
+                  <div v-for="label, index in field.chartData.labels" :key="index">
+                    <div class="justify-content: space-between;">
+                      <div
+                        :style="{
+                          'color': field.chartData.colors[index],
+                          'width': '12px',
+                          'height': '12px'}"
+                      />
+                      <font-awesome-icon
+                        :style="{'color': field.chartData.colors[index]}"
+                        :icon="['fas', 'circle']"
+                      />
+                      <span>
+                        {{ label }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </card>
+            </div>
+            <div v-if="field.type === 3" class="col-xl-12">
+              <card>
+                <template slot="header">
+                  <h5 class="h2 mb-0">
+                    {{ field.name }}
+                  </h5>
+                </template>
+                <div class="chart-area">
+                  <bar-chart
+                    :height="350"
+                    :chart-data="field.chartData"
+                  />
+                </div>
+              </card>
+            </div>
           </div>
-        </card>
+        </div>
       </div>
-      <div v-if="field.type === 3" class="col-xl-12">
-        <card>
-          <template slot="header">
-            <h5 class="h2 mb-0">
-              {{ field.name }}
-            </h5>
-          </template>
-          <div class="chart-area">
-            <bar-chart
-              :height="350"
-              :chart-data="field.chartData"
-            />
-          </div>
-        </card>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="card mt-5">
-          <div class="card-body">
-            <h2>Total respondents: {{ totalRespondents }}</h2>
-            <div v-for="respondent,index in formRespondents" :key="index">
-              <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
-              <h4 style="font-size: 15px" class="d-inline">
-                {{ respondent.email }}
-              </h4>
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h2>Total respondents: {{ totalRespondents }}</h2>
+              <div v-for="(respondent,index) in formRespondents" :key="index">
+                <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
+                <h4 style="font-size: 15px" class="d-inline">
+                  {{ respondent.email }}
+                </h4>
+              </div>
             </div>
           </div>
         </div>
@@ -111,8 +135,8 @@ import PieChart from '~/components/argon-core/Charts/PieChart'
 
 function getRandomColor (i) {
   return 'hsl(' + (i + 15) * 360 * Math.random() + ',' +
-             (25 + 70 * Math.random()) + '%,' +
-             (55 + 10 * Math.random()) + '%)'
+    (25 + 70 * Math.random()) + '%,' +
+    (55 + 10 * Math.random()) + '%)'
 }
 
 function pieChartData (field) {
@@ -149,6 +173,7 @@ function barChartData (field) {
 }
 
 export default {
+  layout: 'argon',
   components: {
     PieChart,
     BarChart
@@ -173,6 +198,24 @@ export default {
         return data
       })
       .catch(e => console.log(e))
+  },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        },
+        {
+          name: 'Edit Form',
+          path: '/form/' + this.$route.params.id
+        },
+        {
+          name: 'Form Result',
+          path: '/form/' + this.$route.params.id
+        }
+      ]
+    }
   },
   computed: {
     chartData () {
@@ -234,7 +277,17 @@ input.form-control {
   box-shadow: none;
 }
 
+h1 {
+  font-size: 36px;
+  font-weight: bolder;
+}
+
 input.form-control:focus {
   border-color: var(--primary);
+}
+
+nav a.disabled {
+  color: #14142B;
+  font-weight: 600;
 }
 </style>
