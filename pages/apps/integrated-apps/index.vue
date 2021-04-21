@@ -14,7 +14,8 @@
                 <div class="row">
                 <div class="col-sm-6 float-right picardata-title">
                 <div class="row ">
-                  <div class="col-sm-2">
+                  <!-- <div class="col-sm-1"></div> -->
+                  <div class="col-sm-2" style="color: #313131">
                     <span class="pd-icon pdicon-Back-Arrow"></span>
                   </div>
                   <div class="col-sm-10">
@@ -31,7 +32,7 @@
                   <span class="pd-icon pdicon-Configure"></span>
                 </div>
                 <div class="col-sm-4">
-                  Manage Apps
+                  Manage apps
                 </div>
               </div>
             </div>
@@ -464,6 +465,7 @@ font-family: Poppins;
 font-style: normal;
 font-weight: bold;
 font-size: 32px;
+color: #313131;
 /* line-height: 48px; */
 /* identical to box height */
 
