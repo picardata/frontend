@@ -287,7 +287,7 @@ export default {
       if (currentPage > 0 && currentPage <= this.totalPage) {
         console.log('current page = ')
         console.log(currentPage)
-        this.currentPage = currentPage
+        this.currentPage = currentPage;
 
         // const newIntegrations = this.integrations;
         const startIndex = ((this.currentPage * this.size) - this.size)
@@ -500,6 +500,10 @@ letter-spacing: 0.75px; */
 /* Main Button */
 
 color: #2534B6;
+}
+
+.nav-last {
+  opacity: 0.3;
 }
 </style>
 
