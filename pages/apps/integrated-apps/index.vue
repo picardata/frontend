@@ -15,10 +15,10 @@
                 <div class="col-sm-6 float-right picardata-title">
                 <div class="row ">
                   <!-- <div class="col-sm-1"></div> -->
-                  <div class="col-sm-2" style="color: #313131">
+                  <div class="col-sm-1" style="color: #313131">
                     <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131"></a>
                   </div>
-                  <div class="col-sm-10">
+                  <div class="col-sm-11">
                     Integrated Apps
                   </div>
                   <!-- <div class="col-sm-4"></div> -->
