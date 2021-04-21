@@ -80,48 +80,67 @@
             </card>
           </div>
           <div :class="'row p-0 ' + classAdded">
-            <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
-              <card>
-                <div class="text-center p-3">
-                  <img
-                    slot="image"
-                    class="card-img-top app-img"
-                    :src="application.logo"
-                    :alt="application.name"
-                    @click="$router.push('/apps/app-library/' + application.id)"
-                  >
+            <div class="row">
+              <div class="col-md-8 float-left">
+                See what usually Sales & Marketing use..
+              </div>
+
+              <div class="col-md-4 see-app-list float-right">
+                <div class="row">
+                  <div class="col-md-11">
+                    Or see all app list
+                  </div>
+                  <div class="col-md-1">
+
+                  </div>
                 </div>
-                <h5 class="card-title">
-                  <nuxt-link :to="'/apps/app-library/' + application.id">
-                    {{ application.name }}
-                  </nuxt-link>
-                </h5>
-                <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
-                  {{ application.detail | truncate(90, '...') }}
-                </p>
-                <div class="card-body p-0">
-                  <div class="row">
-                    <div class="col p-0">
-                      <div class="card-profile-stats d-flex justify-content-center">
-                        <div class="p-0">
-                          <span class="heading"><i class="fa fa-download" /> 22</span>
-                        </div>
-                        <div class="divider" />
-                        <div class="p-0">
-                          <span class="heading"><i class="fa fa-heart" /> 10</span>
+              </div>
+            </div>
+            <div class="row">
+              <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
+                <card>
+                  <div class="text-center p-3">
+                    <img
+                      slot="image"
+                      class="card-img-top app-img"
+                      :src="application.logo"
+                      :alt="application.name"
+                      @click="$router.push('/apps/app-library/' + application.id)"
+                    >
+                  </div>
+                  <h5 class="card-title">
+                    <nuxt-link :to="'/apps/app-library/' + application.id">
+                      {{ application.name }}
+                    </nuxt-link>
+                  </h5>
+                  <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
+                    {{ application.detail | truncate(90, '...') }}
+                  </p>
+                  <div class="card-body p-0">
+                    <div class="row">
+                      <div class="col p-0">
+                        <div class="card-profile-stats d-flex justify-content-center">
+                          <div class="p-0">
+                            <span class="heading"><i class="fa fa-download" /> 22</span>
+                          </div>
+                          <div class="divider" />
+                          <div class="p-0">
+                            <span class="heading"><i class="fa fa-heart" /> 10</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div :class="{'text-center': true, 'pt-3 pb-2': application.integrations.length !== 0}">
-                  <base-button v-if="application.integrations.length === 0" outline type="primary" @click="appClick(index)">
-                    Add to Picardata
-                  </base-button>
-                  <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
-                </div>
-              </card>
-            </div>
+                  <div :class="{'text-center': true, 'pt-3 pb-2': application.integrations.length !== 0}">
+                    <base-button v-if="application.integrations.length === 0" outline type="primary" @click="appClick(index)">
+                      Add to Picardata
+                    </base-button>
+                    <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
+                  </div>
+                </card>
+              </div>
+            </div>  
+            
             <modal :show.sync="modals.modal0">
               <template slot="header">
                 <h5 id="exampleModalLabel" class="modal-title" />
@@ -149,6 +168,7 @@
                 </base-button>
               </template>
             </modal>
+          
           </div>
           <div v-if="isQSearchNotExist()" class="row" style="margin-bottom: 2%;">
             <div class="col-md-12 ">
@@ -528,6 +548,50 @@ color: #2534B6;
 
 .nav-last {
   opacity: 0.3;
+}
+
+.sales-marketing {
+  /* H1 Heading */
+
+
+position: absolute;
+width: 400px;
+height: 27px;
+left: 0px;
+top: calc(50% - 27px/2 + 0.5px);
+
+font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 27px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+
+}
+
+.see-app-list {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 28px;
+/* or 175% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.75px;
+
+/* Main Button */
+
+color: #2534B6;
+
 }
 </style>
 
