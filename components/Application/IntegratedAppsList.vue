@@ -79,9 +79,12 @@ export default {
         
         // this.integrations = this.totalIntegrations;
         // this.integrations  = 
-        this.$emit('setTotalPage', Math.ceil(this.totalIntegrations.length / 5), 
-              this.totalIntegrations,
-              this.setIntegration);
+        this.$emit('setTotalPage', 
+                   Math.ceil(this.totalIntegrations.length / 5),
+                   this.totalIntegrations,
+                   this.setIntegration);
+        this.$emit('setCurrentPage',
+                    1)
         // for(let i=)
       }).catch(
       // eslint-disable-next-line no-console
