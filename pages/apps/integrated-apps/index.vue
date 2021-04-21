@@ -86,14 +86,29 @@
           </base-button>
         </div>
       </div>
-      <ItegratedAppsList class-added="ml-1 col-xl-10" app-class="col-4" :totalPage="totalPage" @setTotalPage="setTotalPage"/>
+      <ItegratedAppsList 
+        class-added="ml-1 col-xl-10" 
+        app-class="col-4" 
+        :totalPage="totalPage" 
+        @setTotalPage="setTotalPage"
+        :currentPage="currentPage" 
+        @setCurrentPage="setCurrentPage"/>
       <div class="row" style="margin-bottom: 2%;"> 
         <div class="col-md-12 ">  
           <div class="picardata-paging float-right">
             <div class="col-sm">
               <span class="pd-icon pdicon-Chevron-Left"></span>
             </div>
-            <span v-for="n in this.totalPage" class="col-sm">{{ n }} </span>
+            <span 
+              v-for="n in this.totalPage" 
+              class="col-sm"   
+              v-on:click="setCurrentPage(n)">
+              <span v-if="isCurrentPage(n)" 
+                    class="picardata-paging-active">
+                    {{ n }}
+              </span>
+              <span v-else>{{ n }}</span>
+            </span>
             <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
           </div>
         </div>
@@ -123,14 +138,27 @@ export default {
           path: '/apps/integrated-apps'
         }
       ],
-      totalPage: 1
+      totalPage: 1,
+      currentPage: 1,
+      size: 5
     }
   },
   methods: {
     setTotalPage (totalPage) {
       console.log('Mantab !');
       this.totalPage = totalPage;
-    }
+    },
+
+    isCurrentPage (n) {
+      return this.currentPage === n;
+    },
+
+    setCurrentPage (currentPage) {
+      console.log('current page = ');
+      console.log(currentPage);
+      this.currentPage = currentPage;
+    },
+
   }
 }
 </script>
@@ -152,6 +180,10 @@ div.search-button {
   background-color: #EFF0F7;
 }
 
+.picardata-paging-active { 
+  color: #3E4EDD;
+}
+
 .picardata-paging {
   /* Frame 266 */
 
@@ -171,7 +203,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-
+  color: #313131;
   /* Inside Auto Layout */
 
   flex: none;
