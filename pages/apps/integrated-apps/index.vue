@@ -133,15 +133,15 @@
           <div class="picardata-paging float-right">
             <div class="col-sm" v-on:click="setPrevious()">
               <span v-if="isLastForPrev()"
-                    class="pd-icon pdicon-Chevron-Left nav-last">
+                    class="pd-icon pdicon-Chevron-Left nav-last picardata-nav">
               </span>
               <span v-else
-                    class="pd-icon pdicon-Chevron-Left">
+                    class="pd-icon pdicon-Chevron-Left picardata-nav">
               </span>
             </div>
             <span 
               v-for="n in this.totalPage" 
-              class="col-sm"   
+              class="col-sm picardata-paging-text"   
               v-on:click="setCurrentPage(n)">
               <span v-if="isCurrentPage(n)" 
                     class="picardata-paging-active">
@@ -150,8 +150,8 @@
               <span v-else>{{ n }}</span>
             </span>
             <div class="col-sm" v-on:click="setNext()">
-              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last"></span>
-              <span v-else class="pd-icon pdicon-Chevron-Right"></span>
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav"></span>
+              <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav"></span>
             </div>
           </div>
         </div>
@@ -320,6 +320,41 @@ div.search-button {
   color: #3E4EDD;
 }
 
+.picardata-nav {
+  /* position: absolute; */
+  /* left: 25%;
+  right: 25%;
+  top: 8.33%;
+  bottom: 8.33%; */
+  margin: auto;
+  /* Neutral / N-800 Tundora */
+
+  /* background: #404040; */
+}
+
+.picardata-paging-text {
+  position: static;
+  width: 13px;
+  /* height: 28px; */
+  left: 143px;
+  top: 0px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  /* font-size: 20px; */
+  /* line-height: 28px; */
+  /* identical to box height, or 140% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.75px;
+
+  /* Body Text */
+
+  color: #313131;
+}
 .picardata-paging {
   /* Frame 266 */
 
