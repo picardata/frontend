@@ -10,47 +10,54 @@
       </div>
     </base-header>
     <div class="container min-vh-80">
-      <div class="">
-        <div class="row">
-          <div class="col-sm-6 float-right picardata-title">
-            <div class="row ">
-              <!-- <div class="col-sm-1"></div> -->
-              <div class="col-sm-1" style="color: #313131">
-                <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
-              </div>
-              <div class="col-sm-11">
-                Integrated Apps
-              </div>
-              <!-- <div class="col-sm-4"></div> -->
+      <!-- <div class=""> -->
+      <div class="row">
+        <div class="col-sm-6 float-right picardata-title">
+          <div class="row ">
+            <!-- <div class="col-sm-1"></div> -->
+            <div class="col-sm-1" style="color: #313131">
+              <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
             </div>
-          </div>
-          <div class="col-sm-1" />
-          <div class="col-sm-5 float-left picardata-title-manage-app">
-            <a class="row" href="/apps/integrated-apps">
-              <div class="col-sm-7" />
-              <div class="col-sm-1">
-                <span class="pd-icon pdicon-Configure" />
-              </div>
-              <div class="col-sm-4">
-                Manage apps
-              </div>
-            </a>
+            <div class="col-sm-11">
+              Integrated Apps
+            </div>
+            <!-- <div class="col-sm-4"></div> -->
           </div>
         </div>
+        <div class="col-sm-1" />
+        <div class="col-sm-5 float-left picardata-title-manage-app">
+          <a class="row" href="/apps/integrated-apps">
+            <div class="col-sm-7" />
+            <div class="col-sm-1">
+              <span class="pd-icon pdicon-Configure" />
+            </div>
+            <div class="col-sm-4">
+              Manage apps
+            </div>
+          </a>
+        </div>
       </div>
-      <div class="row">
+      <!-- </div> -->
+      <div>
         <!-- <div class=""> -->
         <form
           id="navbar-search-main"
           class="navbar-search form-inline"
           :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
         >
-          <div class="form-group mb-0">
-            <div class="input-group input-group-alternative input-group-merge search-button">
+          <div class="form-group" style="margin-top: 4%; margin-bottom: 4%">
+            <div
+              class="input-group input-group-alternative input-group-merge search-button"
+              style="background: #EFF0F7;border-radius: 12px;border: none; width: 100%"
+            >
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-search" /></span>
               </div>
-              <input class="form-control app-search" placeholder="Search app" type="text">
+              <input
+                class="form-control app-search"
+                placeholder="Search your integrated app"
+                type="text"
+              >
             </div>
           </div>
           <button
