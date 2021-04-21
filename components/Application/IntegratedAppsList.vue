@@ -65,7 +65,7 @@ export default {
       modals: {
         modal0: false
       },
-      totalIntegrations : [],
+      totalIntegrations: [],
       integrations: []
     }
   },
@@ -76,15 +76,15 @@ export default {
         console.log(data)
         this.totalIntegrations = data.data.filter(x => x.status === 1)
         // this.totalPage = 5;
-        
+
         // this.integrations = this.totalIntegrations;
-        // this.integrations  = 
-        this.$emit('setTotalPage', 
-                   Math.ceil(this.totalIntegrations.length / 5),
-                   this.totalIntegrations,
-                   this.setIntegration);
+        // this.integrations  =
+        this.$emit('setTotalPage',
+          Math.ceil(this.totalIntegrations.length / 5),
+          this.totalIntegrations,
+          this.setIntegration)
         this.$emit('setCurrentPage',
-                    1)
+          1)
         // for(let i=)
       }).catch(
       // eslint-disable-next-line no-console
@@ -98,8 +98,8 @@ export default {
       const selectedIntegration = this.integrations[index]
       this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
     },
-    setIntegration(integration) {
-      this.integrations = integration;
+    setIntegration (integration) {
+      this.integrations = integration
     }
   }
 }

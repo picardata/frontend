@@ -11,93 +11,88 @@
     </base-header>
     <div class="container min-vh-80">
       <div class="">
-                <div class="row">
-                <div class="col-sm-6 float-right picardata-title">
-                <div class="row ">
-                  <!-- <div class="col-sm-1"></div> -->
-                  <div class="col-sm-1" style="color: #313131">
-                    <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131"></a>
-                  </div>
-                  <div class="col-sm-11">
-                    Integrated Apps
-                  </div>
-                  <!-- <div class="col-sm-4"></div> -->
-                </div>
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 float-left picardata-title-manage-app">
-              <a class="row" href="/apps/integrated-apps">
-                <div class="col-sm-7"></div>
-                <div class="col-sm-1">
-                  <span class="pd-icon pdicon-Configure"></span>
-                </div>
-                <div class="col-sm-4">
-                  Manage apps
-                </div>
-              </a>
+        <div class="row">
+          <div class="col-sm-6 float-right picardata-title">
+            <div class="row ">
+              <!-- <div class="col-sm-1"></div> -->
+              <div class="col-sm-1" style="color: #313131">
+                <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
+              </div>
+              <div class="col-sm-11">
+                Integrated Apps
+              </div>
+              <!-- <div class="col-sm-4"></div> -->
             </div>
-        
-
-
-
+          </div>
+          <div class="col-sm-1" />
+          <div class="col-sm-5 float-left picardata-title-manage-app">
+            <a class="row" href="/apps/integrated-apps">
+              <div class="col-sm-7" />
+              <div class="col-sm-1">
+                <span class="pd-icon pdicon-Configure" />
+              </div>
+              <div class="col-sm-4">
+                Manage apps
+              </div>
+            </a>
+          </div>
         </div>
-
       </div>
       <div class="row">
         <!-- <div class=""> -->
-          <form
-            id="navbar-search-main"
-            class="navbar-search form-inline"
-            :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
-          >
-            <div class="form-group mb-0">
-              <div class="input-group input-group-alternative input-group-merge search-button">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-search" /></span>
-                </div>
-                <input class="form-control app-search" placeholder="Search app" type="text">
+        <form
+          id="navbar-search-main"
+          class="navbar-search form-inline"
+          :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
+        >
+          <div class="form-group mb-0">
+            <div class="input-group input-group-alternative input-group-merge search-button">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search" /></span>
               </div>
-            </div>
-            <button
-              type="button"
-              class="close"
-              data-action="search-close"
-              data-target="#navbar-search-main"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </form>
-          <div v-if="false" class="row pt-3">
-            <div class="col-xl-12">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <a href="#" data-filter="all">All applications</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Collaboration Tools</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Customer Support</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Design</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Finance</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Human Resource</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Sales & Marketing</a>
-                </li>
-                <li class="list-group-item">
-                  <a href="#" data-filter="">Social Media</a>
-                </li>
-              </ul>
+              <input class="form-control app-search" placeholder="Search app" type="text">
             </div>
           </div>
+          <button
+            type="button"
+            class="close"
+            data-action="search-close"
+            data-target="#navbar-search-main"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </form>
+        <div v-if="false" class="row pt-3">
+          <div class="col-xl-12">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="#" data-filter="all">All applications</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Collaboration Tools</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Customer Support</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Design</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Finance</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Human Resource</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Sales & Marketing</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" data-filter="">Social Media</a>
+              </li>
+            </ul>
+          </div>
+        </div>
         <!-- </div> -->
       </div>
       <div class="row" style="margin-top: 1%">
@@ -153,38 +148,44 @@
           </card>
         </div>
       </div>
-      <!-- <ItegratedAppsList 
-        class-added="ml-1 col-xl-10" 
-        app-class="col-4" 
-        :totalPage="totalPage" 
+      <!-- <ItegratedAppsList
+        class-added="ml-1 col-xl-10"
+        app-class="col-4"
+        :totalPage="totalPage"
         @setTotalPage="setTotalPage"
         :size="size"
-        :currentPage="currentPage" 
+        :currentPage="currentPage"
         @setCurrentPage="setCurrentPage"/> -->
-      <div class="row" style="margin-bottom: 2%;"> 
+      <div class="row" style="margin-bottom: 2%;">
         <div class="col-md-12 ">
           <div class="picardata-paging float-right">
-            <div class="col-sm" v-on:click="setPrevious()">
-              <span v-if="isLastForPrev()"
-                    class="pd-icon pdicon-Chevron-Left nav-last picardata-nav">
-              </span>
-              <span v-else
-                    class="pd-icon pdicon-Chevron-Left picardata-nav">
-              </span>
+            <div class="col-sm" @click="setPrevious()">
+              <span
+                v-if="isLastForPrev()"
+                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
+              />
+              <span
+                v-else
+                class="pd-icon pdicon-Chevron-Left picardata-nav"
+              />
             </div>
-            <span 
-              v-for="n in this.totalPage" 
-              class="col-sm picardata-paging-text"   
-              v-on:click="setCurrentPage(n)">
-              <span v-if="isCurrentPage(n)" 
-                    class="picardata-paging-active">
-                    {{ n }}
+            <span
+              v-for="n in this.totalPage"
+              v-bind:key="n"
+              class="col-sm picardata-paging-text"
+              @click="setCurrentPage(n)"
+            >
+              <span
+                v-if="isCurrentPage(n)"
+                class="picardata-paging-active"
+              >
+                {{ n }}
               </span>
               <span v-else>{{ n }}</span>
             </span>
-            <div class="col-sm" v-on:click="setNext()">
-              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav"></span>
-              <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav"></span>
+            <div class="col-sm" @click="setNext()">
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
+              <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
             </div>
           </div>
         </div>
@@ -193,8 +194,6 @@
         <!-- </div> -->
       </div>
     </div>
- 
-
   </div>
 </template>
 
@@ -223,103 +222,22 @@ export default {
       modals: {
         modal0: false
       },
-      totalIntegrations : [],
+      totalIntegrations: [],
       integrations: []
     }
-  },
-  methods: {
-    setTotalPage (totalPage, integrations, setIntegration) {
-      console.log('Mantab !');
-      this.totalPage = totalPage;
-      this.integrations = integrations;
-
-      console.log('this integrations = ');
-      console.log(this.integrations);
-
-
-      this.setIntegration = setIntegration;
-
-      console.log('this set integration = ');
-      console.log(this.setIntegration);
-    },
-
-    isCurrentPage (n) {
-      return this.currentPage === n;
-    },
-
-    setCurrentPage (currentPage) {
-      if(currentPage > 0 && currentPage <= this.totalPage) {
-        console.log('current page = ');
-        console.log(currentPage);
-        this.currentPage = currentPage;
-        
-        // const newIntegrations = this.integrations;
-        const startIndex = ((this.currentPage*this.size)-this.size);
-        const finishIndex = this.currentPage*this.size; 
-
-
-        console.log('start index = ');
-        console.log(startIndex);
-
-        console.log('finish index = ');
-        console.log(finishIndex);
-
-        // console.log('start form = ');
-        // console.log(startForm);
-
-        // console.log('size = ');
-        // console.log(size);
-
-        const newIntegrations = [];
-        for(let i=startIndex;i<finishIndex;i++) {
-          if(typeof this.totalIntegrations[i] !== 'undefined') {
-            newIntegrations.push(this.totalIntegrations[i]);
-          }
-        }
-
-        console.log('new integrations = ');
-        console.log(newIntegrations);
-
-        this.integrations = newIntegrations;
-        // this.setIntegration(newIntegrations);
-      }
-    },
-
-    setNext() {
-      this.setCurrentPage(this.currentPage+1);
-    },
-
-    isLastForPrev() {
-      // console.log('current page = ');
-      // console.log(n);
-      return this.currentPage === 1;
-    },
-
-    isLastForNext() {
-      return this.currentPage === this.totalPage;
-    },
-
-    setPrevious() {
-      this.setCurrentPage(this.currentPage-1);
-    },
-    
-    appClick (index) {
-      const selectedIntegration = this.integrations[index]
-      this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
-    },
   },
   mounted () {
     this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
         console.log(data)
-        this.totalIntegrations = data.data.filter(x => x.status === 1);
-        console.log('total integration = ');
+        this.totalIntegrations = data.data.filter(x => x.status === 1)
+        console.log('total integration = ')
 
-        this.integrations = [...this.totalIntegrations];
+        this.integrations = [...this.totalIntegrations]
         // this.totalPage = 5;
-        this.totalPage = Math.ceil(this.totalIntegrations.length / 5);
-        this.setCurrentPage(1);
+        this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
+        this.setCurrentPage(1)
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
@@ -327,6 +245,85 @@ export default {
         }
       )
   },
+  methods: {
+    setTotalPage (totalPage, integrations, setIntegration) {
+      console.log('Mantab !')
+      this.totalPage = totalPage
+      this.integrations = integrations
+
+      console.log('this integrations = ')
+      console.log(this.integrations)
+
+      this.setIntegration = setIntegration
+
+      console.log('this set integration = ')
+      console.log(this.setIntegration)
+    },
+
+    isCurrentPage (n) {
+      return this.currentPage === n
+    },
+
+    setCurrentPage (currentPage) {
+      if (currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ')
+        console.log(currentPage)
+        this.currentPage = currentPage
+
+        // const newIntegrations = this.integrations;
+        const startIndex = ((this.currentPage * this.size) - this.size)
+        const finishIndex = this.currentPage * this.size
+
+        console.log('start index = ')
+        console.log(startIndex)
+
+        console.log('finish index = ')
+        console.log(finishIndex)
+
+        // console.log('start form = ');
+        // console.log(startForm);
+
+        // console.log('size = ');
+        // console.log(size);
+
+        const newIntegrations = []
+        for (let i = startIndex; i < finishIndex; i++) {
+          if (typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i])
+          }
+        }
+
+        console.log('new integrations = ')
+        console.log(newIntegrations)
+
+        this.integrations = newIntegrations
+        // this.setIntegration(newIntegrations);
+      }
+    },
+
+    setNext () {
+      this.setCurrentPage(this.currentPage + 1)
+    },
+
+    isLastForPrev () {
+      // console.log('current page = ');
+      // console.log(n);
+      return this.currentPage === 1
+    },
+
+    isLastForNext () {
+      return this.currentPage === this.totalPage
+    },
+
+    setPrevious () {
+      this.setCurrentPage(this.currentPage - 1)
+    },
+
+    appClick (index) {
+      const selectedIntegration = this.integrations[index]
+      this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
+    }
+  }
 }
 </script>
 
@@ -352,7 +349,7 @@ div.search-button {
   background-color: #EFF0F7;
 }
 
-.picardata-paging-active { 
+.picardata-paging-active {
   color: #3E4EDD;
 }
 
@@ -390,13 +387,11 @@ div.search-button {
   letter-spacing: 0.75px;
 
   /* Body Text */
-  
 
   color: #313131;
 }
 .picardata-paging {
   /* Frame 266 */
-
 
   /* Auto Layout */
 
