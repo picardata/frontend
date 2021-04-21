@@ -132,8 +132,8 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 100%"
-              aria-valuenow="100"
+              style="width: 66%"
+              aria-valuenow="66"
               aria-valuemin="0"
               aria-valuemax="100"
             />

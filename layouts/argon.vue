@@ -21,7 +21,7 @@
           }"
         >
           <sidebar-item :link="{ name: 'Integrated Apps', path: '/apps/integrated-apps' }" />
-          <sidebar-item :link="{ name: 'Manage All Apps', path: '/app/integrated-apps' }" />
+<!--          <sidebar-item :link="{ name: 'Manage All Apps', path: '/app/integrated-apps' }" />-->
           <sidebar-item :link="{ name: 'App Library', path: '/apps/app-library' }" />
         </sidebar-item>
 
@@ -32,7 +32,7 @@
           }"
         >
           <sidebar-item :link="{ name: 'Create a blank Form', path: '/form/new' }" />
-          <sidebar-item :link="{ name: 'All forms', path: '/form' }" />
+<!--          <sidebar-item :link="{ name: 'All forms', path: '/form' }" />-->
           <sidebar-item :link="{ name: 'Manage all forms', path: '/form' }" />
         </sidebar-item>
         <sidebar-item
@@ -44,25 +44,25 @@
           <sidebar-item :link="{ name: 'My Profile', path: '/profile/me' }" />
         </sidebar-item>
 
-        <sidebar-item
-          :link="{
-            name: 'Settings',
-            icon: 'ni ni-align-left-2 text-default'
-          }"
-        >
-          <sidebar-item :link="{ name: 'App Setting', path: '/setting/app' }" />
-          <sidebar-item :link="{ name: 'Company Setting', path: '/setting/company' }" />
-        </sidebar-item>
+<!--        <sidebar-item-->
+<!--          :link="{-->
+<!--            name: 'Settings',-->
+<!--            icon: 'ni ni-align-left-2 text-default'-->
+<!--          }"-->
+<!--        >-->
+<!--          <sidebar-item :link="{ name: 'App Setting', path: '/setting/app' }" />-->
+<!--          <sidebar-item :link="{ name: 'Company Setting', path: '/setting/company' }" />-->
+<!--        </sidebar-item>-->
 
-        <sidebar-item
-          :link="{
-            name: 'Support',
-            icon: 'ni ni-map-big text-primary'
-          }"
-        >
-          <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
-          <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" />
-        </sidebar-item>
+<!--        <sidebar-item-->
+<!--          :link="{-->
+<!--            name: 'Support',-->
+<!--            icon: 'ni ni-map-big text-primary'-->
+<!--          }"-->
+<!--        >-->
+<!--          <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />-->
+<!--          <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" />-->
+<!--        </sidebar-item>-->
 
         <sidebar-item
           :link="{
