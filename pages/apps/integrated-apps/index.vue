@@ -119,7 +119,7 @@
         </div>
       </div>
       <div :class="'row p-0 ' + classAdded">
-        <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass">
+        <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" style="margin: 2%">
           <card>
             <div class="text-center p-3">
               <img
