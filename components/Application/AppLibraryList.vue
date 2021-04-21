@@ -150,7 +150,7 @@ export default {
     }
   },
   mounted () {
-    this.$axios.get('/api/applications/?order%5Bid%5D=desc&items_per_page=10&page_number=1')
+    this.$axios.get('/api/applications/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
         this.applications = data.data
