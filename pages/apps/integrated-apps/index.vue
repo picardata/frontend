@@ -24,9 +24,9 @@
                   <!-- <div class="col-sm-4"></div> -->
                 </div>
                 </div>
-
-                <div class="col-sm-6 float-left picardata-title-manage-app">
-              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5 float-left picardata-title-manage-app">
+              <a class="row" href="/apps/integrated-apps">
                 <div class="col-sm-7"></div>
                 <div class="col-sm-1">
                   <span class="pd-icon pdicon-Configure"></span>
@@ -34,7 +34,7 @@
                 <div class="col-sm-4">
                   Manage apps
                 </div>
-              </div>
+              </a>
             </div>
         
 
