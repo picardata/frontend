@@ -12,7 +12,7 @@
         :active="index === crumbs.length - 1"
         style="display:inline-block"
       >
-        <nuxt-link
+        <i class="fa fa-chevron-right fa-xs" aria-hidden="true"></i> <nuxt-link
           :to="crumb.path"
           v-if="index < crumbs.length - 1"
         >
@@ -56,5 +56,10 @@ export default {
   li.breadcrumb-item a, li.breadcrumb-item span {
     text-transform: capitalize;
   }
+
+.breadcrumb li.active {
+  color: #313131;
+  font-weight: 600;
+}
 
 </style>

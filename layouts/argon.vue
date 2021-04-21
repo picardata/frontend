@@ -31,9 +31,9 @@
             icon: 'ni ni-ui-04 text-info'
           }"
         >
-          <sidebar-item :link="{ name: 'Create a blank Form', path: '/forms/new' }" />
-          <sidebar-item :link="{ name: 'All forms', path: '/forms' }" />
-          <sidebar-item :link="{ name: 'Manage all forms', path: '/forms' }" />
+          <sidebar-item :link="{ name: 'Create a blank Form', path: '/form/new' }" />
+          <sidebar-item :link="{ name: 'All forms', path: '/form' }" />
+          <sidebar-item :link="{ name: 'Manage all forms', path: '/form' }" />
         </sidebar-item>
         <sidebar-item
           :link="{
@@ -78,7 +78,7 @@
     </side-bar>
     <div class="main-content">
       <!-- <dashboard-navbar type="default" /> -->
-      <div @click="$sidebar.displaySidebar(false)">
+      <div class="content" @click="$sidebar.displaySidebar(false)">
         <nuxt />
       </div>
       <content-footer v-if="!$route.meta.hideFooter" />
@@ -126,5 +126,9 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style scoped>
+.content {
+  padding-left: 30px;
+  padding-right: 30px;
+}
 </style>
