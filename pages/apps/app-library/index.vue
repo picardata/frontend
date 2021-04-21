@@ -81,17 +81,17 @@
             </card>
           </div>
           <div :class="'row p-0 ' + classAdded">
-            <div class="row">
+            <div class="col-md-12">
               <div class="col-md-8 float-left">
                 See what usually Sales & Marketing use..
               </div>
 
-              <div class="col-md-4 see-app-list float-right">
+              <div class="col-md-4 see-app-list float-right" style="display: block;">
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-10">
                     Or see all app list
                   </div>
-                  <div class="col-md-4" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
+                  <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
                     <span class="pd-icon pdicon-Back-Arrow"></span>
                   </div>
                 </div>
