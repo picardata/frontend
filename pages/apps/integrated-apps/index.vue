@@ -16,7 +16,7 @@
                 <div class="row ">
                   <!-- <div class="col-sm-1"></div> -->
                   <div class="col-sm-2" style="color: #313131">
-                    <span class="pd-icon pdicon-Back-Arrow"></span>
+                    <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131"></a>
                   </div>
                   <div class="col-sm-10">
                     Integrated Apps
