@@ -96,7 +96,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" width="100%">
               <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
                 <card>
                   <div class="text-center p-3">
