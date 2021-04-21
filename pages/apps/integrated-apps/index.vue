@@ -208,11 +208,16 @@ export default {
       console.log(currentPage);
       this.currentPage = currentPage;
       
-
       // const newIntegrations = this.integrations;
-      const startIndex = 1;
-      const finishIndex = this.currentPage+this.size; 
+      const startIndex = ((this.currentPage*this.size)-this.size);
+      const finishIndex = this.currentPage*this.size; 
 
+
+      console.log('start index = ');
+      console.log(startIndex);
+
+      console.log('finish index = ');
+      console.log(finishIndex);
 
       // console.log('start form = ');
       // console.log(startForm);
@@ -221,8 +226,10 @@ export default {
       // console.log(size);
 
       const newIntegrations = [];
-      for(let i=startIndex;i<5;i++) {
-        newIntegrations.push(this.totalIntegrations[i]);
+      for(let i=startIndex;i<finishIndex;i++) {
+        if(typeof this.totalIntegrations[i] !== 'undefined') {
+          newIntegrations.push(this.totalIntegrations[i]);
+        }
       }
 
       console.log('new integrations = ');
@@ -248,6 +255,7 @@ export default {
         this.integrations = [...this.totalIntegrations];
         // this.totalPage = 5;
         this.totalPage = Math.ceil(this.totalIntegrations.length / 5);
+        this.setCurrentPage(1);
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
