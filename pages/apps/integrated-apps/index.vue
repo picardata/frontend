@@ -38,7 +38,7 @@
         </div>
       </div>
       <!-- </div> -->
-      <div class="row">
+      <div>
         <!-- <div class=""> -->
         <form
           id="navbar-search-main"
