@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-3" v-for="(application, index) in applications" :key="application.id">
+      <div v-for="(application, index) in applications" :key="application.id" class="col-3">
         <div class="card shadow-sm mx-3">
           <img class="card-img-top" :src="application.logo" alt="Card image cap">
           <div class="card-body p-1 text-center">
@@ -48,11 +48,9 @@
   </div>
 </template>
 <script>
-import AppButton from '~/components/Form/AppButton'
 
 export default {
   name: 'ApplicationList',
-  components: { AppButton },
   data () {
     return {
       modals: {
@@ -71,10 +69,10 @@ export default {
         })
       }).catch(
       // eslint-disable-next-line no-console
-      (e) => {
-        console.log(e)
-      }
-    )
+        (e) => {
+          console.log(e)
+        }
+      )
   },
   methods: {
     appClick (index) {
@@ -84,7 +82,7 @@ export default {
     },
     dismissModal () {
       this.modals.modal0 = false
-    },
+    }
   }
 }
 </script>
