@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="main-content">
-      <nuxt/>
+      <nuxt />
     </div>
   </div>
 </template>
@@ -9,9 +9,6 @@
 /* eslint-disable no-new */
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
-
-import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
-import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -29,10 +26,6 @@ function initScrollbar (className) {
 }
 
 export default {
-  components: {
-    DashboardNavbar,
-    ContentFooter
-  },
   mounted () {
     this.initScrollbar()
   },

@@ -43,16 +43,26 @@
             </div>
             <div v-if="field.type === 2" class="form-group">
               <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
-                <input :id="choice.id" class="form-check-input" type="radio" :name="formName(field.name)"
-                       :value="choice.name">
+                <input
+                  :id="choice.id"
+                  class="form-check-input"
+                  type="radio"
+                  :name="formName(field.name)"
+                  :value="choice.name"
+                >
                 <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
                 <input v-if="choice.name === 'Other'" class="form-control" type="text">
               </div>
             </div>
             <div v-if="field.type === 3" class="form-group">
               <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
-                <input :id="choice.id" class="form-check-input" type="checkbox" :name="formName(field.name)"
-                       :value="choice.name">
+                <input
+                  :id="choice.id"
+                  class="form-check-input"
+                  type="checkbox"
+                  :name="formName(field.name)"
+                  :value="choice.name"
+                >
                 <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
                 <input v-if="choice.name === 'Other'" class="form-control" type="text">
               </div>

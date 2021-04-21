@@ -4,13 +4,13 @@
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs"/>
+            <route-breadcrumb :crumbs="crumbs" />
           </nav>
         </div>
       </div>
     </base-header>
     <div class="container-fluid mt--6">
-      <prev-page/>
+      <prev-page />
       <div class="row title-container mt-3">
         <div class="col-12 mx-auto">
           <h1>{{ name }}</h1>
@@ -28,7 +28,7 @@
             {{ acceptingResponses ? 'Still accepting responses' : 'Not accepting responses' }}
           </b-form-checkbox>
           <br><br>
-          <div class="ml-4" v-if="!acceptingResponses">
+          <div v-if="!acceptingResponses" class="ml-4">
             <label for="">Message for respondents</label>
             <input v-model="completedMessage" type="text" class="form-control" @change="submitAcceptingResponses">
           </div>
@@ -51,7 +51,7 @@
                     {{ field.name }}
                   </h5>
                   <div v-for="answer in field.fieldAnswers" :key="answer.id">
-                    <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline"/>
+                    <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
                     <h4 style="font-size: 15px" class="d-inline">
                       {{ answer.name }}
                     </h4>
@@ -77,17 +77,17 @@
                     <div class="justify-content: space-between;">
                       <div
                         :style="{
-                    'color': field.chartData.colors[index],
-                    'width': '12px',
-                    'height': '12px'}"
+                          'color': field.chartData.colors[index],
+                          'width': '12px',
+                          'height': '12px'}"
                       />
                       <font-awesome-icon
                         :style="{'color': field.chartData.colors[index]}"
                         :icon="['fas', 'circle']"
                       />
                       <span>
-                  {{ label }}
-                </span>
+                        {{ label }}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
             <div class="card-body">
               <h2>Total respondents: {{ totalRespondents }}</h2>
               <div v-for="(respondent,index) in formRespondents" :key="index">
-                <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline"/>
+                <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />
                 <h4 style="font-size: 15px" class="d-inline">
                   {{ respondent.email }}
                 </h4>
@@ -178,24 +178,6 @@ export default {
     PieChart,
     BarChart
   },
-  data () {
-    return {
-      crumbs: [
-        {
-          name: 'Forms',
-          path: '/form'
-        },
-        {
-          name: 'Edit Form',
-          path: '/form/' + this.$route.params.id
-        },
-        {
-          name: 'Form Result',
-          path: '/form/' + this.$route.params.id
-        }
-      ]
-    }
-  },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {
@@ -216,6 +198,24 @@ export default {
         return data
       })
       .catch(e => console.log(e))
+  },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        },
+        {
+          name: 'Edit Form',
+          path: '/form/' + this.$route.params.id
+        },
+        {
+          name: 'Form Result',
+          path: '/form/' + this.$route.params.id
+        }
+      ]
+    }
   },
   computed: {
     chartData () {

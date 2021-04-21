@@ -16,9 +16,9 @@
           <h1>Create blank form</h1>
         </div>
         <div class="col-6">
-        <span class="align-middle float-right">
-          <nuxt-link to="/form/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
-        </span>
+          <span class="align-middle float-right">
+            <nuxt-link to="/form/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
+          </span>
         </div>
       </div>
       <div class="row mt-5">
@@ -26,15 +26,15 @@
           <span>Questions</span>
         </div>
         <div class="col-8">
-        <span class="align-middle float-right">
-          <nuxt-link :to="id ? '/form/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
-            <font-awesome-icon :icon="['fas', 'eye']"/>
-            Preview form</nuxt-link>
-          <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
-          <nuxt-link :to="id ? '/form/result/' + id : ''" class="btn btn-lg  text-primary btn-preview">
-            <font-awesome-icon :icon="['fas', 'poll']"/>
-            Survey results</nuxt-link>
-        </span>
+          <span class="align-middle float-right">
+            <nuxt-link :to="id ? '/form/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+              <font-awesome-icon :icon="['fas', 'eye']" />
+              Preview form</nuxt-link>
+            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+            <nuxt-link :to="id ? '/form/result/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+              <font-awesome-icon :icon="['fas', 'poll']" />
+              Survey results</nuxt-link>
+          </span>
         </div>
       </div>
       <div class="row mt-5">
@@ -67,8 +67,13 @@
               </div>
             </div>
           </div>
-          <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField"
-                 :delete_field="deleteField"/>
+          <Field
+            :questions="questions"
+            :add_field="addField"
+            :change_type="changeType"
+            :copy_field="copyField"
+            :delete_field="deleteField"
+          />
         </form>
       </div>
     </div>
@@ -78,7 +83,7 @@
         type="button"
         @click="newField"
       >
-        <font-awesome-icon :icon="['fas', 'plus']"/>
+        <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
     </div>
     <modal :show.sync="modals.modal0">

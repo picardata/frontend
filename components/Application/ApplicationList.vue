@@ -7,7 +7,7 @@
           {{ application.name }}
         </h5>
         <p class="card-text">
-          {{ application.detail }}
+          {{ application.detail | truncate(90, '...') }}
         </p>
         <AppButton class="btn btn-primary" type="button" @click="appClick(index)">
           Add to Picardata

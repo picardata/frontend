@@ -115,20 +115,6 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   components: { PrevPage, Field },
-  data () {
-    return {
-      crumbs: [
-        {
-          name: 'Forms',
-          path: '/form'
-        },
-        {
-          name: 'Edit Form',
-          path: '/form/id/' + this.$route.params.id
-        }
-      ]
-    }
-  },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
@@ -159,6 +145,20 @@ export default {
 
       return data.data
     })
+  },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/form'
+        },
+        {
+          name: 'Edit Form',
+          path: '/form/id/' + this.$route.params.id
+        }
+      ]
+    }
   },
   computed: {
     formattedUpdatedAt () {
