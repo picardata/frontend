@@ -41,7 +41,7 @@
                         <span class="input-group-text"><i class="fas fa-search" /></span>
                       </div>
                       <input
-                        v-model="qSearch"
+                        v-model="S"
                         class="form-control app-search"
                         placeholder="Search app"
                         type="text"
@@ -150,7 +150,7 @@
               </template>
             </modal>
           </div>
-          <div class="row" style="margin-bottom: 2%;">
+          <div v-if="isQSearchNotExist()" class="row" style="margin-bottom: 2%;">
             <div class="col-md-12 ">
               <div class="picardata-paging float-right">
                 <div class="col-sm" @click="setPrevious()">
@@ -229,7 +229,7 @@ export default {
       },
       filteredApplications: [],
       applications: [],
-      qSearch: '',
+      S: '',
       totalPage: 1,
       currentPage: 1,
       size: 5,
@@ -286,15 +286,22 @@ export default {
       }
     },
     querySearch () {
-      console.log(this.qSearch)
-      const searchQuery = this.qSearch
-      this.integrations = this.totalIntegrations.filter(function (application) {
-        const re = new RegExp(searchQuery, 'i')
-        console.log(application.name)
-        console.log(application.name.match(re))
-        console.log(application.name.match(re) !== null)
-        return application.name.search(re) !== -1
-      })
+      console.log(this.S)
+      if(this.S) {
+        const searchQuery = this.S
+        this.integrations = this.totalIntegrations.filter(function (application) {
+          const re = new RegExp(searchQuery, 'i')
+          console.log(application.name)
+          console.log(application.name.match(re))
+          console.log(application.name.match(re) !== null)
+          return application.name.search(re) !== -1
+        })
+      } else {
+        this.setCurrentPage(this.currentPage);
+      }
+    },
+    isQSearchNotExist() {
+      return this.S ? false : true;
     },
     isCurrentPage (n) {
       return this.currentPage === n
