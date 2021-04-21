@@ -131,7 +131,7 @@
       <div class="row" style="margin-bottom: 2%;"> 
         <div class="col-md-12 ">  
           <div class="picardata-paging float-right">
-            <div class="col-sm">
+            <div class="col-sm" v-on:click="setPrevious()">
               <span class="pd-icon pdicon-Chevron-Left"></span>
             </div>
             <span 
@@ -144,7 +144,7 @@
               </span>
               <span v-else>{{ n }}</span>
             </span>
-            <div class="col-sm"><span class="pd-icon pdicon-Chevron-Right"></span></div>
+            <div class="col-sm" v-on:click="setNext()"><span class="pd-icon pdicon-Chevron-Right"></span></div>
           </div>
         </div>
       </div>
@@ -239,6 +239,14 @@ export default {
       // this.setIntegration(newIntegrations);
     },
 
+    setNext() {
+      this.setCurrentPage(this.currentPage+1);
+    },
+
+    setPrevious() {
+      this.setCurrentPage(this.currentPage-1);
+    },
+    
     appClick (index) {
       const selectedIntegration = this.integrations[index]
       this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
