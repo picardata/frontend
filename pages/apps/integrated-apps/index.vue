@@ -145,9 +145,26 @@ export default {
     }
   },
   methods: {
-    setTotalPage (totalPage) {
+    setTotalPage (totalPage, integrations, setIntegration) {
       console.log('Mantab !');
       this.totalPage = totalPage;
+      const newIntegrations = [];
+      // const startFrom = this.currentPage+this.size; 
+
+      // console.log('start form = ');
+      // console.log(startForm);
+
+      // console.log('size = ');
+      // console.log(size);
+
+      // for(let i=this.currentPage;i<=startTo;i++) {
+      //   newIntegrations.push(integrations[i]);
+      // }
+
+      console.log('new integrations = ');
+      console.log(newIntegrations);
+
+      setIntegration(newIntegrations);
     },
 
     isCurrentPage (n) {

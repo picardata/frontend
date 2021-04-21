@@ -51,6 +51,10 @@ export default {
       type: Number,
       default: 1
     },
+    currentPage: {
+      type: Number,
+      default: 1
+    },
     size: {
       type: Number,
       default: 5
@@ -61,6 +65,7 @@ export default {
       modals: {
         modal0: false
       },
+      totalIntegrations : [],
       integrations: []
     }
   },
@@ -69,10 +74,15 @@ export default {
       // eslint-disable-next-line no-return-assign
       .then((data) => {
         console.log(data)
-        this.integrations = data.data.filter(x => x.status === 1)
+        this.totalIntegrations = data.data.filter(x => x.status === 1)
         // this.totalPage = 5;
         
-        this.$emit('setTotalPage', Math.ceil(this.integrations.length / 5));
+        // this.integrations = this.totalIntegrations;
+        // this.integrations  = 
+        this.$emit('setTotalPage', Math.ceil(this.totalIntegrations.length / 5), 
+              this.totalIntegrations,
+              this.setIntegration);
+        // for(let i=)
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
@@ -84,6 +94,9 @@ export default {
     appClick (index) {
       const selectedIntegration = this.integrations[index]
       this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
+    },
+    setIntegration(integration) {
+      this.integrations = integration;
     }
   }
 }
