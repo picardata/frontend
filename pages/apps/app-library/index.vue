@@ -37,7 +37,7 @@
                 >
                   <div class="form-group mb-0">
                     <div class="input-group input-group-alternative input-group-merge search-button" 
-                         style="flex-wrap: none">
+                         style="flex-wrap: initial;">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search" /></span>
                       </div>
