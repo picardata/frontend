@@ -87,11 +87,11 @@
 
               <div class="col-md-4 see-app-list float-right">
                 <div class="row">
-                  <div class="col-md-11">
+                  <div class="col-md-8">
                     Or see all app list
                   </div>
-                  <div class="col-md-1">
-
+                  <div class="col-md-4" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
+                    <span class="pd-icon pdicon-Back-Arrow"></span>
                   </div>
                 </div>
               </div>
