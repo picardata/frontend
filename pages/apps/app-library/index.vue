@@ -10,6 +10,23 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
+            <div class="row">
+        <div class="col-sm-6 float-right picardata-title">
+          <div class="row ">
+            <!-- <div class="col-sm-1"></div> -->
+            <div class="col-sm-1" style="color: #313131">
+              <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
+            </div>
+            <div class="col-sm-11">
+              App Library
+            </div>
+            <!-- <div class="col-sm-4"></div> -->
+          </div>
+        </div>
+        <div class="col-sm-1" />
+        <div class="col-sm-5 float-left">
+        </div>
+      </div>
         <div class="row">
           <div class="col-xl-3">
             <card>
@@ -271,7 +288,7 @@ export default {
     querySearch () {
       console.log(this.qSearch)
       const searchQuery = this.qSearch
-      this.filteredApplications = this.applications.filter(function (application) {
+      this.integrations = this.totalIntegrations.filter(function (application) {
         const re = new RegExp(searchQuery, 'i')
         console.log(application.name)
         console.log(application.name.match(re))
