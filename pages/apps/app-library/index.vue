@@ -83,7 +83,7 @@
         </div>
         <div :class="'row p-0 ' + classAdded">
           <div class="col-md-12">
-            <div class="col-md-8 float-left">
+            <div class="col-md-8 float-left see-marketing">
               See what usually Sales & Marketing use..
             </div>
 
@@ -587,6 +587,21 @@ letter-spacing: 0.75px;
 
 color: #313131;
 
+}
+
+.see-marketing {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  /* identical to box height */
+
+  letter-spacing: 0.75px;
+
+  /* Body Text */
+
+  color: #313131;
 }
 
 .see-app-list {
