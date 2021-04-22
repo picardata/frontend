@@ -15,7 +15,7 @@
         <div class="col-sm-6 float-right picardata-title">
           <div class="row ">
             <!-- <div class="col-sm-1"></div> -->
-            <div class="col-sm-1" style="color: #313131">
+            <div class="col-sm-1" style="color: #313131;">
               <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
             </div>
             <div class="col-sm-11">
@@ -24,7 +24,7 @@
             <!-- <div class="col-sm-4"></div> -->
           </div>
         </div>
-        <div class="col-sm-1" />
+        <div class="col-sm-1"></div>
         <div class="col-sm-5 float-left picardata-title-manage-app">
           <a class="row" href="/apps/integrated-apps">
             <div class="col-sm-7" />
@@ -501,5 +501,6 @@ letter-spacing: 0.75px; */
 /* Main Button */
 
 color: #2534B6;
+margin: auto;
 }
 </style>
