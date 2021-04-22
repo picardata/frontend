@@ -76,7 +76,7 @@
         </sidebar-item>
       </template>
     </side-bar>
-    <Sidebar />
+<!--    <Sidebar />-->
     <div class="main-content">
       <div class="content" @click="$sidebar.displaySidebar(false)">
         <nuxt />
