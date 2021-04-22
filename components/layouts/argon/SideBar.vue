@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar navbar-vertical fixed-left navbar-light bg-white">
+  <div class="navbar navbar-vertical fixed-left navbar-light bg-white sidebar-picardata">
     <div class="scrollbar-inner">
       <div class="sidenav-header d-flex align-items-center">
         <a class="navbar-brand text-white" href="/"><img src="~/assets/logo.png" alt="Picardata Logo"></a>
