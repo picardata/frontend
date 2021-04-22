@@ -93,9 +93,8 @@
                 <div class="col-md-10" style="margin: auto;">
                   Or see all app list
                 </div>
-                <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);margin: auto;">
-                  <span class="pd-icon pdicon-Back-Arrow" />
-                </div>
+                <span class="col-md-2 pd-icon pdicon-Back-Arrow" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);margin: auto;"/>
+                <!-- </div> -->
               </div>
             </div>
           </div>
