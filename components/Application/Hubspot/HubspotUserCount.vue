@@ -1,23 +1,20 @@
 <template>
-  <stats-card>
+  <stats-card class="pcd">
     <!-- Card body -->
     <div class="row">
-      <div class="col">
-        <h5 class="card-title text-uppercase text-muted mb-0">
-          {{ title }}
+      <div class="col-sm-12">
+        <h5 class="card-title mb-0 pcd">
+          {{  title }}
         </h5>
+      </div>
+      <div class="col-sm-12 mt-3">
         <span class="h2 font-weight-bold mb-0">{{ usersCount }}</span>
       </div>
-      <div class="col-auto">
-        <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-          <i class="ni ni-circle-08" />
-        </div>
-      </div>
     </div>
-    <p class="mt-3 mb-0 text-sm">
-      <span class="text-success mr-2"><i class="fa fa-arrow-up" /> {{ usersIncrease }}%</span>
-      <span class="text-nowrap">Since last month</span>
-    </p>
+
+    <hr class="blue-divider mb-4" />
+
+    <p class="desc">{{  title }} Total Created</p>
   </stats-card>
 </template>
 <script>
@@ -26,7 +23,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Total users'
+      default: 'Users'
     }
   },
   data () {

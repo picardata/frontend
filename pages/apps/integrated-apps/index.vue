@@ -122,35 +122,39 @@
         </div>
       </div>
       <div :class="'row p-0 ' + classAdded">
-        <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" style="margin: 2%">
-          <card>
-            <div class="text-center p-3">
-              <img
-                slot="image"
-                class="card-img-top app-img"
-                :src="integration.application.logo"
-                :alt="integration.application.name"
-              >
-            </div>
-            <h5 class="card-title">
-              {{ integration.application.name }}
-            </h5>
-            <div class="card-body p-0">
-              <div class="row">
-                <div class="col-xl-2 p-3">
-                  <i class="fa fa-check text-success" />
+        <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" class="m-4">
+          <card class="pcd">
+            <div class="row justify-content-center">
+              <div class="col-sm-10 p-0">
+                <div class="text-center p-3 mb-3">
+                  <img
+                      slot="image"
+                      class="card-img-top app-img"
+                      :src="integration.application.logo"
+                      :alt="integration.application.name"
+                  >
                 </div>
-                <div class="col-xl-10 pt-3 pb-3">
-                  <p>
-                    Data Appear on Dashboard
-                  </p>
+                <h5 class="card-title">
+                  {{ integration.application.name }}
+                </h5>
+                <div class="card-body p-0">
+                  <div class="row">
+                    <div class="col-xl-2 p-3">
+                      <i class="fa fa-check text-success" />
+                    </div>
+                    <div class="col-xl-9 pt-3 pb-3">
+                      <p>
+                        Data Appear on Dashboard
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer p-0">
+                  <base-button outline class="w-100 p-3 " type="primary" @click="appClick(index)">
+                    View Picardata
+                  </base-button>
                 </div>
               </div>
-            </div>
-            <div class="text-center">
-              <base-button outline type="primary" @click="appClick(index)">
-                View Picardata
-              </base-button>
             </div>
           </card>
         </div>

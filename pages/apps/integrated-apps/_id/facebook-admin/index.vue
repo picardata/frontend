@@ -22,14 +22,14 @@
         </h3>
       </div>
       <div class="row mt-3">
-        <div class="col-4">
+        <div class="col-5">
           <PageViews
             v-if="this.pageViewsChart.loaded === true"
             :chartdata="this.pageViewsChart.chartdata"
             :options="this.pageViewsChart.extraOptions"
           />
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <PageLikes
             v-if="this.pageLikesChart.loaded === true"
             :chartdata="this.pageLikesChart.chartdata"
