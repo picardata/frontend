@@ -89,10 +89,11 @@
 
             <div class="col-md-4 see-app-list float-right" style="display: block;">
               <div class="row">
-                <div class="col-md-10">
+                <!-- <div class="col-md-1"></div> -->
+                <div class="col-md-10" style="margin: auto;">
                   Or see all app list
                 </div>
-                <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
+                <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);margin: auto;">
                   <span class="pd-icon pdicon-Back-Arrow" />
                 </div>
               </div>
@@ -592,7 +593,7 @@ color: #313131;
   /* font-family: Poppins; */
 font-style: normal;
 font-weight: 600;
-font-size: 12px;
+font-size: 16px;
 line-height: 28px;
 /* or 175% */
 
