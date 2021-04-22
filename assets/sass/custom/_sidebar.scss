@@ -1,0 +1,60 @@
+.navbar-vertical{
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 100px;
+  overflow-y: auto;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+
+  + .main-content{
+    margin-left: 100px;
+  }
+
+  .sidenav-header{
+    background-color: $white;
+    padding: 35px;
+    height: auto;
+
+    img{
+      max-height: 3rem;
+    }
+  }
+
+  .navbar-nav{
+    margin: 0 0;
+
+    .sidebar-menu-item{
+      display: block;
+      color: #313131;
+      &.active{
+        color: white;
+      }
+    }
+
+    .nav-item{
+      padding: 16px 0;
+      &.active{
+        color: white;
+        background: $primary;
+      }
+      &:hover{
+          background-color: $primary;
+          transition: all 0.175s ease-in-out;
+
+          a.sidebar-menu-item{
+            color: white;
+          }
+      }
+      .pd-icon{
+        font-size: 20px;
+      }
+      .nav-link-text{
+        font-size: 14px;
+      }
+    }
+  }
+}

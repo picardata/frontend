@@ -4,7 +4,9 @@ body {
 
 .breadcrumb-item {
   font-size: 18px;
+  font-weight: 600;
 }
+
 .breadcrumb-item + .breadcrumb-item::before {
   display: none;
 }

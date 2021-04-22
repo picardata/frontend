@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="integrated-app">
     <base-header type="white" class="">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
@@ -14,24 +14,24 @@
       <div class="row">
         <div class="col-sm-6 float-right picardata-title">
           <div class="row ">
+            <a class="col-sm-1 pd-icon pdicon-Back-Arrow picardata-arrow" href="/apps" />
             <!-- <div class="col-sm-1"></div> -->
-            <div class="col-sm-1" style="color: #313131">
-              <a class="pd-icon pdicon-Back-Arrow" href="/apps" style="color: #313131" />
-            </div>
+            <!-- <div class="col-sm-1" style="color: #14142B;"> -->
+            <!-- </div> -->
             <div class="col-sm-11">
               Integrated Apps
             </div>
             <!-- <div class="col-sm-4"></div> -->
           </div>
         </div>
-        <div class="col-sm-1" />
+        <div class="col-sm-1"></div>
         <div class="col-sm-5 float-left picardata-title-manage-app">
           <a class="row" href="/apps/integrated-apps">
-            <div class="col-sm-7" />
+            <div class="col-sm-6" />
             <div class="col-sm-1">
               <span class="pd-icon pdicon-Configure" />
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-5">
               Manage apps
             </div>
           </a>
@@ -169,7 +169,7 @@
             <div class="col-sm" @click="setPrevious()">
               <span
                 v-if="isLastForPrev()"
-                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
+                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav picardata-nav-inactive"
               />
               <span
                 v-else
@@ -191,7 +191,7 @@
               <span v-else>{{ n }}</span>
             </span>
             <div class="col-sm" @click="setNext()">
-              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav picardata-nav-inactive" />
               <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
             </div>
           </div>
@@ -334,8 +334,19 @@ export default {
 }
 </script>
 
+<style>
+.integrated-app .breadcrumb-item a[href="/apps"] {
+  color: #313131;
+  font-weight: 600;
+  pointer-events: none;
+}
+</style>
+
 <style scoped>
 
+.integrated-app {
+  font-family: 'Poppins'
+}
 .nav-last {
   opacity: 0.3;
 }
@@ -366,8 +377,27 @@ div.search-button {
   right: 25%;
   top: 8.33%;
   bottom: 8.33%; */
+  /* font-family: Poppins !important; */
   margin: auto;
   /* Neutral / N-800 Tundora */
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+
+  /* background: #404040; */
+}
+
+.picardata-nav-inactive {
+  /* position: absolute; */
+  /* left: 25%;
+  right: 25%;
+  top: 8.33%;
+  bottom: 8.33%; */
+  font-weight: 400;
 
   /* background: #404040; */
 }
@@ -383,7 +413,7 @@ div.search-button {
   font-style: normal;
   font-weight: normal;
   font-weight: bold;
-
+  margin: auto;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -415,7 +445,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #313131;
+  color: #404040;
   /* Inside Auto Layout */
 
   flex: none;
@@ -459,6 +489,11 @@ div.divider {
   width: 80px;
 }
 
+/* .breadcrumb-item:nth-child(2) {
+    color: #313131;
+    font-weight: 600;
+} */
+
  .picardata-title {
   /* position: absolute; */
 /* width: 278px; */
@@ -501,5 +536,11 @@ letter-spacing: 0.75px; */
 /* Main Button */
 
 color: #2534B6;
+margin: auto;
+}
+
+.picardata-arrow {
+  color: #14142B;
+  margin: auto
 }
 </style>
