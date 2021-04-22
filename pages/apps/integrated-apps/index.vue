@@ -24,7 +24,7 @@
             <!-- <div class="col-sm-4"></div> -->
           </div>
         </div>
-        <div class="col-sm-1"></div>
+        <div class="col-sm-1" />
         <div class="col-sm-5 float-left picardata-title-manage-app">
           <a class="row" href="/apps/integrated-apps">
             <div class="col-sm-6" />
@@ -178,7 +178,7 @@
             </div>
             <span
               v-for="n in this.totalPage"
-              v-bind:key="n"
+              :key="n"
               class="col-sm picardata-paging-text"
               @click="setCurrentPage(n)"
             >
