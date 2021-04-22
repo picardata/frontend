@@ -146,7 +146,7 @@ export default {
       },
       filteredApplications: [],
       applications: [],
-      qSearch: '',
+      qSearch: ''
     }
   },
   mounted () {
