@@ -62,9 +62,9 @@
                 </button>
               </form>
             </div>
-            <div class="row pt-3">
+            <div class="row pt-3 app-menu">
               <div class="col-xl-12">
-                <div id="list-tab" class="list-group" role="tablist">
+                <div id="list-tab" class="list-group " role="tablist">
                   <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(0)">All
                     applications</a>
                   <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(1)">Essential
@@ -645,5 +645,18 @@ color: #2534B6;
 .picardata-arrow {
   color: #14142B;
   margin: auto
+}
+
+.app-menu .list-group-item {
+  /* font-family: "Poppins"; */
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+color: #000000;
 }
 </style>
