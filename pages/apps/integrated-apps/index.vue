@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="integrated-app">
     <base-header type="white" class="">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
@@ -27,11 +27,11 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5 float-left picardata-title-manage-app">
           <a class="row" href="/apps/integrated-apps">
-            <div class="col-sm-7" />
+            <div class="col-sm-6" />
             <div class="col-sm-1">
               <span class="pd-icon pdicon-Configure" />
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-5">
               Manage apps
             </div>
           </a>
@@ -336,6 +336,9 @@ export default {
 
 <style scoped>
 
+.integrated-app {
+  font-family: 'Poppins'
+}
 .nav-last {
   opacity: 0.3;
 }
