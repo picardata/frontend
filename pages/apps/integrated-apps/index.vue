@@ -334,6 +334,14 @@ export default {
 }
 </script>
 
+<style>
+.integrated-app .breadcrumb-item a[href="/apps"] {
+  color: #313131;
+  font-weight: 600;
+  pointer-events: none;
+}
+</style>
+
 <style scoped>
 
 .integrated-app {
