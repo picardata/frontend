@@ -7,14 +7,18 @@
       <div class="navbar-inner">
         <ul class="navbar-nav">
           <li
-              v-for="(item, key) in menus"
-              :key="item.name + key"
-              :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]">
+            v-for="(item, key) in menus"
+            :key="item.name + key"
+            :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
+          >
             <nuxt-link
-                :to="item.link"
-                :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]">
+              :to="item.link"
+              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+            >
               <i :class="[`pd-icon ${item.icon}`]" />
-              <div class="nav-link-text">{{ item.displayName }}</div>
+              <div class="nav-link-text">
+                {{ item.displayName }}
+              </div>
             </nuxt-link>
           </li>
         </ul>

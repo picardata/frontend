@@ -28,7 +28,7 @@
       </div>
       <div class="row">
         <div class="p-4">
-          <ApplicationList/>
+          <ApplicationList />
         </div>
       </div>
     </div>

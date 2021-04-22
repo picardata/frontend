@@ -1,7 +1,82 @@
 <template>
   <div class="wrapper">
     <notifications />
-    <Sidebar />
+    <side-bar>
+      <template slot="links">
+        <sidebar-item
+          :link="{
+            name: 'Dashboards',
+            icon: 'ni ni-shop text-primary',
+          }"
+        >
+          <sidebar-item
+            :link="{ name: 'Dashboard', path: '/' }"
+          />
+        </sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: 'Apps',
+            icon: 'ni ni-ungroup text-orange'
+          }"
+        >
+          <sidebar-item :link="{ name: 'Integrated Apps', path: '/apps/integrated-apps' }" />
+          <!--          <sidebar-item :link="{ name: 'Manage All Apps', path: '/app/integrated-apps' }" />-->
+          <sidebar-item :link="{ name: 'App Library', path: '/apps/app-library' }" />
+        </sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: 'Forms',
+            icon: 'ni ni-ui-04 text-info'
+          }"
+        >
+          <sidebar-item :link="{ name: 'Create a blank Form', path: '/form/new' }" />
+          <!--          <sidebar-item :link="{ name: 'All forms', path: '/form' }" />-->
+          <sidebar-item :link="{ name: 'Manage all forms', path: '/form' }" />
+        </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Profile',
+            icon: 'ni ni-single-copy-04 text-pink'
+          }"
+        >
+          <sidebar-item :link="{ name: 'My Profile', path: '/profile/me' }" />
+        </sidebar-item>
+
+        <!--        <sidebar-item-->
+        <!--          :link="{-->
+        <!--            name: 'Settings',-->
+        <!--            icon: 'ni ni-align-left-2 text-default'-->
+        <!--          }"-->
+        <!--        >-->
+        <!--          <sidebar-item :link="{ name: 'App Setting', path: '/setting/app' }" />-->
+        <!--          <sidebar-item :link="{ name: 'Company Setting', path: '/setting/company' }" />-->
+        <!--        </sidebar-item>-->
+
+        <!--        <sidebar-item-->
+        <!--          :link="{-->
+        <!--            name: 'Support',-->
+        <!--            icon: 'ni ni-map-big text-primary'-->
+        <!--          }"-->
+        <!--        >-->
+        <!--          <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />-->
+        <!--          <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" />-->
+        <!--        </sidebar-item>-->
+
+        <sidebar-item
+          :link="{
+            name: 'Logout',
+            icon: 'ni ni-user-run text-primary',
+            path: '/logout'
+          }"
+        >
+          <!-- <sidebar-item :link="{ name: 'FAQ', path: '/support/faq' }" />
+          <sidebar-item :link="{ name: 'Create Support ticket', path: '/support/ticket/new' }" /> -->
+        </sidebar-item>
+      </template>
+    </side-bar>
+    <!--    <Sidebar />-->
     <div class="main-content">
       <div class="content" @click="$sidebar.displaySidebar(false)">
         <nuxt />
@@ -16,7 +91,6 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
 import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
-import Sidebar from '~/components/layouts/argon/SideBar.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -35,8 +109,7 @@ function initScrollbar (className) {
 
 export default {
   components: {
-    ContentFooter,
-    Sidebar
+    ContentFooter
   },
   mounted () {
     this.initScrollbar()
