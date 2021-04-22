@@ -169,7 +169,7 @@
             <div class="col-sm" @click="setPrevious()">
               <span
                 v-if="isLastForPrev()"
-                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
+                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav picardata-nav-inactive"
               />
               <span
                 v-else
@@ -191,7 +191,7 @@
               <span v-else>{{ n }}</span>
             </span>
             <div class="col-sm" @click="setNext()">
-              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav picardata-nav-inactive" />
               <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
             </div>
           </div>
@@ -369,8 +369,27 @@ div.search-button {
   right: 25%;
   top: 8.33%;
   bottom: 8.33%; */
+  /* font-family: Poppins !important; */
   margin: auto;
   /* Neutral / N-800 Tundora */
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+
+  /* background: #404040; */
+}
+
+.picardata-nav-inactive {
+  /* position: absolute; */
+  /* left: 25%;
+  right: 25%;
+  top: 8.33%;
+  bottom: 8.33%; */
+  font-weight: 400;
 
   /* background: #404040; */
 }
@@ -386,7 +405,7 @@ div.search-button {
   font-style: normal;
   font-weight: normal;
   font-weight: bold;
-
+  margin: auto;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -418,7 +437,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #313131;
+  color: #404040;
   /* Inside Auto Layout */
 
   flex: none;
