@@ -2,9 +2,14 @@ body {
   background-color: white !important;
 }
 
+.breadcrumb {
+  font-weight: 600;
+}
+
 .breadcrumb-item {
   font-size: 18px;
 }
+
 .breadcrumb-item + .breadcrumb-item::before {
   display: none;
 }
