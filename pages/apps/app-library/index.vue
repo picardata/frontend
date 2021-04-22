@@ -82,7 +82,7 @@
           </card>
         </div>
         <div :class="'row p-0 ' + classAdded">
-          <div class="col-md-12">
+          <div class="col-md-12" style="margin-bottom: 4%;">
             <div class="col-md-8 float-left see-marketing">
               See what usually Sales & Marketing use..
             </div>
@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-          <div class="row" style="width: 100%">
+          <div class="row">
             <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
               <card>
                 <div class="text-center p-3">
