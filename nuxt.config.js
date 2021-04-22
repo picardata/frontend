@@ -39,8 +39,7 @@ export default {
   css: [
     'assets/css/nucleo/css/nucleo.css',
     'assets/sass/argon.scss',
-    'assets/css/picardata-icon.css',
-    'assets/scss/main.scss'
+    'assets/css/picardata-icon.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
