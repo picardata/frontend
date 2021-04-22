@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="picardata-page-app-library">
     <base-header type="white" class="pb-6">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
@@ -10,7 +10,7 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
-            <div class="row">
+      <div class="row">
         <div class="col-sm-6 float-right picardata-title">
           <div class="row ">
             <!-- <div class="col-sm-1"></div> -->
@@ -24,195 +24,195 @@
           </div>
         </div>
         <div class="col-sm-1" />
-        <div class="col-sm-5 float-left">
-        </div>
+        <div class="col-sm-5 float-left" />
       </div>
-        <div class="row">
-          <div class="col-xl-3">
-            <card>
-              <div class="row">
-                <form
-                  id="navbar-search-main"
-                  class="navbar-search form-inline light"
-                >
-                  <div class="form-group mb-0">
-                    <div class="input-group input-group-alternative input-group-merge search-button" 
-                         style="flex-wrap: initial;">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-search" /></span>
-                      </div>
-                      <input
-                        v-model="S"
-                        class="form-control app-search"
-                        placeholder="Search app"
-                        type="text"
-                        @keyup="querySearch"
-                      >
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    class="close"
-                    data-action="search-close"
-                    data-target="#navbar-search-main"
-                    aria-label="Close"
+      <div class="row">
+        <div class="col-xl-3">
+          <card>
+            <div class="row">
+              <form
+                id="navbar-search-main"
+                class="navbar-search form-inline light"
+              >
+                <div class="form-group mb-0">
+                  <div
+                    class="input-group input-group-alternative input-group-merge search-button"
+                    style="flex-wrap: initial;"
                   >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </form>
-              </div>
-              <div class="row pt-3">
-                <div class="col-xl-12">
-                  <div id="list-tab" class="list-group" role="tablist">
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(0)">All
-                      applications</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(1)">Essential
-                      app</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(2)">Collaboration
-                      tools</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(3)">Communication</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(4)">CRM</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(5)">Social
-                      Media</a>
-                    <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(6)">Design</a>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-search" /></span>
+                    </div>
+                    <input
+                      v-model="S"
+                      class="form-control app-search"
+                      placeholder="Search app"
+                      type="text"
+                      @keyup="querySearch"
+                    >
                   </div>
                 </div>
-              </div>
-            </card>
-          </div>
-          <div :class="'row p-0 ' + classAdded">
-            <div class="col-md-12">
-              <div class="col-md-8 float-left">
-                See what usually Sales & Marketing use..
-              </div>
-
-              <div class="col-md-4 see-app-list float-right" style="display: block;">
-                <div class="row">
-                  <div class="col-md-10">
-                    Or see all app list
-                  </div>
-                  <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
-                    <span class="pd-icon pdicon-Back-Arrow"></span>
-                  </div>
+                <button
+                  type="button"
+                  class="close"
+                  data-action="search-close"
+                  data-target="#navbar-search-main"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </form>
+            </div>
+            <div class="row pt-3">
+              <div class="col-xl-12">
+                <div id="list-tab" class="list-group" role="tablist">
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(0)">All
+                    applications</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(1)">Essential
+                    app</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(2)">Collaboration
+                    tools</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(3)">Communication</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(4)">CRM</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(5)">Social
+                    Media</a>
+                  <a href="#" class="list-group-item  list-group-item-action" @click.prevent="filterCategory(6)">Design</a>
                 </div>
               </div>
             </div>
-            <div class="row" style="width: 100%">
-              <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
-                <card>
-                  <div class="text-center p-3">
-                    <img
-                      slot="image"
-                      class="card-img-top app-img"
-                      :src="application.logo"
-                      :alt="application.name"
-                      @click="$router.push('/apps/app-library/' + application.id)"
-                    >
-                  </div>
-                  <h5 class="card-title">
-                    <nuxt-link :to="'/apps/app-library/' + application.id">
-                      {{ application.name }}
-                    </nuxt-link>
-                  </h5>
-                  <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
-                    {{ application.detail | truncate(90, '...') }}
-                  </p>
-                  <div class="card-body p-0">
-                    <div class="row">
-                      <div class="col p-0">
-                        <div class="card-profile-stats d-flex justify-content-center">
-                          <div class="p-0">
-                            <span class="heading"><i class="fa fa-download" /> 22</span>
-                          </div>
-                          <div class="divider" />
-                          <div class="p-0">
-                            <span class="heading"><i class="fa fa-heart" /> 10</span>
-                          </div>
+          </card>
+        </div>
+        <div :class="'row p-0 ' + classAdded">
+          <div class="col-md-12">
+            <div class="col-md-8 float-left">
+              See what usually Sales & Marketing use..
+            </div>
+
+            <div class="col-md-4 see-app-list float-right" style="display: block;">
+              <div class="row">
+                <div class="col-md-10">
+                  Or see all app list
+                </div>
+                <div class="col-md-2" style="-webkit-transform: scaleX(-1);transform: scaleX(-1);">
+                  <span class="pd-icon pdicon-Back-Arrow" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="width: 100%">
+            <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
+              <card>
+                <div class="text-center p-3">
+                  <img
+                    slot="image"
+                    class="card-img-top app-img"
+                    :src="application.logo"
+                    :alt="application.name"
+                    @click="$router.push('/apps/app-library/' + application.id)"
+                  >
+                </div>
+                <h5 class="card-title">
+                  <nuxt-link :to="'/apps/app-library/' + application.id">
+                    {{ application.name }}
+                  </nuxt-link>
+                </h5>
+                <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
+                  {{ application.detail | truncate(90, '...') }}
+                </p>
+                <div class="card-body p-0">
+                  <div class="row">
+                    <div class="col p-0">
+                      <div class="card-profile-stats d-flex justify-content-center">
+                        <div class="p-0">
+                          <span class="heading"><i class="fa fa-download" /> 22</span>
+                        </div>
+                        <div class="divider" />
+                        <div class="p-0">
+                          <span class="heading"><i class="fa fa-heart" /> 10</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div :class="{'text-center': true, 'pt-3 pb-2': application.integrations.length !== 0}">
-                    <base-button v-if="application.integrations.length === 0" outline type="primary" @click="appClick(index)">
-                      Add to Picardata
-                    </base-button>
-                    <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
-                  </div>
-                </card>
-              </div>
-            </div>  
-            
-            <modal :show.sync="modals.modal0">
-              <template slot="header">
-                <h5 id="exampleModalLabel" class="modal-title" />
-              </template>
-              <div>
-                <img
-                  slot="image"
-                  class="card-img-top card-img-logo"
-                  :src="selectedApp.logo"
-                  alt="Card image cap"
-                >
-                <p class="mt-3 notify-text font-weight-bolder">
-                  Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
-                </p>
-                <p class="content-text">
-                  This will allow Picardata to:
-                </p>
-                <ul class="content-text">
-                  <li>View and access your data</li>
-                </ul>
-              </div>
-              <template slot="footer">
-                <base-button tag="a" type="primary" target="_blank" :href="selectedApp.oauthUrl">
-                  Integrate now
-                </base-button>
-              </template>
-            </modal>
-          
-          </div>
-          <div class="col-md-12" v-if="isQSearchNotExist()" style="margin-bottom: 2%">
-              <div class="picardata-paging float-right">
-                <div class="col-sm" @click="setPrevious()">
-                  <span
-                    v-if="isLastForPrev()"
-                    class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
-                  />
-                  <span
-                    v-else
-                    class="pd-icon pdicon-Chevron-Left picardata-nav"
-                  />
                 </div>
-                <span
-                  v-for="n in this.totalPage"
-                  v-bind:key="n"
-                  class="col-sm picardata-paging-text"
-                  @click="setCurrentPage(n)"
-                >
-                  <span
-                    v-if="isCurrentPage(n)"
-                    class="picardata-paging-active"
-                  >
-                    {{ n }}
-                  </span>
-                  <span v-else>{{ n }}</span>
-                </span>
-                <div class="col-sm" @click="setNext()">
-                  <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
-                  <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
+                <div :class="{'text-center': true, 'pt-3 pb-2': application.integrations.length !== 0}">
+                  <base-button v-if="application.integrations.length === 0" outline type="primary" @click="appClick(index)">
+                    Add to Picardata
+                  </base-button>
+                  <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
                 </div>
-              </div>
+              </card>
             </div>
-          <!-- <div v-if="isQSearchNotExist()" class="row" style="margin-bottom: 2%;"> -->
+          </div>
 
-            <!-- <div class="col-md-12 ">   -->
-
-            <!-- </div> -->
+          <modal :show.sync="modals.modal0">
+            <template slot="header">
+              <h5 id="exampleModalLabel" class="modal-title" />
+            </template>
+            <div>
+              <img
+                slot="image"
+                class="card-img-top card-img-logo"
+                :src="selectedApp.logo"
+                alt="Card image cap"
+              >
+              <p class="mt-3 notify-text font-weight-bolder">
+                Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
+              </p>
+              <p class="content-text">
+                This will allow Picardata to:
+              </p>
+              <ul class="content-text">
+                <li>View and access your data</li>
+              </ul>
+            </div>
+            <template slot="footer">
+              <base-button tag="a" type="primary" target="_blank" :href="selectedApp.oauthUrl">
+                Integrate now
+              </base-button>
+            </template>
+          </modal>
+        </div>
+        <div v-if="isQSearchNotExist()" class="col-md-12" style="margin-bottom: 2%">
+          <div class="picardata-paging float-right">
+            <div class="col-sm" @click="setPrevious()">
+              <span
+                v-if="isLastForPrev()"
+                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav"
+              />
+              <span
+                v-else
+                class="pd-icon pdicon-Chevron-Left picardata-nav"
+              />
+            </div>
+            <span
+              v-for="n in this.totalPage"
+              :key="n"
+              class="col-sm picardata-paging-text"
+              @click="setCurrentPage(n)"
+            >
+              <span
+                v-if="isCurrentPage(n)"
+                class="picardata-paging-active"
+              >
+                {{ n }}
+              </span>
+              <span v-else>{{ n }}</span>
+            </span>
+            <div class="col-sm" @click="setNext()">
+              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav" />
+              <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
+            </div>
           </div>
         </div>
-      <!-- <AppLibraryList /> -->
+        <!-- <div v-if="isQSearchNotExist()" class="row" style="margin-bottom: 2%;"> -->
+
+        <!-- <div class="col-md-12 ">   -->
+
+        <!-- </div> -->
+      </div>
     </div>
+    <!-- <AppLibraryList /> -->
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -246,9 +246,9 @@ export default {
         }
       ],
       selectedApp: {},
-      modals: {
-        modal0: false
-      },
+      // modals: {
+      //   modal0: false
+      // },
       filteredApplications: [],
       applications: [],
       S: '',
@@ -309,7 +309,7 @@ export default {
     },
     querySearch () {
       console.log(this.S)
-      if(this.S) {
+      if (this.S) {
         const searchQuery = this.S
         this.integrations = this.totalIntegrations.filter(function (application) {
           const re = new RegExp(searchQuery, 'i')
@@ -319,11 +319,11 @@ export default {
           return application.name.search(re) !== -1
         })
       } else {
-        this.setCurrentPage(this.currentPage);
+        this.setCurrentPage(this.currentPage)
       }
     },
-    isQSearchNotExist() {
-      return this.S ? false : true;
+    isQSearchNotExist () {
+      return !this.S
     },
     isCurrentPage (n) {
       return this.currentPage === n
@@ -333,7 +333,7 @@ export default {
       if (currentPage > 0 && currentPage <= this.totalPage) {
         console.log('current page = ')
         console.log(currentPage)
-        this.currentPage = currentPage;
+        this.currentPage = currentPage
 
         // const newIntegrations = this.integrations;
         const startIndex = ((this.currentPage * this.size) - this.size)
@@ -382,12 +382,24 @@ export default {
 
     setPrevious () {
       this.setCurrentPage(this.currentPage - 1)
-    },
+    }
   }
 }
 </script>
 
+<style>
+.picardata-page-app-library .breadcrumb-item a[href="/apps"] {
+  color: #313131;
+  font-weight: 600;
+  pointer-events: none;
+}
+</style>
 <style scoped>
+
+.picardata-page-app-library {
+  font-family: 'Poppins'
+}
+
 p.notify-text {
   font-size: 24px;
 }
@@ -555,7 +567,6 @@ color: #2534B6;
 .sales-marketing {
   /* H1 Heading */
 
-
 position: absolute;
 width: 400px;
 height: 27px;
@@ -596,4 +607,3 @@ color: #2534B6;
 
 }
 </style>
-
