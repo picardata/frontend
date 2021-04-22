@@ -4,18 +4,18 @@
     <side-bar>
       <template slot="links">
         <sidebar-item
-            :link="{
+          :link="{
             name: 'Dashboards',
             icon: 'ni ni-shop text-primary',
           }"
         >
           <sidebar-item
-              :link="{ name: 'Dashboard', path: '/' }"
+            :link="{ name: 'Dashboard', path: '/' }"
           />
         </sidebar-item>
 
         <sidebar-item
-            :link="{
+          :link="{
             name: 'Apps',
             icon: 'ni ni-ungroup text-orange'
           }"
@@ -26,7 +26,7 @@
         </sidebar-item>
 
         <sidebar-item
-            :link="{
+          :link="{
             name: 'Forms',
             icon: 'ni ni-ui-04 text-info'
           }"
@@ -36,7 +36,7 @@
           <sidebar-item :link="{ name: 'Manage all forms', path: '/form' }" />
         </sidebar-item>
         <sidebar-item
-            :link="{
+          :link="{
             name: 'Profile',
             icon: 'ni ni-single-copy-04 text-pink'
           }"
@@ -65,7 +65,7 @@
         <!--        </sidebar-item>-->
 
         <sidebar-item
-            :link="{
+          :link="{
             name: 'Logout',
             icon: 'ni ni-user-run text-primary',
             path: '/logout'
@@ -76,7 +76,7 @@
         </sidebar-item>
       </template>
     </side-bar>
-<!--    <Sidebar />-->
+    <!--    <Sidebar />-->
     <div class="main-content">
       <div class="content" @click="$sidebar.displaySidebar(false)">
         <nuxt />
