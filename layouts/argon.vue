@@ -91,7 +91,6 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
 import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
-import Sidebar from '~/components/layouts/argon/SideBar.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -110,8 +109,7 @@ function initScrollbar (className) {
 
 export default {
   components: {
-    ContentFooter,
-    Sidebar
+    ContentFooter
   },
   mounted () {
     this.initScrollbar()
