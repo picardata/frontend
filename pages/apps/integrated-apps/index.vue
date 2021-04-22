@@ -128,10 +128,10 @@
               <div class="col-sm-10 p-0">
                 <div class="text-center p-3 mb-3">
                   <img
-                      slot="image"
-                      class="card-img-top app-img"
-                      :src="integration.application.logo"
-                      :alt="integration.application.name"
+                    slot="image"
+                    class="card-img-top app-img"
+                    :src="integration.application.logo"
+                    :alt="integration.application.name"
                   >
                 </div>
                 <h5 class="card-title">

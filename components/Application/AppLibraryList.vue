@@ -82,8 +82,15 @@
                   <div class="divider" />
                   <div class="p-0">
                     <span class="heading">
-                      <svg width="22" height="19" style="margin-top:-4px" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2.77216 2.77216C0.40928 5.13503 0.409282 8.96602 2.77216 11.3289L11.937 20.4937L12 20.4307L12.0631 20.4938L21.2279 11.329C23.5908 8.96609 23.5908 5.13511 21.2279 2.77223C18.865 0.409358 15.034 0.40936 12.6712 2.77224L12.3536 3.08978C12.1584 3.28505 11.8418 3.28505 11.6465 3.08978L11.3289 2.77216C8.96601 0.409281 5.13503 0.409282 2.77216 2.77216Z" stroke="#14142B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <svg
+                        width="22"
+                        height="19"
+                        style="margin-top:-4px"
+                        viewBox="0 0 24 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M2.77216 2.77216C0.40928 5.13503 0.409282 8.96602 2.77216 11.3289L11.937 20.4937L12 20.4307L12.0631 20.4938L21.2279 11.329C23.5908 8.96609 23.5908 5.13511 21.2279 2.77223C18.865 0.409358 15.034 0.40936 12.6712 2.77224L12.3536 3.08978C12.1584 3.28505 11.8418 3.28505 11.6465 3.08978L11.3289 2.77216C8.96601 0.409281 5.13503 0.409282 2.77216 2.77216Z" stroke="#14142B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                       </svg> 10
                     </span>
                   </div>
@@ -102,7 +109,9 @@
                 <div class="col-sm-3 text-primary">
                   <i class="fa fa-check-circle" />
                 </div>
-                <div class="col-sm-5 text-primary text-desc">Added</div>
+                <div class="col-sm-5 text-primary text-desc">
+                  Added
+                </div>
               </div>
             </div>
           </div>
@@ -115,7 +124,9 @@
           <h5 id="exampleModalLabel" class="modal-title" />
         </template>
         <template slot="close-button">
-          <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span class="pd-icon pdicon-Cross"></span></button>
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+            <span class="pd-icon pdicon-Cross" />
+          </button>
         </template>
         <div>
           <img
@@ -131,7 +142,7 @@
             This will allow Picardata to:
           </p>
           <ul class="content-text">
-            <li>View and access your data <i class="pd-icon pdicon-Alert-info"></i></li>
+            <li>View and access your data <i class="pd-icon pdicon-Alert-info" /></li>
           </ul>
         </div>
         <template slot="footer">

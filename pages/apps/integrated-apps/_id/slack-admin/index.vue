@@ -37,7 +37,7 @@
                 <h2>Response</h2>
               </div>
               <div class="col-sm-4">
-                <span class="text-primary desc">This month <span class="pd-icon pdicon-Chevron-Down text-primary"></span></span>
+                <span class="text-primary desc">This month <span class="pd-icon pdicon-Chevron-Down text-primary" /></span>
               </div>
             </div>
             <div class="row">
@@ -47,14 +47,15 @@
               <div class="col-sm-8">
                 <div class="chart">
                   <line-chart
-                      :height="150"
-                      :chart-data="salesChart.chartData"
-                  >
-                  </line-chart>
+                    :height="150"
+                    :chart-data="salesChart.chartData"
+                  />
                 </div>
               </div>
               <div class="col-sm-4">
-                <h1 class="desc-title mb-0">18.8k</h1>
+                <h1 class="desc-title mb-0">
+                  18.8k
+                </h1>
                 <span class="desc">Increases 53%</span>
               </div>
             </div>
@@ -87,14 +88,14 @@ export default {
     return {
       salesChart: {
         chartData: {
-          labels: [' ',' ',' ',' ',' ',' ',' ',' ',' '],
+          labels: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
           datasets: [{
             label: '',
             data: [20, 0, 80, 30, 50, 25, 23, 15, 0]
           }]
 
         },
-        extraOptions: chartConfigs.blueChartOptions,
+        extraOptions: chartConfigs.blueChartOptions
       },
       crumbs: [
         {

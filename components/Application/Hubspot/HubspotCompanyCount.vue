@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-sm-12">
         <h5 class="card-title mb-0 pcd">
-          {{  title }}
+          {{ title }}
         </h5>
       </div>
       <div class="col-sm-12 mt-3">
@@ -12,9 +12,11 @@
       </div>
     </div>
 
-    <hr class="blue-divider mb-4" />
+    <hr class="blue-divider mb-4">
 
-    <p class="desc">{{  title }} Total Created</p>
+    <p class="desc">
+      {{ title }} Total Created
+    </p>
   </stats-card>
 </template>
 <script>

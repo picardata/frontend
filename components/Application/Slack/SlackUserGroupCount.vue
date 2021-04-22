@@ -12,9 +12,11 @@
       </div>
     </div>
 
-    <hr class="blue-divider mb-4" />
+    <hr class="blue-divider mb-4">
 
-    <p class="desc">User Groups Total Created</p>
+    <p class="desc">
+      User Groups Total Created
+    </p>
   </stats-card>
 </template>
 <script>
