@@ -200,7 +200,7 @@
             </template>
           </modal>
         </div>
-        <div v-if="isQSearchNotExist()" class="col-md-12" style="margin-bottom: 2%">
+        <div v-if="isQSearchNotExist() && isIntegrationExist()" class="col-md-12" style="margin-bottom: 2%">
           <div class="picardata-paging float-right">
             <div class="col-sm" @click="setPrevious()">
               <span
@@ -295,15 +295,15 @@ export default {
     this.$axios.get('/api/applications/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
-        this.applications = data.data
-        this.filteredApplications = this.applications
+        // this.applications = data.data
+        // this.filteredApplications = this.applications
 
         this.totalIntegrations = data.data.filter(x => x.status === 1)
         console.log('total integration = ')
 
         this.integrations = [...this.totalIntegrations]
         // this.totalPage = 5;
-        this.totalPage = Math.ceil(this.filteredApplications.length / 5)
+        this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
         this.setCurrentPage(1)
       }).catch(
       // eslint-disable-next-line no-console
@@ -314,16 +314,19 @@ export default {
   },
   methods: {
     appClick (index) {
-      this.selectedApp = this.applications[index]
+      this.selectedApp = this.integrations[index]
       this.modals.modal0 = true
     },
     dismissModal () {
       this.modals.modal0 = false
     },
     filterCategory (categoryId) {
-      this.filteredApplications = this.applications
+      console.log('Kesini mantab sekali bro !')
+      // this.filteredApplications = this.applications
       if (categoryId > 0) {
-        this.filteredApplications = this.applications.filter(function (application) {
+        console.log('total integrations = ')
+        console.log(this.totalIntegrations)
+        this.integrations = this.totalIntegrations.filter(function (application) {
           let hasCategory = false
           application.category.forEach(function (category) {
             console.log(category.id)
@@ -334,7 +337,14 @@ export default {
           })
           return hasCategory
         })
+
+        console.log('Integration ini bro = ')
+        console.log(this.integrations)
+      } else {
+        this.integrations = this.totalIntegrations
       }
+
+      this.totalPage = Math.ceil(this.integrations.length / 5)
     },
     querySearch () {
       console.log(this.S)
@@ -353,6 +363,10 @@ export default {
     },
     isQSearchNotExist () {
       return !this.S
+    },
+    isIntegrationExist () {
+      // console.length
+      return this.integrations.length > 0
     },
     isCurrentPage (n) {
       return this.currentPage === n
