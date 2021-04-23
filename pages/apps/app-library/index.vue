@@ -321,11 +321,11 @@ export default {
       this.modals.modal0 = false
     },
     filterCategory (categoryId) {
-      console.log('Kesini mantab sekali bro !');
+      console.log('Kesini mantab sekali bro !')
       // this.filteredApplications = this.applications
       if (categoryId > 0) {
-        console.log('total integrations = ');
-        console.log(this.totalIntegrations);
+        console.log('total integrations = ')
+        console.log(this.totalIntegrations)
         this.integrations = this.totalIntegrations.filter(function (application) {
           let hasCategory = false
           application.category.forEach(function (category) {
@@ -338,10 +338,10 @@ export default {
           return hasCategory
         })
 
-        console.log('Integration ini bro = ');
-        console.log(this.integrations);
+        console.log('Integration ini bro = ')
+        console.log(this.integrations)
       } else {
-        this.integrations = this.totalIntegrations;
+        this.integrations = this.totalIntegrations
       }
 
       this.totalPage = Math.ceil(this.integrations.length / 5)
@@ -364,9 +364,9 @@ export default {
     isQSearchNotExist () {
       return !this.S
     },
-    isIntegrationExist() {
+    isIntegrationExist () {
       // console.length
-      return this.integrations.length > 0;
+      return this.integrations.length > 0
     },
     isCurrentPage (n) {
       return this.currentPage === n
