@@ -425,6 +425,7 @@ div.search-button {
   display: flex;
   align-items: center;
   text-align: center;
+  font-size: 20px;
   letter-spacing: 0.75px;
 
   /* Body Text */

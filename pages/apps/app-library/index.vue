@@ -522,6 +522,7 @@ div.search-button {
   font-weight: normal;
   font-weight: bold;
   margin: auto;
+  font-size: 20px;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -553,7 +554,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #313131;
+  color: #404040;
   /* Inside Auto Layout */
 
   flex: none;
