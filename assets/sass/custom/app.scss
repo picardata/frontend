@@ -12,6 +12,10 @@ body {
   display: none;
 }
 
+.breadcrumb-item a:nth-child(1) {
+  color: #3E4EDD;
+}
+
 .breadcrumb-item i {
   color: #404040;
   margin: 0 10px 3px 10px;
