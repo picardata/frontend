@@ -522,6 +522,7 @@ div.search-button {
   font-weight: normal;
   font-weight: bold;
   margin: auto;
+  font-size: 20px;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
