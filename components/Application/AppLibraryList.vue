@@ -14,6 +14,7 @@
                 </div>
                 <input
                   v-model="qSearch"
+                  style="width:75%"
                   class="form-control app-search"
                   placeholder="Search app"
                   type="text"
@@ -53,7 +54,7 @@
     </div>
     <div :class="'row p-0 ' + classAdded">
       <div v-for="(application, index) in filteredApplications" :key="application.id" :class="appClass">
-        <card>
+        <card class="pcd card-libs">
           <div class="text-center p-3">
             <img
               slot="image"
@@ -68,35 +69,64 @@
               {{ application.name }}
             </nuxt-link>
           </h5>
-          <p class="card-text" @click="$router.push('/apps/app-library/' + application.id)">
+          <p class="card-text f-14" @click="$router.push('/apps/app-library/' + application.id)">
             {{ application.detail | truncate(90, '...') }}
           </p>
-          <div class="card-body p-0">
+          <div class="pl-3">
             <div class="row">
               <div class="col p-0">
-                <div class="card-profile-stats d-flex justify-content-center">
+                <div class="card-profile-stats d-flex">
                   <div class="p-0">
-                    <span class="heading"><i class="fa fa-download" /> 22</span>
+                    <span class="heading" style="text-transform: none;"><i class="fa fa-download" /> 1.4k</span>
                   </div>
                   <div class="divider" />
                   <div class="p-0">
-                    <span class="heading"><i class="fa fa-heart" /> 10</span>
+                    <span class="heading">
+                      <svg
+                        width="22"
+                        height="19"
+                        style="margin-top:-4px"
+                        viewBox="0 0 24 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M2.77216 2.77216C0.40928 5.13503 0.409282 8.96602 2.77216 11.3289L11.937 20.4937L12 20.4307L12.0631 20.4938L21.2279 11.329C23.5908 8.96609 23.5908 5.13511 21.2279 2.77223C18.865 0.409358 15.034 0.40936 12.6712 2.77224L12.3536 3.08978C12.1584 3.28505 11.8418 3.28505 11.6465 3.08978L11.3289 2.77216C8.96601 0.409281 5.13503 0.409282 2.77216 2.77216Z" stroke="#14142B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg> 10
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div :class="{'text-center': true, 'pt-3 pb-2': application.integrations.length !== 0}">
-            <base-button v-if="application.integrations.length === 0" outline type="primary" @click="appClick(index)">
+          <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
+            <base-button class="w-100" outline type="primary" @click="appClick(index)">
               Add to Picardata
             </base-button>
-            <span v-else class="text-primary"><i class="fa fa-check " /> Added</span>
+          </div>
+          <div v-else :class="{'pt-2 pb-2': application.integrations.length !== 0}">
+            <div class="text-download text-primary">
+              <div class="row">
+                <div class="col-sm-3 text-primary">
+                  <i class="fa fa-check-circle" />
+                </div>
+                <div class="col-sm-5 text-primary text-desc">
+                  Added
+                </div>
+              </div>
+            </div>
           </div>
         </card>
       </div>
-      <modal :show.sync="modals.modal0">
+
+      <!--Modal-->
+      <modal :show.sync="modals.modal0" body-classes="pt-0" modal-classes="pcd">
         <template slot="header">
           <h5 id="exampleModalLabel" class="modal-title" />
+        </template>
+        <template slot="close-button">
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+            <span class="pd-icon pdicon-Cross" />
+          </button>
         </template>
         <div>
           <img
@@ -105,20 +135,22 @@
             :src="selectedApp.logo"
             alt="Card image cap"
           >
-          <p class="mt-3 notify-text font-weight-bolder">
+          <p class="mt-3 notify-text font-weight-bolder title-text">
             Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
           </p>
           <p class="content-text">
             This will allow Picardata to:
           </p>
           <ul class="content-text">
-            <li>View and access your data</li>
+            <li>View and access your data <i class="pd-icon pdicon-Alert-info" /></li>
           </ul>
         </div>
         <template slot="footer">
-          <base-button tag="a" type="primary" target="_blank" :href="selectedApp.oauthUrl">
-            Integrate now
-          </base-button>
+          <div class="w-100 mr-4 text-right">
+            <base-button tag="a" type="primary" target="_blank" :href="selectedApp.oauthUrl">
+              Integrate now
+            </base-button>
+          </div>
         </template>
       </modal>
     </div>
@@ -135,7 +167,7 @@ export default {
     },
     appClass: {
       type: String,
-      default: 'col-4'
+      default: 'col-5'
     }
   },
   data () {
@@ -246,5 +278,14 @@ div.search-button {
 
 .card-text, .card-img-top {
   cursor: pointer;
+}
+
+.text-download i{
+  font-size:32px;
+}
+.text-download .text-desc{
+  font-size: 16px;
+  line-height:35px;
+  font-weigt:600;
 }
 </style>
