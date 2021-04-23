@@ -75,7 +75,7 @@
             <div class="img-banner">
               <img src="~/assets/register-now.png" alt="">
 
-              <nuxt-link to="#" class="btn btn-outline-primary btn-block">
+              <nuxt-link to="/signup" class="btn btn-outline-primary btn-block">
                 Not registered yet? Register now
               </nuxt-link>
             </div>
