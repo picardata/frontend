@@ -103,6 +103,9 @@ export default {
       password: ''
     }
   },
+  beforeMount () {
+    return this.$auth.loggedIn ? this.$router.push('/') : ''
+  },
   methods: {
     async onSubmit () {
       const isValidate = this.validateEmail() && this.validatePassword()
