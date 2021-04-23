@@ -9,15 +9,47 @@
               <h2>Login to Picardata</h2>
             </div>
 
-            <div class="input-group mt-4">
-              <input class="form-control login-credential-input py-2" placeholder="Email">
+            <div class="form-group mt-4">
+              <label
+                :class="[`form-control-label`, {'d-none': !errors.email}]"
+              >
+                Email
+              </label>
+              <input
+                v-model="email"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
+                placeholder="Email"
+                @change="validateEmail"
+              >
+              <span class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
+              <span
+                :class="['form-control-error', {'d-none': !errors.email}]"
+              >
+                {{ errors.email }}
+              </span>
             </div>
 
-            <div class="input-group mt-4">
-              <input class="form-control login-credential-input py-2 border-right-0" placeholder="Password">
-              <span class="input-group-append">
-                <div class="input-group-text bg-transparent"><i class="fa fa-eye"></i></div>
-              </span>
+            <div class="form-group mt-4">
+              <label
+                :class="[`form-control-label`, {'d-none': !errors.password}]"
+              >
+                Password
+              </label>
+              <input
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
+                placeholder="Password"
+                @change="validatePassword"
+              >
+
+              <span v-if="showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
+              <span v-else class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
+
+              <span
+                :class="[`form-control-error`, {'d-none': !errors.password}]"
+                v-html="errors.password"
+              />
             </div>
 
             <div class="form-check  mt-4">
@@ -25,7 +57,13 @@
               <label class="form-check-label ml-2" for="checkbox-remember-me">Remember me</label>
             </div>
 
-            <button type="button" class="btn btn-primary btn-block mt-4 mb-4 rounded"> Login </button>
+            <button
+              type="button"
+              :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
+              @click="onSubmit"
+            >
+              Login
+            </button>
 
             <div class="col-md-12 text-center">
               <nuxt-link to="#">
@@ -34,7 +72,13 @@
             </div>
           </div>
           <div class="col-md-6">
-            Hello Planet
+            <div class="img-banner">
+              <img src="~/assets/register-now.png" alt="">
+
+              <nuxt-link to="#" class="btn btn-outline-primary btn-block">
+                Not registered yet? Register now
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
@@ -42,13 +86,18 @@
   </div>
 </template>
 <script>
+
 export default {
   name: 'AdminAuthPage',
   layout: 'empty',
   auth: false,
   data () {
     return {
-      errors: [],
+      errors: {
+        email: '',
+        password: ''
+      },
+      showPassword: false,
       isLogin: true,
       email: '',
       password: ''
@@ -56,6 +105,11 @@ export default {
   },
   methods: {
     async onSubmit () {
+      const isValidate = this.validateEmail() && this.validatePassword()
+      if (!isValidate) {
+        return false
+      }
+
       if (!this.isLogin) {
         const result = await this.$axios
           .$post('/api/users/', {
@@ -77,6 +131,7 @@ export default {
             return false
           })
         if (result === false) {
+          this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
           return false
         }
       }
@@ -93,15 +148,48 @@ export default {
           this.$router.push('/')
         }
       } catch (err) {
-        this.errors = []
-        for (const field of ['username', 'password']) {
-          const errors = err.response.data.errors[field]
-          if (errors !== undefined) {
-            this.errors = this.errors.concat(errors)
-          }
-        }
+        this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
         return false
       }
+    },
+    validateEmail () {
+      const email = this.email
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const test = re.test(email.toLowerCase())
+
+      if (!test) {
+        this.errors.email = 'Error email\'s format'
+        return false
+      }
+
+      this.errors.email = ''
+      return true
+    },
+    validatePassword () {
+      const password = this.password
+
+      if (password.length < 8) {
+        this.errors.password = 'Minimum password length 8 chars'
+        return false
+      }
+
+      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      const test = re.test(password)
+
+      if (!test) {
+        this.errors.password = 'Error password\'s format'
+        return false
+      }
+
+      this.errors.password = ''
+      return true
+    },
+    emptyInput (value) {
+      this[value] = ''
+      this.errors[value] = ''
+    },
+    togglePassword () {
+      this.showPassword = !this.showPassword
     }
   }
 }
@@ -113,7 +201,7 @@ export default {
   display: flex;
   justify-content: center;
   background-color: #181C3B;
-  padding: 4em 16em;
+  padding: 3em 16em;
 }
 
 .wrapper{
@@ -121,7 +209,14 @@ export default {
   width: 100%;
   height: auto;
   border-radius: 16px;
-  padding: 3rem 4rem 0;
+  padding: 3rem 4rem 3rem;
+}
+
+.icon-picardata{
+  h2{
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
 }
 
 .mt-4{
@@ -144,6 +239,48 @@ export default {
   &:hover{
     box-shadow: none;
     transform: translateY(0);
+  }
+}
+
+.img-banner{
+  margin-top: 48px;
+
+  .btn{
+    margin-top: 32px;
+  }
+}
+
+.form-group{
+  position: relative;
+
+  .form-control-label{
+    position: absolute;
+    padding: 6px 24px;
+    color: #C30052;
+    z-index: 2;
+
+    + .login-credential-input{
+      padding: 24px 24px 0;
+    }
+
+    &.d-none + .login-credential-input{
+      padding: 0 24px;
+    }
+  }
+
+  .form-control-error{
+    color: #C30052;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  .form-icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 24px;
+    font-size: 14px;
+    color: #A0A3BD;
   }
 }
 </style>
