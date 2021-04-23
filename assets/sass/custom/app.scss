@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   }
 }
 
-.login-credential-input{
+.login-credential-input {
   border-radius: 16px;
   background: #EFF0F6;
   color: #181C3B;
@@ -162,28 +162,30 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-size: 1rem;
   padding: 0 24px;
 
-  &:focus{
+  &:focus {
     color: #181C3B;
     background-color: #EFF0F7;
     border: 1px solid #dee2e6;
     outline: 0;
     box-shadow: none;
   }
-  &::placeholder{
+
+  &::placeholder {
     color: #A0A3BD;
   }
 
-  + .input-group-append{
+  + .input-group-append {
     background: #EFF0F6;
     border-radius: 0 16px 16px 0;
 
-    .input-group-text{
+    .input-group-text {
       border-radius: 0 16px 16px 0;
       font-size: 1rem;
     }
   }
 
-  &.error{
+  &.error {
     background: #FFF2F7;
     border: 2px solid #ED2E7E;
   }
+}
