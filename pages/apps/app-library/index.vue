@@ -554,7 +554,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #313131;
+  color: #404040;
   /* Inside Auto Layout */
 
   flex: none;
