@@ -36,28 +36,28 @@
             :options="this.pageLikesChart.extraOptions"
           />
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <PageFollowers
             v-if="this.pageFollowersChart.loaded === true"
             :chartdata="this.pageFollowersChart.chartdata"
             :options="this.pageFollowersChart.extraOptions"
           />
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <PostReach
             v-if="this.postReachChart.loaded === true"
             :chartdata="this.postReachChart.chartdata"
             :options="this.postReachChart.extraOptions"
           />
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <VideosViews
             v-if="this.videosViewsChart.loaded === true"
             :chartdata="this.videosViewsChart.chartdata"
             :options="this.videosViewsChart.extraOptions"
           />
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <PostEngagements
             v-if="this.postEngagementsChart.loaded === true"
             :chartdata="this.postEngagementsChart.chartdata"
