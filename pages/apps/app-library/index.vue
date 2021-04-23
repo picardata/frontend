@@ -340,11 +340,12 @@ export default {
 
         console.log('Integration ini bro = ')
         console.log(this.integrations)
+        this.totalPage = Math.ceil(this.integrations.length / 5)
       } else {
         this.integrations = this.totalIntegrations
+        this.totalPage = Math.ceil(this.integrations.length / 5)
+        this.setCurrentPage(1)
       }
-
-      this.totalPage = Math.ceil(this.integrations.length / 5)
     },
     querySearch () {
       console.log(this.S)
