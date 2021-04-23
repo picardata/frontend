@@ -408,7 +408,7 @@ div.search-button {
 
 .picardata-paging-text {
   position: static;
-  width: 13px;
+  /* width: 13px; */
   /* height: 28px; */
   left: 143px;
   top: 0px;
@@ -443,7 +443,7 @@ div.search-button {
   padding: 16px;
   cursor: pointer;
   position: static;
-  width: atuo;
+  width: auto;
   /*height: 60px;
   left: 689px;
   top: 2066px; */
