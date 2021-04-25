@@ -52,9 +52,33 @@
               />
             </div>
 
-            <div class="form-check  mt-4">
-              <input id="checkbox-remember-me" type="checkbox" class="form-check-input">
-              <label class="form-check-label ml-2" for="checkbox-remember-me">Remember me</label>
+            <div class="form-group  mt-4">
+                            <label
+                :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
+              >
+                Password again
+              </label>
+              <input
+                v-model="passwordAgain"
+                :type="showPasswordAgain ? 'text' : 'password'"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
+                placeholder="Password Again"
+                @change="validatePasswordAgain"
+              >
+
+              <span v-if="showPasswordAgain" 
+                    class="form-icon" @click="togglePasswordAgain">
+                    <i class="fa fa-eye-slash" />
+              </span>
+              <span v-else class="form-icon" 
+                    @click="togglePasswordAgain">
+                    <i class="fa fa-eye" />
+              </span>
+
+              <span
+                :class="[`form-control-error`, {'d-none': !errors.passwordAgain}]"
+                v-html="errors.passwordAgain"
+              />
             </div>
 
             <button
@@ -62,21 +86,16 @@
               :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
               @click="onSubmit"
             >
-              Login
+              Register
             </button>
 
-            <div class="col-md-12 text-center">
-              <nuxt-link to="#">
-                Forgot password
-              </nuxt-link>
-            </div>
           </div>
           <div class="col-md-6">
             <div class="img-banner">
               <img src="~/assets/register-now.png" alt="">
 
-              <nuxt-link to="/signup" class="btn btn-outline-primary btn-block">
-                Not registered yet? Register now
+              <nuxt-link to="/login" class="btn btn-outline-primary btn-block">
+                Already had an account? Sign in
               </nuxt-link>
             </div>
           </div>
@@ -95,12 +114,15 @@ export default {
     return {
       errors: {
         email: '',
-        password: ''
+        password: '',
+        passwordAgain: ''
       },
       showPassword: false,
+      showPasswordAgain: false,
       isLogin: false,
       email: '',
-      password: ''
+      password: '',
+      passwordAgain: ''
     }
   },
   // beforeMount () {
@@ -108,7 +130,7 @@ export default {
   // },
   methods: {
     async onSubmit () {
-      const isValidate = this.validateEmail() && this.validatePassword()
+      const isValidate = this.validateEmail() && this.validatePassword() && this.validatePasswordAgain();
       if (!isValidate) {
         return false
       }
@@ -186,12 +208,42 @@ export default {
       this.errors.password = ''
       return true
     },
+    validatePasswordAgain () {
+      const password = this.passwordAgain
+
+      if (password.length < 8) {
+        this.errors.passwordAgain = 'Minimum password length 8 chars'
+        return false
+      }
+
+      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      const test = re.test(password)
+
+      const originalPassword = this.password;
+
+      if(password != originalPassword) {
+        this.errors.passwordAgain = "Password isn't matched";
+        this.errors.password = this.errors.passwordAgain;
+        return false;
+      }
+
+      // if (!test) {
+      //   this.errors.password = 'Error password\'s format'
+      //   return false
+      // }
+
+      this.errors.passwordAgain = ''
+      return true
+    },
     emptyInput (value) {
       this[value] = ''
       this.errors[value] = ''
     },
     togglePassword () {
       this.showPassword = !this.showPassword
+    },
+    togglePasswordAgain () {
+      this.showPasswordAgain = !this.showPasswordAgain
     }
   }
 }
