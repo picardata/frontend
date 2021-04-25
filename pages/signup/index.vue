@@ -92,7 +92,7 @@
           </div>
           <div class="col-md-6">
             <div class="img-banner">
-              <img src="~/assets/register-now.png" alt="">
+              <img src="~/assets/register-now-red.png" alt="">
 
               <nuxt-link to="/login" class="btn btn-outline-primary btn-block">
                 Already had an account? Sign in
