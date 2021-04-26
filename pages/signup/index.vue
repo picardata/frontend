@@ -195,26 +195,26 @@ export default {
       return true
     },
     isEmailFormatValid(email) {
-      if(email.length === 0) {
-        return true;
-      }
+      // if(email.length === 0) {
+      //   return true;
+      // }
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       const test = re.test(email.toLowerCase())
       return test;
     },
     isPasswordLengthValid(password) {
-      if(password.length === 0) {
-        return true;
-      }
+      // if(password.length === 0) {
+      //   return true;
+      // }
       return password && password.length >= 8;
     },
     isPasswordMatched(originalPassword, repeatedPassword) {
       return originalPassword.length > 0 && repeatedPassword.length > 0 && (originalPassword == repeatedPassword);
     },
     isPasswordFormatValid(password) {
-      if(password.length === 0) {
-        return true;
-      } 
+      // if(password.length === 0) {
+      //   return true;
+      // } 
       const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
