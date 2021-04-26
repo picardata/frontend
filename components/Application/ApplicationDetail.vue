@@ -4,7 +4,7 @@
       <img class="logo" :src="logo" alt="Logo">
     </div>
     <div :class="{ 'col-8': detailPage, 'col-12': !detailPage }">
-      <h1>{{ name }}</h1>
+      <h1>{{generateManage}} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
     <div v-if="detailPage" class="col-4">
       <nuxt-link :to="manageLink" class="text-primary fa-pull-right btn">
@@ -129,6 +129,9 @@ export default {
   computed: {
     manageLink () {
       return this.$route.path + '/manage'
+    },
+    generateManage() {
+      return this.detailManagePage ? 'Manage' : '';
     }
   }
 }
@@ -137,5 +140,9 @@ export default {
 <style scoped>
 img.logo {
   width: 100px;
+}
+
+.detail-name {
+  color: #2534B6;
 }
 </style>
