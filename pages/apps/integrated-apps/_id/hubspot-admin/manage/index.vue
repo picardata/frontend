@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-integrated-app-manage">
     <base-header type="white" class="p-0">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">

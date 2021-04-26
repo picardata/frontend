@@ -85,7 +85,7 @@ export default {
           path: '/apps/integrated-apps'
         },
         {
-          name: 'Slack',
+          name: 'Hubspot',
           path: '/apps/integrated-apps'
         }
       ]

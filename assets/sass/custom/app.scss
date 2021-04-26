@@ -3,6 +3,25 @@ body {
   font-family: 'Poppins';
 }
 
+
+.app-integrated-app-manage nav .breadcrumb-item:nth-child(2) {
+  cursor: text;
+  a {
+    color: #313131;
+    font-weight: 600;
+    pointer-events: none;
+    cursor: text;
+  }
+
+}
+
+// .app-integrated-app-manage nav .breadcrumb-item:nth-child(2) a {
+//   color: #313131;
+//   font-weight: 600;
+//   pointer-events: none;
+//   cursor: text;
+// }
+
 .breadcrumb-item {
   font-size: 18px;
   font-weight: 600;
