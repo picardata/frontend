@@ -12,7 +12,7 @@
         Manage app
       </nuxt-link>
     </div>
-    <div v-if="detailPage" class="row mt-3 ml-3">
+    <div v-if="detailPage || detailManagePage" class="row mt-3 ml-3">
       <p class="text-default mt-2 mr-2">
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
@@ -30,7 +30,7 @@
       </a>
     </div>
     <div class="col-12">
-      <p v-if="detailPage">
+      <p v-if="detailPage || detailManagePage">
         {{ detail }}
       </p>
       <p v-else>
@@ -101,6 +101,10 @@ export default {
     detailPage: {
       type: Boolean,
       default: true
+    },
+    detailManagePage: {
+      type: Boolean,
+      default: false
     },
     withIntegration: {
       type: Boolean,

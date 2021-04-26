@@ -16,6 +16,7 @@
         :detail="data.application.detail"
         :instruction="data.application.instruction"
         :detail-page="false"
+        :detail-manage-page="true"
       />
       <div class="row mt-5">
         <ul id="pills-tab" class="nav mb-3" role="tablist">
