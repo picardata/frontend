@@ -24,7 +24,7 @@
                 @change="validateEmail"
                 @keyup="validateForRegisterButton"
               >
-              <span class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
+              <span v-if="this.username.length > 0 && errors.username" class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
               <span
                 :class="['form-control-error', {'d-none': !errors.username}]"
               >
@@ -47,8 +47,8 @@
                 @keyup="validateForRegisterButton"
               >
 
-              <span v-if="!showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
-              <span v-else class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
+              <span v-if="!showPassword && this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
+              <span v-else-if="this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
 
               <span
                 :class="[`form-control-error`, {'d-none': !errors.password}]"
@@ -66,20 +66,20 @@
                 v-model="passwordAgain"
                 :type="showPasswordAgain ? 'text' : 'password'"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
-                placeholder="Password Again"
+                placeholder="Password again"
                 @change="validatePasswordAgain"
                 @keyup="validateForRegisterButton"
               >
 
               <span
-                v-if="!showPasswordAgain"
+                v-if="!showPasswordAgain && this.passwordAgain.length > 0"
                 class="form-icon"
                 @click="togglePasswordAgain"
               >
                 <i class="fa fa-eye-slash" />
               </span>
               <span
-                v-else
+                v-else-if="this.passwordAgain.length > 0"
                 class="form-icon"
                 @click="togglePasswordAgain"
               >
