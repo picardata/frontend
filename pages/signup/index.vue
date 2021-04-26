@@ -43,7 +43,7 @@
                 @change="validatePassword"
               >
 
-              <span v-if="showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
+              <span v-if="!showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
               <span v-else class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
 
               <span
@@ -67,7 +67,7 @@
                 v-on:keyup="validateForRegisterButton"
               >
 
-              <span v-if="showPasswordAgain" 
+              <span v-if="!showPasswordAgain" 
                     class="form-icon" @click="togglePasswordAgain">
                     <i class="fa fa-eye-slash" />
               </span>
