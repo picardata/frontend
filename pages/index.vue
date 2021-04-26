@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" :class="slideClass" class="col-xl-2 slide-element">
+        <div v-show="submenu" class="col-xl-2 slide-element">
           <div class="row pt-3">
             <div class="col-lg-12" style="margin-bottom: 50px">
               <route-breadcrumb />
@@ -138,13 +138,6 @@ export default {
       totalIntegrations: 0
     }
   },
-  created () {
-    setTimeout(() => {
-      const container = this.$el.querySelector('.slide-element')
-      container.classList.remove('slide-enter-active')
-      container.classList.remove('slide-leave-active')
-    }, 1000)
-  },
   mounted () {
     this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
@@ -160,11 +153,11 @@ export default {
   methods: {
     buttonAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-257px'
+      el.style.left = '-282px'
     },
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-256px'
+      el.style.left = '-280px'
     },
     buttonAfterEnter (el) {
       el.style.display = 'block'
@@ -203,7 +196,7 @@ export default {
 
   @keyframes slide {
     from { left: 0px; }
-    to { left: -256px; }
+    to { left: -280px; }
   }
 
   .list-item {
