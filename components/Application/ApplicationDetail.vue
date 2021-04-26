@@ -1,8 +1,9 @@
 <template>
   <div class="row ml-2">
     <div class="col-12" v-if="detailManagePage">
-      <nuxt-link :to="generateParentPath" class="text-primary pd-icon pdicon-Back-Arrow picardata-arrow">
-      </nuxt-link>
+      <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
+        <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath"></a>
+      <!-- </nuxt-link> -->
     </div>
     <div class="col-12" v-if="detailPage">
       <img class="logo" :src="logo" alt="Logo">
@@ -152,6 +153,13 @@ export default {
 </script>
 
 <style scoped>
+.picardata-arrow {
+  color: #14142B; 
+  font-size: 200%;
+  /* color: #0000; */
+  /* background-color: #0000; */
+}
+
 img.logo {
   width: 100px;
 }
