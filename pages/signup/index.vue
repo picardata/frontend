@@ -107,9 +107,9 @@
               <div class="d-flex justify-content-center">
                 <img src="~/assets/register-now-red.png" alt="">
               </div>
-              <div class="d-flex justify-content-center already-had-account">
+              <div class="d-flex justify-content-center">
                 <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
-                  Already had an account? Sign in
+                  <span class="already-had-account-text">Already had an account? Sign in</span>
                 </nuxt-link>
               </div>
             </div>
@@ -315,7 +315,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.already-had-account {
+.already-had-account-text {
   font-family: Poppins;
   font-style: normal;
   font-weight: 500;
@@ -324,11 +324,19 @@ export default {
   /* identical to box height, or 200% */
 
   letter-spacing: 0.75px;
+
   /* Main Blue */
 
   color: #3E4EDD;
 
   opacity: 0.8;
+}
+
+.already-had-account {
+  background: #FFFFFF;
+  border: 1px solid #2534B6;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 .register-to-picardata {
   font-family: Poppins;
