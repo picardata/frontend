@@ -2,14 +2,14 @@
   <div class="app-integrated-app-manage">
     <base-header type="white" class="p-0">
       <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
+        <div class="col-lg-12 col-12">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
             <route-breadcrumb :crumbs="crumbs" />
           </nav>
         </div>
       </div>
     </base-header>
-    <div class="container-fluid mt-3">
+    <!-- <div> -->
       <ApplicationDetail
         :logo="data.application.logo"
         :name="data.application.name"
@@ -18,6 +18,9 @@
         :detail-page="false"
         :detail-manage-page="true"
       />
+    <!-- </div> -->
+    <div class="container-fluid mt-3">
+
       <div class="row mt-5">
         <ul id="pills-tab" class="nav mb-3" role="tablist">
           <li class="nav-item">
