@@ -178,10 +178,6 @@ export default {
 }
 </script>
 <style>
-  a {
-    color: black !important;
-  }
-
   div.card {
     border: none;
   }
