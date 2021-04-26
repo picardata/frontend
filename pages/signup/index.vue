@@ -64,6 +64,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
                 placeholder="Password Again"
                 @change="validatePasswordAgain"
+                v-on:keyup="validateForRegisterButton"
               >
 
               <span v-if="showPasswordAgain" 
@@ -85,6 +86,7 @@
               type="button"
               :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
               @click="onSubmit"
+              :disabled="disableRegisterButton"
             >
               Register
             </button>
@@ -120,6 +122,7 @@ export default {
       showPassword: false,
       showPasswordAgain: false,
       isLogin: false,
+      disableRegisterButton: true,
       email: '',
       password: '',
       passwordAgain: ''
@@ -187,12 +190,16 @@ export default {
       }
 
       this.errors.email = ''
+
+      // if (this.validatePassword() && this.validatePasswordAgain()) {
+      //   this.disableRegisterButton = false;
+      // }
       return true
     },
     validatePassword () {
       const password = this.password
 
-      if (password.length < 8) {
+      if (password && password.length < 8) {
         this.errors.password = 'Minimum password length 8 chars'
         return false
       }
@@ -205,13 +212,19 @@ export default {
       //   return false
       // }
 
+      // if (this.validateEmail() && this.validatePasswordAgain()) {
+      //   this.disableRegisterButton = false;
+      // }
       this.errors.password = ''
       return true
     },
     validatePasswordAgain () {
       const password = this.passwordAgain
 
-      if (password.length < 8) {
+      console.log('password again = ');
+      console.log(password);
+
+      if (password && password.length < 8) {
         this.errors.passwordAgain = 'Minimum password length 8 chars'
         return false
       }
@@ -227,13 +240,34 @@ export default {
         return false;
       }
 
+
       // if (!test) {
       //   this.errors.password = 'Error password\'s format'
       //   return false
       // }
 
+      
+      // if (this.validatePassword() && this.validateEmail()) {
+      //   this.disableRegisterButton = !this.disableRegisterButton;
+      // }
       this.errors.passwordAgain = ''
       return true
+    },
+    validateForRegisterButton() {
+      console.log('current password again = ');
+      console.log(this.passwordAgain);
+      const validatePassword = this.validatePassword();
+      const validateEmail = this.validateEmail();
+      console.log('validate password = ');
+      console.log(validatePassword);
+      console.log('validate email = ');
+      console.log(validateEmail);
+      // this.disableRegisterButton = false;
+      if (this.validatePassword() && this.validateEmail() && this.validatePasswordAgain()) {
+        this.disableRegisterButton = false;
+      } else {
+        this.disableRegisterButton = true;
+      }
     },
     emptyInput (value) {
       this[value] = ''
