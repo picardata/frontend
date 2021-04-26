@@ -6,7 +6,9 @@
           <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
-              <h2 class="register-to-picardata">Register to Picardata</h2>
+              <h2 class="register-to-picardata">
+                Register to Picardata
+              </h2>
             </div>
 
             <div class="form-group mt-4">
@@ -20,7 +22,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
                 placeholder="Email"
                 @change="validateEmail"
-                v-on:keyup="validateForRegisterButton"
+                @keyup="validateForRegisterButton"
               >
               <span class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
               <span
@@ -42,7 +44,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
                 placeholder="Password"
                 @change="validatePassword"
-                v-on:keyup="validateForRegisterButton"
+                @keyup="validateForRegisterButton"
               >
 
               <span v-if="!showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
@@ -55,7 +57,7 @@
             </div>
 
             <div class="form-group  mt-4">
-                            <label
+              <label
                 :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
               >
                 Password again
@@ -66,16 +68,22 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
                 placeholder="Password Again"
                 @change="validatePasswordAgain"
-                v-on:keyup="validateForRegisterButton"
+                @keyup="validateForRegisterButton"
               >
 
-              <span v-if="!showPasswordAgain" 
-                    class="form-icon" @click="togglePasswordAgain">
-                    <i class="fa fa-eye-slash" />
+              <span
+                v-if="!showPasswordAgain"
+                class="form-icon"
+                @click="togglePasswordAgain"
+              >
+                <i class="fa fa-eye-slash" />
               </span>
-              <span v-else class="form-icon" 
-                    @click="togglePasswordAgain">
-                    <i class="fa fa-eye" />
+              <span
+                v-else
+                class="form-icon"
+                @click="togglePasswordAgain"
+              >
+                <i class="fa fa-eye" />
               </span>
 
               <span
@@ -87,17 +95,16 @@
             <button
               type="button"
               :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
-              @click="onSubmit"
               :disabled="disableRegisterButton"
+              @click="onSubmit"
             >
               Register
             </button>
-
           </div>
-          <div class="col-md-1"></div>
+          <div class="col-md-1" />
           <div class="col-md-6">
             <div class="img-banner">
-              <div class="d-flex justify-content-center"> 
+              <div class="d-flex justify-content-center">
                 <img src="~/assets/register-now-red.png" alt="">
               </div>
               <div class="d-flex justify-content-center already-had-account">
@@ -105,7 +112,6 @@
                   Already had an account? Sign in
                 </nuxt-link>
               </div>
-
             </div>
           </div>
         </div>
@@ -140,30 +146,30 @@ export default {
   // },
   methods: {
     async onSubmit () {
-      const isValidate = this.validateEmail() && this.validatePassword() && this.validatePasswordAgain();
+      const isValidate = this.validateEmail() && this.validatePassword() && this.validatePasswordAgain()
       if (!isValidate) {
         return false
       }
 
       if (!this.isLogin) {
-        let result;
+        let result
         try {
-           result = await this.$axios
-                              .$post('/api/users/', {
-                                username: this.username,
-                                password: this.password
-                              })
-        } catch(e) {
-            this.errors = []
-            for (const field of ['username', 'password']) {
-              const errors = e.response.data.errors[field]
-              console.log('ini errorsnya = ');
-              console.log(errors);
-              if (errors !== undefined) {
-                this.errors[field] = errors.join(", ");
-              }
+          result = await this.$axios
+            .$post('/api/users/', {
+              username: this.username,
+              password: this.password
+            })
+        } catch (e) {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            console.log('ini errorsnya = ')
+            console.log(errors)
+            if (errors !== undefined) {
+              this.errors[field] = errors.join(', ')
             }
-            result = false
+          }
+          result = false
         }
 
         if (result === false) {
@@ -190,55 +196,54 @@ export default {
     },
     validateEmail () {
       const email = this.username
-      if(!this.isEmailFormatValid(email)) {
+      if (!this.isEmailFormatValid(email)) {
         this.errors.username = 'Error email\'s format'
-        return false;
+        return false
       }
 
       this.errors.username = ''
 
       return true
     },
-    isEmailFormatValid(email) {
+    isEmailFormatValid (email) {
       // if(email.length === 0) {
       //   return true;
       // }
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       const test = re.test(email.toLowerCase())
-      return test;
+      return test
     },
-    isPasswordLengthValid(password) {
+    isPasswordLengthValid (password) {
       // if(password.length === 0) {
       //   return true;
       // }
-      return password && password.length >= 8;
+      return password && password.length >= 8
     },
-    isPasswordMatched(originalPassword, repeatedPassword) {
-      return originalPassword.length > 0 && repeatedPassword.length > 0 && (originalPassword == repeatedPassword);
+    isPasswordMatched (originalPassword, repeatedPassword) {
+      return originalPassword.length > 0 && repeatedPassword.length > 0 && (originalPassword === repeatedPassword)
     },
-    isPasswordFormatValid(password) {
+    isPasswordFormatValid (password) {
       // if(password.length === 0) {
       //   return true;
-      // } 
+      // }
       const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
-      return test;
+      return test
     },
     validatePassword () {
       const password = this.password
 
-      if(!this.isPasswordLengthValid(password)) {
+      if (!this.isPasswordLengthValid(password)) {
         this.errors.password = 'Minimum password length 8 chars'
         return false
       }
 
-      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
-      const test = re.test(password)
-
+      // const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      // const test = re.test(password)
 
       if (!this.isPasswordFormatValid(password)) {
-        this.errors.password = "Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters."
+        this.errors.password = 'Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters.'
         return false
       }
 
@@ -251,8 +256,8 @@ export default {
     validatePasswordAgain () {
       const password = this.passwordAgain
 
-      console.log('password again = ');
-      console.log(password);
+      console.log('password again = ')
+      console.log(password)
 
       if (!this.isPasswordLengthValid(password)) {
         this.errors.passwordAgain = 'Minimum password length 8 chars'
@@ -260,41 +265,39 @@ export default {
       }
 
       if (!this.isPasswordFormatValid(password)) {
-        this.errors.passwordAgain = "Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters."
+        this.errors.passwordAgain = 'Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters.'
         return false
       }
 
-      const originalPassword = this.password;
+      const originalPassword = this.password
 
-      if(!this.isPasswordMatched(originalPassword, password)) {
-        this.errors.passwordAgain = "Password isn't matched";
-        this.errors.password = this.errors.passwordAgain;
-        return false;
+      if (!this.isPasswordMatched(originalPassword, password)) {
+        this.errors.passwordAgain = "Password isn't matched"
+        this.errors.password = this.errors.passwordAgain
+        return false
       }
-
 
       // if (!test) {
       //   this.errors.password = 'Error password\'s format'
       //   return false
       // }
 
-      
       // if (this.validatePassword() && this.validateEmail()) {
       //   this.disableRegisterButton = !this.disableRegisterButton;
       // }
       this.errors.passwordAgain = ''
       return true
     },
-    validateForRegisterButton() {
-      if (this.isEmailFormatValid(this.username) 
-          && this.isPasswordLengthValid(this.password)
-          && this.isPasswordLengthValid(this.passwordAgain)
-          && this.isPasswordFormatValid(this.password)
-          && this.isPasswordFormatValid(this.passwordAgain)
-          && this.isPasswordMatched(this.password, this.passwordAgain)) {
-        this.disableRegisterButton = false;
+    validateForRegisterButton () {
+      if (this.isEmailFormatValid(this.username) &&
+          this.isPasswordLengthValid(this.password) &&
+          this.isPasswordLengthValid(this.passwordAgain) &&
+          this.isPasswordFormatValid(this.password) &&
+          this.isPasswordFormatValid(this.passwordAgain) &&
+          this.isPasswordMatched(this.password, this.passwordAgain)) {
+        this.disableRegisterButton = false
       } else {
-        this.disableRegisterButton = true;
+        this.disableRegisterButton = true
       }
     },
     emptyInput (value) {
