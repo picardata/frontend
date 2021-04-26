@@ -1,6 +1,10 @@
 <template>
   <div class="row ml-2">
-    <div class="col-12">
+    <div class="col-12" v-if="detailManagePage">
+      <nuxt-link :to="generateParentPath" class="text-primary pd-icon pdicon-Back-Arrow picardata-arrow">
+      </nuxt-link>
+    </div>
+    <div class="col-12" v-if="detailPage">
       <img class="logo" :src="logo" alt="Logo">
     </div>
     <div :class="{ 'col-8': detailPage, 'col-12': !detailPage }">
@@ -129,6 +133,16 @@ export default {
   computed: {
     manageLink () {
       return this.$route.path + '/manage'
+    },
+    generateParentPath() {
+      const currentPath = this.$route.path.split("/");
+      currentPath.pop();
+      console.log('parent path = ');
+      console.log(currentPath);
+      const newPath = currentPath.join("/");
+      console.log('new path = ');
+      console.log(newPath); 
+      return newPath;
     },
     generateManage() {
       return this.detailManagePage ? 'Manage' : '';
