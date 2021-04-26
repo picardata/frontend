@@ -129,12 +129,12 @@
                         <div class="p-0">
                           <span class="heading">
                             <svg
-                              width="22"
-                              height="19"
-                              style="margin-top:-4px"
-                              viewBox="0 0 24 22"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="19"
+                                style="margin-top:-4px"
+                                viewBox="0 0 24 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                             >
                               <path d="M2.77216 2.77216C0.40928 5.13503 0.409282 8.96602 2.77216 11.3289L11.937 20.4937L12 20.4307L12.0631 20.4938L21.2279 11.329C23.5908 8.96609 23.5908 5.13511 21.2279 2.77223C18.865 0.409358 15.034 0.40936 12.6712 2.77224L12.3536 3.08978C12.1584 3.28505 11.8418 3.28505 11.6465 3.08978L11.3289 2.77216C8.96601 0.409281 5.13503 0.409282 2.77216 2.77216Z" stroke="#14142B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg> 10
@@ -164,6 +164,33 @@
               </card>
             </div>
           </div>
+
+          <modal :show.sync="modals.modal1" body-classes="pt-0" modal-classes="pcd">
+            <template slot="header">
+              <h5 id="modalIntegrated1" class="modal-title" />
+            </template>
+            <template slot="close-button">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal2()">
+                <span class="pd-icon pdicon-Cross" />
+              </button>
+            </template>
+            <div>
+              <p class="mt-3 notify-text font-weight-bolder title-text">
+                Integrate <span class="text-primary">{{ selectedApp.name }}</span> to Picardata
+              </p>
+              <p class="content-text">
+                You can monitor your integrated app.
+                You’re going to integrate “{{ selectedApp.name }}”. Click the button below to continue.
+              </p>
+            </div>
+            <template slot="footer">
+              <div class="w-100 mr-4 text-right">
+                <base-button tag="a" type="primary" target="_blank" @click="appClick()">
+                  Integrate now
+                </base-button>
+              </div>
+            </template>
+          </modal>
 
           <modal :show.sync="modals.modal0" body-classes="pt-0" modal-classes="pcd">
             <template slot="header">
@@ -200,7 +227,7 @@
             </template>
           </modal>
         </div>
-        <div v-if="isQSearchNotExist() && isIntegrationExist()" class="col-md-12" style="margin-bottom: 2%">
+        <div v-if="isQSearchNotExist()" class="col-md-12" style="margin-bottom: 2%">
           <div class="picardata-paging float-right">
             <div class="col-sm" @click="setPrevious()">
               <span
@@ -295,15 +322,15 @@ export default {
     this.$axios.get('/api/applications/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
-        // this.applications = data.data
-        // this.filteredApplications = this.applications
+        this.applications = data.data
+        this.filteredApplications = this.applications
 
         this.totalIntegrations = data.data.filter(x => x.status === 1)
         console.log('total integration = ')
 
         this.integrations = [...this.totalIntegrations]
         // this.totalPage = 5;
-        this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
+        this.totalPage = Math.ceil(this.filteredApplications.length / 5)
         this.setCurrentPage(1)
       }).catch(
       // eslint-disable-next-line no-console
@@ -313,20 +340,24 @@ export default {
       )
   },
   methods: {
-    appClick (index) {
-      this.selectedApp = this.integrations[index]
+    appClick () {
       this.modals.modal0 = true
+    },
+    appClick2 (index) {
+      this.selectedApp = this.applications[index]
+      this.modals.modal1 = true
     },
     dismissModal () {
       this.modals.modal0 = false
     },
+    dismissModal2 () {
+      console.log('sss')
+      this.modals.modal1 = false
+    },
     filterCategory (categoryId) {
-      console.log('Kesini mantab sekali bro !')
-      // this.filteredApplications = this.applications
+      this.filteredApplications = this.applications
       if (categoryId > 0) {
-        console.log('total integrations = ')
-        console.log(this.totalIntegrations)
-        this.integrations = this.totalIntegrations.filter(function (application) {
+        this.filteredApplications = this.applications.filter(function (application) {
           let hasCategory = false
           application.category.forEach(function (category) {
             console.log(category.id)
@@ -337,14 +368,6 @@ export default {
           })
           return hasCategory
         })
-
-        console.log('Integration ini bro = ')
-        console.log(this.integrations)
-        this.totalPage = Math.ceil(this.integrations.length / 5)
-      } else {
-        this.integrations = this.totalIntegrations
-        this.totalPage = Math.ceil(this.integrations.length / 5)
-        this.setCurrentPage(1)
       }
     },
     querySearch () {
@@ -364,10 +387,6 @@ export default {
     },
     isQSearchNotExist () {
       return !this.S
-    },
-    isIntegrationExist () {
-      // console.length
-      return this.integrations.length > 0
     },
     isCurrentPage (n) {
       return this.currentPage === n
@@ -527,7 +546,7 @@ div.search-button {
 
 .picardata-paging-text {
   position: static;
-  /* width: 13px; */
+  width: 13px;
   /* height: 28px; */
   left: 143px;
   top: 0px;
@@ -537,7 +556,6 @@ div.search-button {
   font-weight: normal;
   font-weight: bold;
   margin: auto;
-  font-size: 20px;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -569,7 +587,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #404040;
+  color: #313131;
   /* Inside Auto Layout */
 
   flex: none;
