@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
               <h2>Register to Picardata</h2>
@@ -94,13 +94,18 @@
             </button>
 
           </div>
+          <div class="col-md-1"></div>
           <div class="col-md-6">
             <div class="img-banner">
-              <img src="~/assets/register-now-red.png" alt="">
+              <div class="d-flex justify-content-center"> 
+                <img src="~/assets/register-now-red.png" alt="">
+              </div>
+              <div class="d-flex justify-content-center">
+                <nuxt-link to="/login" class="btn btn-outline-primary btn-block">
+                  Already had an account? Sign in
+                </nuxt-link>
+              </div>
 
-              <nuxt-link to="/login" class="btn btn-outline-primary btn-block">
-                Already had an account? Sign in
-              </nuxt-link>
             </div>
           </div>
         </div>
