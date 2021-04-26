@@ -181,25 +181,36 @@ export default {
     },
     validateEmail () {
       const email = this.email
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      const test = re.test(email.toLowerCase())
-
-      if (!test) {
+      if(!this.isEmailFormatValid(email)) {
         this.errors.email = 'Error email\'s format'
-        return false
+        return false;
       }
 
       this.errors.email = ''
 
-      // if (this.validatePassword() && this.validatePasswordAgain()) {
-      //   this.disableRegisterButton = false;
-      // }
       return true
+    },
+    isEmailFormatValid(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const test = re.test(email.toLowerCase())
+      return test;
+    },
+    isPasswordLengthValid(password) {
+      return password && password.length >= 8;
+    },
+    isPasswordMatched(originalPassword, repeatedPassword) {
+      return originalPassword == repeatedPassword;
+    },
+    isPasswordFormatValid(password) {
+      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      const test = re.test(password)
+
+      return test;
     },
     validatePassword () {
       const password = this.password
 
-      if (password && password.length < 8) {
+      if(!this.isPasswordLengthValid(password)) {
         this.errors.password = 'Minimum password length 8 chars'
         return false
       }
@@ -207,10 +218,11 @@ export default {
       const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
-      // if (!test) {
-      //   this.errors.password = 'Error password\'s format'
-      //   return false
-      // }
+
+      if (!this.isPasswordFormatValid(password)) {
+        this.errors.password = "Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters."
+        return false
+      }
 
       // if (this.validateEmail() && this.validatePasswordAgain()) {
       //   this.disableRegisterButton = false;
@@ -224,17 +236,19 @@ export default {
       console.log('password again = ');
       console.log(password);
 
-      if (password && password.length < 8) {
+      if (!this.isPasswordLengthValid(password)) {
         this.errors.passwordAgain = 'Minimum password length 8 chars'
         return false
       }
 
-      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
-      const test = re.test(password)
+      if (!this.isPasswordFormatValid(password)) {
+        this.errors.passwordAgain = "Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters."
+        return false
+      }
 
       const originalPassword = this.password;
 
-      if(password != originalPassword) {
+      if(!this.isPasswordMatched(originalPassword, password)) {
         this.errors.passwordAgain = "Password isn't matched";
         this.errors.password = this.errors.passwordAgain;
         return false;
@@ -263,7 +277,8 @@ export default {
       console.log('validate email = ');
       console.log(validateEmail);
       // this.disableRegisterButton = false;
-      if (this.validatePassword() && this.validateEmail() && this.validatePasswordAgain()) {
+      if (this.isEmailFormatValid(this.email) 
+          && this.isPasswordMatched(this.password, this.passwordAgain)) {
         this.disableRegisterButton = false;
       } else {
         this.disableRegisterButton = true;
