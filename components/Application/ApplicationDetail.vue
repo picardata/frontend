@@ -22,7 +22,7 @@
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
       </p>
-      <div class="divider" />
+      <div class="divider" style="margin-left: 12px;margin-top: 14px"/>
       <nuxt-link to="#" class="text-primary btn">
         <font-awesome-icon :icon="['fas', 'plus']" />
         Add chart to Dashboard
