@@ -6,7 +6,7 @@
           <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
-              <h2>Register to Picardata</h2>
+              <h2 class="register-to-picardata">Register to Picardata</h2>
             </div>
 
             <div class="form-group mt-4">
@@ -100,8 +100,8 @@
               <div class="d-flex justify-content-center"> 
                 <img src="~/assets/register-now-red.png" alt="">
               </div>
-              <div class="d-flex justify-content-center">
-                <nuxt-link to="/login" class="btn btn-outline-primary btn-block">
+              <div class="d-flex justify-content-center already-had-account">
+                <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
                   Already had an account? Sign in
                 </nuxt-link>
               </div>
@@ -312,6 +312,36 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.already-had-account {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28px;
+  /* identical to box height, or 200% */
+
+  letter-spacing: 0.75px;
+  /* Main Blue */
+
+  color: #3E4EDD;
+
+  opacity: 0.8;
+}
+.register-to-picardata {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 50px;
+  /* identical to box height, or 250% */
+
+  text-align: center;
+  // letter-spacing: 1px;
+
+  /* Body Text */
+
+  color: #313131;
+}
 .bg-outer{
   min-height: 100vh;
   display: flex;
@@ -364,6 +394,11 @@ export default {
   .btn{
     margin-top: 32px;
   }
+}
+
+.login-credential-input {
+  background: #EFF0F7;
+  border-radius: 16px;
 }
 
 .form-group{
