@@ -5,10 +5,12 @@
         <div v-show="submenu" class="col-xl-2 slide-element">
           <div class="row pt-3">
             <div class="col-lg-12" style="margin-bottom: 50px">
-              <route-breadcrumb />
+              <route-breadcrumb class="submenu-breadcrumb" />
             </div>
             <div class="col-xl-6" style="margin-bottom: 20px">
-              <h3>Your App Categories</h3>
+              <p class="app-categories">
+                Your App Categories
+              </p>
             </div>
             <div class="col-xl-12">
               <div id="list-tab" class="list-group" role="tablist">
@@ -212,7 +214,7 @@ export default {
     margin: 10px 10px 10px 10px;
     width: 170px;
     height: 320px;
-    background-color: #2534B6;
+    background-color: #3E4EDD;
     border-radius: 17px;
   }
 
@@ -227,7 +229,7 @@ export default {
   .list-text {
     color: #2534B6;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 16px;
   }
 
   i.pdicon-Chevron-Right {
@@ -251,5 +253,15 @@ export default {
     margin-top: 13px;
     margin-left: -30px;
     margin-right: -70px;
+  }
+
+  .submenu-breadcrumb > ol > li > a {
+    color: #181C3B !important;
+  }
+
+  .app-categories {
+    color: #181C3B !important;
+    font-size: 20px;
+    font-weight: bold
   }
 </style>
