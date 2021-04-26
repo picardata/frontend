@@ -145,7 +145,7 @@
                   </div>
                 </div>
                 <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
-                  <base-button class="w-100" outline type="primary" @click="appClick(index)">
+                  <base-button class="w-100" outline type="primary" @click="appClick2(index)">
                     Add to Picardata
                   </base-button>
                 </div>
@@ -197,7 +197,7 @@
               <h5 id="exampleModalLabel" class="modal-title" />
             </template>
             <template slot="close-button">
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal()">
                 <span class="pd-icon pdicon-Cross" />
               </button>
             </template>
@@ -227,7 +227,7 @@
             </template>
           </modal>
         </div>
-        <div v-if="isQSearchNotExist()" class="col-md-12" style="margin-bottom: 2%">
+        <div v-if="isQSearchNotExist() && isIntegrationExist()" class="col-md-12" style="margin-bottom: 2%">
           <div class="picardata-paging float-right">
             <div class="col-sm" @click="setPrevious()">
               <span
@@ -312,7 +312,8 @@ export default {
       currentPage: 1,
       size: 5,
       modals: {
-        modal0: false
+        modal0: false,
+        modal1: false
       },
       totalIntegrations: [],
       integrations: []
@@ -323,14 +324,14 @@ export default {
       // eslint-disable-next-line no-return-assign
       .then((data) => {
         this.applications = data.data
-        this.filteredApplications = this.applications
+        // this.filteredApplications = this.applications
 
         this.totalIntegrations = data.data.filter(x => x.status === 1)
         console.log('total integration = ')
 
         this.integrations = [...this.totalIntegrations]
         // this.totalPage = 5;
-        this.totalPage = Math.ceil(this.filteredApplications.length / 5)
+        this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
         this.setCurrentPage(1)
       }).catch(
       // eslint-disable-next-line no-console
@@ -351,13 +352,15 @@ export default {
       this.modals.modal0 = false
     },
     dismissModal2 () {
-      console.log('sss')
       this.modals.modal1 = false
     },
     filterCategory (categoryId) {
-      this.filteredApplications = this.applications
+      console.log('Kesini mantab sekali bro !')
+      // this.filteredApplications = this.applications
       if (categoryId > 0) {
-        this.filteredApplications = this.applications.filter(function (application) {
+        console.log('total integrations = ')
+        console.log(this.totalIntegrations)
+        this.integrations = this.totalIntegrations.filter(function (application) {
           let hasCategory = false
           application.category.forEach(function (category) {
             console.log(category.id)
@@ -368,6 +371,14 @@ export default {
           })
           return hasCategory
         })
+
+        console.log('Integration ini bro = ')
+        console.log(this.integrations)
+        this.totalPage = Math.ceil(this.integrations.length / 5)
+      } else {
+        this.integrations = this.totalIntegrations
+        this.totalPage = Math.ceil(this.integrations.length / 5)
+        this.setCurrentPage(1)
       }
     },
     querySearch () {
@@ -387,6 +398,10 @@ export default {
     },
     isQSearchNotExist () {
       return !this.S
+    },
+    isIntegrationExist () {
+      // console.length
+      return this.integrations.length > 0
     },
     isCurrentPage (n) {
       return this.currentPage === n
@@ -546,7 +561,7 @@ div.search-button {
 
 .picardata-paging-text {
   position: static;
-  width: 13px;
+  /* width: 13px; */
   /* height: 28px; */
   left: 143px;
   top: 0px;
@@ -556,6 +571,7 @@ div.search-button {
   font-weight: normal;
   font-weight: bold;
   margin: auto;
+  font-size: 20px;
   /* font-size: 20px; */
   /* line-height: 28px; */
   /* identical to box height, or 140% */
@@ -587,7 +603,7 @@ div.search-button {
 
   background: #FAFAFA;
   border-radius: 8px;
-  color: #313131;
+  color: #404040;
   /* Inside Auto Layout */
 
   flex: none;
