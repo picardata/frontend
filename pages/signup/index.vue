@@ -11,21 +11,21 @@
 
             <div class="form-group mt-4">
               <label
-                :class="[`form-control-label`, {'d-none': !errors.email}]"
+                :class="[`form-control-label`, {'d-none': !errors.username}]"
               >
                 Email
               </label>
               <input
-                v-model="email"
-                :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
+                v-model="username"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
                 placeholder="Email"
                 @change="validateEmail"
               >
-              <span class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
+              <span class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
               <span
-                :class="['form-control-error', {'d-none': !errors.email}]"
+                :class="['form-control-error', {'d-none': !errors.username}]"
               >
-                {{ errors.email }}
+                {{ errors.username }}
               </span>
             </div>
 
@@ -41,6 +41,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
                 placeholder="Password"
                 @change="validatePassword"
+                v-on:keyup="validateForRegisterButton"
               >
 
               <span v-if="!showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
@@ -115,7 +116,7 @@ export default {
   data () {
     return {
       errors: {
-        email: '',
+        username: '',
         password: '',
         passwordAgain: ''
       },
@@ -123,7 +124,7 @@ export default {
       showPasswordAgain: false,
       isLogin: false,
       disableRegisterButton: true,
-      email: '',
+      username: '',
       password: '',
       passwordAgain: ''
     }
@@ -143,29 +144,31 @@ export default {
         try {
            result = await this.$axios
                               .$post('/api/users/', {
-                                username: this.email,
+                                username: this.username,
                                 password: this.password
                               })
         } catch(e) {
             this.errors = []
             for (const field of ['username', 'password']) {
               const errors = e.response.data.errors[field]
+              console.log('ini errorsnya = ');
+              console.log(errors);
               if (errors !== undefined) {
-                this.errors = this.errors.concat(errors)
+                this.errors[field] = errors.join(", ");
               }
             }
             result = false
         }
 
         if (result === false) {
-          this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
+          // this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
           return false
         }
       }
       try {
         await this.$auth.loginWith('local', {
           data: {
-            username: this.email,
+            username: this.username,
             password: this.password
           }
         })
@@ -180,28 +183,37 @@ export default {
       }
     },
     validateEmail () {
-      const email = this.email
+      const email = this.username
       if(!this.isEmailFormatValid(email)) {
-        this.errors.email = 'Error email\'s format'
+        this.errors.username = 'Error email\'s format'
         return false;
       }
 
-      this.errors.email = ''
+      this.errors.username = ''
 
       return true
     },
     isEmailFormatValid(email) {
+      if(email.length === 0) {
+        return true;
+      }
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       const test = re.test(email.toLowerCase())
       return test;
     },
     isPasswordLengthValid(password) {
+      if(password.length === 0) {
+        return true;
+      }
       return password && password.length >= 8;
     },
     isPasswordMatched(originalPassword, repeatedPassword) {
-      return originalPassword == repeatedPassword;
+      return originalPassword.length > 0 && repeatedPassword.length > 0 && (originalPassword == repeatedPassword);
     },
     isPasswordFormatValid(password) {
+      if(password.length === 0) {
+        return true;
+      } 
       const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
@@ -277,7 +289,11 @@ export default {
       console.log('validate email = ');
       console.log(validateEmail);
       // this.disableRegisterButton = false;
-      if (this.isEmailFormatValid(this.email) 
+      if (this.isEmailFormatValid(this.username) 
+          && this.isPasswordLengthValid(this.password)
+          && this.isPasswordLengthValid(this.passwordAgain)
+          && this.isPasswordFormatValid(this.password)
+          && this.isPasswordFormatValid(this.passwordAgain)
           && this.isPasswordMatched(this.password, this.passwordAgain)) {
         this.disableRegisterButton = false;
       } else {
