@@ -315,6 +315,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.already-had-account-text:hover {
+  color: #FFFF;
+}
 .already-had-account-text {
   font-family: Poppins;
   font-style: normal;
@@ -332,12 +335,17 @@ export default {
   opacity: 0.8;
 }
 
-.already-had-account {
-  background: #FFFFFF;
-  border: 1px solid #2534B6;
-  box-sizing: border-box;
-  border-radius: 4px;
+// .already-had-account {
+//   background: #FFFFFF;
+//   border: 1px solid #2534B6;
+//   box-sizing: border-box;
+//   border-radius: 4px;
+// }
+
+.already-had-account:hover span {
+  color: #FFFF;
 }
+
 .register-to-picardata {
   font-family: Poppins;
   font-style: normal;
