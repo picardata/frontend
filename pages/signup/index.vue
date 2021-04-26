@@ -6,7 +6,7 @@
           <div class="col-md-6">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
-              <h2>Login to Picardata</h2>
+              <h2>Register to Picardata</h2>
             </div>
 
             <div class="form-group mt-4">
@@ -20,6 +20,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
                 placeholder="Email"
                 @change="validateEmail"
+                v-on:keyup="validateForRegisterButton"
               >
               <span class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
               <span
@@ -280,15 +281,6 @@ export default {
       return true
     },
     validateForRegisterButton() {
-      console.log('current password again = ');
-      console.log(this.passwordAgain);
-      const validatePassword = this.validatePassword();
-      const validateEmail = this.validateEmail();
-      console.log('validate password = ');
-      console.log(validatePassword);
-      console.log('validate email = ');
-      console.log(validateEmail);
-      // this.disableRegisterButton = false;
       if (this.isEmailFormatValid(this.username) 
           && this.isPasswordLengthValid(this.password)
           && this.isPasswordLengthValid(this.passwordAgain)
