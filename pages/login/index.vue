@@ -11,19 +11,19 @@
 
             <div class="form-group mt-4">
               <label
-                  :class="[`form-control-label`, {'d-none': !errors.email}]"
+                :class="[`form-control-label`, {'d-none': !errors.email}]"
               >
                 Email
               </label>
               <input
-                  v-model="email"
-                  :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
-                  placeholder="Email"
-                  @change="validateEmail"
+                v-model="email"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
+                placeholder="Email"
+                @change="validateEmail"
               >
               <span class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
               <span
-                  :class="['form-control-error', {'d-none': !errors.email}]"
+                :class="['form-control-error', {'d-none': !errors.email}]"
               >
                 {{ errors.email }}
               </span>
@@ -31,24 +31,24 @@
 
             <div class="form-group mt-4">
               <label
-                  :class="[`form-control-label`, {'d-none': !errors.password}]"
+                :class="[`form-control-label`, {'d-none': !errors.password}]"
               >
                 Password
               </label>
               <input
-                  v-model="password"
-                  :type="showPassword ? 'text' : 'password'"
-                  :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
-                  placeholder="Password"
-                  @change="validatePassword"
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
+                placeholder="Password"
+                @change="validatePassword"
               >
 
               <span v-if="showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
               <span v-else class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
 
               <span
-                  :class="[`form-control-error`, {'d-none': !errors.password}]"
-                  v-html="errors.password"
+                :class="[`form-control-error`, {'d-none': !errors.password}]"
+                v-html="errors.password"
               />
             </div>
 
@@ -58,9 +58,9 @@
             </div>
 
             <button
-                :disabled="isDisable"
-                :class="['btn btn-primary btn-block mt-4 mb-4 rounded', {'disabled': isDisable}]"
-                @click="onSubmit"
+              :disabled="isDisable"
+              :class="['btn btn-primary btn-block mt-4 mb-4 rounded', {'disabled': isDisable}]"
+              @click="onSubmit"
             >
               Login
             </button>
@@ -71,7 +71,7 @@
               </nuxt-link>
             </div>
           </div>
-          <div class="col-md-1"></div>
+          <div class="col-md-1" />
           <div class="col-md-6">
             <div class="img-banner text-center">
               <img src="~/assets/register-now.png" alt="">
@@ -155,22 +155,22 @@ export default {
         const result = await this.$axios
           .$post('/api/users/', {
             username: this.email,
-              password: this.password
-            })
-            .then((data) => {
-              // eslint-disable-next-line no-console
-              console.log(data)
-            })
-            .catch((e) => {
-              this.errors = []
-              for (const field of ['username', 'password']) {
-                const errors = e.response.data.errors[field]
-                if (errors !== undefined) {
-                  this.errors = this.errors.concat(errors)
-                }
+            password: this.password
+          })
+          .then((data) => {
+            // eslint-disable-next-line no-console
+            console.log(data)
+          })
+          .catch((e) => {
+            this.errors = []
+            for (const field of ['username', 'password']) {
+              const errors = e.response.data.errors[field]
+              if (errors !== undefined) {
+                this.errors = this.errors.concat(errors)
               }
-              return false
-            })
+            }
+            return false
+          })
         if (result === false) {
           this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
           return false
