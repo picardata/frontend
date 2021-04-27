@@ -53,12 +53,13 @@
         </label>
         <input
           v-model="password1"
-          type="password"
+          :type="showPassword.password1 ? 'text' : 'password'"
           :class="[`form-control`, 'login-credential-input', {'error': errors.password1}]"
           placeholder="New Password"
           @input="validatePassword('password1')"
         >
-        <span class="form-icon"><i class="fa fa-times" /></span>
+        <span v-if="!showPassword.password1 && this.password1.length > 0" class="form-icon" @click="togglePassword('password1')"><i class="fa fa-eye-slash" /></span>
+        <span v-else-if="this.password1.length > 0" class="form-icon" @click="togglePassword('password1')"><i class="fa fa-eye" /></span>
         <span
           :class="['form-control-error', {'d-none': !errors.password1}]"
         >
@@ -73,12 +74,13 @@
         </label>
         <input
           v-model="password2"
-          type="password"
+          :type="showPassword.password2 ? 'text' : 'password'"
           :class="[`form-control`, 'login-credential-input', {'error': errors.password2}]"
           placeholder="Retype new password"
           @input="validateConfirmPassword()"
         >
-        <span class="form-icon"><i class="fa fa-times" /></span>
+        <span v-if="!showPassword.password2 && this.password2.length > 0" class="form-icon" @click="togglePassword('password2')"><i class="fa fa-eye-slash" /></span>
+        <span v-else-if="this.password2.length > 0" class="form-icon" @click="togglePassword('password2')"><i class="fa fa-eye" /></span>
         <span
           :class="['form-control-error', {'d-none': !errors.password2}]"
         >
@@ -147,7 +149,11 @@ export default {
       email: '',
       password1: '',
       password2: '',
-      id: ''
+      id: '',
+      showPassword: {
+        password1: false,
+        password2: false
+      }
     }
   },
   computed: {
@@ -270,7 +276,10 @@ export default {
     refreshPage () {
       this.modals.successResetPassword = false
       this.$router.push('/login')
-    }
+    },
+    togglePassword (name) {
+      this.showPassword[name] = !this.showPassword[name]
+    },
   }
 }
 </script>
