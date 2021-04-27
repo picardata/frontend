@@ -1,6 +1,6 @@
 <template>
   <div class="row ml-2">
-    <div class="col-12" v-if="detailManagePage">
+    <div class="col-12 back-arrow-parent" v-if="detailManagePage">
       <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
         <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath"></a>
       <!-- </nuxt-link> -->
@@ -8,7 +8,7 @@
     <div class="col-12" v-if="detailPage">
       <img class="logo" :src="logo" alt="Logo">
     </div>
-    <div :class="{ 'col-8': detailPage, 'col-12': !detailPage }">
+    <div :class="{ 'col-8': detailPage, 'col-12': !detailPage, 'detail-name-parent': detailManagePage }">
       <h1>{{generateManage}} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
     <div v-if="detailPage" class="col-4">
@@ -156,8 +156,14 @@ export default {
 .picardata-arrow {
   color: #14142B; 
   font-size: 200%;
-  /* color: #0000; */
-  /* background-color: #0000; */
+}
+
+.back-arrow-parent {
+  margin-top: 1%;
+}
+
+.detail-name-parent {
+  margin-top: 2%;
 }
 
 img.logo {
