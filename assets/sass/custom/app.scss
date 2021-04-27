@@ -84,6 +84,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
     &.card-libs{
       min-height: 424px;
+      min-width: 260px;
     }
 
     h1{
@@ -117,6 +118,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         font-size: 14px !important;
       }
 
+      font-weight: 400;
       font-size:16px;
       color: #313131;
       letter-spacing: 0.75px;
@@ -160,6 +162,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .title-text{
       letter-spacing: 1px;
       color: #181C3B;
+      font-weight: 700 !important;
     }
     .content-text{
       color:#313131;
@@ -171,6 +174,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
           color: #14142B;
         }
       }
+    }
+    .modal-content{
+      border-radius: 24px;
     }
     .modal-footer{
       a{
