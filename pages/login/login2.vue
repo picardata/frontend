@@ -66,7 +66,7 @@
             </button>
 
             <div class="col-md-12 text-center">
-              <nuxt-link to="#">
+              <nuxt-link to="#" @click.native="openModal('forgotPassword')">
                 Forgot password
               </nuxt-link>
             </div>
@@ -83,12 +83,19 @@
         </div>
       </div>
     </div>
+
+    <ForgotPassword :modals="modals" @toggleModal="openModal($event)" />
   </div>
 </template>
 <script>
 
+import ForgotPassword from '@/components/pages/Login/ForgotPassword'
+
 export default {
   name: 'AdminAuthPage',
+  components: {
+    ForgotPassword
+  },
   layout: 'empty',
   auth: false,
   data () {
@@ -100,7 +107,12 @@ export default {
       showPassword: false,
       isLogin: true,
       email: '',
-      password: ''
+      password: '',
+      modals: {
+        forgotPassword: false,
+        fillPassword: false,
+        successResetPassword: false
+      }
     }
   },
   beforeMount () {
@@ -176,7 +188,7 @@ export default {
         return false
       }
 
-      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
       if (!test) {
@@ -193,6 +205,13 @@ export default {
     },
     togglePassword () {
       this.showPassword = !this.showPassword
+    },
+    openModal (name) {
+      const keys = Object.keys(this.modals)
+      for (const key of keys) {
+        this.modals[key] = false
+      }
+      this.modals[name] = true
     }
   }
 }

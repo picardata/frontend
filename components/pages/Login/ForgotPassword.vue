@@ -52,7 +52,7 @@
             v-model="password1"
             :class="[`form-control`, 'login-credential-input', {'error': errors.password1}]"
             placeholder="New Password"
-            @input="validatePassword"
+            @input="validatePassword('password1')"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
@@ -63,40 +63,48 @@
       </div>
       <div class="form-group">
         <label
-            :class="[`form-control-label`]"
+            :class="[`form-control-label`, {'d-none': !errors.password2}]"
         >
           Retype new password
         </label>
         <input
-            v-model="email"
-            :class="[`form-control`, 'login-credential-input', 'error']"
+            type="password"
+            v-model="password2"
+            :class="[`form-control`, 'login-credential-input', {'error': errors.password2}]"
             placeholder="Retype new password"
+            @input="validateConfirmPassword()"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
-            :class="['form-control-error']"
+            :class="['form-control-error', {'d-none': !errors.password2}]"
         >
-        Uh oh! The email isn’t registered yet. Register instead
+        {{ errors.password2 }}
               </span>
       </div>
 
       <div class="col-md-12 text-center">
-        <button disabled class="btn btn-primary rounded disabled reset-password mt-3">Reset Password</button>
+        <button
+            :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisablePassword}]"
+            :disabled="isDisablePassword"
+            @click="resetPassword"
+        >
+          Reset Password
+        </button>
       </div>
     </modal>
 
-<!--    <modal :show.sync="modals.successResetPassword" modalClasses="forgot-password">-->
-<!--      <h6 slot="header" class="modal-title"></h6>-->
-<!--      <h2 class="text-center">Password reset!</h2>-->
+    <modal :show.sync="modals.successResetPassword" modalClasses="forgot-password">
+      <h6 slot="header" class="modal-title"></h6>
+      <h2 class="text-center">Password reset!</h2>
 
-<!--      <div class="col-md-12 text-center">-->
-<!--        <img class="text-center mt-4 mb-3" src="~/assets/check-circle.png" alt="">-->
-<!--      </div>-->
+      <div class="col-md-12 text-center">
+        <img class="text-center mt-4 mb-3" src="~/assets/check-circle.png" alt="">
+      </div>
 
-<!--      <div class="col-md-12 text-center">-->
-<!--        <button class="btn btn-primary rounded reset-password mt-4">Login</button>-->
-<!--      </div>-->
-<!--    </modal>-->
+      <div class="col-md-12 text-center">
+        <button class="btn btn-primary rounded reset-password mt-4">Login</button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -123,6 +131,24 @@ export default {
       }
 
       return !this.validateEmail();
+    },
+    isDisablePassword() {
+      const password1 = this.password1
+      const password2 = this.password2
+
+      if (password1.length < 1 || password2.length < 1) {
+        return true
+      }
+
+      if (password1 !== password2) {
+        return true
+      }
+
+      if (!this.validatePassword('password1') || !this.validatePassword('password2')) {
+        return true
+      }
+
+      return false
     }
   },
   methods: {
@@ -139,27 +165,43 @@ export default {
       this.errors.email = ''
       return true
     },
-    validatePassword () {
-      const password = this.password1
-
+    validatePassword (passwordName) {
+      const password = this[passwordName]
       if (password.length < 8) {
-        this.errors.password1 = 'Minimum password length 8 chars'
+        this.errors[passwordName] = 'Minimum password length 8 chars'
         return false
       }
 
-      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
+      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/
       const test = re.test(password)
 
       if (!test) {
-        this.errors.password1 = 'Error password\'s format'
+        this.errors[passwordName] = 'Error password\'s format'
         return false
       }
 
-      this.errors.password1 = ''
+      this.errors[passwordName] = ''
+      return true
+    },
+    validateConfirmPassword () {
+      let validateFormat = this.validatePassword('password2')
+      if (!validateFormat) {
+        return false
+      }
+
+      if (this.password1 !== this.password2) {
+        this.errors.password2 = 'Confirm password doesn\'t match'
+        return false
+      }
+
+      this.errors.password2 = ''
       return true
     },
     findEmail (){
       this.$emit('toggleModal', 'fillPassword')
+    },
+    resetPassword (){
+      this.$emit('toggleModal', 'successResetPassword')
     }
   }
 }
