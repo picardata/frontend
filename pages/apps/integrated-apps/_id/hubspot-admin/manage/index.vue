@@ -1,23 +1,6 @@
 <template>
-  <div class="app-integrated-app-manage">
-    <base-header type="white" class="p-0">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-12 col-12">
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs" />
-          </nav>
-        </div>
-      </div>
-    </base-header>
-    <!-- <div> -->
-      <ApplicationDetail
-        :logo="data.application.logo"
-        :name="data.application.name"
-        :detail="data.application.detail"
-        :instruction="data.application.instruction"
-        :detail-page="false"
-        :detail-manage-page="true"
-      />
+  <div>
+    <ApplicationManageDetail :crumbs="crumbs" :data="data"/>
     <!-- </div> -->
     <div class="container-fluid mt-3">
 
@@ -121,13 +104,13 @@
 <script>
 
 import HubspotPageList from '@/components/Application/Hubspot/HubspotPageList'
-import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
 
 export default {
   layout: 'argon',
   components: {
     HubspotPageList,
-    ApplicationDetail
+    ApplicationManageDetail
   },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
