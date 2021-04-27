@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
               <h2>Login to Picardata</h2>
@@ -58,8 +58,8 @@
             </div>
 
             <button
-              type="button"
-              :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
+              :disabled="isDisable"
+              :class="['btn btn-primary btn-block mt-4 mb-4 rounded', {'disabled': isDisable}]"
               @click="onSubmit"
             >
               Login
@@ -71,11 +71,12 @@
               </nuxt-link>
             </div>
           </div>
+          <div class="col-md-1"></div>
           <div class="col-md-6">
-            <div class="img-banner">
+            <div class="img-banner text-center">
               <img src="~/assets/register-now.png" alt="">
 
-              <nuxt-link to="/signup" class="btn btn-outline-primary btn-block">
+              <nuxt-link to="/signup" class="btn btn-outline-primary">
                 Not registered yet? Register now
               </nuxt-link>
             </div>
@@ -114,6 +115,24 @@ export default {
         successResetPassword: false,
         successSendEmail: false
       }
+    }
+  },
+  computed: {
+    isDisable () {
+      const email = this.email
+      const password = this.password
+      if (!email || !password) {
+        return true
+      }
+
+      const validateEmail = this.validateEmail()
+      const validatePassword = this.validatePassword()
+
+      if (!validateEmail || !validatePassword) {
+        return true
+      }
+
+      return false
     }
   },
   beforeMount () {
@@ -268,6 +287,9 @@ export default {
   &:hover{
     box-shadow: none;
     transform: translateY(0);
+  }
+  &.disabled{
+    background: #3E4EDD;
   }
 }
 
