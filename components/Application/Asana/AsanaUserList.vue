@@ -10,7 +10,7 @@
           </div>
           <div class="col-6">
             <a
-              class="nav-link fa-pull-right"
+              class="nav-link fa-pull-right manage-app-add-button"
               href="#"
               @click.prevent="openForm"
             >
