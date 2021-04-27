@@ -123,9 +123,9 @@
         </div>
       </div>
       <template slot="footer">
-        <base-button type="secondary" @click="modals.createGroup = false">
+        <!-- <base-button type="secondary" @click="modals.createGroup = false">
           Cancel
-        </base-button>
+        </base-button> -->
         <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
           Delete
         </base-button>
