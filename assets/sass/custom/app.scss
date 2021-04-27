@@ -3,6 +3,25 @@ body {
   font-family: 'Poppins';
 }
 
+
+.app-integrated-app-manage nav .breadcrumb-item:nth-child(2) {
+  cursor: text;
+  a {
+    color: #313131;
+    font-weight: 600;
+    pointer-events: none;
+    cursor: text;
+  }
+
+}
+
+// .app-integrated-app-manage nav .breadcrumb-item:nth-child(2) a {
+//   color: #313131;
+//   font-weight: 600;
+//   pointer-events: none;
+//   cursor: text;
+// }
+
 .breadcrumb-item {
   font-size: 18px;
   font-weight: 600;
@@ -10,6 +29,22 @@ body {
 
 .breadcrumb-item + .breadcrumb-item::before {
   display: none;
+}
+
+.manage-app-add-button {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+
+  letter-spacing: 1px;
+  text-decoration-line: underline;
+
+  /* Main Button */
+
+  color: #2534B6;
 }
 
 nav .breadcrumb-item a:nth-child(1) {

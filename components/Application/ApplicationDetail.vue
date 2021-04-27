@@ -1,10 +1,15 @@
 <template>
   <div class="row ml-2">
-    <div class="col-12">
+    <div v-if="detailManagePage" class="col-12 back-arrow-parent">
+      <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
+      <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath" />
+      <!-- </nuxt-link> -->
+    </div>
+    <div v-if="detailPage" class="col-12">
       <img class="logo" :src="logo" alt="Logo">
     </div>
-    <div :class="{ 'col-8': detailPage, 'col-12': !detailPage }">
-      <h1>{{ name }}</h1>
+    <div :class="{ 'col-8': detailPage, 'col-12': !detailPage, 'detail-name-parent': detailManagePage }">
+      <h1>{{ generateManage }} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
     <div v-if="detailPage" class="col-4">
       <nuxt-link :to="manageLink" class="text-primary fa-pull-right btn">
@@ -12,12 +17,12 @@
         Manage app
       </nuxt-link>
     </div>
-    <div v-if="detailPage" class="row mt-3 ml-3">
+    <div v-if="detailPage || detailManagePage" class="row mt-3 ml-3">
       <p class="text-default mt-2 mr-2">
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
       </p>
-      <div class="divider" />
+      <div class="divider" style="margin-left: 14px;margin-top: 14px" />
       <nuxt-link to="#" class="text-primary btn">
         <font-awesome-icon :icon="['fas', 'plus']" />
         Add chart to Dashboard
@@ -30,7 +35,7 @@
       </a>
     </div>
     <div class="col-12">
-      <p v-if="detailPage">
+      <p v-if="detailPage || detailManagePage">
         {{ detail }}
       </p>
       <p v-else>
@@ -102,6 +107,10 @@ export default {
       type: Boolean,
       default: true
     },
+    detailManagePage: {
+      type: Boolean,
+      default: false
+    },
     withIntegration: {
       type: Boolean,
       default: true
@@ -125,13 +134,43 @@ export default {
   computed: {
     manageLink () {
       return this.$route.path + '/manage'
+    },
+    generateParentPath () {
+      const currentPath = this.$route.path.split('/')
+      currentPath.pop()
+      console.log('parent path = ')
+      console.log(currentPath)
+      const newPath = currentPath.join('/')
+      console.log('new path = ')
+      console.log(newPath)
+      return newPath
+    },
+    generateManage () {
+      return this.detailManagePage ? 'Manage' : ''
     }
   }
 }
 </script>
 
 <style scoped>
+.picardata-arrow {
+  color: #14142B;
+  font-size: 200%;
+}
+
+.back-arrow-parent {
+  margin-top: 1%;
+}
+
+.detail-name-parent {
+  margin-top: 2%;
+}
+
 img.logo {
   width: 100px;
+}
+
+.detail-name {
+  color: #2534B6;
 }
 </style>
