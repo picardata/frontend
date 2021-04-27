@@ -275,8 +275,14 @@ export default {
   margin-bottom: 1.25rem;
 }
 
-.form-check-input{
-  transform: scale(1.5);
+.form-check{
+  .form-check-input{
+    transform: scale(1.846);
+  }
+  .form-control-label{
+    color: #313131;
+    font-size: 14px;
+  }
 }
 
 .btn-primary{
