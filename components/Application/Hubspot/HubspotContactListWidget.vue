@@ -77,11 +77,11 @@
         </el-table-column>
       </el-table>
     </div>
-    <modal :show.sync="modals.createGroup">
+    <modal :show.sync="modals.createGroup" class="picardata-std-modal">
       <template slot="header">
         <h5 class="modal-title">
-          <span v-if="form.new">Add Contact</span>
-          <span v-else>Contact Information</span>
+          <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
+          <div v-else>Contact Information</div>
         </h5>
       </template>
       <div class="picardata-std-form-input">
@@ -160,7 +160,7 @@
           Delete
         </base-button>
         <base-button type="primary" @click.prevent="saveGroup">
-          Save
+          Finish adding data
         </base-button>
       </template>
     </modal>
@@ -262,5 +262,7 @@ export default {
 </script>
 
 <style scoped>
+.picardata-add-modal-first-title {
 
+}
 </style>
