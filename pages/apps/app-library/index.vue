@@ -170,7 +170,7 @@
               <h5 id="modalIntegrated1" class="modal-title" />
             </template>
             <template slot="close-button">
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal2()">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal()">
                 <span class="pd-icon pdicon-Cross" />
               </button>
             </template>
@@ -350,8 +350,6 @@ export default {
     },
     dismissModal () {
       this.modals.modal0 = false
-    },
-    dismissModal2 () {
       this.modals.modal1 = false
     },
     filterCategory (categoryId) {
