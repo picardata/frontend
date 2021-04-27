@@ -47,6 +47,20 @@ body {
   color: #2534B6;
 }
 
+// #pills-tab:active {
+//   color: #14142B;
+// }
+
+#pills-tab {
+  a:hover {
+    color: #14142B;    
+  }
+
+  a:active {
+    color: #14142B;
+  }
+} 
+
 nav .breadcrumb-item a:nth-child(1) {
   color: #3E4EDD;
 }
