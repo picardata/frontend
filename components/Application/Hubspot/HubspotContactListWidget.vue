@@ -79,7 +79,7 @@
     </div>
     <modal :show.sync="modals.createGroup" class="picardata-std-modal">
       <template slot="close-button">
-        <div style="margin-top: -8%;margin-right: -8%;"><span class="pd-icon pdicon-Cross"></span></div>
+        <div style="margin-top: -8%;margin-right: -8%;" v-on:click="closeForm"><span class="pd-icon pdicon-Cross"></span></div>
       </template>
       <template slot="header">
         <div class="">
@@ -273,6 +273,11 @@ export default {
       this.form.new = true
       this.clearForm()
       this.modals.createGroup = true
+    },
+    closeForm() {
+      this.form.new = false
+      // this.clearForm()
+      this.modals.createGroup = false
     }
   }
 }
