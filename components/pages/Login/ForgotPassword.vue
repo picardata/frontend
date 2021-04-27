@@ -1,108 +1,133 @@
 <template>
   <div>
-    <modal :show.sync="modals.forgotPassword" modalClasses="forgot-password">
-      <h6 slot="header" class="modal-title" id="modal-title-default"></h6>
+    <modal :show.sync="modals.forgotPassword" modal-classes="forgot-password">
+      <h6 id="modal-title-default" slot="header" class="modal-title" />
       <h2>Forget Password</h2>
-      <p class="pt-3 py-0">Enter your Picardata registered email</p>
+      <p class="pt-3 py-0">
+        Enter your Picardata registered email
+      </p>
 
       <div class="form-group mt-4">
         <label
-            :class="[`form-control-label`, {'d-none': !errors.email}]"
+          :class="[`form-control-label`, {'d-none': !errors.email}]"
         >
           Email
         </label>
         <input
-            v-model="email"
-            :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
-            placeholder="Email"
-            @change="validateEmail"
+          v-model="email"
+          :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
+          placeholder="Email"
+          @change="validateEmail"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
-            :class="['form-control-error', {'d-none': !errors.email}]"
+          :class="['form-control-error', {'d-none': !errors.email}]"
         >
-        {{ errors.email }}
-              </span>
+          {{ errors.email }}
+        </span>
       </div>
 
       <div class="col-md-12 text-center">
         <button
-            :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisableEmail}]"
-            :disabled="isDisableEmail"
-            @click="findEmail"
+          :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisableEmail}]"
+          :disabled="isDisableEmail"
+          @click="findEmail"
         >
           Reset Password
         </button>
       </div>
     </modal>
 
-    <modal :show.sync="modals.fillPassword" modalClasses="forgot-password">
-      <h6 slot="header" class="modal-title"></h6>
+    <modal :show.sync="modals.fillPassword" modal-classes="forgot-password">
+      <h6 slot="header" class="modal-title" />
       <h2>Check your email’s inbox</h2>
-      <p class="pt-3 py-0">Check your email and input the codes to help you resetting the password.</p>
+      <p class="pt-3 py-0">
+        Check your email and input the codes to help you resetting the password.
+      </p>
 
       <div class="form-group mt-4">
         <label
-            :class="[`form-control-label`, {'d-none': !errors.password1}]"
+          :class="[`form-control-label`, {'d-none': !errors.password1}]"
         >
           New password
         </label>
         <input
-            type="password"
-            v-model="password1"
-            :class="[`form-control`, 'login-credential-input', {'error': errors.password1}]"
-            placeholder="New Password"
-            @input="validatePassword('password1')"
+          v-model="password1"
+          type="password"
+          :class="[`form-control`, 'login-credential-input', {'error': errors.password1}]"
+          placeholder="New Password"
+          @input="validatePassword('password1')"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
-            :class="['form-control-error', {'d-none': !errors.password1}]"
+          :class="['form-control-error', {'d-none': !errors.password1}]"
         >
           {{ errors.password1 }}
         </span>
       </div>
       <div class="form-group">
         <label
-            :class="[`form-control-label`, {'d-none': !errors.password2}]"
+          :class="[`form-control-label`, {'d-none': !errors.password2}]"
         >
           Retype new password
         </label>
         <input
-            type="password"
-            v-model="password2"
-            :class="[`form-control`, 'login-credential-input', {'error': errors.password2}]"
-            placeholder="Retype new password"
-            @input="validateConfirmPassword()"
+          v-model="password2"
+          type="password"
+          :class="[`form-control`, 'login-credential-input', {'error': errors.password2}]"
+          placeholder="Retype new password"
+          @input="validateConfirmPassword()"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
-            :class="['form-control-error', {'d-none': !errors.password2}]"
+          :class="['form-control-error', {'d-none': !errors.password2}]"
         >
-        {{ errors.password2 }}
-              </span>
+          {{ errors.password2 }}
+        </span>
       </div>
 
       <div class="col-md-12 text-center">
         <button
-            :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisablePassword}]"
-            :disabled="isDisablePassword"
-            @click="resetPassword"
+          :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisablePassword}]"
+          :disabled="isDisablePassword"
+          @click="resetPassword"
         >
           Reset Password
         </button>
       </div>
     </modal>
 
-    <modal :show.sync="modals.successResetPassword" modalClasses="forgot-password">
-      <h6 slot="header" class="modal-title"></h6>
-      <h2 class="text-center">Password reset!</h2>
+    <modal :show.sync="modals.successResetPassword" modal-classes="forgot-password">
+      <h6 slot="header" class="modal-title" />
+      <h2 class="text-center">
+        Password reset!
+      </h2>
 
       <div class="col-md-12 text-center">
         <img class="text-center mt-4 mb-3" src="~/assets/check-circle.png" alt="">
       </div>
 
       <div class="col-md-12 text-center">
-        <button class="btn btn-primary rounded reset-password mt-4">Login</button>
+        <button class="btn btn-primary rounded reset-password mt-4" @click="refreshPage">
+          Login
+        </button>
+      </div>
+    </modal>
+
+    <modal :show.sync="modals.successSendEmail" modal-classes="forgot-password">
+      <h6 slot="header" class="modal-title" />
+      <h2 class="text-center">
+        Email Sent
+      </h2>
+
+      <div class="col-md-12 text-center">
+        <p>We sent an email to {{ email }} with a link to get back into your account</p>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <button class="btn btn-primary rounded reset-password mt-4" @click="modals.successSendEmail = false">
+          OK
+        </button>
       </div>
     </modal>
   </div>
@@ -110,9 +135,9 @@
 
 <script>
 export default {
-  name: "ForgotPassword",
+  name: 'ForgotPassword',
   props: ['modals'],
-  data (){
+  data () {
     return {
       errors: {
         email: '',
@@ -121,18 +146,19 @@ export default {
       },
       email: '',
       password1: '',
-      password2: ''
+      password2: '',
+      id: ''
     }
   },
   computed: {
-    isDisableEmail() {
+    isDisableEmail () {
       if (this.email.length < 1) {
         return true
       }
 
-      return !this.validateEmail();
+      return !this.validateEmail()
     },
-    isDisablePassword() {
+    isDisablePassword () {
       const password1 = this.password1
       const password2 = this.password2
 
@@ -149,6 +175,14 @@ export default {
       }
 
       return false
+    }
+  },
+  mounted () {
+    const query = this.$route.query
+
+    if (query.resetpassword) {
+      this.email = query.username
+      this.id = query.id
     }
   },
   methods: {
@@ -184,7 +218,7 @@ export default {
       return true
     },
     validateConfirmPassword () {
-      let validateFormat = this.validatePassword('password2')
+      const validateFormat = this.validatePassword('password2')
       if (!validateFormat) {
         return false
       }
@@ -197,11 +231,45 @@ export default {
       this.errors.password2 = ''
       return true
     },
-    findEmail (){
-      this.$emit('toggleModal', 'fillPassword')
+    findEmail () {
+      this.$axios
+        .$post('/api/forgot-password', {
+          email: this.email
+        })
+        .then((data) => {
+          if (data.success !== true) {
+            this.errors.email = 'Couldn\'t find your email!'
+          } else {
+            this.$emit('toggleModal', 'successSendEmail')
+          }
+        })
     },
-    resetPassword (){
-      this.$emit('toggleModal', 'successResetPassword')
+    async resetPassword () {
+      if (this.password1 !== this.password2) {
+        this.errors = this.errors.concat("Confirm password doesn't match")
+      } else {
+        await this.$axios
+          .put('api/users/' + this.id, {
+            username: this.email,
+            password: this.password1
+          })
+          .then(() => {
+            this.$emit('toggleModal', 'successResetPassword')
+          })
+          .catch((e) => {
+            for (const field of ['username', 'password']) {
+              const errors = e.response.data.errors[field]
+              if (errors !== undefined) {
+                this.errors.password1 = this.errors.concat(errors)
+              }
+            }
+            return false
+          })
+      }
+    },
+    refreshPage () {
+      this.modals.successResetPassword = false
+      this.$router.push('/login/login2')
     }
   }
 }

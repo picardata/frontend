@@ -111,12 +111,19 @@ export default {
       modals: {
         forgotPassword: false,
         fillPassword: false,
-        successResetPassword: false
+        successResetPassword: false,
+        successSendEmail: false
       }
     }
   },
   beforeMount () {
     return this.$auth.loggedIn ? this.$router.push('/') : ''
+  },
+  mounted () {
+    const query = this.$route.query
+    if (query.resetpassword) {
+      this.modals.fillPassword = true
+    }
   },
   methods: {
     async onSubmit () {
