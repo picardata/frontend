@@ -84,7 +84,7 @@
           <span v-else>Contact Information</span>
         </h5>
       </template>
-      <div>
+      <div class="picardata-std-form-input">
         <div class="form-group">
           <input
             id="company"
