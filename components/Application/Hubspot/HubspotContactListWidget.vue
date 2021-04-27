@@ -78,11 +78,28 @@
       </el-table>
     </div>
     <modal :show.sync="modals.createGroup" class="picardata-std-modal">
+      <template slot="close-button">
+        <div style="margin-top: -8%;margin-right: -8%;"><span class="pd-icon pdicon-Cross"></span></div>
+      </template>
       <template slot="header">
-        <h5 class="modal-title">
-          <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
-          <div v-else>Contact Information</div>
-        </h5>
+        <div class="">
+          <div class="row"> 
+            <div class="col-md-12">
+              <a class="pd-icon pdicon-Back-Arrow picardata-arrow" href="/test" />
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h5 class="">
+              <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
+              <div v-else>Contact Information</div>
+            </h5>
+          </div>
+        </div>
+        </div>
+
+
+
       </template>
       <div class="picardata-std-form-input">
         <div class="form-group">
