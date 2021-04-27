@@ -1,22 +1,7 @@
 <template>
   <div>
-    <base-header type="white" class="p-0">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs" />
-          </nav>
-        </div>
-      </div>
-    </base-header>
+    <ApplicationManageDetail :crumbs="crumbs" :data="data"/>
     <div class="container-fluid mt-3">
-      <ApplicationDetail
-        :logo="data.application.logo"
-        :name="data.application.name"
-        :detail="data.application.detail"
-        :instruction="data.application.instruction"
-        :detail-page="false"
-      />
       <div class="row mt-5">
         <ul id="pills-tab" class="nav mb-3" role="tablist">
           <li class="nav-item">
@@ -126,7 +111,7 @@
 
 import SlackChannelList from '@/components/Application/Slack/SlackChannelList'
 import SlackUserList from '@/components/Application/Slack/SlackUserList'
-import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
 import SlackUnreadMessages from '~/components/Application/Slack/SlackUnreadMessages'
 
 export default {
@@ -134,7 +119,7 @@ export default {
   components: {
     SlackUserList,
     SlackChannelList,
-    ApplicationDetail,
+    ApplicationManageDetail,
     SlackUnreadMessages
   },
   async asyncData (context) {
