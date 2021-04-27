@@ -269,7 +269,7 @@ export default {
     },
     refreshPage () {
       this.modals.successResetPassword = false
-      this.$router.push('/login/login2')
+      this.$router.push('/login')
     }
   }
 }
