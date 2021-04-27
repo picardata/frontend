@@ -129,12 +129,12 @@
                         <div class="p-0">
                           <span class="heading">
                             <svg
-                              width="22"
-                              height="19"
-                              style="margin-top:-4px"
-                              viewBox="0 0 24 22"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="19"
+                                style="margin-top:-4px"
+                                viewBox="0 0 24 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                             >
                               <path d="M2.77216 2.77216C0.40928 5.13503 0.409282 8.96602 2.77216 11.3289L11.937 20.4937L12 20.4307L12.0631 20.4938L21.2279 11.329C23.5908 8.96609 23.5908 5.13511 21.2279 2.77223C18.865 0.409358 15.034 0.40936 12.6712 2.77224L12.3536 3.08978C12.1584 3.28505 11.8418 3.28505 11.6465 3.08978L11.3289 2.77216C8.96601 0.409281 5.13503 0.409282 2.77216 2.77216Z" stroke="#14142B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg> 10
@@ -145,7 +145,7 @@
                   </div>
                 </div>
                 <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
-                  <base-button class="w-100" outline type="primary" @click="appClick(index)">
+                  <base-button class="w-100" outline type="primary" @click="appClick2(index)">
                     Add to Picardata
                   </base-button>
                 </div>
@@ -165,12 +165,39 @@
             </div>
           </div>
 
+          <modal :show.sync="modals.modal1" body-classes="pt-0" modal-classes="pcd">
+            <template slot="header">
+              <h5 id="modalIntegrated1" class="modal-title" />
+            </template>
+            <template slot="close-button">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal2()">
+                <span class="pd-icon pdicon-Cross" />
+              </button>
+            </template>
+            <div>
+              <p class="mt-3 notify-text font-weight-bolder title-text">
+                Integrate <span class="text-primary">{{ selectedApp.name }}</span> to Picardata
+              </p>
+              <p class="content-text">
+                You can monitor your integrated app.
+                You’re going to integrate “{{ selectedApp.name }}”. Click the button below to continue.
+              </p>
+            </div>
+            <template slot="footer">
+              <div class="w-100 mr-4 text-right">
+                <base-button tag="a" type="primary" target="_blank" @click="appClick()">
+                  Integrate now
+                </base-button>
+              </div>
+            </template>
+          </modal>
+
           <modal :show.sync="modals.modal0" body-classes="pt-0" modal-classes="pcd">
             <template slot="header">
               <h5 id="exampleModalLabel" class="modal-title" />
             </template>
             <template slot="close-button">
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close" @click="dismissModal()">
                 <span class="pd-icon pdicon-Cross" />
               </button>
             </template>
@@ -285,7 +312,8 @@ export default {
       currentPage: 1,
       size: 5,
       modals: {
-        modal0: false
+        modal0: false,
+        modal1: false
       },
       totalIntegrations: [],
       integrations: []
@@ -295,7 +323,7 @@ export default {
     this.$axios.get('/api/applications/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
-        // this.applications = data.data
+        this.applications = data.data
         // this.filteredApplications = this.applications
 
         this.totalIntegrations = data.data.filter(x => x.status === 1)
@@ -313,12 +341,18 @@ export default {
       )
   },
   methods: {
-    appClick (index) {
-      this.selectedApp = this.integrations[index]
+    appClick () {
       this.modals.modal0 = true
+    },
+    appClick2 (index) {
+      this.selectedApp = this.applications[index]
+      this.modals.modal1 = true
     },
     dismissModal () {
       this.modals.modal0 = false
+    },
+    dismissModal2 () {
+      this.modals.modal1 = false
     },
     filterCategory (categoryId) {
       console.log('Kesini mantab sekali bro !')
