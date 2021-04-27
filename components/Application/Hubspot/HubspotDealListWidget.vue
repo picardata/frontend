@@ -108,20 +108,18 @@
       </template>
       <div class="picardata-std-form-input">
         <div class="form-group">
-          <label>Amount</label>
           <input
-            id="name"
+            id="amount"
             v-model="group.amount"
-            type="number"
+            type="text" 
+            onfocus="(this.type='number')" 
             name="amount"
             class="form-control"
-            placeholder="Amount"
-            min="0"
+            placeholder="Deal Amount"
             required="required"
           >
         </div>
         <div class="form-group">
-          <label>Deal name</label>
           <input
             id="deal"
             v-model="group.dealname"
@@ -133,14 +131,14 @@
           >
         </div>
         <div class="form-group">
-          <label>Close date</label>
           <input
             id="closedate"
             v-model="group.closedate"
-            type="date"
+            type="text" 
+            onfocus="(this.type='date')" 
             name="closedate"
             class="form-control"
-            placeholder="Close date"
+            placeholder="Close date, format: mm/dd/yyyy"
             required="required"
           >
         </div>
@@ -227,7 +225,7 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        amount: 0,
+        amount: '',
         closedate: '',
         dealname: ''
       }
