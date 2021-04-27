@@ -106,7 +106,7 @@
           <span v-else>Company Information</span>
         </h5>
       </template>
-      <div>
+      <div class="picardata-std-form-input">
         <div class="form-group">
           <label>Amount</label>
           <input
