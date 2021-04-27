@@ -1,9 +1,8 @@
 <template>
   <div>
-    <ApplicationManageDetail :crumbs="crumbs" :data="data"/>
+    <ApplicationManageDetail :crumbs="crumbs" :data="data" />
     <!-- </div> -->
     <div class="container-fluid mt-3">
-
       <div class="row mt-5">
         <ul id="pills-tab" class="nav mb-3" role="tablist">
           <li class="nav-item">

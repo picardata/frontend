@@ -1,15 +1,15 @@
 <template>
   <div class="row ml-2">
-    <div class="col-12 back-arrow-parent" v-if="detailManagePage">
+    <div v-if="detailManagePage" class="col-12 back-arrow-parent">
       <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
-        <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath"></a>
+      <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath" />
       <!-- </nuxt-link> -->
     </div>
-    <div class="col-12" v-if="detailPage">
+    <div v-if="detailPage" class="col-12">
       <img class="logo" :src="logo" alt="Logo">
     </div>
     <div :class="{ 'col-8': detailPage, 'col-12': !detailPage, 'detail-name-parent': detailManagePage }">
-      <h1>{{generateManage}} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
+      <h1>{{ generateManage }} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
     <div v-if="detailPage" class="col-4">
       <nuxt-link :to="manageLink" class="text-primary fa-pull-right btn">
@@ -22,7 +22,7 @@
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
       </p>
-      <div class="divider" style="margin-left: 14px;margin-top: 14px"/>
+      <div class="divider" style="margin-left: 14px;margin-top: 14px" />
       <nuxt-link to="#" class="text-primary btn">
         <font-awesome-icon :icon="['fas', 'plus']" />
         Add chart to Dashboard
@@ -135,18 +135,18 @@ export default {
     manageLink () {
       return this.$route.path + '/manage'
     },
-    generateParentPath() {
-      const currentPath = this.$route.path.split("/");
-      currentPath.pop();
-      console.log('parent path = ');
-      console.log(currentPath);
-      const newPath = currentPath.join("/");
-      console.log('new path = ');
-      console.log(newPath); 
-      return newPath;
+    generateParentPath () {
+      const currentPath = this.$route.path.split('/')
+      currentPath.pop()
+      console.log('parent path = ')
+      console.log(currentPath)
+      const newPath = currentPath.join('/')
+      console.log('new path = ')
+      console.log(newPath)
+      return newPath
     },
-    generateManage() {
-      return this.detailManagePage ? 'Manage' : '';
+    generateManage () {
+      return this.detailManagePage ? 'Manage' : ''
     }
   }
 }
@@ -154,7 +154,7 @@ export default {
 
 <style scoped>
 .picardata-arrow {
-  color: #14142B; 
+  color: #14142B;
   font-size: 200%;
 }
 
