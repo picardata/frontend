@@ -61,6 +61,27 @@ body {
   }
 } 
 
+.picardata-std-form-input {
+  .left {
+    margin-left: -40px;
+  }
+
+  .no-bullet {
+    list-style-type: none;
+  }
+
+  .card-title h4 {
+    font-size: 28px;
+  }
+
+  input {
+    border-width: 0 0 2px 0;
+    border-radius: 0;
+    border-color: var(--primary);
+    padding-left: 0;
+  }  
+}
+
 nav .breadcrumb-item a:nth-child(1) {
   color: #3E4EDD;
 }
