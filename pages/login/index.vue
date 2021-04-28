@@ -279,7 +279,7 @@ export default {
   .form-check-input{
     transform: scale(1.846);
   }
-  .form-control-label{
+  .form-check-label{
     color: #313131;
     font-size: 14px;
   }
