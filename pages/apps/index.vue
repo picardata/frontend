@@ -1,153 +1,115 @@
 <template>
   <div>
-    <!-- <base-header type="white" class="pb-6">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb />
-          </nav>
-        </div>
-        <div class="col-lg-6 col-5 text-right">
-          <base-button size="sm" type="neutral">
-            New
-          </base-button>
-          <base-button size="sm" type="neutral">
-            Filters
-          </base-button>
-        </div>
-      </div>
-    </base-header> -->
     <!-- <div class="container-fluid mt--6"> -->
     <div class="row">
       <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-xl-2 slide-element">
-          <div class="row pt-3">
-            <div class="col-lg-12" style="margin-bottom: 50px">
-              <route-breadcrumb class="submenu-breadcrumb" />
+        <submenu v-show="submenu" class="col-xl-2" :submenu-data="yourApp">
+          <template v-slot:breadcrumb>
+            <div class="manual-crumb">
+              Apps
             </div>
-            <div class="col-xl-6" style="margin-bottom: 20px">
-              <p class="subtitle">
-                Your Apps
-              </p>
-            </div>
-            <div class="col-xl-12">
-              <div id="list-tab" class="list-group" role="tablist">
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/integrated-apps"><p class="list-text">Integrated Apps</p></nuxt-link>
+          </template>
+          <template v-if="submenu" v-slot:collapse>
+            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
+          </template>
+          <template v-else v-slot:expand>
+            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
+          </template>
+          <template v-slot:content>
+            <div class="row">
+              <div class="col-lg-4" style="padding-top: 40px; padding-left: 40px">
+                <div class="box row">
+                  <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
+                    <h3 class="box-text">
+                      Your Integrated Apps
+                    </h3>
                   </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
+                  <div class="col-lg-12" style="margin-bottom:-90px">
+                    <p class="box-text box-number">
+                      {{ totalIntegrations }}
+                    </p>
                   </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/manage-all-apps"><p class="list-text">Manage all apps</p></nuxt-link>
+                  <div class="col-lg-12">
+                    <hr class="text-left pull-left float-left">
                   </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <img
+                  slot="image"
+                  class="card-img-top"
+                  src="/img/integrated-apps.png"
+                >
               </div>
             </div>
-            <div class="col-xl-6" style="margin-bottom: 20px">
-              <p class="subtitle">
-                Integration
-              </p>
-            </div>
-            <div class="col-xl-12">
-              <div id="list-tab" class="list-group" role="tablist">
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library"><p class="list-text">App Library</p></nuxt-link>
-                  </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
+            <div class="row" style="margin">
+              <div class="col-lg-12" style="margin-top: -55px; margin-left: 56px">
+                <nuxt-link to="/apps/app-library">
+                  <h5 class="box-text">
+                    + Add Application
+                  </h5>
+                </nuxt-link>
               </div>
             </div>
-          </div>
+          </template>
+        </submenu>
+      </transition>
+      <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+        <div v-show="submenu" class="col-xl-10">
+          <base-header type="white" class="pb-6">
+            <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                  <route-breadcrumb :crumbs="crumbs" />
+                </nav>
+              </div>
+              <div class="col-lg-6 col-5 text-right">
+                <base-button size="sm" type="neutral">
+                  New
+                </base-button>
+                <base-button size="sm" type="neutral">
+                  Filters
+                </base-button>
+              </div>
+            </div>
+          </base-header>
           <div class="row">
-            <div class="col-lg-4" style="padding-top: 40px; padding-left: 20px">
-              <div class="box row">
-                <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
-                  <h3 class="box-text">
-                    Your Integrated Apps
-                  </h3>
-                </div>
-                <div class="col-lg-12" style="margin-bottom:-90px">
-                  <p class="box-text box-number">
-                    {{ totalIntegrations }}
-                  </p>
-                </div>
-                <div class="col-lg-12">
-                  <hr class="text-left pull-left float-left">
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <img
-                slot="image"
-                class="card-img-top"
-                src="/img/integrated-apps.png"
-              >
-            </div>
-          </div>
-          <div class="row" style="margin">
-            <div class="col-lg-12" style="margin-top: -55px; margin-left: 36px">
-              <nuxt-link to="/apps/app-library">
-                <h5 class="box-text">
-                  + Add Application
-                </h5>
-              </nuxt-link>
-            </div>
-          </div>
-        </div>
-      </transition>
-      <transition name="slide" @after-leave="buttonAfterLeave" @after-enter="buttonAfterEnter">
-        <div v-show="submenu" class="col-lg-1 collapse-button">
-          <i v-if="submenu" :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
-          <i v-else :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
-        </div>
-      </transition>
-      <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-xl-3">
-          <card>
-            <form
-              id="navbar-search-main"
-              class="navbar-search form-inline mr-sm-3"
-              :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
-            >
-              <div class="form-group mb-0">
-                <div class="input-group input-group-alternative input-group-merge">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-search" /></span>
+            <div class="col-lg-6">
+              <card>
+                <form
+                  id="navbar-search-main"
+                  class="navbar-search form-inline mr-sm-3"
+                  :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
+                >
+                  <div class="form-group mb-0">
+                    <div class="input-group input-group-alternative input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search" /></span>
+                      </div>
+                      <input class="form-control" placeholder="Search" type="text">
+                    </div>
                   </div>
-                  <input class="form-control" placeholder="Search" type="text">
-                </div>
-              </div>
-              <button
-                type="button"
-                class="close"
-                data-action="search-close"
-                data-target="#navbar-search-main"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </form>
-          </card>
-        </div>
-      </transition>
-      <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-xl-6">
-          <card>
-            <h5 slot="header" class="h3 mb-0">
-              Team members
-            </h5>
-            <user-list />
-          </card>
+                  <button
+                    type="button"
+                    class="close"
+                    data-action="search-close"
+                    data-target="#navbar-search-main"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </form>
+              </card>
+            </div>
+            <div class="col-xl-6">
+              <card>
+                <h5 slot="header" class="h3 mb-0">
+                  Team members
+                </h5>
+                <user-list />
+              </card>
+            </div>
+          </div>
         </div>
       </transition>
     </div>
@@ -156,13 +118,44 @@
 </template>
 
 <script>
-
+import Submenu from '~/components/layouts/argon/Submenu'
 export default {
   name: 'Index',
   layout: 'argon',
-  components: {},
+  components: { Submenu },
   data () {
     return {
+      crumbs: [
+        {
+          name: 'Apps',
+          path: '/apps'
+        }
+      ],
+      yourApp: [
+        {
+          name: 'Your Apps',
+          type: 'subtitle'
+        },
+        {
+          link: '/apps/integrated-apps',
+          type: 'item',
+          name: 'Integrated Apps'
+        },
+        {
+          link: '/apps/manage-all-apps',
+          type: 'item',
+          name: 'Manage All Apps'
+        },
+        {
+          name: 'Integration',
+          type: 'subtitle'
+        },
+        {
+          link: '/apps/app-library',
+          type: 'item',
+          name: 'Integrated Apps'
+        }
+      ],
       submenu: true,
       totalIntegrations: 0
     }
@@ -180,17 +173,9 @@ export default {
       )
   },
   methods: {
-    buttonAfterLeave (el) {
-      el.style.display = 'block'
-      el.style.left = '-282px'
-    },
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-280px'
-    },
-    buttonAfterEnter (el) {
-      el.style.display = 'block'
-      el.style.left = '0px'
+      el.style.left = '-251px'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
@@ -200,21 +185,6 @@ export default {
 }
 </script>
 <style>
-  div.card {
-    border: none;
-  }
-
-  .most-access div.card {
-    border: none;
-    width: 170px;
-    font-size: 14px;
-  }
-
-  .over-stat div.card {
-    border: none;
-    font-size: 14px;
-  }
-
   .slide-enter-active {
     animation: slide .2s reverse;
   }
@@ -225,7 +195,29 @@ export default {
 
   @keyframes slide {
     from { left: 0px; }
-    to { left: -280px; }
+    to { left: -251px; }
+  }
+
+  .list-item {
+    margin-bottom: 8px;
+  }
+
+  .list-text {
+    color: #2534B6;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .subtitle {
+    color: #181C3B !important;
+    font-size: 20px;
+    font-weight: bold
+  }
+
+  .manual-crumb {
+    color: #181C3B;
+    font-size: 18px;
+    font-weight: 600;
   }
 
   .list-item {
@@ -235,6 +227,7 @@ export default {
   i.pdicon-Collapse, i.pdicon-Expand {
     font-size: 30px;
     cursor: pointer;
+    margin-right: -20px !important;
   }
 
   .box {
@@ -263,10 +256,6 @@ export default {
     color: #2534B6;
   }
 
-  .slide-element {
-    background-color: #F4F9FF;
-  }
-
   .box-text {
     color: white;
   }
@@ -274,21 +263,5 @@ export default {
   .box-number {
      font-size: 50px;
      font-weight: "bold";
-  }
-
-  .collapse-button {
-    margin-top: 13px;
-    margin-left: -30px;
-    margin-right: -70px;
-  }
-
-  .submenu-breadcrumb > ol > li > a {
-    color: #181C3B !important;
-  }
-
-  .subtitle {
-    color: #181C3B !important;
-    font-size: 20px;
-    font-weight: bold
   }
 </style>
