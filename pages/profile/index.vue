@@ -71,49 +71,43 @@
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
-                <h3>General Information</h3>
+                <h3>Work Information</h3>
               </div>
-              <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
-                <AppControlInput v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text">
-                  First Name
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
-                <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
-                  Last Name
+                <AppControlInput
+                  v-model="employee.occupation"
+                  :choices="choices"
+                  :choices-selected="employee.occupation"
+                  placeholder="Choose Occupation"
+                  control-type="select"
+                >
+                  Occupation
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
-                <AppControlInput v-model="profile.email" placeholder="Email" type="email" required="required">
-                  Email
+              <ValidationProvider v-slot="{ errors }" vid="profile.role" name="employee.role">
+                <AppControlInput v-model="employee.role" placeholder="Role" type="text">
+                  Role
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                Phone
-                <VuePhoneNumberInput
-                  v-model="profile.phone"
-                  placeholder="Phone Number"
-                  class="form-group"
-                  :default-country-code="profile.phoneCountryCode ? profile.phoneCountryCode : 'SG'"
-                  type="tel"
-                  @update="profile.formattedPhone = $event.e164"
-                />
+              <ValidationProvider v-slot="{ errors }" vid="employee.organization" name="employee.organization">
+                <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
+                  Organization
+                </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
+              <ValidationProvider v-slot="{ errors }" vid="employee.workLocation" name="employee.workLocation">
                 <label>Location</label>
                 <div class="form-group">
                   <country-select
-                    v-model="profile.location"
+                    v-model="employee.workLocation"
                     country-name="true"
-                    :country="profile.location"
+                    :country="employee.workLocation"
                     top-country="US"
                     name="address"
                     class-name="form-control"
-                    placeholder="Location"
+                    placeholder="Work Location"
                   />
                 </div>
                 <span class="text-danger">{{ errors[0] }}</span>
@@ -145,37 +139,59 @@ export default {
     VuePhoneNumberInput
   },
   async asyncData (context) {
-    return await context.app.$axios.get('/api/users/me')
-      .then((data) => {
-        const phoneCountryCode = (phone) => {
-          if (phone) {
-            const code = phone.split(' ')[0]
-            return listCountryCode.filter((i) => {
-              return i.dial_code === code
-            })[0].code
-          }
-        }
+    const userMe =  await context.app.$axios.get('/api/users/me')
+      // .then((data) => {
+    const phoneCountryCode = (phone) => {
+      if (phone) {
+        const code = phone.split(' ')[0]
+        return listCountryCode.filter((i) => {
+          return i.dial_code === code
+        })[0].code
+      }
+    }
 
-        const phoneNoCode = (phone) => {
-          if (phone) {
-            const i = phone.indexOf(' ')
-            return phone.substr(i, phone.length)
-          }
-        }
+    const phoneNoCode = (phone) => {
+      if (phone) {
+        const i = phone.indexOf(' ')
+        return phone.substr(i, phone.length)
+      }
+    }
 
-        return {
-          profile: {
-            id: data.data.user.userProfile.id,
-            firstname: data.data.user.userProfile.firstname,
-            lastname: data.data.user.userProfile.lastname,
-            email: data.data.user.userProfile.email,
-            phone: phoneNoCode(data.data.user.userProfile.phone),
-            phoneCountryCode: phoneCountryCode(data.data.user.userProfile.phone),
-            formattedPhone: data.data.user.userProfile.phone,
-            location: data.data.user.userProfile.address
-          }
+    const userProfile = await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+    const resultData = {
+        employee: {
+          id: userProfile.data.id,
+          role: userProfile.data.role,
+          occupation: String(userProfile.data.occupation),
+          organization: userProfile.data.company.name,
+          workLocation: userProfile.data.company.location
+        },
+        profile: {
+          firstname: userProfile.data.userProfile.firstname,
+          lastname: userProfile.data.userProfile.lastname,
+          email: userProfile.data.userProfile.email,
+          phone: userProfile.data.userProfile.phone,
+          location: userProfile.data.userProfile.address
+        },
+        profile: {
+          id: userMe.data.user.userProfile.id,
+          firstname: userMe.data.user.userProfile.firstname,
+          lastname: userMe.data.user.userProfile.lastname,
+          email: userMe.data.user.userProfile.email,
+          phone: phoneNoCode(userMe.data.user.userProfile.phone),
+          phoneCountryCode: phoneCountryCode(userMe.data.user.userProfile.phone),
+          formattedPhone: userMe.data.user.userProfile.phone,
+          location: userMe.data.user.userProfile.address
         }
-      })
+    };
+
+    return resultData;
+      // // .then((data) => {
+      //   return {
+
+      //   }
+      // })
+      // })
   },
   methods: {
     submitGeneral () {
@@ -200,6 +216,32 @@ export default {
         return false
       })
     }
-  }
+  },
+  data () {
+    return {
+      choices: [
+        {
+          name: 'Occupation',
+          id: 0
+        },
+        {
+          name: 'Artist',
+          id: 1
+        },
+        {
+          name: 'Designer',
+          id: 2
+        },
+        {
+          name: 'Software Developer',
+          id: 3
+        },
+        {
+          name: 'Sales & Marketing',
+          id: 4
+        }
+      ]
+    }
+  },
 }
 </script>
