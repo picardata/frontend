@@ -82,24 +82,21 @@
         <div class="close-button" v-on:click="closeForm"><span class="pd-icon pdicon-Cross"></span></div>
       </template>
       <template slot="header">
-        <div class="">
+        <div>
           <div class="row"> 
             <div class="col-md-12">
-              <a class="pd-icon pdicon-Back-Arrow picardata-arrow" href="/test" />
+              <a class="pd-icon pdicon-Back-Arrow back-arrow" :href="generateParentPath" />
             </div>
           </div>
-        <div class="row">
-          <div class="col-md-12">
-            <h5 class="">
-              <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
-              <div v-else>Contact Information</div>
-            </h5>
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="parent-title">
+                <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
+                <div v-else>Contact Information</div>
+              </h5>
+            </div>
           </div>
         </div>
-        </div>
-
-
-
       </template>
       <div class="picardata-std-form-input">
         <div class="form-group">
@@ -279,12 +276,18 @@ export default {
       // this.clearForm()
       this.modals.createGroup = false
     }
+  },
+  computed: {
+    generateParentPath () {
+      const currentPath = this.$route.path.split('/')
+      currentPath.pop()
+      console.log('parent path = ')
+      console.log(currentPath)
+      const newPath = currentPath.join('/')
+      console.log('new path = ')
+      console.log(newPath)
+      return '/apps/integrated-apps'
+    }
   }
 }
 </script>
-
-<style scoped>
-.picardata-add-modal-first-title {
-
-}
-</style>
