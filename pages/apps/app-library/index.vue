@@ -99,7 +99,7 @@
             </div>
           </div>
           <div class="row" style="margin-left: 4%;width: 100%">
-            <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
+            <div v-for="(application) in integrations" :key="application.id" :class="appClass">
               <card class="pcd card-libs">
                 <div class="text-center p-3">
                   <img
