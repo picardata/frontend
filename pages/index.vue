@@ -2,111 +2,56 @@
   <div>
     <div class="row">
       <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-xl-2 slide-element">
-          <div class="row pt-3">
-            <div class="col-lg-12" style="margin-bottom: 50px">
-              <route-breadcrumb class="submenu-breadcrumb" />
+        <submenu v-show="submenu" class="col-xl-2" :submenu-data="menus">
+          <template v-slot:breadcrumb>
+            <div class="manual-crumb">
+              Dashboard
             </div>
-            <div class="col-xl-6" style="margin-bottom: 20px">
-              <p class="app-categories">
-                Your App Categories
-              </p>
-            </div>
-            <div class="col-xl-12">
-              <div id="list-tab" class="list-group" role="tablist">
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=6"><p class="list-text">Design</p></nuxt-link>
+          </template>
+          <template v-if="submenu" v-slot:collapse>
+            <i :class="['pd-icon pdicon-Expand']" @click="submenu = false" />
+          </template>
+          <template v-else v-slot:expand>
+            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = true" />
+          </template>
+          <template v-slot:content>
+            <div class="row">
+              <div class="col-lg-4" style="padding-top: 40px; padding-left: 40px">
+                <div class="box row">
+                  <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
+                    <h3 class="box-text">
+                      Your Integrated Apps
+                    </h3>
                   </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
+                  <div class="col-lg-12" style="margin-bottom:-90px">
+                    <p class="box-text box-number">
+                      {{ totalIntegrations }}
+                    </p>
                   </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=4"><p class="list-text">Sales &amp; Marketing</p></nuxt-link>
+                  <div class="col-lg-12">
+                    <hr class="text-left pull-left float-left">
                   </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=1"><p class="list-text">Finance</p></nuxt-link>
-                  </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=5"><p class="list-text">Social Media</p></nuxt-link>
-                  </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=2"><p class="list-text">Collaboration</p></nuxt-link>
-                  </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
-                <a href="#" class="list-item row">
-                  <div class="col-lg-10">
-                    <nuxt-link to="/apps/app-library?category=3"><p class="list-text">Human Resources</p></nuxt-link>
-                  </div>
-                  <div class="col-lg-1">
-                    <i :class="['pd-icon pdicon-Chevron-Right']" />
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4" style="padding-top: 40px; padding-left: 20px">
-              <div class="box row">
-                <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
-                  <h3 class="box-text">
-                    Your Integrated Apps
-                  </h3>
-                </div>
-                <div class="col-lg-12" style="margin-bottom:-90px">
-                  <p class="box-text box-number">
-                    {{ totalIntegrations }}
-                  </p>
-                </div>
-                <div class="col-lg-12">
-                  <hr class="text-left pull-left float-left">
                 </div>
               </div>
+              <div class="col-lg-8">
+                <img
+                  slot="image"
+                  class="card-img-top"
+                  src="/img/integrated-apps.png"
+                >
+              </div>
             </div>
-            <div class="col-lg-8">
-              <img
-                slot="image"
-                class="card-img-top"
-                src="/img/integrated-apps.png"
-              >
+            <div class="row" style="margin">
+              <div class="col-lg-12" style="margin-top: -55px; margin-left: 56px">
+                <nuxt-link to="/apps/app-library">
+                  <h5 class="box-text">
+                    + Add Application
+                  </h5>
+                </nuxt-link>
+              </div>
             </div>
-          </div>
-          <div class="row" style="margin">
-            <div class="col-lg-12" style="margin-top: -55px; margin-left: 36px">
-              <nuxt-link to="/apps/app-library">
-                <h5 class="box-text">
-                  + Add Application
-                </h5>
-              </nuxt-link>
-            </div>
-          </div>
-        </div>
-      </transition>
-      <transition name="slide" @after-leave="buttonAfterLeave" @after-enter="buttonAfterEnter">
-        <div v-show="submenu" class="col-lg-1 collapse-button">
-          <i v-if="submenu" :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
-          <i v-else :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
-        </div>
+          </template>
+        </submenu>
       </transition>
       <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
         <div v-show="submenu" class="col-8">
@@ -130,14 +75,51 @@
 </template>
 <script>
 import RandomLineChart from '~/components/Chart/RandomLineChart.vue'
+import Submenu from '~/components/layouts/argon/Submenu'
 export default {
-  components: { RandomLineChart },
+  components: { RandomLineChart, Submenu },
   auth: true,
   layout: 'argon',
   data () {
     return {
       submenu: true,
-      totalIntegrations: 0
+      totalIntegrations: 0,
+      menus: [
+        {
+          name: 'Your App Categories',
+          type: 'subtitle'
+        },
+        {
+          link: '/apps/app-library?category=6',
+          type: 'item',
+          name: 'Design'
+        },
+        {
+          link: '/apps/app-library?category=4',
+          type: 'item',
+          name: 'Sales & Marketing'
+        },
+        {
+          link: '/apps/app-library?category=1',
+          type: 'item',
+          name: 'Finance'
+        },
+        {
+          link: '/apps/app-library?category=5',
+          type: 'item',
+          name: 'Social Media'
+        },
+        {
+          link: '/apps/app-library?category=2',
+          type: 'item',
+          name: 'Collaboration'
+        },
+        {
+          link: '/apps/app-library?category=3',
+          type: 'item',
+          name: 'Human Resources'
+        }
+      ]
     }
   },
   mounted () {
@@ -153,41 +135,18 @@ export default {
       )
   },
   methods: {
-    buttonAfterLeave (el) {
-      el.style.display = 'block'
-      el.style.left = '-282px'
-    },
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-280px'
-    },
-    buttonAfterEnter (el) {
-      el.style.display = 'block'
-      el.style.left = '0px'
+      el.style.left = '-15.5%'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0px'
+      el.style.left = '0%'
     }
   }
 }
 </script>
-<style>
-  div.card {
-    border: none;
-  }
-
-  .most-access div.card {
-    border: none;
-    width: 170px;
-    font-size: 14px;
-  }
-
-  .over-stat div.card {
-    border: none;
-    font-size: 14px;
-  }
-
+<style scoped>
   .slide-enter-active {
     animation: slide .2s reverse;
   }
@@ -197,8 +156,30 @@ export default {
   }
 
   @keyframes slide {
-    from { left: 0px; }
-    to { left: -280px; }
+    from { left: 0%; }
+    to { left: -15.5%; }
+  }
+
+  .list-item {
+    margin-bottom: 8px;
+  }
+
+  .list-text {
+    color: #2534B6;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .subtitle {
+    color: #181C3B !important;
+    font-size: 20px;
+    font-weight: bold
+  }
+
+  .manual-crumb {
+    color: #181C3B;
+    font-size: 18px;
+    font-weight: 600;
   }
 
   .list-item {
@@ -208,6 +189,7 @@ export default {
   i.pdicon-Collapse, i.pdicon-Expand {
     font-size: 30px;
     cursor: pointer;
+    margin-right: -20px !important;
   }
 
   .box {
@@ -236,32 +218,12 @@ export default {
     color: #2534B6;
   }
 
-  .slide-element {
-    background-color: #F4F9FF;
-  }
-
   .box-text {
     color: white;
   }
 
   .box-number {
-     font-size: 50px;
-     font-weight: "bold";
-  }
-
-  .collapse-button {
-    margin-top: 13px;
-    margin-left: -30px;
-    margin-right: -70px;
-  }
-
-  .submenu-breadcrumb > ol > li > a {
-    color: #181C3B !important;
-  }
-
-  .app-categories {
-    color: #181C3B !important;
-    font-size: 20px;
-    font-weight: bold
+    font-size: 50px;
+    font-weight: "bold";
   }
 </style>

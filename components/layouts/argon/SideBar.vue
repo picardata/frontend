@@ -45,10 +45,10 @@ export default {
           link: '/apps'
         },
         {
-          name: 'form',
+          name: 'forms',
           displayName: 'Forms',
           icon: 'pdicon-Forms',
-          link: '/form'
+          link: '/forms'
         },
         {
           name: 'profile',
