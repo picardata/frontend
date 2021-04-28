@@ -46,7 +46,7 @@
                     :country="profile.location"
                     top-country="US"
                     name="address"
-                    class-name="form-control"
+                    class-name="form-control picardata-input"
                     placeholder="Location"
                   />
                 </div>
@@ -90,7 +90,17 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="employee.workLocation" name="employee.workLocation">
-                <label>Location</label>
+              <div class="form-group">
+                <label>City</label>
+                <input v-model="employee.workLocation" 
+                       placeholder="Work Location" 
+                       required="required" 
+                       type="text" 
+                       class="form-control picardata-input" 
+                       name="address"
+                       disabled> 
+              </div>
+                <!-- <label>City</label>
                 <div class="form-group">
                   <country-select
                     v-model="employee.workLocation"
@@ -101,7 +111,7 @@
                     class-name="form-control"
                     placeholder="Work Location"
                   />
-                </div>
+                </div> -->
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
