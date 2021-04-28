@@ -118,7 +118,7 @@
           </div>
           <div class="row">
             <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus === 'EDIT'">
-              <span>Cancel</span>
+              <span v-on:click="cancel">Cancel</span>
             </div>
             <div class="col-sm-8 col-xs-12 text-right">
               <button v-on:click="save" class="btn btn-primary btn-lg">
@@ -224,6 +224,9 @@ export default {
     save() {
       console.log('Di save bro !');
       this.buttonStatus = "EDIT"
+    },
+    cancel() {
+      this.buttonStatus = "VIEW"
     }
   },
   data () {
