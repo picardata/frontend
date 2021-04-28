@@ -10,10 +10,10 @@
             </div>
           </template>
           <template v-if="submenu" v-slot:collapse>
-            <i :class="['pd-icon pdicon-Expand']" @click="submenu = false" />
+            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
           </template>
           <template v-else v-slot:expand>
-            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = true" />
+            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
           </template>
           <template v-slot:content>
             <div class="row">
@@ -153,7 +153,7 @@ export default {
         {
           link: '/apps/app-library',
           type: 'item',
-          name: 'Integrated Apps'
+          name: 'App Library'
         }
       ],
       submenu: true,
