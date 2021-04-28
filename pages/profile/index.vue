@@ -34,15 +34,9 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                Phone
-                <VuePhoneNumberInput
-                  v-model="profile.phone"
-                  placeholder="Phone Number"
-                  class="form-group"
-                  :default-country-code="profile.phoneCountryCode ? profile.phoneCountryCode : 'SG'"
-                  type="tel"
-                  @update="profile.formattedPhone = $event.e164"
-                />
+                <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text">
+                  Phone number
+                </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
