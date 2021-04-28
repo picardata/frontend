@@ -122,7 +122,8 @@
             </div>
             <div class="col-sm-8 col-xs-12 text-right">
               <button v-on:click="save" class="btn btn-primary btn-lg">
-                Edit Profile
+                <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
+                <span v-if="buttonStatus === 'EDIT'">Save Profile</span>
               </button>
             </div>
           </div>
