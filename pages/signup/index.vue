@@ -320,33 +320,41 @@ $placeholder-font-size: 16px;
 
 input::-webkit-input-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 input:focus::-webkit-input-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 
 /* Firefox < 19 */
 input:-moz-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 input:focus:-moz-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 
 /* Firefox > 19 */
 input::-moz-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 input:focus::-moz-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 
 /* Internet Explorer 10 */
 input:-ms-input-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 input:focus:-ms-input-placeholder {
     color: $placeholder-color;
+    font-size: $placeholder-font-size;
 }
 
 .already-had-account-text:hover {
