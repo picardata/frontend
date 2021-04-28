@@ -10,21 +10,21 @@
             </div>
           </template>
           <template v-if="submenu" v-slot:collapse>
-            <i :class="['pd-icon pdicon-Expand']" @click="submenu = false" />
+            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
           </template>
           <template v-else v-slot:expand>
-            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = true" />
+            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
           </template>
           <template v-slot:content>
             <div class="row">
-              <div class="col-lg-4" style="padding-top: 40px; padding-left: 40px">
+              <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
                 <div class="box row">
-                  <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
+                  <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
                     <h3 class="box-text">
                       Your Integrated Apps
                     </h3>
                   </div>
-                  <div class="col-lg-12" style="margin-bottom:-90px">
+                  <div class="col-lg-12" style="margin-bottom:-5.625em">
                     <p class="box-text box-number">
                       {{ totalIntegrations }}
                     </p>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row" style="margin">
-              <div class="col-lg-12" style="margin-top: -55px; margin-left: 56px">
+              <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
                 <nuxt-link to="/apps/app-library">
                   <h5 class="box-text">
                     + Add Application
@@ -153,7 +153,7 @@ export default {
         {
           link: '/apps/app-library',
           type: 'item',
-          name: 'Integrated Apps'
+          name: 'App Library'
         }
       ],
       submenu: true,
@@ -175,11 +175,11 @@ export default {
   methods: {
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-15.5%'
+      el.style.left = '-14.6em'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0%'
+      el.style.left = '0em'
     }
   }
 }
@@ -194,40 +194,14 @@ export default {
   }
 
   @keyframes slide {
-    from { left: 0%; }
-    to { left: -15.5%; }
-  }
-
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .subtitle {
-    color: #181C3B !important;
-    font-size: 20px;
-    font-weight: bold
+    from { left: 0em; }
+    to { left: -14.6em; }
   }
 
   .manual-crumb {
     color: #181C3B;
     font-size: 18px;
     font-weight: 600;
-  }
-
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  i.pdicon-Collapse, i.pdicon-Expand {
-    font-size: 30px;
-    cursor: pointer;
-    margin-right: -20px !important;
   }
 
   .box {
@@ -244,16 +218,6 @@ export default {
     background-color: white;
     border: 1.5px solid white;
     border-radius: 5px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  i.pdicon-Chevron-Right {
-    color: #2534B6;
   }
 
   .box-text {
