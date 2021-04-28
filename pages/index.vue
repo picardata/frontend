@@ -16,14 +16,14 @@
           </template>
           <template v-slot:content>
             <div class="row">
-              <div class="col-lg-4" style="padding-top: 40px; padding-left: 40px">
+              <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
                 <div class="box row">
-                  <div class="col-lg-3" style="margin-top:40px; margin-bottom:-20px">
+                  <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
                     <h3 class="box-text">
                       Your Integrated Apps
                     </h3>
                   </div>
-                  <div class="col-lg-12" style="margin-bottom:-90px">
+                  <div class="col-lg-12" style="margin-bottom:-5.625em">
                     <p class="box-text box-number">
                       {{ totalIntegrations }}
                     </p>
@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="row" style="margin">
-              <div class="col-lg-12" style="margin-top: -55px; margin-left: 56px">
+              <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
                 <nuxt-link to="/apps/app-library">
                   <h5 class="box-text">
                     + Add Application
@@ -137,11 +137,11 @@ export default {
   methods: {
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-15.5%'
+      el.style.left = '-14.6em'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0%'
+      el.style.left = '0em'
     }
   }
 }
@@ -156,66 +156,30 @@ export default {
   }
 
   @keyframes slide {
-    from { left: 0%; }
-    to { left: -15.5%; }
-  }
-
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .subtitle {
-    color: #181C3B !important;
-    font-size: 20px;
-    font-weight: bold
+    from { left: 0em; }
+    to { left: -14.6em; }
   }
 
   .manual-crumb {
     color: #181C3B;
-    font-size: 18px;
+    font-size: 1.125em;
     font-weight: 600;
   }
 
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  i.pdicon-Collapse, i.pdicon-Expand {
-    font-size: 30px;
-    cursor: pointer;
-    margin-right: -20px !important;
-  }
-
   .box {
-    margin: 10px 10px 10px 10px;
-    width: 170px;
-    height: 320px;
+    margin: 0.625em 0.625em 0.625em 0.625em;
+    width: 10.625em;
+    height: 20em;
     background-color: #3E4EDD;
-    border-radius: 17px;
+    border-radius: 1.0625em;
   }
 
   hr {
-    width: 50px;
+    width: 3.125em;
     color: white;
     background-color: white;
-    border: 1.5px solid white;
-    border-radius: 5px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  i.pdicon-Chevron-Right {
-    color: #2534B6;
+    border: 0.09375em solid white;
+    border-radius: 0.3125em;
   }
 
   .box-text {
@@ -223,7 +187,7 @@ export default {
   }
 
   .box-number {
-    font-size: 50px;
+    font-size: 3.125em;
     font-weight: "bold";
   }
 </style>

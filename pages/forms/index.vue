@@ -16,90 +16,63 @@
       </submenu>
     </transition>
     <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-    <div v-show="submenu" class="col-xl-10">
-      <base-header type="white" class="pb-6">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-              <route-breadcrumb :crumbs="crumbs" />
-            </nav>
-          </div>
-        </div>
-      </base-header>
-      <div class="container-fluid mt--6">
-        <div class="row mt-3">
-          <div class="col-4">
-            <h1>Forms</h1>
-          </div>
-          <div class="col-8">
-            <span class="align-middle float-right">
-              <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
-            </span>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="form-group col-12">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span id="inputGroupPrepend2" class="input-group-text border-0">
-                  <font-awesome-icon
-                    class="search-icon"
-                    fixed-width
-                    size="2x"
-                    :icon="['fas', 'search']"
-                  /></span>
-              </div>
-              <input
-                v-model="qSearch"
-                type="text"
-                class="form-control search-box border-0"
-                placeholder="Search created forms"
-                aria-describedby="inputGroupPrepend2"
-                @keyup="querySearch"
-              >
+      <div v-show="submenu" class="col-xl-10">
+        <base-header type="white" class="pb-6">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <route-breadcrumb :crumbs="crumbs" />
+              </nav>
             </div>
           </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-4">
-            <h4>All forms</h4>
+        </base-header>
+        <div class="container-fluid mt--6">
+          <div class="row mt-3">
+            <div class="col-4">
+              <h1>Forms</h1>
+            </div>
+            <div class="col-8">
+              <span class="align-middle float-right">
+                <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
+              </span>
+            </div>
           </div>
-          <div class="col-8">
-            <div class="dropdown col-3 fa-pull-right">
-              <button
-                v-if="sort === 0"
-                class="btn dropdown-toggle text-primary"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="true"
-              >
-                <font-awesome-icon
-                  fixed-width
-                  :icon="['fas', 'sort-amount-down-alt']"
-                />
-                Last updated
-              </button>
-              <button
-                v-if="sort === 1"
-                class="btn dropdown-toggle text-primary"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="true"
-              >
-                <font-awesome-icon
-                  fixed-width
-                  :icon="['fas', 'sort-amount-down-alt']"
-                />
-                Title
-              </button>
-              <div class="dropdown-menu" aria-labelledby="sort-dropdown">
+          <div class="row mt-3">
+            <div class="form-group col-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span id="inputGroupPrepend2" class="input-group-text border-0">
+                    <font-awesome-icon
+                      class="search-icon"
+                      fixed-width
+                      size="2x"
+                      :icon="['fas', 'search']"
+                    /></span>
+                </div>
+                <input
+                  v-model="qSearch"
+                  type="text"
+                  class="form-control search-box border-0"
+                  placeholder="Search created forms"
+                  aria-describedby="inputGroupPrepend2"
+                  @keyup="querySearch"
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-4">
+              <h4>All forms</h4>
+            </div>
+            <div class="col-8">
+              <div class="dropdown col-3 fa-pull-right">
                 <button
-                  v-if="sort === 1"
-                  class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                  v-if="sort === 0"
+                  class="btn dropdown-toggle text-primary"
                   type="button"
-                  @click.prevent="toggleSort"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="true"
                 >
                   <font-awesome-icon
                     fixed-width
@@ -108,10 +81,12 @@
                   Last updated
                 </button>
                 <button
-                  v-if="sort === 0"
-                  class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                  v-if="sort === 1"
+                  class="btn dropdown-toggle text-primary"
                   type="button"
-                  @click.prevent="toggleSort"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="true"
                 >
                   <font-awesome-icon
                     fixed-width
@@ -119,79 +94,104 @@
                   />
                   Title
                 </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
-            <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-              <div class="card-body">
-                <h5 class="card-title">
-                  {{ form.name }}
-                </h5>
-                <div class="row">
-                  <div class="col-2 pt-3 pl-4">
+                <div class="dropdown-menu" aria-labelledby="sort-dropdown">
+                  <button
+                    v-if="sort === 1"
+                    class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                    type="button"
+                    @click.prevent="toggleSort"
+                  >
                     <font-awesome-icon
                       fixed-width
-                      size="lg"
-                      class="sync-icon"
-                      :icon="['fas', 'sync']"
+                      :icon="['fas', 'sort-amount-down-alt']"
                     />
-                  </div>
-                  <div class="col-10">
-                    <p class="card-text last-updated">
-                      Last updated:<br>
-                      {{ formatDate(form.updatedAt) }}
-                    </p>
-                  </div>
+                    Last updated
+                  </button>
+                  <button
+                    v-if="sort === 0"
+                    class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                    type="button"
+                    @click.prevent="toggleSort"
+                  >
+                    <font-awesome-icon
+                      fixed-width
+                      :icon="['fas', 'sort-amount-down-alt']"
+                    />
+                    Title
+                  </button>
                 </div>
-                <div class="row mt-2">
-                  <div class="col-md-4 col-sm-12">
-                    <nuxt-link class="btn btn-gray-light" to="/forms/share">
-                      <span class="text-primary">Share</span>
-                    </nuxt-link>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+              <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ form.name }}
+                  </h5>
+                  <div class="row">
+                    <div class="col-2 pt-3 pl-4">
+                      <font-awesome-icon
+                        fixed-width
+                        size="lg"
+                        class="sync-icon"
+                        :icon="['fas', 'sync']"
+                      />
+                    </div>
+                    <div class="col-10">
+                      <p class="card-text last-updated">
+                        Last updated:<br>
+                        {{ formatDate(form.updatedAt) }}
+                      </p>
+                    </div>
                   </div>
-                  <div class="col-md-4 col-sm-12">
-                    <div class="divider d-inline" />
-                    <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
-                      <span class="text-primary">Open</span>
-                    </nuxt-link>
-                  </div>
-                  <div class="col-md-4 col-sm-12">
-                    <div class="divider d-inline" />
-                    <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
-                      Delete
-                    </a>
+                  <div class="row mt-2">
+                    <div class="col-md-4 col-sm-12">
+                      <nuxt-link class="btn btn-gray-light" to="/forms/share">
+                        <span class="text-primary">Share</span>
+                      </nuxt-link>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <div class="divider d-inline" />
+                      <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
+                        <span class="text-primary">Open</span>
+                      </nuxt-link>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                      <div class="divider d-inline" />
+                      <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
+                        Delete
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <modal name="delete-modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container">
+                <div class="modal-header">
+                  <h5>Move to Trash?</h5>
+                  <div class="cancel-integrate" @click="dismissModal">
+                    &times;
+                  </div>
+                </div>
+                <div class="modal-body">
+                  <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
+                  <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </modal>
       </div>
-      <modal name="delete-modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-              <div class="modal-header">
-                <h5>Move to Trash?</h5>
-                <div class="cancel-integrate" @click="dismissModal">
-                  &times;
-                </div>
-              </div>
-              <div class="modal-body">
-                <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
-              </div>
-              <div class="modal-footer">
-                <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
-                <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
-    </div>
     </transition>
   </div>
 </template>
@@ -323,11 +323,11 @@ export default {
     },
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-15.5%'
+      el.style.left = '-14.6em'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0%'
+      el.style.left = '0em'
     }
 
   }
@@ -396,67 +396,23 @@ div.vl {
   height: 16px;
 }
 
-  .slide-enter-active {
-    animation: slide .2s reverse;
-  }
+.slide-enter-active {
+  animation: slide .2s reverse;
+}
 
-  .slide-leave-active {
-    animation: slide .2s;
-  }
+.slide-leave-active {
+  animation: slide .2s;
+}
 
-  @keyframes slide {
-    from { left: 0%; }
-    to { left: -15.5%; }
-  }
+@keyframes slide {
+  from { left: 0em; }
+  to { left: -14.6em; }
+}
 
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .subtitle {
-    color: #181C3B !important;
-    font-size: 20px;
-    font-weight: bold
-  }
-
-  .manual-crumb {
-    color: #181C3B;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .list-item {
-    margin-bottom: 8px;
-  }
-
-  i.pdicon-Collapse, i.pdicon-Expand {
-    font-size: 30px;
-    cursor: pointer;
-    margin-right: -20px !important;
-  }
-
-  hr {
-    width: 50px;
-    color: white;
-    background-color: white;
-    border: 1.5px solid white;
-    border-radius: 5px;
-  }
-
-  .list-text {
-    color: #2534B6;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  i.pdicon-Chevron-Right {
-    color: #2534B6;
-  }
+.manual-crumb {
+  color: #181C3B;
+  font-size: 18px;
+  font-weight: 600;
+}
 
 </style>
