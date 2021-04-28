@@ -4,7 +4,7 @@
       <div class="row align-items-center py-4">
         <div class="col-lg-12 col-12">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs" />
+            <route-breadcrumb :crumbs="this.finalCrumbs" />
           </nav>
         </div>
       </div>
@@ -22,6 +22,16 @@
 <script>
 export default {
   name: 'ApplicationManageDetail',
-  props: ['crumbs', 'data']
+  props: ['crumbs', 'data'],
+  data: function() {
+    return {
+      finalCrumbs: this.crumbs.map(crumb => {
+        return {
+          name: crumb.name,
+          path: crumb.name === "Apps" ? "/apps/integrated-apps" : crumb.path
+        };
+      })
+    }
+  },
 }
 </script>
