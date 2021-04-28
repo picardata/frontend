@@ -1,9 +1,8 @@
 <script>
 export default {
   name: 'LogoutPage',
-  mounted () {
+  beforeMount () {
     this.$auth.logout()
-    this.$router.push('/login')
   }
 }
 </script>

@@ -94,6 +94,7 @@ import ForgotPassword from '@/components/pages/Login/ForgotPassword'
 
 export default {
   name: 'AdminAuthPage',
+  middleware: 'authenticated',
   components: {
     ForgotPassword
   },
@@ -134,9 +135,6 @@ export default {
 
       return false
     }
-  },
-  beforeMount () {
-    return this.$auth.loggedIn ? this.$router.push('/') : ''
   },
   mounted () {
     const query = this.$route.query
