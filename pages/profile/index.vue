@@ -117,7 +117,7 @@
           <div class="row mt-5">
             <div class="col-sm-8 col-xs-12 text-right">
               <button type="submit" class="btn btn-primary btn-lg">
-                Save Profile Information
+                Edit Profile
               </button>
             </div>
           </div>
