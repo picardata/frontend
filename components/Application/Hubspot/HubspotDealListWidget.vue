@@ -99,15 +99,17 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
-      <template slot="first-title">Deal</template>
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+      <template slot="first-title">
+        Deal
+      </template>
       <template slot="content">
         <div class="form-group">
           <input
             id="amount"
             v-model="group.amount"
-            type="text" 
-            onfocus="(this.type='number')" 
+            type="text"
+            onfocus="(this.type='number')"
             onfocusout="(this.type='text')"
             name="amount"
             class="form-control"
@@ -130,15 +132,15 @@
           <input
             id="closedate"
             v-model="group.closedate"
-            type="text" 
-            onfocus="(this.type='date')" 
+            type="text"
+            onfocus="(this.type='date')"
             onfocusout="(this.type='text')"
             name="closedate"
             class="form-control"
             placeholder="Close date, format: mm/dd/yyyy"
             required="required"
           >
-      </div>
+        </div>
       </template>
     </AddModal>
   </div>
@@ -222,7 +224,7 @@ export default {
       this.clearForm()
       this.modals.createGroup = true
     },
-    closeForm() {
+    closeForm () {
       this.form.new = false
       // this.clearForm()
       this.modals.createGroup = false

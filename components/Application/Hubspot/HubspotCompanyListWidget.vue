@@ -91,8 +91,10 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
-      <template slot="first-title">Company</template>
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+      <template slot="first-title">
+        Company
+      </template>
       <template slot="content">
         <div class="form-group">
           <input
@@ -116,7 +118,6 @@
             required="required"
           >
         </div>
-
       </template>
     </AddModal>
   </div>
@@ -124,7 +125,7 @@
 
 <script>
 import { Table, TableColumn } from 'element-ui'
-import AddModal from "../../Custom/AddModal";
+// import AddModal from "../../Custom/AddModal";
 
 export default {
   name: 'HubspotCompanyListWidget',
@@ -193,7 +194,7 @@ export default {
       this.clearForm()
       this.modals.createGroup = true
     },
-    closeForm() {
+    closeForm () {
       this.form.new = false
       // this.clearForm()
       this.modals.createGroup = false

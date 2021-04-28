@@ -77,9 +77,11 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
-      <template slot="first-title">Contact</template>
-      <template slot="content"> 
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+      <template slot="first-title">
+        Contact
+      </template>
+      <template slot="content">
         <div class="form-group">
           <input
             id="company"
@@ -153,7 +155,7 @@
 
 <script>
 import { Table, TableColumn } from 'element-ui'
-import AddModal from '../../Custom/AddModal';
+// import AddModal from '../../Custom/AddModal';
 export default {
   name: 'HubspotContactListWidget',
   components: {
@@ -181,7 +183,19 @@ export default {
         phone: '',
         website: ''
       },
-      href: "/apps/integrated-apps"
+      href: '/apps/integrated-apps'
+    }
+  },
+  computed: {
+    generateParentPath () {
+      const currentPath = this.$route.path.split('/')
+      currentPath.pop()
+      console.log('parent path = ')
+      console.log(currentPath)
+      const newPath = currentPath.join('/')
+      console.log('new path = ')
+      console.log(newPath)
+      return '/apps/integrated-apps'
     }
   },
   mounted () {
@@ -242,22 +256,10 @@ export default {
       this.clearForm()
       this.modals.createGroup = true
     },
-    closeForm() {
+    closeForm () {
       this.form.new = false
       // this.clearForm()
       this.modals.createGroup = false
-    }
-  },
-  computed: {
-    generateParentPath () {
-      const currentPath = this.$route.path.split('/')
-      currentPath.pop()
-      console.log('parent path = ')
-      console.log(currentPath)
-      const newPath = currentPath.join('/')
-      console.log('new path = ')
-      console.log(newPath)
-      return '/apps/integrated-apps'
     }
   }
 }
