@@ -117,6 +117,9 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus === 'EDIT'">
+              <span>Cancel</span>
+            </div>
             <div class="col-sm-8 col-xs-12 text-right">
               <button v-on:click="save" class="btn btn-primary btn-lg">
                 Edit Profile
@@ -220,6 +223,7 @@ export default {
     },
     save() {
       console.log('Di save bro !');
+      this.buttonStatus = "EDIT"
     }
   },
   data () {
@@ -246,7 +250,7 @@ export default {
           id: 4
         }
       ],
-      buttonStatus: 'EDIT'
+      buttonStatus: 'VIEW'
     }
   },
 }
