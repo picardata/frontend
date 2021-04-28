@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="col-sm-5 col-xs-12">
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-        <form @submit.prevent="handleSubmit(submitGeneral)">
+      <!-- <ValidationObserver ref="form" v-slot="{ handleSubmit }"> -->
+        <!-- <form> -->
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
@@ -54,12 +54,12 @@
               </ValidationProvider>
             </div>
           </div>
-        </form>
-      </ValidationObserver>
+        <!-- </form> -->
+      <!-- </ValidationObserver> -->
     </div>
         <div class="col-sm-5 col-xs-12">
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-        <form @submit.prevent="handleSubmit(submitGeneral)">
+      <!-- <ValidationObserver ref="form" v-slot="{ handleSubmit }"> -->
+        <!-- <form> -->
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
@@ -118,13 +118,13 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-xs-12 text-right">
-              <button type="submit" class="btn btn-primary btn-lg">
+              <button v-on:click="save" class="btn btn-primary btn-lg">
                 Edit Profile
               </button>
             </div>
           </div>
-        </form>
-      </ValidationObserver>
+        <!-- </form> -->
+      <!-- </ValidationObserver> -->
     </div>
   </div>
 </template>
@@ -217,6 +217,9 @@ export default {
         this.$refs.form.setErrors(errors)
         return false
       })
+    },
+    save() {
+      console.log('Di save bro !');
     }
   },
   data () {
@@ -242,7 +245,8 @@ export default {
           name: 'Sales & Marketing',
           id: 4
         }
-      ]
+      ],
+      buttonStatus: 'EDIT'
     }
   },
 }
