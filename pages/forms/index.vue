@@ -8,10 +8,10 @@
           </div>
         </template>
         <template v-if="submenu" v-slot:collapse>
-          <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
+          <i :class="['pd-icon pdicon-Expand']" @click="submenu = false" />
         </template>
         <template v-else v-slot:expand>
-          <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
+          <i :class="['pd-icon pdicon-Collapse']" @click="submenu = true" />
         </template>
       </submenu>
     </transition>
