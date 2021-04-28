@@ -137,11 +137,11 @@ export default {
   methods: {
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-251px'
+      el.style.left = '-15.5%'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0px'
+      el.style.left = '0%'
     }
   }
 }
@@ -156,8 +156,8 @@ export default {
   }
 
   @keyframes slide {
-    from { left: 0px; }
-    to { left: -251px; }
+    from { left: 0%; }
+    to { left: -15.5%; }
   }
 
   .list-item {

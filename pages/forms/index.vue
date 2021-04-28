@@ -321,11 +321,11 @@ export default {
     },
     submenuAfterLeave (el) {
       el.style.display = 'block'
-      el.style.left = '-250px'
+      el.style.left = '-15.5%'
     },
     submenuAfterEnter (el) {
       el.style.display = 'block'
-      el.style.left = '0px'
+      el.style.left = '0%'
     }
 
   }
@@ -403,8 +403,8 @@ div.vl {
   }
 
   @keyframes slide {
-    from { left: 0px; }
-    to { left: -250px; }
+    from { left: 0%; }
+    to { left: -15.5%; }
   }
 
   .list-item {
