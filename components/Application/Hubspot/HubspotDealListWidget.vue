@@ -99,14 +99,9 @@
         </el-table-column>
       </el-table>
     </div>
-    <modal :show.sync="modals.createGroup">
-      <template slot="header">
-        <h5 class="modal-title">
-          <span v-if="form.new">Add Deal</span>
-          <span v-else>Company Information</span>
-        </h5>
-      </template>
-      <div class="picardata-std-form-input">
+    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
+      <template slot="first-title">Deal</template>
+      <template slot="content">
         <div class="form-group">
           <input
             id="amount"
@@ -143,20 +138,9 @@
             placeholder="Close date, format: mm/dd/yyyy"
             required="required"
           >
-        </div>
       </div>
-      <template slot="footer">
-        <!-- <base-button type="secondary" @click="modals.createGroup = false">
-          Cancel
-        </base-button> -->
-        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
-          Delete
-        </base-button>
-        <base-button type="primary" @click.prevent="saveGroup">
-          Save
-        </base-button>
       </template>
-    </modal>
+    </AddModal>
   </div>
 </template>
 
@@ -186,7 +170,8 @@ export default {
         amount: '',
         dealname: '',
         closedate: ''
-      }
+      },
+      href: '/apps/integrated-apps'
     }
   },
   mounted () {
@@ -236,6 +221,11 @@ export default {
       this.form.new = true
       this.clearForm()
       this.modals.createGroup = true
+    },
+    closeForm() {
+      this.form.new = false
+      // this.clearForm()
+      this.modals.createGroup = false
     }
   }
 }
