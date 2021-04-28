@@ -15,12 +15,10 @@
               <div class="font-weight-bold mb-4">
                 <h3>General Information</h3>
               </div>
-              <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
-                <AppControlInput v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text">
-                  First Name
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+              <div class="form-group">
+                <label>First Name</label>
+                <input v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text" class="form-control picardata-input" disabled> 
+              </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
                   Last Name
@@ -108,7 +106,7 @@
               </ValidationProvider>
             </div>
           </div>
-          <div class="row mt-5">
+          <div class="row">
             <div class="col-sm-8 col-xs-12 text-right">
               <button type="submit" class="btn btn-primary btn-lg">
                 Edit Profile
@@ -239,3 +237,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.picardata-input {
+  background: #EFF0F7;
+  border-radius: 15px;
+}
+</style>
