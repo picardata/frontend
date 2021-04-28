@@ -23,15 +23,15 @@
 export default {
   name: 'ApplicationManageDetail',
   props: ['crumbs', 'data'],
-  data: function() {
+  data () {
     return {
-      finalCrumbs: this.crumbs.map(crumb => {
+      finalCrumbs: this.crumbs.map((crumb) => {
         return {
           name: crumb.name,
-          path: crumb.name === "Apps" ? "/apps/integrated-apps" : crumb.path
-        };
+          path: crumb.name === 'Apps' ? '/apps/integrated-apps' : crumb.path
+        }
       })
     }
-  },
+  }
 }
 </script>
