@@ -99,29 +99,25 @@
         </el-table-column>
       </el-table>
     </div>
-    <modal :show.sync="modals.createGroup">
-      <template slot="header">
-        <h5 class="modal-title">
-          <span v-if="form.new">Add Deal</span>
-          <span v-else>Company Information</span>
-        </h5>
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+      <template slot="first-title">
+        Deal
       </template>
-      <div>
+      <template slot="content">
         <div class="form-group">
-          <label>Amount</label>
           <input
-            id="name"
+            id="amount"
             v-model="group.amount"
-            type="number"
+            type="text"
+            onfocus="(this.type='number')"
+            onfocusout="(this.type='text')"
             name="amount"
             class="form-control"
-            placeholder="Amount"
-            min="0"
+            placeholder="Deal Amount"
             required="required"
           >
         </div>
         <div class="form-group">
-          <label>Deal name</label>
           <input
             id="deal"
             v-model="group.dealname"
@@ -133,30 +129,20 @@
           >
         </div>
         <div class="form-group">
-          <label>Close date</label>
           <input
             id="closedate"
             v-model="group.closedate"
-            type="date"
+            type="text"
+            onfocus="(this.type='date')"
+            onfocusout="(this.type='text')"
             name="closedate"
             class="form-control"
-            placeholder="Close date"
+            placeholder="Close date, format: mm/dd/yyyy"
             required="required"
           >
         </div>
-      </div>
-      <template slot="footer">
-        <base-button type="secondary" @click="modals.createGroup = false">
-          Cancel
-        </base-button>
-        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
-          Delete
-        </base-button>
-        <base-button type="primary" @click.prevent="saveGroup">
-          Save
-        </base-button>
       </template>
-    </modal>
+    </AddModal>
   </div>
 </template>
 
@@ -186,7 +172,8 @@ export default {
         amount: '',
         dealname: '',
         closedate: ''
-      }
+      },
+      href: '/apps/integrated-apps'
     }
   },
   mounted () {
@@ -227,7 +214,7 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        amount: 0,
+        amount: '',
         closedate: '',
         dealname: ''
       }
@@ -236,6 +223,11 @@ export default {
       this.form.new = true
       this.clearForm()
       this.modals.createGroup = true
+    },
+    closeForm () {
+      this.form.new = false
+      // this.clearForm()
+      this.modals.createGroup = false
     }
   }
 }
