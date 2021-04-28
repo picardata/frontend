@@ -94,7 +94,7 @@
 
             <button
               type="button"
-              :class="['btn btn-primary btn-block mt-4 mb-4 rounded']"
+              :class="['btn btn-primary btn-block mt-4 mb-4 rounded btn-register']"
               :disabled="disableRegisterButton"
               @click="onSubmit"
             >
@@ -317,6 +317,15 @@ export default {
 <style scoped lang="scss">
 $placeholder-color: #A0A3BD;
 $placeholder-font-size: 16px;
+
+.btn-register {
+  font-size: 16px;
+}
+
+.btn-register:disabled {
+  background: #3E4EDD;
+  font-size: 16px;
+}
 
 input::-webkit-input-placeholder {
     color: $placeholder-color;
