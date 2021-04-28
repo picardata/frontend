@@ -77,28 +77,9 @@
         </el-table-column>
       </el-table>
     </div>
-    <modal :show.sync="modals.createGroup" class="picardata-std-modal">
-      <template slot="close-button">
-        <div class="close-button" v-on:click="closeForm"><span class="pd-icon pdicon-Cross"></span></div>
-      </template>
-      <template slot="header">
-        <div>
-          <div class="row"> 
-            <div class="col-md-12">
-              <a class="pd-icon pdicon-Back-Arrow back-arrow" :href="generateParentPath" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <h5 class="parent-title">
-                <div v-if="form.new"><span class="first-title">Adding Contact for </span><span class="second-title">Hubspot</span></div>
-                <div v-else>Contact Information</div>
-              </h5>
-            </div>
-          </div>
-        </div>
-      </template>
-      <div class="picardata-std-form-input">
+    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
+      <template slot="first-title">Contact</template>
+      <template slot="content"> 
         <div class="form-group">
           <input
             id="company"
@@ -165,25 +146,14 @@
             required="required"
           >
         </div>
-      </div>
-      <template slot="footer">
-        <!-- <base-button type="secondary" @click="modals.createGroup = false">
-          Cancel
-        </base-button> -->
-        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
-          Delete
-        </base-button>
-        <base-button type="primary" @click.prevent="saveGroup">
-          Finish adding data
-        </base-button>
       </template>
-    </modal>
+    </AddModal>
   </div>
 </template>
 
 <script>
 import { Table, TableColumn } from 'element-ui'
-
+import AddModal from '../../Custom/AddModal';
 export default {
   name: 'HubspotContactListWidget',
   components: {
@@ -210,7 +180,8 @@ export default {
         lastname: '',
         phone: '',
         website: ''
-      }
+      },
+      href: "/apps/integrated-apps"
     }
   },
   mounted () {

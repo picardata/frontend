@@ -91,14 +91,9 @@
         </el-table-column>
       </el-table>
     </div>
-    <modal :show.sync="modals.createGroup">
-      <template slot="header">
-        <h5 class="modal-title">
-          <span v-if="form.new">Add Company</span>
-          <span v-else>Company Information</span>
-        </h5>
-      </template>
-      <div class="picardata-std-form-input">
+    <AddModal :modals="modals" :closeForm="closeForm" :form="form" :href="href" :saveGroup="saveGroup">
+      <template slot="first-title">Company</template>
+      <template slot="content">
         <div class="form-group">
           <input
             id="name"
@@ -121,24 +116,15 @@
             required="required"
           >
         </div>
-      </div>
-      <template slot="footer">
-        <!-- <base-button type="secondary" @click="modals.createGroup = false">
-          Cancel
-        </base-button> -->
-        <base-button v-if="form.new === false" type="secondary" @click.prevent="deleteGroup">
-          Delete
-        </base-button>
-        <base-button type="primary" @click.prevent="saveGroup">
-          Save
-        </base-button>
+
       </template>
-    </modal>
+    </AddModal>
   </div>
 </template>
 
 <script>
 import { Table, TableColumn } from 'element-ui'
+import AddModal from "../../Custom/AddModal";
 
 export default {
   name: 'HubspotCompanyListWidget',
@@ -162,7 +148,8 @@ export default {
         index: 0,
         name: '',
         domain: ''
-      }
+      },
+      href: '/apps/integrated-apps'
     }
   },
   mounted () {
@@ -205,6 +192,11 @@ export default {
       this.form.new = true
       this.clearForm()
       this.modals.createGroup = true
+    },
+    closeForm() {
+      this.form.new = false
+      // this.clearForm()
+      this.modals.createGroup = false
     }
   }
 }
