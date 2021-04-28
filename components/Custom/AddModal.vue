@@ -5,7 +5,7 @@
         </template>
         <template slot="header">
         <div>
-            <div class="row"> 
+            <div class="row back-arrow-parent"> 
             <div class="col-md-12">
                 <a class="pd-icon pdicon-Back-Arrow back-arrow" :href="href" />
             </div>
