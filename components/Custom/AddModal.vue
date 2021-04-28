@@ -13,7 +13,7 @@
             <div class="row">
             <div class="col-md-12">
                 <h5 class="parent-title">
-                <div v-if="form.new"><span class="first-title">Adding <slot name="first-title"></slot> for </span><span class="second-title">Hubspot</span></div>
+                <div v-if="form.new"><span class="first-title">Creating <slot name="first-title"></slot> for </span><span class="second-title">Hubspot</span></div>
                 <div v-else>Contact Information</div>
                 </h5>
             </div>
