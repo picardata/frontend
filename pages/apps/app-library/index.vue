@@ -99,7 +99,7 @@
             </div>
           </div>
           <div class="row" style="margin-left: 4%;width: 100%">
-            <div v-for="(application, index) in integrations" :key="application.id" :class="appClass">
+            <div v-for="(application) in integrations" :key="application.id" :class="appClass">
               <card class="pcd card-libs">
                 <div class="text-center p-3">
                   <img
@@ -145,7 +145,7 @@
                   </div>
                 </div>
                 <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
-                  <base-button class="w-100" outline type="primary" @click="appClick2(index)">
+                  <base-button class="w-100" outline type="primary" @click="appClick2(application)">
                     Add to Picardata
                   </base-button>
                 </div>
@@ -344,8 +344,8 @@ export default {
     appClick () {
       this.modals.modal0 = true
     },
-    appClick2 (index) {
-      this.selectedApp = this.applications[index]
+    appClick2 (app) {
+      this.selectedApp = app
       this.modals.modal1 = true
     },
     dismissModal () {
