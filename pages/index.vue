@@ -54,17 +54,40 @@
         </submenu>
       </transition>
       <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-8">
-          <h3>Overall Statistics</h3>
-          <div class="row over-stat">
-            <div class="card shadow-sm mx-3 col-4">
-              <div class="card-body p-1 text-center">
-                <RandomLineChart />
+        <div v-show="submenu" class="col-10">
+          <div class="right-content">
+            <div class="row">
+              <div class="col-12">
+                <div class="profile">
+                  <div class="image">
+                    <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
+                  </div>
+                  <div>
+                    <div class="name">
+                      Kirby
+                    </div>
+                    <div class="role">
+                      Sales & Marketing Staff @ Mamikos.com
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="card shadow-sm mx-3 col-4">
-              <div class="card-body p-1 text-center">
-                <RandomLineChart />
+            <div class="row">
+              <div class="col-12">
+                <div class="most-apps">
+                  <h4>Most Accessed Apps</h4>
+                  <div class="list-apps">
+                    <div
+                      v-for="(app, index) in mostAccessedApps"
+                      :key="app.name + index"
+                      class="app shadow"
+                    >
+                      <img src="~/assets/dashboard-img/intercom.png" alt="">
+                      <h1>{{ app.title }}</h1>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -74,10 +97,9 @@
   </div>
 </template>
 <script>
-import RandomLineChart from '~/components/Chart/RandomLineChart.vue'
 import Submenu from '~/components/layouts/argon/Submenu'
 export default {
-  components: { RandomLineChart, Submenu },
+  components: { Submenu },
   auth: true,
   layout: 'argon',
   data () {
@@ -119,6 +141,40 @@ export default {
           type: 'item',
           name: 'Human Resources'
         }
+      ],
+      mostAccessedApps: [
+        {
+          title: 'Intercom',
+          img: 'intercom.png'
+        },
+        {
+          title: 'Slack',
+          img: 'slack.png'
+        },
+        {
+          title: 'Airtable',
+          img: 'airtable.png'
+        },
+        {
+          title: 'Twitter',
+          img: 'twitter.png'
+        },
+        {
+          title: 'Paypal',
+          img: 'paypal.png'
+        },
+        {
+          title: 'Mailchimp',
+          img: 'mailchimp.png'
+        },
+        {
+          title: 'Instagram',
+          img: 'instagram.png'
+        },
+        {
+          title: 'Chorus.ai',
+          img: 'chorus.png'
+        }
       ]
     }
   },
@@ -146,7 +202,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
   .slide-enter-active {
     animation: slide .2s reverse;
   }
@@ -187,7 +243,123 @@ export default {
   }
 
   .box-number {
-    font-size: 3.125em;
-    font-weight: "bold";
+    font-size: 50px;
+    font-weight: bold;
+  }
+
+  .right-content{
+    padding: 80px 40px;
+  }
+
+  .profile{
+    display: flex;
+    align-items: center;
+    .image{
+      margin-right: 24px;
+    }
+    .name{
+      font-weight: 600;
+      font-size: 20px;
+      color: #14142B;
+    }
+    .role{
+      font-weight: 500;
+      color: #14142B;
+      margin-top: 8px;
+    }
+  }
+
+  .most-apps{
+    h4{
+      color: #313131;
+      font-weight: 600;
+      font-size: 20px;
+      margin-top: 40px;
+    }
+  }
+
+  .list-apps{
+    display: flex;
+    flex-wrap: wrap;
+
+    .app{
+      padding: 18px 4px 18px;
+      border-radius: 8px;
+      text-align: center;
+      width: 100px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+      img{
+        width: fit-content;
+      }
+      h1{
+        font-size: 14px;
+        margin-top: 20px;
+        color: #313131;
+      }
+    }
+    font-size: 50px;
+    font-weight: bold;
+  }
+
+  .right-content{
+    padding: 80px 40px;
+  }
+
+  .profile{
+    display: flex;
+    align-items: center;
+    .image{
+      margin-right: 24px;
+    }
+    .name{
+      font-weight: 600;
+      font-size: 20px;
+      color: #14142B;
+    }
+    .role{
+      font-weight: 500;
+      color: #14142B;
+      margin-top: 8px;
+    }
+  }
+
+  .most-apps{
+    h4{
+      color: #313131;
+      font-weight: 600;
+      font-size: 20px;
+      margin-top: 40px;
+    }
+  }
+
+  .list-apps{
+    display: flex;
+    flex-wrap: wrap;
+
+    .app{
+      padding: 18px 4px 18px;
+      border-radius: 8px;
+      text-align: center;
+      width: 100px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+      img{
+        width: fit-content;
+      }
+      h1{
+        font-size: 14px;
+        margin-top: 20px;
+        color: #313131;
+      }
+    }
   }
 </style>
