@@ -315,6 +315,40 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$placeholder-color: #A0A3BD;
+$placeholder-font-size: 16px;
+
+input::-webkit-input-placeholder {
+    color: $placeholder-color;
+}
+input:focus::-webkit-input-placeholder {
+    color: $placeholder-color;
+}
+
+/* Firefox < 19 */
+input:-moz-placeholder {
+    color: $placeholder-color;
+}
+input:focus:-moz-placeholder {
+    color: $placeholder-color;
+}
+
+/* Firefox > 19 */
+input::-moz-placeholder {
+    color: $placeholder-color;
+}
+input:focus::-moz-placeholder {
+    color: $placeholder-color;
+}
+
+/* Internet Explorer 10 */
+input:-ms-input-placeholder {
+    color: $placeholder-color;
+}
+input:focus:-ms-input-placeholder {
+    color: $placeholder-color;
+}
+
 .already-had-account-text:hover {
   color: #FFFF;
 }
@@ -436,6 +470,7 @@ export default {
     &.d-none + .login-credential-input{
       padding: 0 24px;
     }
+
   }
 
   .form-control-error{
