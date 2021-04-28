@@ -15,7 +15,8 @@
         </template>
       </submenu>
     </transition>
-    <div class="col-xl-10">
+    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+    <div v-show="submenu" class="col-xl-10">
       <base-header type="white" class="pb-6">
         <div class="row align-items-center py-4">
           <div class="col-lg-6 col-7">
@@ -191,6 +192,7 @@
         </div>
       </modal>
     </div>
+    </transition>
   </div>
 </template>
 
