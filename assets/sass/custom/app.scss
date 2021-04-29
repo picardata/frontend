@@ -21,10 +21,18 @@ input.picardata-input-rounded:focus,
 select.picardata-input-rounded,
 select.picardata-input-rounded:hover,
 input.picardata-input-rounded:disabled,
-select.picardata-input-rounded:disabled  {
+select.picardata-input-rounded:disabled {
     background: #EFF0F7;
     border-radius: 15px;
 }
+
+select.picardata-input-rounded {
+  option {
+    background: #EFF0F7;
+    border-radius: 15px;
+  }
+}
+
 
 // .app-integrated-app-manage nav .breadcrumb-item:nth-child(2) {
 //   cursor: text;
