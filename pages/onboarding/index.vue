@@ -7,8 +7,8 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 33%"
-              aria-valuenow="33"
+              style="width: 16.5%"
+              aria-valuenow="16.5"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -26,18 +26,7 @@
           <span class="text-highlight">03.</span> Start Integrating
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardta"> Welcome to Picardata!</h3>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <p>
-            Welcome to your Picardata! Here in Picardata you’ll see bunch of benefits to view, check and maintenance your integrated app. Picardata is a tool that can help you managing your applications; either it’s to add any access to your applications or maybe other things!
-          </p>
-        </div>
-      </div>
+      <WelcomeOnboard />
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
           <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
@@ -227,13 +216,15 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import VuePhoneNumberInput from 'vue-phone-number-input'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
+import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
 
 export default {
   components: {
     ValidationObserver,
     ValidationProvider,
     VuePhoneNumberInput,
-    HowPicardataWorks
+    HowPicardataWorks,
+    WelcomeOnboard
   },
   auth: true,
   data () {
