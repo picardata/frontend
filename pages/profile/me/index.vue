@@ -66,22 +66,11 @@
                               placeholder="Phone"
                               :disabled="isInViewMode()" 
                               label="Phone"/>
-                <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
-                  <label class="label">Location</label>
-                  <div class="form-group">
-                    <country-select
-                      v-model="generalLocation"
-                      country-name="true"
-                      :country="generalLocation"
-                      top-country="US"
-                      name="address"
-                      class-name="form-control picardata-input-rounded"
-                      placeholder="Location"
-                      :disabled="isInViewMode()"
-                    />
-                  </div>
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
+              <RoundedInput v-model="generalLocation"
+                            v-on:input="valueChanged()"
+                            placeholder="Location"
+                            :disabled="isInViewMode()" 
+                            label="Location"/>
               </div>
             </div>
         </div>
