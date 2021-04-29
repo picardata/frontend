@@ -5,9 +5,9 @@
         <base-header type="white" class="p-0">
           <div class="row align-items-center py-4">
             <!-- <div class="col-lg-12 col-12"> -->
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+              <route-breadcrumb :crumbs="crumbs" />
+            </nav>
             <!-- </div> -->
           </div>
         </base-header>
@@ -15,137 +15,163 @@
     </div>
 
     <div class="col-md-12">
-        <div class="float-left picardata-title">
-          <div class="row">
-            <a class="col-sm-2 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
-            <!-- <div class="col-sm-1"></div> -->
-            <!-- <div class="col-sm-1" style="color: #14142B;"> -->
-            <!-- </div> -->
-            <div class="col-sm-10 profile-arrow-text">
-              Manage Profile
-            </div>
-            <!-- <div class="col-sm-4"></div> -->
+      <div class="float-left picardata-title">
+        <div class="row">
+          <a class="col-sm-2 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+          <!-- <div class="col-sm-1"></div> -->
+          <!-- <div class="col-sm-1" style="color: #14142B;"> -->
+          <!-- </div> -->
+          <div class="col-sm-10 profile-arrow-text">
+            Manage Profile
           </div>
+          <!-- <div class="col-sm-4"></div> -->
         </div>
+      </div>
     </div>
 
     <div class="col-md-12" style="margin-top: 4%;">
-      <div class="row"> 
+      <div class="row">
         <div class="col-sm-2 col-xs-12">
           <!-- <div class="row"> -->
-            <div class="card">
-              <img class="card-img-top" 
-                  src="~/assets/profile-icon.png" 
-                  alt="Card image cap">
-            </div>
+          <div class="card">
+            <img
+              class="card-img-top"
+              src="~/assets/profile-icon.png"
+              alt="Card image cap"
+            >
+          </div>
           <!-- </div> -->
-        </div>
-        <div class="col-sm-5 col-xs-12">
-            <div class="row">
-              <div class="col-sm-8 col-xs-12">
-                <div class="font-weight-bold mb-4">
-                  <h3 class="main-title">General Information</h3>
-                </div>
-                <RoundedInput v-model="profile.firstname"
-                              v-on:input="valueChanged()"
-                              placeholder="Your Firstname"
-                              :disabled="isInViewMode()" 
-                              label="First Name"/>
-                <RoundedInput v-model="profile.lastname"
-                              v-on:input="valueChanged()"
-                              placeholder="Your Lastname"
-                              :disabled="isInViewMode()" 
-                              label="Last Name"/>
-                <RoundedInput v-model="profile.email"
-                              v-on:input="valueChanged()"
-                              placeholder="Email"
-                              :disabled="isInViewMode()" 
-                              label="Email"/>
-                <RoundedInput v-model="profile.phone"
-                              v-on:input="valueChanged()"
-                              placeholder="Phone number"
-                              :disabled="isInViewMode()" 
-                              label="Phone number"/>
-              <RoundedInput v-model="generalLocation"
-                            v-on:input="valueChanged()"
-                            placeholder="Location"
-                            :disabled="isInViewMode()" 
-                            label="Location"/>
-              </div>
-            </div>
         </div>
         <div class="col-sm-5 col-xs-12">
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
-                <h3 class="main-title">Work Information</h3>
+                <h3 class="main-title">
+                  General Information
+                </h3>
+              </div>
+              <RoundedInput
+                v-model="profile.firstname"
+                placeholder="Your Firstname"
+                :disabled="isInViewMode()"
+                label="First Name"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="profile.lastname"
+                placeholder="Your Lastname"
+                :disabled="isInViewMode()"
+                label="Last Name"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="profile.email"
+                placeholder="Email"
+                :disabled="isInViewMode()"
+                label="Email"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="profile.phone"
+                placeholder="Phone number"
+                :disabled="isInViewMode()"
+                label="Phone number"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="generalLocation"
+                placeholder="Location"
+                :disabled="isInViewMode()"
+                label="Location"
+                @input="valueChanged()"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5 col-xs-12">
+          <div class="row">
+            <div class="col-sm-8 col-xs-12">
+              <div class="font-weight-bold mb-4">
+                <h3 class="main-title">
+                  Work Information
+                </h3>
               </div>
               <ValidationProvider v-slot="{ errors }" vid="occupation" name="occupation">
                 <div class="form-group">
                   <label class="label">Occupation</label>
                   <select v-model="workOccupation" class="form-control radius-input" :disabled="isInViewMode()">
-                    <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">{{ choice.name }}</option>
+                    <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">
+                      {{ choice.name }}
+                    </option>
                   </select>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
-              <RoundedInput v-model="employee.role"
-                            v-on:input="valueChanged()"
-                            placeholder="Role"
-                            :disabled="isInViewMode()" 
-                            label="Role"/>
-              <RoundedInput v-model="employee.organization"
-                            v-on:input="valueChanged()"
-                            placeholder="Company"
-                            :disabled="isInViewMode()" 
-                            label="Company"/>
-              <RoundedInput v-model="employee.workLocation"
-                            v-on:input="valueChanged()"
-                            placeholder="City"
-                            :disabled="isInViewMode()" 
-                            label="City"/>
+              <RoundedInput
+                v-model="employee.role"
+                placeholder="Role"
+                :disabled="isInViewMode()"
+                label="Role"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="employee.organization"
+                placeholder="Company"
+                :disabled="isInViewMode()"
+                label="Company"
+                @input="valueChanged()"
+              />
+              <RoundedInput
+                v-model="employee.workLocation"
+                placeholder="City"
+                :disabled="isInViewMode()"
+                label="City"
+                @input="valueChanged()"
+              />
             </div>
           </div>
           <div class="row">
-              <div class="col-sm-4 col-xs-12 text-left cancel-button" v-if="buttonStatus != 'VIEW'" style="margin: auto">
-                <span v-on:click="cancel">Cancel</span>
-              </div>
-              <div class="col-sm-8 col-xs-12 text-right" v-if="buttonStatus === 'VIEW'">
-                  <button v-on:click="save" 
-                        class="btn btn-primary btn-lg">
-                    <span>Edit Profile</span>
-                  </button>
-              </div>              
-              <div class="col-sm-8 col-xs-12" v-else>
-                <button v-on:click="save" 
-                        class="btn btn-primary btn-lg"
-                        :disabled="this.buttonStatus !== 'SAVE'">
-                  <span>Save Profile</span>
-                </button>
-              </div>
+            <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
+              <span @click="cancel">Cancel</span>
+            </div>
+            <div v-if="buttonStatus === 'VIEW'" class="col-sm-8 col-xs-12 text-right">
+              <button
+                class="btn btn-primary btn-lg"
+                @click="save"
+              >
+                <span>Edit Profile</span>
+              </button>
+            </div>
+            <div v-else class="col-sm-8 col-xs-12">
+              <button
+                class="btn btn-primary btn-lg"
+                :disabled="this.buttonStatus !== 'SAVE'"
+                @click="save"
+              >
+                <span>Save Profile</span>
+              </button>
+            </div>
           </div>
         <!-- </form> -->
-      <!-- </ValidationObserver> -->
+          <!-- </ValidationObserver> -->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import VuePhoneNumberInput from 'vue-phone-number-input'
+import { ValidationProvider } from 'vee-validate'
+// import VuePhoneNumberInput from 'vue-phone-number-input'
 import listCountryCode from '~/country-code.json'
 
 export default {
   layout: 'argon',
   components: {
-    ValidationObserver,
-    ValidationProvider,
-    VuePhoneNumberInput
+    ValidationProvider
   },
   async asyncData (context) {
-    const userMe =  await context.app.$axios.get('/api/users/me')
-      // .then((data) => {
+    const userMe = await context.app.$axios.get('/api/users/me')
+    // .then((data) => {
     const phoneCountryCode = (phone) => {
       if (phone) {
         const code = phone.split(' ')[0]
@@ -155,104 +181,43 @@ export default {
       }
     }
 
-    const phoneNoCode = (phone) => {
-      if (phone) {
-        const i = phone.indexOf(' ')
-        return phone.substr(i, phone.length)
-      }
-    }
+    // const phoneNoCode = (phone) => {
+    //   if (phone) {
+    //     const i = phone.indexOf(' ')
+    //     return phone.substr(i, phone.length)
+    //   }
+    // }
 
     const userProfile = await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
     const resultData = {
-        employee: {
-          id: userProfile.data.id,
-          role: userProfile.data.role,
-          occupation: String(userProfile.data.occupation),
-          organization: userProfile.data.company.name,
-          workLocation: userProfile.data.company.location
-        },
-        profile: {
-          id: userMe.data.user.userProfile.id,
-          firstname: userMe.data.user.userProfile.firstname,
-          lastname: userMe.data.user.userProfile.lastname,
-          email: userMe.data.user.userProfile.email,
-          phone: userMe.data.user.userProfile.phone,
-          phoneCountryCode: phoneCountryCode(userMe.data.user.userProfile.phone),
-          formattedPhone: userMe.data.user.userProfile.phone,
-          location: userMe.data.user.userProfile.address
-        },
-        generalLocation: userMe.data.user.userProfile.address,
-        workOccupation:  String(userProfile.data.occupation)
-    };
-
-    return resultData;
-      // // .then((data) => {
-      //   return {
-
-      //   }
-      // })
-      // })
-  },
-  methods: {
-    submitGeneral () {
-      this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
-        firstname: this.profile.firstname,
-        lastname: this.profile.lastname,
-        address: this.profile.location,
-        phone: this.profile.formattedPhone ? this.profile.formattedPhone : '',
-        email: this.profile.email
-      }).then(() => {
-        this.$router.push('/profile/me')
-      }).catch((e) => {
-        const errors = {}
-
-        if (e.response.data.errors !== undefined) {
-          Object.entries(e.response.data.errors).forEach(function (value) {
-            const key = 'profile.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-        this.$refs.form.setErrors(errors)
-        return false
-      })
-    },
-    async save() {
-      if(this.buttonStatus === "VIEW") {
-        this.buttonStatus = "EDIT"
-      } else {
-        // console.log('general location')
-        const userProfileResult = 
-          await this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
-            firstname: this.profile.firstname,
-            lastname: this.profile.lastname,
-            address: this.generalLocation,
-            phone: this.profile.phone,
-            email: this.profile.email
-          });
-
-
-        const employeeResult = await this.$axios.$patch('/api/employees/' + this.employee.id, {
-            role: this.employee.role,
-            occupation: this.workOccupation,
-            company: {
-              name: this.employee.organization,
-              location: this.employee.workLocation
-            }
-        });
-
-        this.buttonStatus = "VIEW";
-      }
-    },
-    cancel() {
-      this.$nuxt.refresh()
-      this.buttonStatus = "VIEW"
-    },
-    isInViewMode() {
-      return this.buttonStatus === "VIEW"
-    },
-    valueChanged() {
-      this.buttonStatus = "SAVE"
+      employee: {
+        id: userProfile.data.id,
+        role: userProfile.data.role,
+        occupation: String(userProfile.data.occupation),
+        organization: userProfile.data.company.name,
+        workLocation: userProfile.data.company.location
+      },
+      profile: {
+        id: userMe.data.user.userProfile.id,
+        firstname: userMe.data.user.userProfile.firstname,
+        lastname: userMe.data.user.userProfile.lastname,
+        email: userMe.data.user.userProfile.email,
+        phone: userMe.data.user.userProfile.phone,
+        phoneCountryCode: phoneCountryCode(userMe.data.user.userProfile.phone),
+        formattedPhone: userMe.data.user.userProfile.phone,
+        location: userMe.data.user.userProfile.address
+      },
+      generalLocation: userMe.data.user.userProfile.address,
+      workOccupation: String(userProfile.data.occupation)
     }
+
+    return resultData
+    // // .then((data) => {
+    //   return {
+
+    //   }
+    // })
+    // })
   },
   data () {
     return {
@@ -288,11 +253,71 @@ export default {
     }
   },
   watch: {
-    generalLocation: function() {
+    generalLocation () {
       this.valueChanged()
     },
-    workOccupation: function() {
+    workOccupation () {
       this.valueChanged()
+    }
+  },
+  methods: {
+    submitGeneral () {
+      this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
+        firstname: this.profile.firstname,
+        lastname: this.profile.lastname,
+        address: this.profile.location,
+        phone: this.profile.formattedPhone ? this.profile.formattedPhone : '',
+        email: this.profile.email
+      }).then(() => {
+        this.$router.push('/profile/me')
+      }).catch((e) => {
+        const errors = {}
+
+        if (e.response.data.errors !== undefined) {
+          Object.entries(e.response.data.errors).forEach(function (value) {
+            const key = 'profile.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async save () {
+      if (this.buttonStatus === 'VIEW') {
+        this.buttonStatus = 'EDIT'
+      } else {
+        // console.log('general location')
+        // const userProfileResult =
+        await this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
+          firstname: this.profile.firstname,
+          lastname: this.profile.lastname,
+          address: this.generalLocation,
+          phone: this.profile.phone,
+          email: this.profile.email
+        })
+
+        await this.$axios.$patch('/api/employees/' + this.employee.id, {
+          role: this.employee.role,
+          occupation: this.workOccupation,
+          company: {
+            name: this.employee.organization,
+            location: this.employee.workLocation
+          }
+        })
+
+        this.buttonStatus = 'VIEW'
+      }
+    },
+    cancel () {
+      this.$nuxt.refresh()
+      this.buttonStatus = 'VIEW'
+    },
+    isInViewMode () {
+      return this.buttonStatus === 'VIEW'
+    },
+    valueChanged () {
+      this.buttonStatus = 'SAVE'
     }
   }
 }
