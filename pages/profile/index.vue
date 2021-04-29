@@ -66,11 +66,13 @@
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput
-                  v-model="employee.occupation"
+                  v-model="workOccupation"
                   :choices="choices"
-                  :choices-selected="employee.occupation"
+                  :choices-selected="workOccupation"
                   placeholder="Choose Occupation"
                   control-type="select"
+                  :disabled="isInViewMode()"
+                  class="picardata-input-rounded"
                 >
                   Occupation
                 </AppControlInput>
@@ -190,7 +192,8 @@ export default {
           formattedPhone: userMe.data.user.userProfile.phone,
           location: userMe.data.user.userProfile.address
         },
-        generalLocation: userMe.data.user.userProfile.address
+        generalLocation: userMe.data.user.userProfile.address,
+        workOccupation:  String(userProfile.data.occupation)
     };
 
     return resultData;
@@ -267,6 +270,9 @@ export default {
   },
   watch: {
     generalLocation: function() {
+      this.valueChanged()
+    },
+    workOccupation: function() {
       this.valueChanged()
     }
   }
