@@ -212,6 +212,16 @@ export default {
             phone: this.profile.phone,
             email: this.profile.email
           });
+
+
+        const employeeResult = await this.$axios.$patch('/api/employees/' + this.employee.id, {
+            role: this.employee.role,
+            occupation: this.workOccupation,
+            company: {
+              name: this.employee.organization,
+              location: this.employee.workLocation
+            }
+        });
       }
     },
     cancel() {
