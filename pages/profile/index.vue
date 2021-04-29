@@ -17,7 +17,7 @@
               </div>
               <div class="form-group">
                 <label>First Name</label>
-                <input v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text" class="form-control picardata-input" disabled> 
+                <input v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text" class="form-control picardata-input" :disabled="isInViewMode()"> 
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
@@ -230,6 +230,9 @@ export default {
     },
     cancel() {
       this.buttonStatus = "VIEW"
+    },
+    isInViewMode() {
+      return this.buttonStatus === "VIEW"
     }
   },
   data () {
