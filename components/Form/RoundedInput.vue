@@ -4,7 +4,7 @@
         <input :placeholder="this.placeholder" 
                required="required" 
                type="text" 
-               class="form-control picardata-input-rounded" 
+               class="form-control picardata-input-rounded login-credential-input" 
                :disabled="this.disabled"
                :value="value" 
                @input="$emit('input', $event.target.value)"> 

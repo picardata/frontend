@@ -80,19 +80,14 @@
               <div class="font-weight-bold mb-4">
                 <h3 class="main-title">Work Information</h3>
               </div>
-              <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
-                <AppControlInput
-                  v-model="workOccupation"
-                  :choices="choices"
-                  :choices-selected="workOccupation"
-                  placeholder="Choose Occupation"
-                  control-type="select"
-                  :disabled="isInViewMode()"
-                  class="picardata-input-rounded"
-                >
-                  <span class="label">Occupation</span>
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
+              <ValidationProvider v-slot="{ errors }" vid="occupation" name="occupation">
+                <div class="form-group">
+                  <label class="label">Occupation</label>
+                  <select v-model="workOccupation" class="form-control login-credential-input" :disabled="isInViewMode()">
+                    <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">{{ choice.name }}</option>
+                  </select>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </div>
               </ValidationProvider>
               <RoundedInput v-model="employee.role"
                             v-on:input="valueChanged()"
