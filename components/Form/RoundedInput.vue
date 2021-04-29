@@ -4,7 +4,7 @@
         <input :placeholder="this.placeholder" 
                required="required" 
                type="text" 
-               class="form-control picardata-input" 
+               class="form-control picardata-input-rounded" 
                :disabled="this.disabled"
                :value="value" 
                @input="$emit('input', $event.target.value)"> 
@@ -16,10 +16,3 @@ export default {
   props: ["value", "placeholder", "disabled", "label"]
 }
 </script>
-
-<style scoped>
-.picardata-input {
-  background: #EFF0F7;
-  border-radius: 15px;
-}
-</style>

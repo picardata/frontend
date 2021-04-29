@@ -39,13 +39,14 @@
                 <label>Location</label>
                 <div class="form-group">
                   <country-select
-                    v-model="profile.location"
+                    v-model="generalLocation"
                     country-name="true"
-                    :country="profile.location"
+                    :country="generalLocation"
                     top-country="US"
                     name="address"
-                    class-name="form-control picardata-input"
+                    class-name="form-control picardata-input-rounded"
                     placeholder="Location"
+                    :disabled="isInViewMode()"
                   />
                 </div>
                 <span class="text-danger">{{ errors[0] }}</span>
@@ -94,7 +95,7 @@
                        placeholder="Work Location" 
                        required="required" 
                        type="text" 
-                       class="form-control picardata-input" 
+                       class="form-control picardata-input-rounded" 
                        name="address"
                        disabled> 
               </div>
@@ -188,7 +189,8 @@ export default {
           phoneCountryCode: phoneCountryCode(userMe.data.user.userProfile.phone),
           formattedPhone: userMe.data.user.userProfile.phone,
           location: userMe.data.user.userProfile.address
-        }
+        },
+        generalLocation: userMe.data.user.userProfile.address
     };
 
     return resultData;
@@ -263,12 +265,10 @@ export default {
       buttonStatus: 'VIEW'
     }
   },
+  watch: {
+    generalLocation: function() {
+      this.valueChanged()
+    }
+  }
 }
 </script>
-
-<style scoped>
-.picardata-input {
-  background: #EFF0F7;
-  border-radius: 15px;
-}
-</style>
