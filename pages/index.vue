@@ -64,10 +64,10 @@
                   </div>
                   <div>
                     <div class="name">
-                      Kirby
+                      {{ profile.firstname }} {{ profile.lastname }}
                     </div>
                     <div class="role">
-                      Sales & Marketing Staff @ Mamikos.com
+                      {{ employee.role }} @ {{ employee.organization }}
                     </div>
                   </div>
                 </div>
@@ -83,7 +83,7 @@
                       :key="app.name + index"
                       class="app shadow"
                     >
-                      <img src="~/assets/dashboard-img/intercom.png" alt="">
+                      <img :src="require(`~/assets/dashboard-img/${app.img}`)" alt="">
                       <h1>{{ app.title }}</h1>
                     </div>
                   </div>
@@ -102,6 +102,27 @@ export default {
   components: { Submenu },
   auth: true,
   layout: 'argon',
+  async asyncData (context) {
+    return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+      .then((data) => {
+        return {
+          employee: {
+            role: data.data.role,
+            occupation: String(data.data.occupation),
+            organization: data.data.company.name,
+            workLocation: data.data.company.location
+          },
+          profile: {
+            firstname: data.data.userProfile.firstname,
+            lastname: data.data.userProfile.lastname,
+            email: data.data.userProfile.email,
+            phone: data.data.userProfile.phone,
+            location: data.data.userProfile.address
+
+          }
+        }
+      })
+  },
   data () {
     return {
       submenu: true,
@@ -307,7 +328,7 @@ export default {
   }
 
   .right-content{
-    padding: 80px 40px;
+    padding: 80px 0 80px 40px;
   }
 
   .profile{
@@ -346,7 +367,7 @@ export default {
       border-radius: 8px;
       text-align: center;
       width: 100px;
-      margin-right: 20px;
+      margin-right: 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
