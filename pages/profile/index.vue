@@ -203,11 +203,12 @@ export default {
       if(this.buttonStatus === "VIEW") {
         this.buttonStatus = "EDIT"
       } else {
+        // console.log('general location')
         const userProfileResult = 
           await this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
             firstname: this.profile.firstname,
             lastname: this.profile.lastname,
-            // address: generalLocation,
+            address: this.generalLocation,
             phone: this.profile.phone,
             email: this.profile.email
           });
@@ -253,8 +254,6 @@ export default {
   watch: {
     generalLocation: function() {
       this.valueChanged()
-
-      return this.generalLocation
     },
     workOccupation: function() {
       this.valueChanged()
