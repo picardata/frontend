@@ -8,140 +8,102 @@
       </div>
     </div>
     <div class="col-sm-5 col-xs-12">
-      <!-- <ValidationObserver ref="form" v-slot="{ handleSubmit }"> -->
-        <!-- <form> -->
-          <div class="row">
-            <div class="col-sm-8 col-xs-12">
-              <div class="font-weight-bold mb-4">
-                <h3>General Information</h3>
-              </div>
-              <RoundedInput v-model="profile.firstname"
-                            v-on:input="valueChanged()"
-                            placeholder="Your Firstname"
-                            :disabled="isInViewMode()" 
-                            label="First Name"/>
-              <RoundedInput v-model="profile.lastname"
-                            v-on:input="valueChanged()"
-                            placeholder="Your Lastname"
-                            :disabled="isInViewMode()" 
-                            label="Last Name"/>
-              <RoundedInput v-model="profile.email"
-                            v-on:input="valueChanged()"
-                            placeholder="Email"
-                            :disabled="isInViewMode()" 
-                            label="Email"/>
-              <RoundedInput v-model="profile.phone"
-                            v-on:input="valueChanged()"
-                            placeholder="Phone"
-                            :disabled="isInViewMode()" 
-                            label="Phone"/>
-              <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
-                <label>Location</label>
-                <div class="form-group">
-                  <country-select
-                    v-model="generalLocation"
-                    country-name="true"
-                    :country="generalLocation"
-                    top-country="US"
-                    name="address"
-                    class-name="form-control picardata-input-rounded"
-                    placeholder="Location"
-                    :disabled="isInViewMode()"
-                  />
-                </div>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+        <div class="row">
+          <div class="col-sm-8 col-xs-12">
+            <div class="font-weight-bold mb-4">
+              <h3>General Information</h3>
             </div>
-          </div>
-        <!-- </form> -->
-      <!-- </ValidationObserver> -->
-    </div>
-        <div class="col-sm-5 col-xs-12">
-      <!-- <ValidationObserver ref="form" v-slot="{ handleSubmit }"> -->
-        <!-- <form> -->
-          <div class="row">
-            <div class="col-sm-8 col-xs-12">
-              <div class="font-weight-bold mb-4">
-                <h3>Work Information</h3>
-              </div>
-              <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
-                <AppControlInput
-                  v-model="workOccupation"
-                  :choices="choices"
-                  :choices-selected="workOccupation"
-                  placeholder="Choose Occupation"
-                  control-type="select"
-                  :disabled="isInViewMode()"
-                  class="picardata-input-rounded"
-                >
-                  Occupation
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
-              <RoundedInput v-model="employee.role"
-                            v-on:input="valueChanged()"
-                            placeholder="Role"
-                            :disabled="isInViewMode()" 
-                            label="Role"/>
-              <!-- <ValidationProvider v-slot="{ errors }" vid="profile.role" name="employee.role">
-                <AppControlInput v-model="employee.role" placeholder="Role" type="text">
-                  Role
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider> -->
-              <RoundedInput v-model="employee.organization"
-                            v-on:input="valueChanged()"
-                            placeholder="Organization"
-                            :disabled="isInViewMode()" 
-                            label="Organization"/>
-              <!-- <ValidationProvider v-slot="{ errors }" vid="employee.organization" name="employee.organization">
-                <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
-                  Organization
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider> -->
-              <ValidationProvider v-slot="{ errors }" vid="employee.workLocation" name="employee.workLocation">
+            <RoundedInput v-model="profile.firstname"
+                          v-on:input="valueChanged()"
+                          placeholder="Your Firstname"
+                          :disabled="isInViewMode()" 
+                          label="First Name"/>
+            <RoundedInput v-model="profile.lastname"
+                          v-on:input="valueChanged()"
+                          placeholder="Your Lastname"
+                          :disabled="isInViewMode()" 
+                          label="Last Name"/>
+            <RoundedInput v-model="profile.email"
+                          v-on:input="valueChanged()"
+                          placeholder="Email"
+                          :disabled="isInViewMode()" 
+                          label="Email"/>
+            <RoundedInput v-model="profile.phone"
+                          v-on:input="valueChanged()"
+                          placeholder="Phone"
+                          :disabled="isInViewMode()" 
+                          label="Phone"/>
+            <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
+              <label>Location</label>
               <div class="form-group">
-                <label>City</label>
-                <input v-model="employee.workLocation" 
-                       placeholder="Work Location" 
-                       required="required" 
-                       type="text" 
-                       class="form-control picardata-input-rounded" 
-                       name="address"
-                       disabled> 
+                <country-select
+                  v-model="generalLocation"
+                  country-name="true"
+                  :country="generalLocation"
+                  top-country="US"
+                  name="address"
+                  class-name="form-control picardata-input-rounded"
+                  placeholder="Location"
+                  :disabled="isInViewMode()"
+                />
               </div>
-                <!-- <label>City</label>
-                <div class="form-group">
-                  <country-select
-                    v-model="employee.workLocation"
-                    country-name="true"
-                    :country="employee.workLocation"
-                    top-country="US"
-                    name="address"
-                    class-name="form-control"
-                    placeholder="Work Location"
-                  />
-                </div> -->
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
           </div>
-          <div class="row">
-            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
-              <span v-on:click="cancel">Cancel</span>
-            </div>
-            <div class="col-sm-8 col-xs-12 text-right">
-              <button v-on:click="save" 
-                      class="btn btn-primary btn-lg" 
-                      :disabled="buttonStatus === 'EDIT'">
-                <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
-                <span v-else>Save Profile</span>
-              </button>
-            </div>
+        </div>
+    </div>
+    <div class="col-sm-5 col-xs-12">
+      <div class="row">
+        <div class="col-sm-8 col-xs-12">
+          <div class="font-weight-bold mb-4">
+            <h3>Work Information</h3>
           </div>
-        <!-- </form> -->
-      <!-- </ValidationObserver> -->
+          <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
+            <AppControlInput
+              v-model="workOccupation"
+              :choices="choices"
+              :choices-selected="workOccupation"
+              placeholder="Choose Occupation"
+              control-type="select"
+              :disabled="isInViewMode()"
+              class="picardata-input-rounded"
+            >
+              Occupation
+            </AppControlInput>
+            <span class="text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+          <RoundedInput v-model="employee.role"
+                        v-on:input="valueChanged()"
+                        placeholder="Role"
+                        :disabled="isInViewMode()" 
+                        label="Role"/>
+          <RoundedInput v-model="employee.organization"
+                        v-on:input="valueChanged()"
+                        placeholder="Organization"
+                        :disabled="isInViewMode()" 
+                        label="Organization"/>
+          <RoundedInput v-model="employee.workLocation"
+                        v-on:input="valueChanged()"
+                        placeholder="City"
+                        :disabled="isInViewMode()" 
+                        label="City"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
+          <span v-on:click="cancel">Cancel</span>
+        </div>
+        <div class="col-sm-8 col-xs-12 text-right">
+          <button v-on:click="save" 
+                  class="btn btn-primary btn-lg" 
+                  :disabled="buttonStatus === 'EDIT'">
+            <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
+            <span v-else>Save Profile</span>
+          </button>
+        </div>
+      </div>
+    <!-- </form> -->
+  <!-- </ValidationObserver> -->
     </div>
   </div>
 </template>
