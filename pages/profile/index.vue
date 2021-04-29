@@ -21,7 +21,7 @@
             <!-- <div class="col-sm-1"></div> -->
             <!-- <div class="col-sm-1" style="color: #14142B;"> -->
             <!-- </div> -->
-            <div class="col-sm-10">
+            <div class="col-sm-10 profile-arrow-text">
               Manage Profile
             </div>
             <!-- <div class="col-sm-4"></div> -->
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-top: 4%;">
       <div class="row"> 
         <div class="col-sm-2 col-xs-12">
           <!-- <div class="row"> -->
@@ -314,3 +314,24 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.profile-arrow-text {
+  font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 48px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
+
+.picardata-arrow {
+  color: #14142B;
+  margin: auto
+}
+</style>
