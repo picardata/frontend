@@ -21,7 +21,7 @@
                 placeholder="Email"
                 @change="validateEmail"
               >
-              <span class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
+              <span v-if="email.length" class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
               <span
                 :class="['form-control-error', {'d-none': !errors.email}]"
               >
@@ -43,8 +43,8 @@
                 @change="validatePassword"
               >
 
-              <span v-if="showPassword" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
-              <span v-else class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
+              <span v-if="showPassword && password.length" class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
+              <span v-else-if="password.length" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
 
               <span
                 :class="[`form-control-error`, {'d-none': !errors.password}]"
@@ -66,7 +66,7 @@
             </button>
 
             <div class="col-md-12 text-center">
-              <nuxt-link to="#" @click.native="openModal('forgotPassword')">
+              <nuxt-link to="#" class="text-link" @click.native="openModal('forgotPassword')">
                 Forgot password
               </nuxt-link>
             </div>
@@ -76,7 +76,7 @@
             <div class="img-banner text-center">
               <img src="~/assets/register-now.png" alt="">
 
-              <nuxt-link to="/signup" class="btn btn-outline-primary">
+              <nuxt-link to="/signup" class="btn btn-outline-primary text-link">
                 Not registered yet? Register now
               </nuxt-link>
             </div>
@@ -207,6 +207,11 @@ export default {
     validatePassword () {
       const password = this.password
 
+      if (password.length === 0) {
+        this.errors.password = ''
+        return false
+      }
+
       if (password.length < 8) {
         this.errors.password = 'Minimum password length 8 chars'
         return false
@@ -216,7 +221,7 @@ export default {
       const test = re.test(password)
 
       if (!test) {
-        this.errors.password = 'Error password\'s format'
+        this.errors.password = 'Invalid Password'
         return false
       }
 
@@ -262,6 +267,8 @@ export default {
   h2{
     margin-top: 24px;
     margin-bottom: 32px;
+    font-size: 20px;
+    font-weight: 600;
   }
 }
 
@@ -337,5 +344,10 @@ export default {
     font-size: 14px;
     color: #A0A3BD;
   }
+}
+
+.text-link{
+  font-size: 14px;
+  color: #3E4EDD;
 }
 </style>
