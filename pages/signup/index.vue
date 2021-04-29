@@ -1,7 +1,7 @@
 <template>
   <div class="bg-outer">
     <div class="wrapper">
-      <div class="container">
+      <div class="container picardata-container">
         <div class="row">
           <div class="col-md-5">
             <div class="icon-picardata text-center">
@@ -364,6 +364,12 @@ input:-ms-input-placeholder {
 input:focus:-ms-input-placeholder {
     color: $placeholder-color;
     font-size: $placeholder-font-size;
+}
+
+.picardata-container {
+  .form-group .form-control-label {
+    font-size: 14px;
+  }
 }
 
 .already-had-account-text:hover {
