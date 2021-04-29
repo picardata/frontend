@@ -123,17 +123,22 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
-              <span v-on:click="cancel">Cancel</span>
-            </div>
-            <div class="col-sm-8 col-xs-12 text-right">
-              <button v-on:click="save" 
-                      class="btn btn-primary btn-lg" 
-                      :disabled="buttonStatus === 'EDIT'">
-                <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
-                <span v-else>Save Profile</span>
-              </button>
-            </div>
+              <div class="col-sm-4 col-xs-12 text-left" v-if="buttonStatus != 'VIEW'">
+                <span v-on:click="cancel">Cancel</span>
+              </div>
+              <div class="col-sm-8 col-xs-12 text-right" v-if="buttonStatus === 'VIEW'">
+                  <button v-on:click="save" 
+                        class="btn btn-primary btn-lg">
+                    <span>Edit Profile</span>
+                  </button>
+              </div>              
+              <div class="col-sm-8 col-xs-12" v-else>
+                <button v-on:click="save" 
+                        class="btn btn-primary btn-lg"
+                        :disabled="this.buttonStatus !== 'SAVE'">
+                  <span>Save Profile</span>
+                </button>
+              </div>
           </div>
         <!-- </form> -->
       <!-- </ValidationObserver> -->
