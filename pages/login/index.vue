@@ -193,6 +193,11 @@ export default {
     },
     validateEmail () {
       const email = this.email
+      if (email.length === 0) {
+        this.errors.email = ''
+        return false
+      }
+
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       const test = re.test(email.toLowerCase())
 
@@ -261,6 +266,7 @@ export default {
     margin-bottom: 32px;
     font-size: 20px;
     font-weight: 600;
+    font-family: 'Poppins';
   }
 }
 
@@ -342,5 +348,9 @@ export default {
 .text-link{
   font-size: 14px;
   color: #3E4EDD;
+
+  &:hover{
+    background-color: #FFFFFF;
+  }
 }
 </style>
