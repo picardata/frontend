@@ -4,7 +4,7 @@
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs" />
+            <route-breadcrumb :crumbs="getCrumbs" />
           </nav>
         </div>
       </div>
@@ -200,22 +200,7 @@ export default {
       .catch(e => console.log(e))
   },
   data () {
-    return {
-      crumbs: [
-        {
-          name: 'Forms',
-          path: '/form'
-        },
-        {
-          name: 'Edit Form',
-          path: '/form/' + this.$route.params.id
-        },
-        {
-          name: 'Form Result',
-          path: '/form/' + this.$route.params.id
-        }
-      ]
-    }
+    return {}
   },
   computed: {
     chartData () {
@@ -250,6 +235,24 @@ export default {
     },
     totalRespondents () {
       return this.formRespondents.length
+    },
+    getCrumbs () {
+      const
+        crumbs = [
+          {
+            name: 'Forms',
+            path: '/form'
+          },
+          {
+            name: this.name,
+            path: '/form/' + this.$route.params.id
+          },
+          {
+            name: 'Form Result',
+            path: '/form/' + this.$route.params.id
+          }
+        ]
+      return crumbs
     }
   },
   methods: {
@@ -289,5 +292,11 @@ input.form-control:focus {
 nav a.disabled {
   color: #14142B;
   font-weight: 600;
+}
+.breadcrumb-item:nth-of-type(3){
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 </style>
