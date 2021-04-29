@@ -25,18 +25,11 @@
                             placeholder="Your Lastname"
                             :disabled="isInViewMode()" 
                             label="Last Name"/>
-              <!-- <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
-                <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
-                  Last Name
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider> -->
-              <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
-                <AppControlInput v-model="profile.email" placeholder="Email" type="email" required="required">
-                  Email
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+              <RoundedInput v-model="profile.email"
+                            v-on:input="valueChanged()"
+                            placeholder="Email"
+                            :disabled="isInViewMode()" 
+                            label="Email"/>
               <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
                 <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text">
                   Phone number
