@@ -177,13 +177,6 @@ export default {
           workLocation: userProfile.data.company.location
         },
         profile: {
-          firstname: userProfile.data.userProfile.firstname,
-          lastname: userProfile.data.userProfile.lastname,
-          email: userProfile.data.userProfile.email,
-          phone: userProfile.data.userProfile.phone,
-          location: userProfile.data.userProfile.address
-        },
-        profile: {
           id: userMe.data.user.userProfile.id,
           firstname: userMe.data.user.userProfile.firstname,
           lastname: userMe.data.user.userProfile.lastname,
@@ -256,6 +249,7 @@ export default {
       }
     },
     cancel() {
+      this.$nuxt.refresh()
       this.buttonStatus = "VIEW"
     },
     isInViewMode() {
