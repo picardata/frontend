@@ -1,6 +1,6 @@
 <template>
     <div class="form-group">
-        <label>{{this.label}}</label>
+        <label class="label">{{this.label}}</label>
         <input :placeholder="this.placeholder" 
                required="required" 
                type="text" 

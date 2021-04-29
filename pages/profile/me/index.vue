@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row picardata-profile">
     <div class="col-md-12 float-left">
       <div class="row">
         <base-header type="white" class="p-0">
@@ -67,7 +67,7 @@
                               :disabled="isInViewMode()" 
                               label="Phone"/>
                 <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
-                  <label>Location</label>
+                  <label class="label">Location</label>
                   <div class="form-group">
                     <country-select
                       v-model="generalLocation"
@@ -101,7 +101,7 @@
                   :disabled="isInViewMode()"
                   class="picardata-input-rounded"
                 >
-                  Occupation
+                  <span class="label">Occupation</span>
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -279,10 +279,10 @@ export default {
   data () {
     return {
       choices: [
-        {
-          name: 'Occupation',
-          id: 0
-        },
+        // {
+        //   name: 'Occupation',
+        //   id: 0
+        // },
         {
           name: 'Artist',
           id: 1
