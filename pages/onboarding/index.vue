@@ -7,8 +7,8 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 33%"
-              aria-valuenow="33"
+              style="width: 16.5%"
+              aria-valuenow="16.5"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -26,24 +26,13 @@
           <span class="text-highlight">03.</span> Start Integrating
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardta"> Welcome to Picardata!</h3>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <p>
-            Welcome to your Picardata! Here in Picardata you’ll see bunch of benefits to view, check and maintenance your integrated app. Picardata is a tool that can help you managing your applications; either it’s to add any access to your applications or maybe other things!
-          </p>
-        </div>
-      </div>
+      <WelcomeOnboard />
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
           <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
             Skip for now
           </button>
-          <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
             Next
           </button>
         </div>
@@ -56,8 +45,8 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 66%"
-              aria-valuenow="66"
+              style="width: 33%"
+              aria-valuenow="33"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -81,45 +70,14 @@
         </div>
       </div>
       <div class="row mt-5">
-        <div class="card-deck">
-          <div class="card">
-            <div class="card-body p-4">
-              <h5 class="card-title text-highlight">
-                YOUR APPS
-              </h5>
-              <p class="card-text">
-                You probably have a tons of app to manage. Social media, design tools, sales and marketing and much more.
-              </p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body p-4">
-              <h5 class="card-title text-highlight">
-                HANDLE YOUR APPS
-              </h5>
-              <p class="card-text">
-                How do you manage your apps precisely? Picardata can do that for you to monitor and view how they work.
-              </p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body p-4">
-              <h5 class="card-title text-highlight">
-                INTEGRATE YOUR APP
-              </h5>
-              <p class="card-text">
-                Firstly you have to integrate them. You can add, revoke and view data and access within your app.
-              </p>
-            </div>
-          </div>
-        </div>
+        <HowPicardataWorks />
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
           <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
             Skip for now
           </button>
-          <button type="button" class="btn btn-primary btn-lg" @click.prevent="next">
+          <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
             Next
           </button>
         </div>
@@ -257,12 +215,16 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import VuePhoneNumberInput from 'vue-phone-number-input'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
+import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
 
 export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    VuePhoneNumberInput
+    VuePhoneNumberInput,
+    HowPicardataWorks,
+    WelcomeOnboard
   },
   auth: true,
   data () {
@@ -308,11 +270,14 @@ export default {
     getStepWelcome () {
       return this.step === 1
     },
-    getStepProfile () {
+    getStepPicardataIntro () {
       return this.step === 2
     },
-    getStepIntegrations () {
+    getStepProfile () {
       return this.step === 3
+    },
+    getStepIntegrations () {
+      return this.step === 4
     }
   },
   methods: {
@@ -359,7 +324,7 @@ export default {
       })
     },
     next () {
-      if (this.step === 3) {
+      if (this.step === 4) {
         this.post()
       } else {
         this.step = this.step + 1
@@ -368,3 +333,9 @@ export default {
   }
 }
 </script>
+<style>
+  .btn-add {
+    width: 150px;
+    border-radius: 40px;
+  }
+</style>
