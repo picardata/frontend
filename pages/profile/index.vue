@@ -1,111 +1,128 @@
 <template>
-  <div class="row p-4 mr-0">
-    <div class="col-sm-2 col-xs-12">
-      <div class="row">
-        <div class="card">
-          <img class="card-img-top" 
-               src="~/assets/profile-icon.png" 
-               alt="Card image cap">
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-5 col-xs-12">
-        <div class="row">
-          <div class="col-sm-8 col-xs-12">
-            <div class="font-weight-bold mb-4">
-              <h3>General Information</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <base-header type="white" class="p-0">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-12 col-12">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <route-breadcrumb :crumbs="crumbs" />
+              </nav>
             </div>
-            <RoundedInput v-model="profile.firstname"
-                          v-on:input="valueChanged()"
-                          placeholder="Your Firstname"
-                          :disabled="isInViewMode()" 
-                          label="First Name"/>
-            <RoundedInput v-model="profile.lastname"
-                          v-on:input="valueChanged()"
-                          placeholder="Your Lastname"
-                          :disabled="isInViewMode()" 
-                          label="Last Name"/>
-            <RoundedInput v-model="profile.email"
-                          v-on:input="valueChanged()"
-                          placeholder="Email"
-                          :disabled="isInViewMode()" 
-                          label="Email"/>
-            <RoundedInput v-model="profile.phone"
-                          v-on:input="valueChanged()"
-                          placeholder="Phone"
-                          :disabled="isInViewMode()" 
-                          label="Phone"/>
-            <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
-              <label>Location</label>
-              <div class="form-group">
-                <country-select
-                  v-model="generalLocation"
-                  country-name="true"
-                  :country="generalLocation"
-                  top-country="US"
-                  name="address"
-                  class-name="form-control picardata-input-rounded"
-                  placeholder="Location"
-                  :disabled="isInViewMode()"
-                />
-              </div>
-              <span class="text-danger">{{ errors[0] }}</span>
-            </ValidationProvider>
           </div>
-        </div>
+        </base-header>
+      </div>
     </div>
-    <div class="col-sm-5 col-xs-12">
-      <div class="row">
-        <div class="col-sm-8 col-xs-12">
-          <div class="font-weight-bold mb-4">
-            <h3>Work Information</h3>
+    <div class="col-md-12">
+      <div class="row"> 
+        <div class="col-sm-2 col-xs-12">
+          <!-- <div class="row"> -->
+            <div class="card">
+              <img class="card-img-top" 
+                  src="~/assets/profile-icon.png" 
+                  alt="Card image cap">
+            </div>
+          <!-- </div> -->
+        </div>
+        <div class="col-sm-5 col-xs-12">
+            <div class="row">
+              <div class="col-sm-8 col-xs-12">
+                <div class="font-weight-bold mb-4">
+                  <h3>General Information</h3>
+                </div>
+                <RoundedInput v-model="profile.firstname"
+                              v-on:input="valueChanged()"
+                              placeholder="Your Firstname"
+                              :disabled="isInViewMode()" 
+                              label="First Name"/>
+                <RoundedInput v-model="profile.lastname"
+                              v-on:input="valueChanged()"
+                              placeholder="Your Lastname"
+                              :disabled="isInViewMode()" 
+                              label="Last Name"/>
+                <RoundedInput v-model="profile.email"
+                              v-on:input="valueChanged()"
+                              placeholder="Email"
+                              :disabled="isInViewMode()" 
+                              label="Email"/>
+                <RoundedInput v-model="profile.phone"
+                              v-on:input="valueChanged()"
+                              placeholder="Phone"
+                              :disabled="isInViewMode()" 
+                              label="Phone"/>
+                <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
+                  <label>Location</label>
+                  <div class="form-group">
+                    <country-select
+                      v-model="generalLocation"
+                      country-name="true"
+                      :country="generalLocation"
+                      top-country="US"
+                      name="address"
+                      class-name="form-control picardata-input-rounded"
+                      placeholder="Location"
+                      :disabled="isInViewMode()"
+                    />
+                  </div>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+        </div>
+        <div class="col-sm-5 col-xs-12">
+          <div class="row">
+            <div class="col-sm-8 col-xs-12">
+              <div class="font-weight-bold mb-4">
+                <h3>Work Information</h3>
+              </div>
+              <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
+                <AppControlInput
+                  v-model="workOccupation"
+                  :choices="choices"
+                  :choices-selected="workOccupation"
+                  placeholder="Choose Occupation"
+                  control-type="select"
+                  :disabled="isInViewMode()"
+                  class="picardata-input-rounded"
+                >
+                  Occupation
+                </AppControlInput>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <RoundedInput v-model="employee.role"
+                            v-on:input="valueChanged()"
+                            placeholder="Role"
+                            :disabled="isInViewMode()" 
+                            label="Role"/>
+              <RoundedInput v-model="employee.organization"
+                            v-on:input="valueChanged()"
+                            placeholder="Organization"
+                            :disabled="isInViewMode()" 
+                            label="Organization"/>
+              <RoundedInput v-model="employee.workLocation"
+                            v-on:input="valueChanged()"
+                            placeholder="City"
+                            :disabled="isInViewMode()" 
+                            label="City"/>
+            </div>
           </div>
-          <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
-            <AppControlInput
-              v-model="workOccupation"
-              :choices="choices"
-              :choices-selected="workOccupation"
-              placeholder="Choose Occupation"
-              control-type="select"
-              :disabled="isInViewMode()"
-              class="picardata-input-rounded"
-            >
-              Occupation
-            </AppControlInput>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </ValidationProvider>
-          <RoundedInput v-model="employee.role"
-                        v-on:input="valueChanged()"
-                        placeholder="Role"
-                        :disabled="isInViewMode()" 
-                        label="Role"/>
-          <RoundedInput v-model="employee.organization"
-                        v-on:input="valueChanged()"
-                        placeholder="Organization"
-                        :disabled="isInViewMode()" 
-                        label="Organization"/>
-          <RoundedInput v-model="employee.workLocation"
-                        v-on:input="valueChanged()"
-                        placeholder="City"
-                        :disabled="isInViewMode()" 
-                        label="City"/>
+          <div class="row">
+            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
+              <span v-on:click="cancel">Cancel</span>
+            </div>
+            <div class="col-sm-8 col-xs-12 text-right">
+              <button v-on:click="save" 
+                      class="btn btn-primary btn-lg" 
+                      :disabled="buttonStatus === 'EDIT'">
+                <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
+                <span v-else>Save Profile</span>
+              </button>
+            </div>
+          </div>
+        <!-- </form> -->
+      <!-- </ValidationObserver> -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
-          <span v-on:click="cancel">Cancel</span>
-        </div>
-        <div class="col-sm-8 col-xs-12 text-right">
-          <button v-on:click="save" 
-                  class="btn btn-primary btn-lg" 
-                  :disabled="buttonStatus === 'EDIT'">
-            <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
-            <span v-else>Save Profile</span>
-          </button>
-        </div>
-      </div>
-    <!-- </form> -->
-  <!-- </ValidationObserver> -->
     </div>
   </div>
 </template>
@@ -260,6 +277,12 @@ export default {
         {
           name: 'Sales & Marketing',
           id: 4
+        }
+      ],
+      crumbs: [
+        {
+          name: 'Profile',
+          path: '/profile'
         }
       ],
       buttonStatus: 'VIEW'
