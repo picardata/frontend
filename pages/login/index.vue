@@ -217,14 +217,6 @@ export default {
         return false
       }
 
-      const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/
-      const test = re.test(password)
-
-      if (!test) {
-        this.errors.password = 'Invalid Password'
-        return false
-      }
-
       this.errors.password = ''
       return true
     },
@@ -320,6 +312,7 @@ export default {
     padding: 6px 24px;
     color: #C30052;
     z-index: 2;
+    font-size: 14px;
 
     + .login-credential-input{
       padding: 24px 24px 0;
