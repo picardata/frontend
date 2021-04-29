@@ -30,12 +30,11 @@
                             placeholder="Email"
                             :disabled="isInViewMode()" 
                             label="Email"/>
-              <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                <AppControlInput v-model="profile.phone" placeholder="Phone Number" type="text">
-                  Phone number
-                </AppControlInput>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+              <RoundedInput v-model="profile.phone"
+                            v-on:input="valueChanged()"
+                            placeholder="Phone"
+                            :disabled="isInViewMode()" 
+                            label="Phone"/>
               <ValidationProvider v-slot="{ errors }" vid="profile.location" name="profile.location">
                 <label>Location</label>
                 <div class="form-group">
