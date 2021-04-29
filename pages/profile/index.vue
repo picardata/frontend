@@ -3,7 +3,9 @@
     <div class="col-sm-2 col-xs-12">
       <div class="row">
         <div class="card">
-          <img class="card-img-top" src="https://www.nicepng.com/png/detail/186-1866063_dicks-out-for-harambe-sample-avatar.png" alt="Card image cap">
+          <img class="card-img-top" 
+               src="~/assets/profile-icon.png" 
+               alt="Card image cap">
         </div>
       </div>
     </div>
