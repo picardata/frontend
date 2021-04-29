@@ -15,10 +15,15 @@
               <div class="font-weight-bold mb-4">
                 <h3>General Information</h3>
               </div>
-              <div class="form-group">
+              <RoundedInput v-model="profile.firstname"
+                            v-on:input="valueChanged()"
+                            placeholder="Your Firstname"
+                            :disabled="isInViewMode()" 
+                            label="First Name"/>
+              <!-- <div class="form-group">
                 <label>First Name</label>
                 <input v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text" class="form-control picardata-input" :disabled="isInViewMode()"> 
-              </div>
+              </div> -->
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
                   Last Name
@@ -117,7 +122,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus === 'EDIT'">
+            <div class="col-sm-4 col-xs-12 text-right" v-if="buttonStatus != 'VIEW'">
               <span v-on:click="cancel">Cancel</span>
             </div>
             <div class="col-sm-8 col-xs-12 text-right">
@@ -125,7 +130,7 @@
                       class="btn btn-primary btn-lg" 
                       :disabled="buttonStatus === 'EDIT'">
                 <span v-if="buttonStatus === 'VIEW'">Edit Profile</span>
-                <span v-if="buttonStatus === 'EDIT'">Save Profile</span>
+                <span v-else>Save Profile</span>
               </button>
             </div>
           </div>
@@ -233,6 +238,9 @@ export default {
     },
     isInViewMode() {
       return this.buttonStatus === "VIEW"
+    },
+    valueChanged() {
+      this.buttonStatus = "SAVE"
     }
   },
   data () {
