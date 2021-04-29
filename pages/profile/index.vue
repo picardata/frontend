@@ -332,6 +332,7 @@ color: #313131;
 
 .picardata-arrow {
   color: #14142B;
-  margin: auto
+  margin: auto;
+  font-size: 30px;
 }
 </style>
