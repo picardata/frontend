@@ -20,16 +20,17 @@
                             placeholder="Your Firstname"
                             :disabled="isInViewMode()" 
                             label="First Name"/>
-              <!-- <div class="form-group">
-                <label>First Name</label>
-                <input v-model="profile.firstname" placeholder="Your Firstname" required="required" type="text" class="form-control picardata-input" :disabled="isInViewMode()"> 
-              </div> -->
-              <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
+              <RoundedInput v-model="profile.lastname"
+                            v-on:input="valueChanged()"
+                            placeholder="Your Lastname"
+                            :disabled="isInViewMode()" 
+                            label="Last Name"/>
+              <!-- <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput v-model="profile.lastname" placeholder="Your Lastname" type="text">
                   Last Name
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
                 <AppControlInput v-model="profile.email" placeholder="Email" type="email" required="required">
                   Email
