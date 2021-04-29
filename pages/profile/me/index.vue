@@ -123,7 +123,7 @@
             </div>
           </div>
           <div class="row">
-              <div class="col-sm-4 col-xs-12 text-left" v-if="buttonStatus != 'VIEW'" style="margin: auto">
+              <div class="col-sm-4 col-xs-12 text-left cancel-button" v-if="buttonStatus != 'VIEW'" style="margin: auto">
                 <span v-on:click="cancel">Cancel</span>
               </div>
               <div class="col-sm-8 col-xs-12 text-right" v-if="buttonStatus === 'VIEW'">
@@ -339,5 +339,10 @@ color: #313131;
   color: #14142B;
   margin: auto;
   font-size: 30px;
+}
+
+.cancel-button {
+  color: #4E4B66;
+  cursor: pointer;
 }
 </style>
