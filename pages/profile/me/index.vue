@@ -63,9 +63,9 @@
                               label="Email"/>
                 <RoundedInput v-model="profile.phone"
                               v-on:input="valueChanged()"
-                              placeholder="Phone"
+                              placeholder="Phone number"
                               :disabled="isInViewMode()" 
-                              label="Phone"/>
+                              label="Phone number"/>
               <RoundedInput v-model="generalLocation"
                             v-on:input="valueChanged()"
                             placeholder="Location"
@@ -101,9 +101,9 @@
                             label="Role"/>
               <RoundedInput v-model="employee.organization"
                             v-on:input="valueChanged()"
-                            placeholder="Organization"
+                            placeholder="Company"
                             :disabled="isInViewMode()" 
-                            label="Organization"/>
+                            label="Company"/>
               <RoundedInput v-model="employee.workLocation"
                             v-on:input="valueChanged()"
                             placeholder="City"
