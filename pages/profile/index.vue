@@ -159,7 +159,7 @@ export default {
           firstname: userMe.data.user.userProfile.firstname,
           lastname: userMe.data.user.userProfile.lastname,
           email: userMe.data.user.userProfile.email,
-          phone: phoneNoCode(userMe.data.user.userProfile.phone),
+          phone: userMe.data.user.userProfile.phone,
           phoneCountryCode: phoneCountryCode(userMe.data.user.userProfile.phone),
           formattedPhone: userMe.data.user.userProfile.phone,
           location: userMe.data.user.userProfile.address
@@ -222,6 +222,8 @@ export default {
               location: this.employee.workLocation
             }
         });
+
+        this.buttonStatus = "VIEW";
       }
     },
     cancel() {
