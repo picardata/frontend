@@ -332,4 +332,9 @@ color: #313131;
 .main-title {
   color: #313131;
 }
+
+option, .form-control:focus {
+  background: #EFF0F7;
+  border-radius: 15px;
+}
 </style>
