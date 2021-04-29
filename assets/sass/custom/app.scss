@@ -16,8 +16,8 @@ body {
   }
 }
 
-input.picardata-input-rounded, 
-input.picardata-input-rounded:focus, 
+input.picardata-input-rounded,
+input.picardata-input-rounded:focus,
 select.picardata-input-rounded,
 select.picardata-input-rounded:hover,
 input.picardata-input-rounded:disabled,
@@ -365,11 +365,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border: 1px solid #dee2e6;
     font-size: 1rem;
     padding: 0 24px;
-  
+
     &:disabled {
       opacity: 0.5;
     }
-  
+
     &:focus {
       color: #181C3B;
       background-color: #EFF0F7;
@@ -377,24 +377,54 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
       outline: 0;
       box-shadow: none;
     }
-  
+
     &::placeholder {
       color: #A0A3BD;
     }
-  
+
     + .input-group-append {
       background: #EFF0F7;
       border-radius: 0 16px 16px 0;
-  
+
       .input-group-text {
         border-radius: 0 16px 16px 0;
         font-size: 1rem;
       }
     }
-  
+
     &.error {
       background: #EFF0F7;
       border: 2px solid #ED2E7E;
     }
+  }
+}
+
+.phonenumber-custom{
+  min-height: 64px;
+
+  .country-selector{
+    height: 64px !important;
+    min-height: 64px !important;
+  }
+
+  .country-selector__input, .input-tel__input{
+    height: 64px !important;
+    min-height: 64px !important;
+    font-size: 1rem !important;
+    background: #EFF0F6 !important;
+    border: 1px solid #dee2e6 !important;
+  }
+  .country-selector__country-flag{
+    top: 25px !important;
+  }
+  .country-selector__label{
+    display: none !important;
+  }
+  .country-selector__toggle{
+    top: calc(50% - 15px) !important;
+    height: 64px !important;
+  }
+  .country-selector.has-value .country-selector__input{
+    padding-top: 0 !important;
   }
 }

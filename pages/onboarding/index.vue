@@ -84,152 +84,25 @@
       </div>
     </div>
     <div v-if="step === 3" class="col-9">
-      <div class="row text-center">
-        <div class="mt-4 col-12">
-          <div class="progress" style="height: 5px;">
-            <div
-              class="progress-bar bg-blue"
-              role="progressbar"
-              style="width: 66%"
-              aria-valuenow="66"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-4">
-          <span class="text-highlight">01.</span> Welcome on board
-        </div>
-        <div class="col-4 font-weight-bold">
-          <span class="text-highlight">02.</span> Complete Profile
-        </div>
-        <div class="col-4">
-          <span class="text-highlight">03.</span> Start Integrating
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> Complete your Profile</h3>
-        </div>
-      </div>
-      <div>
-        <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-          <form @submit.prevent="handleSubmit(next)">
-            <div class="row mt-5">
-              <div class="col-6">
-                <div class="font-weight-bold">
-                  General Information
-                </div>
-                <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
-                  <AppControlInput v-model="profile.name" name="name" placeholder="Your Name" type="text" />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
-                  <AppControlInput v-model="profile.email" placeholder="Email" type="email" required="required" />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
-                  <label />
-                  <VuePhoneNumberInput
-                    v-model="profile.phone"
-                    placeholder="Phone Number"
-                    class="form-group"
-                    default-country-code="SG"
-                    type="tel"
-                    @update="profile.formattedPhone = $event.e164"
-                  />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="profile.address" name="profile.address">
-                  <label>Location</label>
-                  <div class="form-group">
-                    <country-select
-                      v-model="profile.location"
-                      country-name="true"
-                      :country="country"
-                      top-country="US"
-                      name="address"
-                      class-name="form-control"
-                      placeholder="Location"
-                    />
-                  </div>
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-              </div>
-              <div class="col-6">
-                <div class="font-weight-bold">
-                  Work Information
-                </div>
-                <ValidationProvider v-slot="{ errors }" vid="occupation" name="occupation">
-                  <AppControlInput
-                    v-model="profile.occupation"
-                    :choices="choices"
-                    :choices-selected="profile.occupation"
-                    placeholder="Choose Occupation"
-                    control-type="select"
-                  />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="role" name="role">
-                  <AppControlInput v-model="profile.role" placeholder="Role" type="text" />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="company.name" name="company.name">
-                  <AppControlInput v-model="profile.organization" name="job" placeholder="Organization" type="text" />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" vid="company.location" name="company.location">
-                  <label />
-                  <div class="form-group">
-                    <country-select
-                      v-model="profile.workLocation"
-                      country-name="true"
-                      :country="country"
-                      top-country="US"
-                      name="address"
-                      class-name="form-control"
-                      placeholder="Work Location"
-                    />
-                  </div>
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </ValidationProvider>
-              </div>
-            </div>
-            <div class="row mt-5 justify-content-end">
-              <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="post">
-                Skip for now
-              </button>
-              <button type="submit" class="btn btn-primary btn-lg">
-                Save Profile
-              </button>
-            </div>
-          </form>
-        </ValidationObserver>
-      </div>
+      <CompleteProfile />
     </div>
   </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import VuePhoneNumberInput from 'vue-phone-number-input'
-import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import CompleteProfile from '@/components/Onboarding/CompleteProfile'
 import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
 import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
 
 export default {
   components: {
-    ValidationObserver,
-    ValidationProvider,
-    VuePhoneNumberInput,
     HowPicardataWorks,
-    WelcomeOnboard
+    WelcomeOnboard,
+    CompleteProfile
   },
   auth: true,
   data () {
     return {
-      step: 1,
+      step: 3,
       country: '',
       choices: [
         {
