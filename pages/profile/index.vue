@@ -78,18 +78,28 @@
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.role" name="employee.role">
+              <RoundedInput v-model="employee.role"
+                            v-on:input="valueChanged()"
+                            placeholder="Role"
+                            :disabled="isInViewMode()" 
+                            label="Role"/>
+              <!-- <ValidationProvider v-slot="{ errors }" vid="profile.role" name="employee.role">
                 <AppControlInput v-model="employee.role" placeholder="Role" type="text">
                   Role
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="employee.organization" name="employee.organization">
+              </ValidationProvider> -->
+              <RoundedInput v-model="employee.organization"
+                            v-on:input="valueChanged()"
+                            placeholder="Organization"
+                            :disabled="isInViewMode()" 
+                            label="Organization"/>
+              <!-- <ValidationProvider v-slot="{ errors }" vid="employee.organization" name="employee.organization">
                 <AppControlInput v-model="employee.organization" placeholder="Organization" type="text">
                   Organization
                 </AppControlInput>
                 <span class="text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider v-slot="{ errors }" vid="employee.workLocation" name="employee.workLocation">
               <div class="form-group">
                 <label>City</label>
