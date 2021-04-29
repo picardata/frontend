@@ -236,22 +236,22 @@ export default {
     totalRespondents () {
       return this.formRespondents.length
     },
-    getCrumbs(){
+    getCrumbs () {
       const
-          crumbs = [
-            {
-              name: 'Forms',
-              path: '/form'
-            },
-            {
-              name: this.name,
-              path: '/form/' + this.$route.params.id
-            },
-            {
-              name: 'Form Result',
-              path: '/form/' + this.$route.params.id
-            }
-          ]
+        crumbs = [
+          {
+            name: 'Forms',
+            path: '/form'
+          },
+          {
+            name: this.name,
+            path: '/form/' + this.$route.params.id
+          },
+          {
+            name: 'Form Result',
+            path: '/form/' + this.$route.params.id
+          }
+        ]
       return crumbs
     }
   },
