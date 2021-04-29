@@ -44,7 +44,7 @@
             <div class="row">
               <div class="col-sm-8 col-xs-12">
                 <div class="font-weight-bold mb-4">
-                  <h3>General Information</h3>
+                  <h3 class="main-title">General Information</h3>
                 </div>
                 <RoundedInput v-model="profile.firstname"
                               v-on:input="valueChanged()"
@@ -78,7 +78,7 @@
           <div class="row">
             <div class="col-sm-8 col-xs-12">
               <div class="font-weight-bold mb-4">
-                <h3>Work Information</h3>
+                <h3 class="main-title">Work Information</h3>
               </div>
               <ValidationProvider v-slot="{ errors }" vid="profile.lastname" name="profile.lastname">
                 <AppControlInput
@@ -327,5 +327,9 @@ color: #313131;
 .cancel-button {
   color: #4E4B66;
   cursor: pointer;
+}
+
+.main-title {
+  color: #313131;
 }
 </style>
