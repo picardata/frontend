@@ -91,7 +91,7 @@
               class="progress-bar bg-blue"
               role="progressbar"
               style="width: 66%"
-              aria-valuenow="33"
+              aria-valuenow="66"
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -111,18 +111,59 @@
       </div>
       <CompleteProfile @finishSaveProfile="next" @skip="skip" />
     </div>
+    <div v-if="step === 4" class="col-12">
+      <div class="col-9" style="margin-left: auto;margin-right: auto;">
+        <div class="row text-center">
+          <div class="mt-4 col-12">
+            <div class="progress" style="height: 5px;">
+              <div
+                class="progress-bar bg-blue"
+                role="progressbar"
+                style="width: 100%"
+                aria-valuenow="99"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-4">
+            <span class="text-highlight">01.</span> Welcome on board
+          </div>
+          <div class="col-4">
+            <span class="text-highlight">02.</span> Complete Profile
+          </div>
+          <div class="col-4 font-weight-bold">
+            <span class="text-highlight">03.</span> Start Integrating
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5" style="padding-left:40px;padding-right:40px">
+        <AppLibrary />
+      </div>
+      <div class="row mt-5 justify-content-end">
+        <div class="pl-2">
+          <nuxt-link to="/" class="btn btn-lg btn-primary btn-add">
+            Finish
+          </nuxt-link>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import CompleteProfile from '@/components/Onboarding/CompleteProfile'
 import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
 import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
+import AppLibrary from '~/pages/apps/app-library/index.vue'
 
 export default {
   components: {
     HowPicardataWorks,
     WelcomeOnboard,
-    CompleteProfile
+    CompleteProfile,
+    AppLibrary
   },
   auth: true,
   data () {
