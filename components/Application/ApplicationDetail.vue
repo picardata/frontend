@@ -1,17 +1,17 @@
 <template>
   <div class="row ml-2">
-    <div v-if="detailManagePage || detailLibraryPage" class="col-12 back-arrow-parent">
+    <div v-if="detailManagePage || detailLibraryPage" :class="{'col-12': true, 'back-arrow-parent': true}">
       <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
       <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath" />
       <!-- </nuxt-link> -->
     </div>
-    <div v-if="detailPage || detailLibraryPage" class="col-12">
+    <div v-if="detailPage || detailLibraryPage" :class="{'col-12': true, 'margin-top': detailLibraryPage}">
       <img class="logo" :src="logo" alt="Logo">
     </div>
-    <div :class="{ 'col-8': detailPage || (detailLibraryPage && isIntegrated), 'col-12': (detailLibraryPage && !isIntegrated) || (!detailPage && !detailLibraryPage), 'detail-name-parent': detailManagePage }">
+    <div :class="{ 'col-8': detailPage || (detailLibraryPage && isIntegrated), 'col-12': (detailLibraryPage && !isIntegrated) || (!detailPage && !detailLibraryPage), 'detail-name-parent': detailManagePage, 'margin-top': detailLibraryPage }">
       <h1>{{ generateManage }} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
-    <div v-if="detailPage || (detailLibraryPage && isIntegrated)" class="col-4">
+    <div v-if="detailPage || (detailLibraryPage && isIntegrated)" :class="{'col-4': true, 'margin-top': detailLibraryPage}">
       <nuxt-link :to="customManageUrl ? customManageUrl : manageLink" class="text-primary fa-pull-right btn">
         <font-awesome-icon :icon="['fas', 'cogs']" />
         Manage app
@@ -185,4 +185,9 @@ img.logo {
 .detail-name {
   color: #2534B6;
 }
+
+.margin-top {
+  margin-top: 2%;
+}
+
 </style>
