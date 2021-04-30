@@ -9,18 +9,17 @@
         </div>
       </div>
     </base-header>
-    <div class="container-fluid mt-3">
-      <ApplicationDetail
-        :logo="data.logo"
-        :name="data.name"
-        :instruction="data.detail"
-        :detail-page="false"
-        :detail-library-page="true"
-        :oauth-url="data.oauthUrl"
-        :is-integrated="isIntegrated"
-        :detail="data.detail"
-      />
-    </div>
+    <ApplicationDetail
+      :logo="data.logo"
+      :name="data.name"
+      :instruction="data.detail"
+      :detail-page="false"
+      :detail-library-page="true"
+      :oauth-url="data.oauthUrl"
+      :is-integrated="isIntegrated"
+      :detail="data.detail"
+      :custom-manage-url="`/apps/integrated-apps/${integrationId}/${data.name}-admin/manage`"
+    />
   </div>
 </template>
 
@@ -74,7 +73,8 @@ export default {
           path: '/apps/integrated-apps'
         }
       ],
-      isIntegrated
+      isIntegrated,
+      integrationId: filteredIntegrations.length > 0 ? filteredIntegrations[0].id : 0
     }
   }
 }

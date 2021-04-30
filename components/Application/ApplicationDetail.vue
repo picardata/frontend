@@ -12,7 +12,7 @@
       <h1>{{ generateManage }} <span v-if="detailManagePage" class="detail-name">{{ name }}</span><span v-else>{{ name }}</span></h1>
     </div>
     <div v-if="detailPage || (detailLibraryPage && isIntegrated)" class="col-4">
-      <nuxt-link :to="manageLink" class="text-primary fa-pull-right btn">
+      <nuxt-link :to="customManageUrl ? customManageUrl : manageLink" class="text-primary fa-pull-right btn">
         <font-awesome-icon :icon="['fas', 'cogs']" />
         Manage app
       </nuxt-link>
@@ -100,6 +100,10 @@ export default {
       default: ''
     },
     instruction: {
+      type: String,
+      default: ''
+    },
+    customManageUrl: {
       type: String,
       default: ''
     },
