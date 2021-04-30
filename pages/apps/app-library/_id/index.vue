@@ -73,7 +73,7 @@ export default {
           path: '/apps/integrated-apps'
         }
       ],
-      isIntegrated, 
+      isIntegrated,
       integrationId: filteredIntegrations.length > 0 ? filteredIntegrations[0].id : 0
     }
   }
