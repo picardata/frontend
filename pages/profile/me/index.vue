@@ -130,7 +130,7 @@
               />
             </div>
           </div>
-          <div class="row" v-if="this.buttonStatus !== 'LOADING'">
+          <div v-if="this.buttonStatus !== 'LOADING'" class="row">
             <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
               <span @click="cancel">Cancel</span>
             </div>
@@ -250,7 +250,7 @@ export default {
           path: '/profile'
         }
       ],
-      buttonStatus: 'VIEW',
+      buttonStatus: 'VIEW'
     }
   },
   watch: {
@@ -299,7 +299,7 @@ export default {
             phone: this.profile.phone,
             email: this.profile.email
           })
-  
+
           await this.$axios.$patch('/api/employees/' + this.employee.id, {
             role: this.employee.role,
             occupation: this.workOccupation,
@@ -311,13 +311,11 @@ export default {
         } finally {
           this.buttonStatus = 'VIEW'
         }
-
       }
     },
     cancel () {
       this.buttonStatus = 'LOADING'
       this.$nuxt.refresh()
-
     },
     isInViewMode () {
       return this.buttonStatus === 'VIEW'
