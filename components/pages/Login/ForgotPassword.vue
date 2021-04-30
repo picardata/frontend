@@ -15,16 +15,15 @@
         </label>
         <input
           v-model="email"
-          :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
+          :class="[`form-control`, 'login-credential-input email', {'error': errors.email}]"
           placeholder="Email"
           @change="validateEmail"
         >
         <span class="form-icon"><i class="fa fa-times" /></span>
         <span
           :class="['form-control-error', {'d-none': !errors.email}]"
-        >
-          {{ errors.email }}
-        </span>
+          v-html="errors.email"
+        />
       </div>
 
       <div class="col-md-12 text-center">
@@ -90,7 +89,7 @@
 
       <div class="col-md-12 text-center">
         <button
-          :class="['btn btn-primary rounded reset-password mt-3', {'disabled': isDisablePassword}]"
+          :class="['btn btn-primary rounded reset-password mt-3 line-height-3', {'disabled': isDisablePassword}]"
           :disabled="isDisablePassword"
           @click="resetPassword"
         >
@@ -244,7 +243,7 @@ export default {
         })
         .then((data) => {
           if (data.success !== true) {
-            this.errors.email = 'Couldn\'t find your email!'
+            this.errors.email = 'Uh oh! The email isn’t registered yet. <a class="text-link" href="/signup">Register instead</a>'
           } else {
             this.$emit('toggleModal', 'successSendEmail')
           }
@@ -296,6 +295,14 @@ export default {
 
     + .login-credential-input{
       padding: 24px 24px 0;
+
+      &.email{
+        border: 2px solid #14142B;
+      }
+
+      &.error{
+        border: 2px solid #ED2E7E !important;
+      }
     }
 
     &.d-none + .login-credential-input{
@@ -329,5 +336,19 @@ export default {
     box-shadow: none;
     transform: translateY(0);
   }
+
+  &.line-height-3{
+    line-height: 3;
+  }
+}
+
+::v-deep .text-link{
+  font-size: 14px;
+  color: #3E4EDD;
+  text-decoration: underline;
+}
+
+p{
+  color: #313131;
 }
 </style>
