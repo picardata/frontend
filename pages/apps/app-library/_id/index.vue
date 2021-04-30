@@ -9,18 +9,16 @@
         </div>
       </div>
     </base-header>
-    <div class="container-fluid mt-3">
-      <ApplicationDetail
-        :logo="data.logo"
-        :name="data.name"
-        :instruction="data.detail"
-        :detail-page="false"
-        :detail-library-page="true"
-        :oauth-url="data.oauthUrl"
-        :is-integrated="isIntegrated"
-        :detail="data.detail"
-      />
-    </div>
+    <ApplicationDetail
+      :logo="data.logo"
+      :name="data.name"
+      :instruction="data.detail"
+      :detail-page="false"
+      :detail-library-page="true"
+      :oauth-url="data.oauthUrl"
+      :is-integrated="isIntegrated"
+      :detail="data.detail"
+    />
   </div>
 </template>
 
