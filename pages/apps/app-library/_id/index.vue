@@ -17,7 +17,7 @@
         :detail-page="true"
         :detail-manage-page="true"
         :oauth-url="data.oauthUrl"
-        :with-integration-button="false"
+        :with-integration-button="!isIntegrated"
         :detail="data.detail"
       />
     </div>
@@ -32,26 +32,53 @@ export default {
   layout: 'argon',
   components: { ApplicationDetail },
   async asyncData (context) {
-    return await context.app.$axios.get('/api/applications/' + context.route.params.id)
-      .then((data) => {
-        return {
-          data: data.data,
-          crumbs: [
-            {
-              name: 'Apps',
-              path: '/apps'
-            },
-            {
-              name: 'App Library',
-              path: '/apps/app-library'
-            },
-            {
-              name: data.data.name,
-              path: '/apps/integrated-apps'
-            }
-          ]
+    const data = await context.app.$axios.get('/api/applications/' + context.route.params.id)
+
+    console.log('data = ');
+    console.log(data);
+
+    const allIntegrationsRaw = await context.app.$axios.get('/api/integrations')
+    const allIntegrations = allIntegrationsRaw.data
+
+    console.log('all integrations = ')
+    console.log(allIntegrations)
+
+    const filteredIntegrations = allIntegrations.filter(function(integration) {
+      console.log('integration ')
+      console.log(integration)
+
+      console.log('data')
+      console.log(data)
+
+
+      return integration.application.id === data.data.id
+    })
+
+    const isIntegrated = filteredIntegrations.length > 0
+
+    console.log('filtered integrations = ')
+    console.log(filteredIntegrations)
+
+
+    return {
+      data: data.data,
+      crumbs: [
+        {
+          name: 'Apps',
+          path: '/apps'
+        },
+        {
+          name: 'App Library',
+          path: '/apps/app-library'
+        },
+        {
+          name: data.data.name,
+          path: '/apps/integrated-apps'
         }
-      })
+      ],
+      isIntegrated
+    }
+      
   }
 }
 </script>
