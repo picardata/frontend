@@ -14,9 +14,11 @@
         :logo="data.logo"
         :name="data.name"
         :instruction="data.detail"
-        :detail-page="false"
+        :detail-page="true"
+        :detail-manage-page="true"
         :oauth-url="data.oauthUrl"
-        :with-integration-button="true"
+        :with-integration-button="false"
+        :detail="data.detail"
       />
     </div>
   </div>
