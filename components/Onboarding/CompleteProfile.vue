@@ -24,11 +24,11 @@
                 <input v-model="profile.name" type="text" class="login-credential-input form-control" placeholder="Your name">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" mode="passive"  rules="required|email" vid="profile.email" name="email">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|email" vid="profile.email" name="email">
                 <input v-model="profile.email" type="text" class="login-credential-input form-control" placeholder="Email">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" mode="passive"  rules="required" vid="profile.phone" name="phone">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.phone" name="phone">
                 <VuePhoneNumberInput
                   v-model="profile.phone"
                   placeholder="Phone Number"
@@ -57,7 +57,7 @@
                     {{ choice.name }}
                   </option>
                 </select>
-                <span><i class="fa fa-angle-down"></i></span>
+                <span><i class="fa fa-angle-down" /></span>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="role" name="role">
@@ -151,7 +151,7 @@ export default {
       countryInput.style.borderBottomLeftRadius = '16px'
     },
     async post () {
-      const isValid = await this.$refs.form.validate();
+      const isValid = await this.$refs.form.validate()
       if (!isValid) {
         return false
       }
