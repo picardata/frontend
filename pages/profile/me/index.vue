@@ -130,7 +130,7 @@
               />
             </div>
           </div>
-          <div v-if="this.buttonStatus !== 'LOADING'" class="row">
+          <div v-if="this.buttonStatus !== 'LOADING'" class="row button-radius">
             <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
               <span @click="cancel">Cancel</span>
             </div>
@@ -362,4 +362,19 @@ option, .form-control:focus {
   border-radius: 15px;
 }
 
+.button-radius button {
+  background: #2534B6;
+  border-radius: 40px;
+  color: #F7F7FC;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  /* or 175% */
+
+  // display: flex;
+  // align-items: center;
+  text-align: center;
+  letter-spacing: 0.75px;
+}
 </style>
