@@ -140,14 +140,13 @@
         </div>
       </div>
       <div class="row mt-5" style="padding-left:40px;padding-right:40px">
-        <AppLibrary/>
+        <AppLibrary />
       </div>
       <div class="row mt-5 justify-content-end">
         <div class="pl-2">
           <nuxt-link to="/" class="btn btn-lg btn-primary btn-add">
             Finish
-          </nuxt-link>          
-          
+          </nuxt-link>
         </div>
       </div>
     </div>
