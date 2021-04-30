@@ -18,6 +18,7 @@
       :oauth-url="data.oauthUrl"
       :is-integrated="isIntegrated"
       :detail="data.detail"
+      :custom-manage-url="`/apps/integrated-apps/${integrationId}/${data.name}-admin/manage`"
     />
   </div>
 </template>
@@ -72,7 +73,8 @@ export default {
           path: '/apps/integrated-apps'
         }
       ],
-      isIntegrated
+      isIntegrated, 
+      integrationId: filteredIntegrations.length > 0 ? filteredIntegrations[0].id : 0
     }
   }
 }
