@@ -130,7 +130,7 @@
               />
             </div>
           </div>
-          <div class="row">
+          <div v-if="this.buttonStatus !== 'LOADING'" class="row button-radius">
             <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
               <span @click="cancel">Cancel</span>
             </div>
@@ -208,7 +208,8 @@ export default {
         location: userMe.data.user.userProfile.address
       },
       generalLocation: userMe.data.user.userProfile.address,
-      workOccupation: String(userProfile.data.occupation)
+      workOccupation: String(userProfile.data.occupation),
+      buttonStatus: 'VIEW'
     }
 
     return resultData
@@ -289,29 +290,32 @@ export default {
       } else {
         // console.log('general location')
         // const userProfileResult =
-        await this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
-          firstname: this.profile.firstname,
-          lastname: this.profile.lastname,
-          address: this.generalLocation,
-          phone: this.profile.phone,
-          email: this.profile.email
-        })
+        this.buttonStatus = 'LOADING'
+        try {
+          await this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
+            firstname: this.profile.firstname,
+            lastname: this.profile.lastname,
+            address: this.generalLocation,
+            phone: this.profile.phone,
+            email: this.profile.email
+          })
 
-        await this.$axios.$patch('/api/employees/' + this.employee.id, {
-          role: this.employee.role,
-          occupation: this.workOccupation,
-          company: {
-            name: this.employee.organization,
-            location: this.employee.workLocation
-          }
-        })
-
-        this.buttonStatus = 'VIEW'
+          await this.$axios.$patch('/api/employees/' + this.employee.id, {
+            role: this.employee.role,
+            occupation: this.workOccupation,
+            company: {
+              name: this.employee.organization,
+              location: this.employee.workLocation
+            }
+          })
+        } finally {
+          this.buttonStatus = 'VIEW'
+        }
       }
     },
     cancel () {
+      this.buttonStatus = 'LOADING'
       this.$nuxt.refresh()
-      this.buttonStatus = 'VIEW'
     },
     isInViewMode () {
       return this.buttonStatus === 'VIEW'
@@ -358,4 +362,19 @@ option, .form-control:focus {
   border-radius: 15px;
 }
 
+.button-radius button {
+  background: #2534B6;
+  border-radius: 40px;
+  color: #F7F7FC;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  /* or 175% */
+
+  // display: flex;
+  // align-items: center;
+  text-align: center;
+  letter-spacing: 0.75px;
+}
 </style>
