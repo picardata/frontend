@@ -10,7 +10,7 @@
     </div>
     <div>
       <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-        <form @submit.prevent="handleSubmit(next)">
+        <form @submit.prevent="handleSubmit(post)">
           <div class="row mt-5">
             <div class="col-md-2 px-0">
               <img src="~/assets/dashboard-img/profile-pict.png" alt="">
@@ -20,26 +20,26 @@
               <div class="sub-title">
                 General Information
               </div>
-              <ValidationProvider v-slot="{ errors }" vid="profile.firstname" name="profile.firstname">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.firstname" name="name">
                 <input v-model="profile.name" type="text" class="login-credential-input form-control" placeholder="Your name">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.email" name="profile.email">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  rules="required|email" vid="profile.email" name="email">
                 <input v-model="profile.email" type="text" class="login-credential-input form-control" placeholder="Email">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.phone" name="profile.phone">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  rules="required" vid="profile.phone" name="phone">
                 <VuePhoneNumberInput
-                    v-model="profile.phone"
-                    placeholder="Phone Number"
-                    class="form-group phonenumber-custom"
-                    default-country-code="SG"
-                    type="tel"
-                    @update="profile.formattedPhone = $event.e164"
+                  v-model="profile.phone"
+                  placeholder="Phone Number"
+                  class="form-group phonenumber-custom"
+                  default-country-code="SG"
+                  type="tel"
+                  @update="profile.formattedPhone = $event.e164"
                 />
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="profile.address" name="profile.address">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.address" name="location">
                 <input v-model="profile.location" type="text" class="login-credential-input form-control" placeholder="Location">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -48,21 +48,27 @@
               <div class="sub-title">
                 Work Information
               </div>
-              <ValidationProvider v-slot="{ errors }" vid="occupation" name="occupation">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="occupation" name="occupation">
                 <select v-model="profile.occupation" class="form-control login-credential-input">
-                  <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">{{ choice.name }}</option>
+                  <option value="0" selected>
+                    Choose Ocupation
+                  </option>
+                  <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">
+                    {{ choice.name }}
+                  </option>
                 </select>
+                <span><i class="fa fa-angle-down"></i></span>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="role" name="role">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="role" name="role">
                 <input v-model="profile.role" type="text" class="login-credential-input form-control" placeholder="Role">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="company.name" name="company.name">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.name" name="company-name">
                 <input v-model="profile.organization" type="text" class="login-credential-input form-control" placeholder="Organization">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" vid="company.location" name="company.location">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.location" name="company-location">
                 <input v-model="profile.workLocation" type="text" class="login-credential-input form-control" placeholder="Work Location">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -70,6 +76,17 @@
           </div>
         </form>
       </ValidationObserver>
+    </div>
+
+    <div class="row mt-5 justify-content-end">
+      <div class="pl-2">
+        <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="$emit('skip')">
+          Skip for now
+        </button>
+        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="post">
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -90,10 +107,6 @@ export default {
     return {
       country: '',
       choices: [
-        {
-          name: 'Choose Occupation',
-          id: 0
-        },
         {
           name: 'Artist',
           id: 1
@@ -136,6 +149,50 @@ export default {
       const countryInput = document.getElementsByClassName('country-selector__input')[0]
       countryInput.style.borderTopLeftRadius = '16px'
       countryInput.style.borderBottomLeftRadius = '16px'
+    },
+    async post () {
+      const isValid = await this.$refs.form.validate();
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$post('/api/employees/', {
+        userProfile: {
+          firstname: this.profile.name.trim(),
+          lastname: '',
+          address: this.profile.location,
+          phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
+          email: this.profile.email,
+          user: this.$auth.user.id
+        },
+        role: this.profile.role,
+        occupation: this.profile.occupation,
+        company: {
+          name: this.profile.organization,
+          location: this.profile.workLocation
+        }
+      }).then((data) => {
+        this.$auth.setUser(data)
+        this.$emit('finishSaveProfile')
+      }).catch((e) => {
+        const errors = {}
+
+        if (e.response.data.errors.userProfile !== undefined) {
+          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
+            const key = 'profile.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+        if (e.response.data.errors.company !== undefined) {
+          Object.entries(e.response.data.errors.company).forEach(function (value) {
+            const key = 'company.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
     }
   }
 }
@@ -171,5 +228,14 @@ export default {
 }
 .phonenumber-custom{
   margin-top: 40px;
+}
+select.login-credential-input{
+  appearance: none;
+
+  + span{
+    position: absolute;
+    right: 40px;
+    top: 20%;
+  }
 }
 </style>
