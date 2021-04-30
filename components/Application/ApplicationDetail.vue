@@ -17,7 +17,7 @@
         Manage app
       </nuxt-link>
     </div>
-    <div v-if="detailPage || detailManagePage" class="row mt-3 ml-3">
+    <div v-if="detailPage || detailManagePage || (detailLibraryPage && isIntegrated)" class="row mt-3 ml-3">
       <p class="text-default mt-2 mr-2">
         <font-awesome-icon class="text-success" :icon="['fas', 'check']" />
         Data appear on Dashboard
@@ -28,7 +28,7 @@
         Add chart to Dashboard
       </nuxt-link>
     </div>
-    <div v-if="withIntegrationButton" class="row mt-3 ml-3">
+    <div v-if="withIntegrationButton || (detailLibraryPage && !isIntegrated)" class="row mt-3 ml-3">
       <a href="#" class="text-primary btn" @click.prevent="modals.modal0 = true">
         <font-awesome-icon :icon="['fas', 'plus']" />
         Add to Picardata
@@ -108,6 +108,14 @@ export default {
       default: true
     },
     detailManagePage: {
+      type: Boolean,
+      default: false
+    },
+    detailLibraryPage: {
+      type: Boolean,
+      default: false
+    },
+    isIntegrated: {
       type: Boolean,
       default: false
     },

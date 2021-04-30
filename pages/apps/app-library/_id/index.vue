@@ -14,10 +14,10 @@
         :logo="data.logo"
         :name="data.name"
         :instruction="data.detail"
-        :detail-page="true"
-        :detail-manage-page="true"
+        :detail-page="false"
+        :detail-library-page="true"
         :oauth-url="data.oauthUrl"
-        :with-integration-button="!isIntegrated"
+        :isIntegrated="isIntegrated"
         :detail="data.detail"
       />
     </div>
