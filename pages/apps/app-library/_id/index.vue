@@ -17,7 +17,7 @@
         :detail-page="false"
         :detail-library-page="true"
         :oauth-url="data.oauthUrl"
-        :isIntegrated="isIntegrated"
+        :is-integrated="isIntegrated"
         :detail="data.detail"
       />
     </div>
@@ -34,8 +34,8 @@ export default {
   async asyncData (context) {
     const data = await context.app.$axios.get('/api/applications/' + context.route.params.id)
 
-    console.log('data = ');
-    console.log(data);
+    console.log('data = ')
+    console.log(data)
 
     const allIntegrationsRaw = await context.app.$axios.get('/api/integrations')
     const allIntegrations = allIntegrationsRaw.data
@@ -43,13 +43,12 @@ export default {
     console.log('all integrations = ')
     console.log(allIntegrations)
 
-    const filteredIntegrations = allIntegrations.filter(function(integration) {
+    const filteredIntegrations = allIntegrations.filter(function (integration) {
       console.log('integration ')
       console.log(integration)
 
       console.log('data')
       console.log(data)
-
 
       return integration.application.id === data.data.id
     })
@@ -58,7 +57,6 @@ export default {
 
     console.log('filtered integrations = ')
     console.log(filteredIntegrations)
-
 
     return {
       data: data.data,
@@ -78,7 +76,6 @@ export default {
       ],
       isIntegrated
     }
-      
   }
 }
 </script>
