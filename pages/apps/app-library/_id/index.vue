@@ -37,7 +37,7 @@ export default {
     console.log('data = ')
     console.log(data)
 
-    const allIntegrationsRaw = await context.app.$axios.get('/api/integrations')
+    const allIntegrationsRaw = await context.app.$axios.get('/api/integrations/?order%5Bid%5D=desc')
     const allIntegrations = allIntegrationsRaw.data
 
     console.log('all integrations = ')
