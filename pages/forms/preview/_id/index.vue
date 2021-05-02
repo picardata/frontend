@@ -89,20 +89,6 @@
 <script>
 export default {
   layout: 'argon-navless',
-  data(){
-    return {
-      crumbs: [
-        {
-          name: 'Forms',
-          path: '/forms'
-        },
-        {
-          name: 'Preview',
-          path: '/forms/' + this.$route.params.id
-        }
-      ],
-    }
-  },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {
@@ -121,6 +107,20 @@ export default {
         return data
       })
       .catch(e => console.log(e))
+  },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/forms'
+        },
+        {
+          name: 'Preview',
+          path: '/forms/' + this.$route.params.id
+        }
+      ]
+    }
   },
   methods: {
     extractChoiceObject (choice) {
