@@ -1,212 +1,214 @@
 <template>
-  <div class="row">
-    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-      <submenu v-show="submenu" class="col-xl-2" :submenu-data="formSubmenu">
-        <template v-slot:breadcrumb>
-          <div class="manual-crumb">
-            Forms
+  <div>
+    <base-header type="white" class="pb-6">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <route-breadcrumb :crumbs="crumbs" />
+          </nav>
+        </div>
+      </div>
+    </base-header>
+    <div class="container-fluid mt--6">
+      <prev-page />
+      <div class="row mt-3">
+        <div class="col-4">
+          <h1>Forms</h1>
+        </div>
+        <div class="col-8">
+          <span class="align-middle float-right">
+            <nuxt-link to="/form/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
+          </span>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="form-group col-12">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span id="inputGroupPrepend2" class="input-group-text border-0">
+                <font-awesome-icon
+                  class="search-icon"
+                  fixed-width
+                  size="2x"
+                  :icon="['fas', 'search']"
+                /></span>
+            </div>
+            <input
+              v-model="qSearch"
+              type="text"
+              class="form-control search-box border-0"
+              placeholder="Search created forms"
+              aria-describedby="inputGroupPrepend2"
+              @keyup="querySearch"
+            >
           </div>
-        </template>
-        <template v-if="submenu" v-slot:collapse>
-          <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
-        </template>
-        <template v-else v-slot:expand>
-          <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
-        </template>
-      </submenu>
-    </transition>
-    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-      <div v-show="submenu" class="col-xl-10">
-        <base-header type="white" class="pb-6">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4">
+          <h4>All forms</h4>
+        </div>
+        <div class="col-8">
+          <div class="dropdown col-3 fa-pull-right">
+            <button
+              v-if="sort === 0"
+              class="btn dropdown-toggle text-primary"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <font-awesome-icon
+                fixed-width
+                :icon="['fas', 'sort-amount-down-alt']"
+              />
+              Last updated
+            </button>
+            <button
+              v-if="sort === 1"
+              class="btn dropdown-toggle text-primary"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <font-awesome-icon
+                fixed-width
+                :icon="['fas', 'sort-amount-down-alt']"
+              />
+              Title
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sort-dropdown">
+              <button
+                v-if="sort === 1"
+                class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                type="button"
+                @click.prevent="toggleSort"
+              >
+                <font-awesome-icon
+                  fixed-width
+                  :icon="['fas', 'sort-amount-down-alt']"
+                />
+                Last updated
+              </button>
+              <button
+                v-if="sort === 0"
+                class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                type="button"
+                @click.prevent="toggleSort"
+              >
+                <font-awesome-icon
+                  fixed-width
+                  :icon="['fas', 'sort-amount-down-alt']"
+                />
+                Title
+              </button>
             </div>
           </div>
-        </base-header>
-        <div class="container-fluid mt--6">
-          <div class="row mt-3">
-            <div class="col-4">
-              <h1>Forms</h1>
-            </div>
-            <div class="col-8">
-              <span class="align-middle float-right">
-                <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
-              </span>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="form-group col-12">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span id="inputGroupPrepend2" class="input-group-text border-0">
-                    <font-awesome-icon
-                      class="search-icon"
-                      fixed-width
-                      size="2x"
-                      :icon="['fas', 'search']"
-                    /></span>
-                </div>
-                <input
-                  v-model="qSearch"
-                  type="text"
-                  class="form-control search-box border-0"
-                  placeholder="Search created forms"
-                  aria-describedby="inputGroupPrepend2"
-                  @keyup="querySearch"
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-4">
-              <h4>All forms</h4>
-            </div>
-            <div class="col-8">
-              <div class="dropdown col-3 fa-pull-right">
-                <button
-                  v-if="sort === 0"
-                  class="btn dropdown-toggle text-primary"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="true"
-                >
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+          <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ form.name }}
+              </h5>
+              <div class="row">
+                <div class="col-2 pt-3 pl-4">
                   <font-awesome-icon
                     fixed-width
-                    :icon="['fas', 'sort-amount-down-alt']"
+                    size="lg"
+                    class="sync-icon"
+                    :icon="['fas', 'sync']"
                   />
-                  Last updated
-                </button>
-                <button
-                  v-if="sort === 1"
-                  class="btn dropdown-toggle text-primary"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="true"
-                >
-                  <font-awesome-icon
-                    fixed-width
-                    :icon="['fas', 'sort-amount-down-alt']"
-                  />
-                  Title
-                </button>
-                <div class="dropdown-menu" aria-labelledby="sort-dropdown">
-                  <button
-                    v-if="sort === 1"
-                    class="dropdown-item font-weight-bold fa-pull-left text-primary"
-                    type="button"
-                    @click.prevent="toggleSort"
-                  >
-                    <font-awesome-icon
-                      fixed-width
-                      :icon="['fas', 'sort-amount-down-alt']"
-                    />
-                    Last updated
-                  </button>
-                  <button
-                    v-if="sort === 0"
-                    class="dropdown-item font-weight-bold fa-pull-left text-primary"
-                    type="button"
-                    @click.prevent="toggleSort"
-                  >
-                    <font-awesome-icon
-                      fixed-width
-                      :icon="['fas', 'sort-amount-down-alt']"
-                    />
-                    Title
-                  </button>
+                </div>
+                <div class="col-10">
+                  <p class="card-text last-updated">
+                    Last updated:<br>
+                    {{ formatDate(form.updatedAt) }}
+                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
-              <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    {{ form.name }}
-                  </h5>
-                  <div class="row">
-                    <div class="col-2 pt-3 pl-4">
-                      <font-awesome-icon
-                        fixed-width
-                        size="lg"
-                        class="sync-icon"
-                        :icon="['fas', 'sync']"
-                      />
-                    </div>
-                    <div class="col-10">
-                      <p class="card-text last-updated">
-                        Last updated:<br>
-                        {{ formatDate(form.updatedAt) }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row mt-2">
-                    <div class="col-md-4 col-sm-12">
-                      <nuxt-link class="btn btn-gray-light" to="/forms/share">
-                        <span class="text-primary">Share</span>
-                      </nuxt-link>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                      <div class="divider d-inline" />
-                      <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
-                        <span class="text-primary">Open</span>
-                      </nuxt-link>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                      <div class="divider d-inline" />
-                      <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
-                        Delete
-                      </a>
-                    </div>
-                  </div>
+              <div class="row mt-2">
+                <div class="col-md-4 col-sm-12">
+                  <button class="btn btn-gray-light" @click="shareModal(form)">
+                    <span class="text-primary">Share</span>
+                  </button>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <div class="divider d-inline" />
+                  <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
+                    <span class="text-primary">Open</span>
+                  </nuxt-link>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <div class="divider d-inline" />
+                  <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
+                    Delete
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <modal name="delete-modal">
-          <div class="modal-mask">
-            <div class="modal-wrapper">
-              <div class="modal-container">
-                <div class="modal-header">
-                  <h5>Move to Trash?</h5>
-                  <div class="cancel-integrate" @click="dismissModal">
-                    &times;
-                  </div>
-                </div>
-                <div class="modal-body">
-                  <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
-                </div>
-                <div class="modal-footer">
-                  <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
-                  <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
-                </div>
+      </div>
+    </div>
+    <modal name="delete-modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+            <div class="modal-header">
+              <h5>Move to Trash?</h5>
+              <div class="cancel-integrate" @click="dismissModal">
+                &times;
               </div>
             </div>
+            <div class="modal-body">
+              <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
+              <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
+            </div>
           </div>
-        </modal>
+        </div>
       </div>
-    </transition>
+    </modal>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{ selectedShare.name }}</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
-import Submenu from '~/components/layouts/argon/Submenu'
+import PrevPage from '@/components/PrevPage'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export default {
   name: 'IndexVue',
-  auth: true,
   layout: 'argon',
-  components: { Submenu },
+  auth: true,
+  components: { PrevPage },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
       .then((data) => {
@@ -228,32 +230,13 @@ export default {
         id: 0,
         name: 'Untitled Form'
       },
-      submenu: true,
-      formSubmenu: [
-        {
-          name: 'Create Form',
-          type: 'subtitle'
-        },
-        {
-          link: '/forms/new',
-          name: 'Create a Blank Form',
-          type: 'item'
-        },
-        {
-          name: 'Your Forms',
-          type: 'subtitle'
-        },
-        {
-          link: '/forms',
-          name: 'All Forms',
-          type: 'item'
-        },
-        {
-          link: '/manage-all-forms',
-          name: 'Manage All Forms',
-          type: 'item'
-        }
-      ]
+      selectedShare: {},
+      subject: '',
+      content: '',
+      modals: {
+        modal0: false
+      },
+      formRecipient: ''
     }
   },
   computed: {
@@ -269,6 +252,24 @@ export default {
     }
   },
   methods: {
+    shareModal (form) {
+      this.modals.modal0 = true
+      this.selectedShare = form
+    },
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.selectedShare.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+      })
+    },
     openLink (id) {
       return '/forms/' + id
     },
@@ -320,14 +321,6 @@ export default {
           this.search()
           this.$modal.hide('delete-modal')
         })
-    },
-    submenuAfterLeave (el) {
-      el.style.display = 'block'
-      el.style.left = '-14.6em'
-    },
-    submenuAfterEnter (el) {
-      el.style.display = 'block'
-      el.style.left = '0em'
     }
 
   }
@@ -395,24 +388,4 @@ div.vl {
   padding-top: 0;
   height: 16px;
 }
-
-.slide-enter-active {
-  animation: slide .2s reverse;
-}
-
-.slide-leave-active {
-  animation: slide .2s;
-}
-
-@keyframes slide {
-  from { left: 0em; }
-  to { left: -14.6em; }
-}
-
-.manual-crumb {
-  color: #181C3B;
-  font-size: 18px;
-  font-weight: 600;
-}
-
 </style>

@@ -184,7 +184,7 @@ export default {
             field: this.fields[i].id
           })
             .then(() => {
-              this.$router.push('/form/survey/thank-you?form=' + this.id)
+              this.$router.push('/forms/survey/thank-you?form=' + this.id)
             })
             .catch(res => console.log(res))
         })
