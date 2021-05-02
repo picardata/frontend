@@ -17,7 +17,7 @@
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
-            <nuxt-link to="/form/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
+            <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
           </span>
         </div>
       </div>
