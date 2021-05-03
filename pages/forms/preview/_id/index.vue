@@ -2,8 +2,11 @@
   <div class="content test">
     <nav class="fixed-top navbar-light bg-white  p-2">
       <div class="row">
-        <div class="col-12">
-          <nuxt-link class="mr-3 btn btn-lg btn-outline-primary float-right btn-submit" :to="'/form/' + $route.params.id">
+        <div class="col-6 crumbs-col">
+          <route-breadcrumb :crumbs="crumbs" />
+        </div>
+        <div class="col-6">
+          <nuxt-link class="mr-3 btn btn-lg btn-outline-primary float-right btn-submit" :to="'/forms/' + $route.params.id">
             Close Preview
           </nuxt-link>
         </div>
@@ -105,6 +108,20 @@ export default {
       })
       .catch(e => console.log(e))
   },
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Forms',
+          path: '/forms'
+        },
+        {
+          name: 'Preview',
+          path: '/forms/' + this.$route.params.id
+        }
+      ]
+    }
+  },
   methods: {
     extractChoiceObject (choice) {
       return choice.map(value => value.name)
@@ -144,5 +161,8 @@ input.form-control:focus {
   font-weight: normal;
   font-size: 16px;
   padding: 15px 30px;
+}
+.crumbs-col{
+  line-height: 55px;
 }
 </style>

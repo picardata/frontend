@@ -10,9 +10,10 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
-      <div class="row mt-5">
+      <prev-page />
+      <div class="row mt-3">
         <div class="col-6">
-          <h1>Edit form</h1>
+          <h1>{{ name }}</h1>
           <div class="rox pl-1">
             <p>Last Modified {{ formattedUpdatedAt }}</p>
           </div>
@@ -25,14 +26,19 @@
       </div>
       <div class="row mt-5">
         <div class="col-4">
-          <h5><b>Questions</b></h5>
+          <nav class="nav">
+            <a class="nav-link disabled" href="#">Questions</a>
+            <nuxt-link class="nav-link" :to="'/forms/result/' + id">
+              View Responses
+            </nuxt-link>
+          </nav>
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
             <nuxt-link :to="'/forms/preview/' + id" class="btn btn-lg bg-white btn-preview">
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
-            <nuxt-link to="/forms/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
+            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
           </span>
         </div>
       </div>
@@ -66,37 +72,49 @@
               </div>
             </div>
           </div>
-          <Field
-            :questions="questions"
-            :add_field="addField"
-            :change_type="changeType"
-            :copy_field="copyField"
-            :delete_field="deleteField"
-          />
+          <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" />
         </form>
       </div>
-      <div class="stick-bottom">
-        <button
-          class="btn btn-primary btn-md "
-          type="button"
-          @click="newField"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </button>
-      </div>
     </div>
+    <div class="stick-bottom">
+      <button
+        class="btn btn-primary btn-md "
+        type="button"
+        @click="newField"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </button>
+    </div>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{ name }}</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
+import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
-
 export default {
   name: 'IndexVue',
   layout: 'argon',
-  components: {
-    Field
-  },
+  components: { PrevPage, Field },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
@@ -117,6 +135,14 @@ export default {
         return x.status === 1
       })
 
+      data.data.modals = {
+        modal0: false
+      }
+
+      data.data.formRecipient = ''
+      data.data.subject = ''
+      data.data.content = ''
+
       return data.data
     })
   },
@@ -136,7 +162,6 @@ export default {
   },
   computed: {
     formattedUpdatedAt () {
-      console.log(this.updatedAt)
       return this.$moment(this.updatedAt).calendar()
     },
     questionsLength () {
@@ -144,6 +169,26 @@ export default {
     }
   },
   methods: {
+    shareModal () {
+      this.modals.modal0 = true
+    },
+    dismissModal () {
+      this.modals.modal0 = false
+    },
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+      })
+    },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
@@ -307,6 +352,8 @@ export default {
           // eslint-disable-next-line no-console
           console.log(data)
           this.id = data.id
+          console.log(data.updatedAt)
+          this.updatedAt = data.updatedAt
         })
         .catch((e) => {
           this.errors = []
@@ -324,11 +371,11 @@ export default {
 </script>
 <style scoped>
 .stick-bottom {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin-right: 240px;
-  margin-bottom: 70px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 240px;
+    margin-bottom: 70px;
 }
 
 h1 {
@@ -372,7 +419,10 @@ input.description, input.title {
 }
 
 input.title {
-  font-size: 48px;
+  font-size: 36px;
+  font-weight: 600;
+  color: #313131;
+  line-height: 48px;
 }
 
 input.description {
@@ -406,13 +456,21 @@ input.question {
 }
 
 hr.header-break {
+  border-radius: 20px;
   border-top: 8px solid var(--blue);
   margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 0;
   width: 130px;
 }
 
 .dropdown-toggle::after {
   display: none;
+}
+
+nav a.disabled {
+  color: #14142B;
+  font-weight: 600;
 }
 
 </style>
