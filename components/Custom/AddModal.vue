@@ -44,12 +44,14 @@ export default {
   props: ['modals', 'closeForm', 'form', 'href', 'saveGroup']
 }
 </script>
-<style scoped>
-input, button, select, optgroup, textarea {
+<style scoped lang="scss">
+
+button {
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 28px;
 }
+
 </style>
