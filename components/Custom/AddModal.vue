@@ -52,6 +52,6 @@ button {
   font-weight: 600;
   font-size: 16px;
   line-height: 28px;
+  margin-right: -6%;
 }
-
 </style>
