@@ -61,6 +61,13 @@ select.picardata-input-rounded {
   display: none;
 }
 
+.breadcrumb-item:nth-of-type(3){
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
 .manage-app-add-button {
   font-family: Poppins;
   font-style: normal;
