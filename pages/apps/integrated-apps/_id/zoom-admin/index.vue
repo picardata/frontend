@@ -15,6 +15,7 @@
         :name="data.application.name"
         :detail="data.application.detail"
         :instruction="data.application.instruction"
+        :detail-integrated-page="true"
       />
       <div class="row">
         <h3 class="mt-3 ml-4 col">
