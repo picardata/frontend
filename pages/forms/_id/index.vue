@@ -85,36 +85,20 @@
         <font-awesome-icon :icon="['fas', 'plus']" />
       </button>
     </div>
-    <modal :show.sync="modals.modal0">
-      <div class="modal-header">
-        <h3>Share form {{ name }}</h3>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label for="">Send to</label>
-          <input v-model="formRecipient" type="text" class="form-control">
-          <label for="">Subject</label>
-          <input v-model="subject" type="text" class="form-control">
-          <label for="">Message</label>
-          <input v-model="content" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <base-button tag="button" type="primary" @click="sendForm">
-          Send form
-        </base-button>
-      </div>
-    </modal>
+
+    <ModalShare :modals="modals" :title="name" />
   </div>
 </template>
 
 <script>
 import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
+import ModalShare from '@/components/pages/forms/ModalShareForm'
+
 export default {
   name: 'IndexVue',
   layout: 'argon',
-  components: { PrevPage, Field },
+  components: { PrevPage, Field, ModalShare },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {
@@ -135,14 +119,6 @@ export default {
         return x.status === 1
       })
 
-      data.data.modals = {
-        modal0: false
-      }
-
-      data.data.formRecipient = ''
-      data.data.subject = ''
-      data.data.content = ''
-
       return data.data
     })
   },
@@ -157,7 +133,10 @@ export default {
           name: 'Edit Form',
           path: '/forms/id/' + this.$route.params.id
         }
-      ]
+      ],
+      modals: {
+        shareForm: false
+      }
     }
   },
   computed: {
@@ -170,24 +149,7 @@ export default {
   },
   methods: {
     shareModal () {
-      this.modals.modal0 = true
-    },
-    dismissModal () {
-      this.modals.modal0 = false
-    },
-    sendForm () {
-      this.formRecipient.split(',').map((v) => {
-        this.$axios.$post('/api/form-respondents/', {
-          subject: this.subject,
-          content: this.content,
-          formRespondent: {
-            email: v.trim(),
-            form: this.id
-          }
-        })
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-      })
+      this.modals.shareForm = true
     },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
