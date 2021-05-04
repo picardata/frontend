@@ -1,6 +1,6 @@
 <template>
   <div class="row ml-2">
-    <div v-if="detailManagePage || detailLibraryPage" :class="{'col-12': true, 'back-arrow-parent': true}">
+    <div v-if="detailManagePage || detailLibraryPage || detailIntegratedPage" :class="{'col-12': true, 'back-arrow-parent': true}">
       <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
       <a class="pd-icon pdicon-Back-Arrow picardata-arrow" :href="generateParentPath" />
       <!-- </nuxt-link> -->
@@ -116,6 +116,10 @@ export default {
       default: false
     },
     detailLibraryPage: {
+      type: Boolean,
+      default: false
+    },
+    detailIntegratedPage: {
       type: Boolean,
       default: false
     },
