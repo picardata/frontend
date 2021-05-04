@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div v-if="step === 1" class="col-9">
+    <div v-show="step === 1" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -17,28 +17,18 @@
       </div>
       <div class="row mt-3">
         <div class="col-4 font-weight-bold">
-          <span class="text-highlight">01.</span> Welcome on board
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
         <div class="col-4">
-          <span class="text-highlight">02.</span> Complete Profile
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
         </div>
         <div class="col-4">
-          <span class="text-highlight">03.</span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
       <WelcomeOnboard />
-      <div class="row mt-5 justify-content-end">
-        <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="skip">
-            Skip for now
-          </button>
-          <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
-            Next
-          </button>
-        </div>
-      </div>
     </div>
-    <div v-if="step === 2" class="col-9">
+    <div v-show="step === 2" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -55,13 +45,13 @@
       </div>
       <div class="row mt-3">
         <div class="col-4 font-weight-bold">
-          <span class="text-highlight">01.</span> Welcome on board
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
         <div class="col-4">
-          <span class="text-highlight">02.</span> Complete Profile
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
         </div>
         <div class="col-4">
-          <span class="text-highlight">03.</span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
       <div class="row mt-5">
@@ -72,18 +62,8 @@
       <div class="row mt-5">
         <HowPicardataWorks />
       </div>
-      <div class="row mt-5 justify-content-end">
-        <div class="pl-2">
-          <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="skip">
-            Skip for now
-          </button>
-          <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
-            Next
-          </button>
-        </div>
-      </div>
     </div>
-    <div v-if="step === 3" class="col-9">
+    <div v-show="step === 3" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -100,18 +80,18 @@
       </div>
       <div class="row mt-3">
         <div class="col-4">
-          <span class="text-highlight">01.</span> Welcome on board
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
         <div class="col-4 font-weight-bold">
-          <span class="text-highlight">02.</span> Complete Profile
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
         </div>
         <div class="col-4">
-          <span class="text-highlight">03.</span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
-      <CompleteProfile @finishSaveProfile="next" @skip="skip" />
+      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" />
     </div>
-    <div v-if="step === 4" class="col-12">
+    <div v-show="step === 4" class="col-12">
       <div class="col-9" style="margin-left: auto;margin-right: auto;">
         <div class="row text-center">
           <div class="mt-4 col-12">
@@ -129,25 +109,35 @@
         </div>
         <div class="row mt-3">
           <div class="col-4">
-            <span class="text-highlight">01.</span> Welcome on board
+            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
           </div>
           <div class="col-4">
-            <span class="text-highlight">02.</span> Complete Profile
+            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
           </div>
           <div class="col-4 font-weight-bold">
-            <span class="text-highlight">03.</span> Start Integrating
+            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
           </div>
         </div>
       </div>
       <div class="row mt-5" style="padding-left:40px;padding-right:40px">
         <AppLibrary />
       </div>
-      <div class="row mt-5 justify-content-end">
-        <div class="pl-2">
-          <nuxt-link to="/" class="btn btn-lg btn-primary btn-add">
-            Finish
-          </nuxt-link>
-        </div>
+    </div>
+    <div v-if="step === 4" class="row mt-5 justify-content-end btn-bottom">
+      <div class="pl-2">
+        <nuxt-link to="/" class="btn btn-lg btn-primary btn-add">
+          Finish
+        </nuxt-link>
+      </div>
+    </div>
+    <div v-else class="row mt-5 justify-content-end btn-bottom">
+      <div class="pl-2">
+        <button type="button" class="btn btn-link btn-link-dark-gray btn-lg btn-skip" @click="skip">
+          Skip for now
+        </button>
+        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+          Next
+        </button>
       </div>
     </div>
   </div>
@@ -224,7 +214,8 @@ export default {
       this.step = this.step + 1
     },
     skip () {
-      this.$router.push('/')
+      this.$refs.completeProfile.post()
+        .then(x => console.log(x))
     }
   }
 }
@@ -233,5 +224,26 @@ export default {
   .btn-add {
     width: 150px;
     border-radius: 40px;
+  }
+
+  .progress-font {
+    color: #14142B;
+    font-size: 18px;
+  }
+
+  .progress-numbering {
+    color: #3E4EDD;
+  }
+
+  .btn-skip {
+    color: #4E4B66;
+  }
+
+  .btn-bottom {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    padding-right: 50px;
+    padding-bottom: 25px;
   }
 </style>
