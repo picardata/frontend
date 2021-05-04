@@ -295,6 +295,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
   }
   &.forgot-password{
+    .modal-content{
+      border-radius: 24px;
+    }
     .modal-header{
       padding: 0.75em;
 
@@ -314,6 +317,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
       h2{
         font-size: 24px;
+        color: #181C3B;
+      }
+      p{
+        color: #313131;
       }
     }
   }
@@ -427,5 +434,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   }
   .country-selector.has-value .country-selector__input{
     padding-top: 0 !important;
+  }
+}
+
+.picardata-std-modal {
+  .form-control {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
   }
 }

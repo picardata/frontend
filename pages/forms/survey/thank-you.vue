@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Thank you! your response has been recorded</h2>
-    <a :href="'/form/survey/' + form" class="btn btn-default">Submit another response</a>
+    <a :href="'/forms/survey/' + form" class="btn btn-default">Submit another response</a>
   </div>
 </template>
 <script>

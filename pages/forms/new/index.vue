@@ -10,6 +10,7 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
+      <prev-page />
       <div class="row mt-3">
         <div class="col-6">
           <h1>Create blank form</h1>
@@ -22,18 +23,21 @@
       </div>
       <div class="row mt-5">
         <div class="col-4">
-          <h5><b>Questions</b></h5>
+          <span>Questions</span>
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
-            <nuxt-link to="/form/preview" class="btn text-primary btn-lg bg-white btn-preview">
+            <nuxt-link :to="id ? '/forms/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
-            <nuxt-link to="/form/share" class="btn btn-lg btn-primary btn-share">Share form</nuxt-link>
+            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+            <nuxt-link :to="id ? '/forms/result/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+              <font-awesome-icon :icon="['fas', 'poll']" />
+              Survey results</nuxt-link>
           </span>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-5">
         <form>
           <div class="card">
             <div class="card-body">
@@ -72,30 +76,54 @@
           />
         </form>
       </div>
-      <div class="stick-bottom">
-        <button
-          class="btn btn-primary btn-md "
-          type="button"
-          @click="newField"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </button>
-      </div>
     </div>
+    <div class="stick-bottom">
+      <button
+        class="btn btn-primary btn-md "
+        type="button"
+        @click="newField"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </button>
+    </div>
+    <modal :show.sync="modals.modal0">
+      <div class="modal-header">
+        <h3>Share form {{ name }}</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="">Send to</label>
+          <input v-model="formRecipient" type="text" class="form-control">
+          <label for="">Subject</label>
+          <input v-model="subject" type="text" class="form-control">
+          <label for="">Message</label>
+          <input v-model="content" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <base-button tag="button" type="primary" @click="sendForm">
+          Send form
+        </base-button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
+import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
 
 export default {
   name: 'IndexVue',
   layout: 'argon',
   components: {
+    PrevPage,
     Field
   },
   data () {
     return {
+      id: '',
+      name: 'Untitled form',
       crumbs: [
         {
           name: 'Forms',
@@ -106,8 +134,6 @@ export default {
           path: '/forms/new'
         }
       ],
-      id: '',
-      name: 'Untitled form',
       description: '',
       questions: [
         {
@@ -132,7 +158,13 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      modals: {
+        modal0: false
+      },
+      formRecipient: '',
+      subject: '',
+      content: ''
     }
   },
   computed:
@@ -142,6 +174,26 @@ export default {
       }
     },
   methods: {
+    shareModal () {
+      this.modals.modal0 = true
+    },
+    dismissModal () {
+      this.modals.modal0 = false
+    },
+    sendForm () {
+      this.formRecipient.split(',').map((v) => {
+        this.$axios.$post('/api/form-respondents/', {
+          subject: this.subject,
+          content: this.content,
+          formRespondent: {
+            email: v.trim(),
+            form: this.id
+          }
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+      })
+    },
     async submitField (index, formId) {
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
@@ -393,7 +445,8 @@ form {
 }
 
 .form-control {
-  color: black;
+  color: #313131;
+  font-weight: 600;
 }
 
 input.title {

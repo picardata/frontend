@@ -241,15 +241,15 @@ export default {
         crumbs = [
           {
             name: 'Forms',
-            path: '/form'
+            path: '/forms'
           },
           {
             name: this.name,
-            path: '/form/' + this.$route.params.id
+            path: '/forms/' + this.$route.params.id
           },
           {
             name: 'Form Result',
-            path: '/form/' + this.$route.params.id
+            path: '/forms/' + this.$route.params.id
           }
         ]
       return crumbs

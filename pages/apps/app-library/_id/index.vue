@@ -62,7 +62,7 @@ export default {
       crumbs: [
         {
           name: 'Apps',
-          path: '/apps'
+          path: '/apps/app-library'
         },
         {
           name: 'App Library',
@@ -70,7 +70,7 @@ export default {
         },
         {
           name: data.data.name,
-          path: '/apps/integrated-apps'
+          path: '/apps/app-library'
         }
       ],
       isIntegrated,
