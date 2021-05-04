@@ -2,7 +2,7 @@
   <div>
     <base-header type="white" class="pb-6">
       <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
+        <div class="col-lg-12 col-7">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
             <route-breadcrumb :crumbs="getCrumbs" />
           </nav>
@@ -248,7 +248,7 @@ export default {
             path: '/forms/' + this.$route.params.id
           },
           {
-            name: 'Form Result',
+            name: 'Summary',
             path: '/forms/' + this.$route.params.id
           }
         ]
@@ -292,11 +292,5 @@ input.form-control:focus {
 nav a.disabled {
   color: #14142B;
   font-weight: 600;
-}
-.breadcrumb-item:nth-of-type(3){
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 150px;
 }
 </style>
