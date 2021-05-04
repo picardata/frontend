@@ -9,7 +9,7 @@
         </div>
       </div>
     </base-header>
-    <div class="container-fluid mt-3">
+    <div >
       <ApplicationDetail
         :logo="data.application.logo"
         :name="data.application.name"
