@@ -44,3 +44,14 @@ export default {
   props: ['modals', 'closeForm', 'form', 'href', 'saveGroup']
 }
 </script>
+<style scoped lang="scss">
+
+button {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  margin-right: -6%;
+}
+</style>
