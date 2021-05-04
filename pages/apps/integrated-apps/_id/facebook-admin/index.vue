@@ -140,14 +140,14 @@ export default {
       crumbs: [
         {
           name: 'Apps',
-          path: '/apps'
+          path: '/apps/integrated-apps'
         },
         {
           name: 'Integrated Apps',
           path: '/apps/integrated-apps'
         },
         {
-          name: 'Google',
+          name: 'Facebook',
           path: '/apps/integrated-apps'
         }
       ]
