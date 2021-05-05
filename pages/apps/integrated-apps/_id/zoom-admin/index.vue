@@ -9,7 +9,7 @@
         </div>
       </div>
     </base-header>
-    <div >
+    <div>
       <ApplicationDetail
         :logo="data.application.logo"
         :name="data.application.name"

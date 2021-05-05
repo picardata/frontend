@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-if="data.length > 0">
+  <div v-if="data.length > 0" class="row">
     <div class="col-md-12 ">
       <div class="picardata-paging float-right">
         <div class="col-sm" @click="setPrevious()">
@@ -41,10 +41,10 @@ export default {
   name: 'Paging',
   layout: 'argon',
   props: [
-    "data",
-    "setCurrentPage",
-    "getTotalPage", 
-    "getCurrentPage"
+    'data',
+    'setCurrentPage',
+    'getTotalPage',
+    'getCurrentPage'
   ],
   methods: {
     setNext () {
@@ -62,10 +62,10 @@ export default {
     setPrevious () {
       this.setCurrentPage(this.getCurrentPage() - 1)
     },
-    
+
     isCurrentPage (n) {
       return this.getCurrentPage() === n
-    },
+    }
   }
 }
 </script>
@@ -109,7 +109,6 @@ export default {
   font-size: 20px;
   letter-spacing: 0.75px;
 
-
   color: #313131;
 }
 .picardata-paging {
@@ -120,7 +119,6 @@ export default {
   cursor: pointer;
   position: static;
   width: auto;
-
 
   background: #FAFAFA;
   border-radius: 8px;

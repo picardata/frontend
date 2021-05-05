@@ -73,12 +73,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <Paging 
+    <Paging
       style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
       :data="totalIntegrations"
-      :getTotalPage="getTotalPage" 
-      :getCurrentPage="getCurrentPage"
-      :setCurrentPage="setCurrentPage" />
+      :get-total-page="getTotalPage"
+      :get-current-page="getCurrentPage"
+      :set-current-page="setCurrentPage"
+    />
   </div>
 </template>
 <script>
@@ -111,7 +112,6 @@ export default {
       currentPage: 1,
       posts: [],
       totalPage: 1,
-      currentPage: 1,
       size: 10,
       totalIntegrations: [],
       integrations: []
@@ -150,7 +150,6 @@ export default {
         const startIndex = ((this.currentPage * this.size) - this.size)
         const finishIndex = this.currentPage * this.size
 
-
         const newIntegrations = []
         for (let i = startIndex; i < finishIndex; i++) {
           if (typeof this.totalIntegrations[i] !== 'undefined') {
@@ -158,19 +157,18 @@ export default {
           }
         }
 
-
         this.integrations = newIntegrations
       }
     },
 
-    getTotalPage() {
+    getTotalPage () {
       return this.totalPage
     },
 
-    getCurrentPage() {
+    getCurrentPage () {
       return this.currentPage
     }
-    
+
   }
 }
 </script>
