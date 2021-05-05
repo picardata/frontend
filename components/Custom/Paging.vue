@@ -1,5 +1,5 @@
 <template>
-  <div class="row" style="margin-bottom: 2%;">
+  <div class="row" style="margin-bottom: 2%;" v-if="data.length > 0">
     <div class="col-md-12 ">
       <div class="picardata-paging float-right">
         <div class="col-sm" @click="setPrevious()">
@@ -65,6 +65,7 @@ export default {
     }
   },
   props: [
+      "data",
       "isLastForNext", 
       "setNext", 
       "isCurrentPage", 
