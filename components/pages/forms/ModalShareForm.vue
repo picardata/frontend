@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal :show.sync="modals.shareForm" modal-classes="share-form">
+    <modal :show="shareForm" modal-classes="share-form" @close="closeModal">
       <div class="modal-header">
         <div class="icon-back" @click="closeModal"><i class="fa fa-arrow-left" /></div>
         <h3>Share "{{ title }}" form</h3>
@@ -36,7 +36,7 @@
         </div>
         <div v-else>
           <h4 class="sub-title color main">Link</h4>
-          <input v-model="linkForm" type="text" class="form-control no-border pl-0" disabled="">
+          <input v-model="getLink" type="text" class="form-control no-border pl-0" disabled="">
         </div>
       </div>
       <div class="modal-footer mt-4">
@@ -53,7 +53,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
   name: "ModalShareForm",
-  props: ['modals', 'title', 'id'],
+  props: ['shareForm', 'title', 'id'],
   components: {
     ValidationObserver,
     ValidationProvider
@@ -63,16 +63,29 @@ export default {
       formRecipient: '',
       subject: '',
       content: '',
-      linkForm: '',
-      type: 'email'
+      type: 'email',
+      url: this.url
+    }
+  },
+  computed: {
+    getLink () {
+      return this.url + this.id + '?account=public'
+    }
+  },
+  watch: {
+    shareForm(newVal, oldVal) {
+      this.formRecipient = ''
+      this.subject = ''
+      this.content = ''
+      this.type = 'email'
     }
   },
   mounted() {
-    this.linkForm = window.location.origin + '/forms/surveys/' + this.id + '?account=public'
+    this.url = window.location.origin + '/forms/surveys/'
   },
   methods: {
     closeModal () {
-      this.modals.shareForm = false
+      this.$emit('closeShareForm')
     },
     changeShareMethod (value) {
       this.type = value
@@ -98,7 +111,7 @@ export default {
           content: this.content,
           formRespondent: {
             email: v.trim(),
-            form: this.$route.params.id
+            form: this.id
           }
         })
             .then(res => console.log(res))
@@ -108,7 +121,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

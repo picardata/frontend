@@ -175,31 +175,14 @@
         </div>
       </div>
     </modal>
-    <modal :show.sync="modals.modal0">
-      <div class="modal-header">
-        <h3>Share form {{ selectedShare.name }}</h3>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label for="">Send to</label>
-          <input v-model="formRecipient" type="text" class="form-control">
-          <label for="">Subject</label>
-          <input v-model="subject" type="text" class="form-control">
-          <label for="">Message</label>
-          <input v-model="content" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <base-button tag="button" type="primary" @click="sendForm">
-          Send form
-        </base-button>
-      </div>
-    </modal>
+
+    <ModalShare :id="selectedShare.id" :share-form="modals.shareForm" :title="selectedShare.name" @closeShareForm="modals.shareForm = false" />
   </div>
 </template>
 
 <script>
 import PrevPage from '@/components/PrevPage'
+import ModalShare from '@/components/pages/forms/ModalShareForm'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -208,7 +191,7 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
-  components: { PrevPage },
+  components: { PrevPage, ModalShare },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
       .then((data) => {
@@ -231,12 +214,9 @@ export default {
         name: 'Untitled Form'
       },
       selectedShare: {},
-      subject: '',
-      content: '',
       modals: {
-        modal0: false
-      },
-      formRecipient: ''
+        shareForm: false
+      }
     }
   },
   computed: {
@@ -253,22 +233,8 @@ export default {
   },
   methods: {
     shareModal (form) {
-      this.modals.modal0 = true
       this.selectedShare = form
-    },
-    sendForm () {
-      this.formRecipient.split(',').map((v) => {
-        this.$axios.$post('/api/form-respondents/', {
-          subject: this.subject,
-          content: this.content,
-          formRespondent: {
-            email: v.trim(),
-            form: this.selectedShare.id
-          }
-        })
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-      })
+      this.modals.shareForm = true
     },
     openLink (id) {
       return '/forms/' + id
