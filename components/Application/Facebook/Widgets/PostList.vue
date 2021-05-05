@@ -74,7 +74,8 @@
       </el-table-column>
     </el-table>
     <Paging 
-      style="margin-top: 2%"
+      style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
+      :data="totalIntegrations"
       :isLastForNext="isLastForNext" 
       :setNext="setNext" 
       :isCurrentPage="isCurrentPage" 
