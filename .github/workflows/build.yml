@@ -1,0 +1,101 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Get yarn cache directory path 🛠
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies 👨🏻‍💻
+        run: yarn
+
+      - name: Run linter 👀
+        run: yarn lint
+
+      - name: Run yarn build
+        run: yarn build
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          github_token: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
+          tag_prefix: ~
+
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: picardata/frontend
+          IMAGE_TAG: ${{ steps.tag_version.outputs.new_tag }}
+          GITHUB_TOKEN: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
+        run: |
+          cd container \
+            && DOCKER_BUILDKIT=1 docker -D build  --target production \
+            --tag 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to Prod server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_IP }}
+          username: "emewuser"
+          port: "22"
+          key: ${{ secrets.EMEW_SSH_KEY }}
+          passphrase: ${{ secrets.EMEW_SSH_PASSPHRASE }}
+          script: |
+            hostname && aws ecr get-login-password --region ap-southeast-1 \
+              | docker login --username AWS \
+              --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
+              && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} \
+              && docker rm -f api && docker run --name=api --network=picardata_vpcbr --ip="10.5.5.21" \
+              -d 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }}
