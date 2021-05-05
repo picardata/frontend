@@ -9,12 +9,13 @@
         </div>
       </div>
     </base-header>
-    <div class="container-fluid mt-3">
+    <div>
       <ApplicationDetail
         :logo="data.application.logo"
         :name="data.application.name"
         :detail="data.application.detail"
         :instruction="data.application.instruction"
+        :detail-integrated-page="true"
       />
       <div class="row">
         <h3 class="mt-3 ml-4 col">
@@ -134,7 +135,7 @@ export default {
       crumbs: [
         {
           name: 'Apps',
-          path: '/apps'
+          path: '/apps/integrated-apps'
         },
         {
           name: 'Integrated Apps',

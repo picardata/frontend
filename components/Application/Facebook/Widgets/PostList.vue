@@ -12,7 +12,7 @@
     <el-table
       class="table-responsive table-flush"
       header-row-class-name="thead-light"
-      :data="posts"
+      :data="integrations"
     >
       <el-table-column
         label="Date"
@@ -73,6 +73,13 @@
         </template>
       </el-table-column>
     </el-table>
+    <Paging
+      style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
+      :data="totalIntegrations"
+      :get-total-page="getTotalPage"
+      :get-current-page="getCurrentPage"
+      :set-current-page="setCurrentPage"
+    />
   </div>
 </template>
 <script>
@@ -89,19 +96,25 @@ export default {
     [DropdownMenu.name]: DropdownMenu
   },
   async fetch () {
-    await this.$axios.$get('/api/facebook/page-posts')
-      .then((data) => {
-        data.map((v) => {
-          v.formattedDate = moment(v.created_time.date).format('DD/MM/YYYY')
-        })
-        this.posts = data
-        console.log(data)
-      })
+    const dataResult = await this.$axios.$get('/api/facebook/page-posts')
+    dataResult.map((v) => {
+      v.formattedDate = moment(v.created_time.date).format('DD/MM/YYYY')
+    })
+    this.posts = dataResult
+
+    this.totalIntegrations = dataResult
+    this.integrations = dataResult
+    this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
+    this.setCurrentPage(1)
   },
   data () {
     return {
       currentPage: 1,
-      posts: []
+      posts: [],
+      totalPage: 1,
+      size: 10,
+      totalIntegrations: [],
+      integrations: []
     }
   },
   methods: {
@@ -126,7 +139,36 @@ export default {
           return v
         }
       })[0].icon
+    },
+
+    setCurrentPage (currentPage) {
+      if (currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ')
+        console.log(currentPage)
+        this.currentPage = currentPage
+
+        const startIndex = ((this.currentPage * this.size) - this.size)
+        const finishIndex = this.currentPage * this.size
+
+        const newIntegrations = []
+        for (let i = startIndex; i < finishIndex; i++) {
+          if (typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i])
+          }
+        }
+
+        this.integrations = newIntegrations
+      }
+    },
+
+    getTotalPage () {
+      return this.totalPage
+    },
+
+    getCurrentPage () {
+      return this.currentPage
     }
+
   }
 }
 </script>
