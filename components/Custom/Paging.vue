@@ -41,15 +41,32 @@ export default {
   name: 'Paging',
   layout: 'argon',
   props: [
-      "data",
-      "isLastForNext", 
-      "setNext", 
-      "isCurrentPage", 
-      "getTotalPage", 
-      "isLastForPrev",
-      "setPrevious",
-      "setCurrentPage"
-  ]
+    "data",
+    "setCurrentPage",
+    "getTotalPage", 
+    "getCurrentPage"
+  ],
+  methods: {
+    setNext () {
+      this.setCurrentPage(this.getCurrentPage() + 1)
+    },
+
+    isLastForPrev () {
+      return this.getCurrentPage() === 1
+    },
+
+    isLastForNext () {
+      return this.getCurrentPage() === this.getTotalPage()
+    },
+
+    setPrevious () {
+      this.setCurrentPage(this.getCurrentPage() - 1)
+    },
+    
+    isCurrentPage (n) {
+      return this.getCurrentPage() === n
+    },
+  }
 }
 </script>
 
