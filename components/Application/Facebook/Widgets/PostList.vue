@@ -12,7 +12,7 @@
     <el-table
       class="table-responsive table-flush"
       header-row-class-name="thead-light"
-      :data="posts"
+      :data="integrations"
     >
       <el-table-column
         label="Date"
@@ -73,6 +73,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <Paging 
+      :isLastForNext="isLastForNext" 
+      :setNext="setNext" 
+      :isCurrentPage="isCurrentPage" 
+      :getTotalPage="getTotalPage" 
+      :isLastForPrev="isLastForPrev"
+      :setPrevious="setPrevious"
+      :setCurrentPage="setCurrentPage" />
   </div>
 </template>
 <script>
@@ -89,19 +97,47 @@ export default {
     [DropdownMenu.name]: DropdownMenu
   },
   async fetch () {
-    await this.$axios.$get('/api/facebook/page-posts')
-      .then((data) => {
-        data.map((v) => {
+    const dataResult = await this.$axios.$get('/api/facebook/page-posts')
+      // .then((data) => {
+        dataResult.map((v) => {
           v.formattedDate = moment(v.created_time.date).format('DD/MM/YYYY')
         })
-        this.posts = data
-        console.log(data)
-      })
+        this.posts = dataResult
+        console.log(dataResult)
+      // })
+
+        this.totalIntegrations = dataResult
+        this.integrations = dataResult
+        // this.totalPage = 5;
+        this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
+        this.setCurrentPage(1)
+    // const data =  await this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
+    //   // eslint-disable-next-line no-return-assign
+    //   // .then((data) => {
+    //     console.log(data)
+    //     this.totalIntegrations = data.data.filter(x => x.status === 1)
+    //     console.log('total integration = ')
+
+    //     this.integrations = [...this.totalIntegrations]
+    //     // this.totalPage = 5;
+    //     this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
+    //     this.setCurrentPage(1)
+      // }).catch(
+      // // eslint-disable-next-line no-console
+      //   (e) => {
+      //     console.log(e)
+      //   }
+      // )
   },
   data () {
     return {
       currentPage: 1,
-      posts: []
+      posts: [],
+      totalPage: 1,
+      currentPage: 1,
+      size: 10,
+      totalIntegrations: [],
+      integrations: []
     }
   },
   methods: {
@@ -126,6 +162,78 @@ export default {
           return v
         }
       })[0].icon
+    },
+
+
+    isCurrentPage (n) {
+      // return this.$emit('isCurrentPage', n)
+
+      return this.currentPage === n
+    },
+
+    setCurrentPage (currentPage) {
+      // this.$emit('setCurrentPage', currentPage)
+      if (currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ')
+        console.log(currentPage)
+        this.currentPage = currentPage
+
+        // const newIntegrations = this.integrations;
+        const startIndex = ((this.currentPage * this.size) - this.size)
+        const finishIndex = this.currentPage * this.size
+
+        console.log('start index = ')
+        console.log(startIndex)
+
+        console.log('finish index = ')
+        console.log(finishIndex)
+
+        // console.log('start form = ');
+        // console.log(startForm);
+
+        // console.log('size = ');
+        // console.log(size);
+
+        const newIntegrations = []
+        for (let i = startIndex; i < finishIndex; i++) {
+          if (typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i])
+          }
+        }
+
+        console.log('new integrations = ')
+        console.log(newIntegrations)
+
+        this.integrations = newIntegrations
+        // this.setIntegration(newIntegrations);
+      }
+    },
+
+    setNext () {
+      // this.$emit('setNext')
+      this.setCurrentPage(this.currentPage + 1)
+    },
+
+    isLastForPrev () {
+      // console.log('current page = ');
+      // console.log(n);
+      // return this.$emit('isLastForPrev')
+      return this.currentPage === 1
+    },
+
+    isLastForNext () {
+      // return this.$emit('isLastForNext')
+      return this.currentPage === this.totalPage
+    },
+
+    setPrevious () {
+      // this.$emit('setPrevious')
+      this.setCurrentPage(this.currentPage - 1)
+    },
+
+    getTotalPage() {
+      // return this.$emit('getTotalPage')
+      return this.totalPage
     }
   }
 }
