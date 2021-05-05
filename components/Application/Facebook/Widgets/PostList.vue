@@ -74,6 +74,7 @@
       </el-table-column>
     </el-table>
     <Paging 
+      style="margin-top: 2%"
       :isLastForNext="isLastForNext" 
       :setNext="setNext" 
       :isCurrentPage="isCurrentPage" 
