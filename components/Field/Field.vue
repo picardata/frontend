@@ -34,18 +34,18 @@
           </div>
         </div>
         <div v-if="q.desc">
-          <div class="clearfix" v-if="q.type != 0 && q.type != 1">
+          <div v-if="q.type != 0 && q.type != 1" class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
-                  name="text-desc"
-                  class="form-control pcd mt-3"
-                  placeholder="Description"
-              ></textarea>
+                name="text-desc"
+                class="form-control pcd mt-3"
+                placeholder="Description"
+              />
             </div>
           </div>
           <div class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
-              <dropzone-file-upload v-model="fileSingle"></dropzone-file-upload>
+              <dropzone-file-upload v-model="fileSingle" />
             </div>
           </div>
         </div>
@@ -55,12 +55,12 @@
         <LinearScale v-if="q.type == 5" />
         <div v-if="q.type == 6">
           <div class="col-sm-8 mt-3">
-            <base-input type="date" placeholder="Day, month, year" id="example-date-input"/>
+            <base-input id="example-date-input" type="date" placeholder="Day, month, year" />
           </div>
         </div>
         <div v-if="q.type == 7">
           <div class="col-sm-8 mt-3">
-            <base-input type="time" value="10:30:00" id="example-time-input"/>
+            <base-input id="example-time-input" type="time" value="10:30:00" />
           </div>
         </div>
         <hr>
@@ -79,21 +79,21 @@
                   <span class="button-required">Required</span>
                 </b-form-checkbox>
               </div>
-              <div class="divider p-0 pr-1"></div>
+              <div class="divider p-0 pr-1" />
               <div class="p-0 mr-1">
-                <button type="button" @click="q.desc = !q.desc" class="btn btn-lg bg-white text-primary btn-trash-field">
+                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc">
                   <font-awesome-icon :icon="['fas', 'plus']" />
                   <span>Add description/image</span>
                 </button>
               </div>
-              <div class="divider p-0 pr-1"></div>
+              <div class="divider p-0 pr-1" />
               <div class="p-0 mr-1">
                 <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
                   <font-awesome-icon :icon="['fas', 'copy']" />
                   <span>Duplicate</span>
                 </button>
               </div>
-              <div class="divider p-0 pr-1"></div>
+              <div class="divider p-0 pr-1" />
               <div class="p-0">
                 <button type="button" class="btn btn-lg delete-button bg-white btn-copy-field" @click="delete_field(q_key)">
                   <font-awesome-icon :icon="['fas', 'trash']" />
@@ -103,7 +103,9 @@
             </div>
           </div>
           <div class="col-3 text-right">
-            <base-button outline type="primary" @click="new_field" class="btn-prim">Add question</base-button>
+            <base-button outline type="primary" class="btn-prim" @click="new_field">
+              Add question
+            </base-button>
           </div>
         </div>
       </div>
@@ -111,16 +113,15 @@
   </div>
 </template>
 <script>
+import DropzoneFileUpload from '@/components/argon-core/Inputs/DropzoneFileUpload'
 import Choice from '~/components/Field/Choice'
 import Textfield from '~/components/Field/Textfield'
 import FieldUpload from '~/components/Field/FieldUpload'
 import LinearScale from '~/components/Field/LinearScale'
-import DropzoneFileUpload from '@/components/argon-core/Inputs/DropzoneFileUpload'
-
 
 export default {
   name: 'Field',
-  components: { Choice, Textfield, FieldUpload, LinearScale,DropzoneFileUpload },
+  components: { Choice, Textfield, FieldUpload, LinearScale, DropzoneFileUpload },
   props: {
     questions: {
       type: Array,
@@ -132,7 +133,7 @@ export default {
     change_type: { type: Function },
     copy_field: { type: Function },
     delete_field: { type: Function },
-    new_field: {type: Function}
+    new_field: { type: Function }
   },
   data () {
     return {

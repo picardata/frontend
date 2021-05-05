@@ -72,7 +72,14 @@
               </div>
             </div>
           </div>
-          <Field :questions="questions" :add_field="addField" :change_type="changeType" :copy_field="copyField" :delete_field="deleteField" :new_field="newField" />
+          <Field
+            :questions="questions"
+            :add_field="addField"
+            :change_type="changeType"
+            :copy_field="copyField"
+            :delete_field="deleteField"
+            :new_field="newField"
+          />
         </form>
       </div>
     </div>

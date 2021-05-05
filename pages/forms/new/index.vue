@@ -132,7 +132,7 @@ export default {
           id: undefined,
           name: '',
           type: 0,
-          desc:false,
+          desc: false,
           required: false,
           fieldChoices: [
             {
@@ -275,7 +275,7 @@ export default {
         id: undefined,
         name: '',
         type: 0,
-        desc:false,
+        desc: false,
         required: false,
         fieldChoices: [
           {

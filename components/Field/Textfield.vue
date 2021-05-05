@@ -2,22 +2,22 @@
   <div class="col-8">
     <div>
       <textarea
-          name="text-desc"
-          class="form-control pcd mt-3"
+        name="text-desc"
+        class="form-control pcd mt-3"
       >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin venenatis, arcu vel scelerisque bibendum, odio turpis gravida</textarea>
-        <input
-            type="text"
-            name="input-answer"
-            class="form-control pcd mt-3"
-            placeholder="Short-answer text"
-        >
+      <input
+        type="text"
+        name="input-answer"
+        class="form-control pcd mt-3"
+        placeholder="Short-answer text"
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Textfield"
+  name: 'Textfield'
 }
 </script>
 

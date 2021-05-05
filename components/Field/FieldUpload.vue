@@ -1,14 +1,16 @@
 <template>
   <div class="col-8">
     <div class="row mt-3">
-      <div class="col-sm-11">Allow only specific file types</div>
+      <div class="col-sm-11">
+        Allow only specific file types
+      </div>
       <div class="col-sm-1 text-right pr-0">
         <b-form-checkbox
-            name="check-button"
-            class="d-inline text-primary font-weight-600 pr-0"
-            switch
+          name="check-button"
+          class="d-inline text-primary font-weight-600 pr-0"
+          switch
         >
-          <span class="button-required"></span>
+          <span class="button-required" />
         </b-form-checkbox>
       </div>
     </div>
@@ -64,11 +66,11 @@
     </div>
     <div class="row mt-3 type-dropdown">
       <button
-          class="btn btn-default btn-lg text-left dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="true"
+        class="btn btn-default btn-lg text-left dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="true"
       >
         Choose max. number of files
         <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
@@ -76,12 +78,12 @@
       </button>
       <div class="dropdown-menu">
         <a
-            class="dropdown-item"
+          class="dropdown-item"
         >
           1
         </a>
         <a
-            class="dropdown-item"
+          class="dropdown-item"
         >
           2
         </a>
@@ -89,11 +91,11 @@
     </div>
     <div class="row mt-3 type-dropdown">
       <button
-          class="btn btn-default btn-lg text-left dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="true"
+        class="btn btn-default btn-lg text-left dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="true"
       >
         Choose max. file sizes
         <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
@@ -101,12 +103,12 @@
       </button>
       <div class="dropdown-menu">
         <a
-            class="dropdown-item"
+          class="dropdown-item"
         >
           10 MB
         </a>
         <a
-            class="dropdown-item"
+          class="dropdown-item"
         >
           9 MB
         </a>
@@ -117,7 +119,7 @@
 
 <script>
 export default {
-  name: "FieldUpload"
+  name: 'FieldUpload'
 }
 </script>
 

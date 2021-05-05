@@ -1,6 +1,6 @@
 <template>
   <div class="col-8 mt-3">
-    <div >
+    <div>
       <ul class="list-group">
         <li v-for="(choice, index) in question.fieldChoices" :key="index" class="list-group-item">
           <div class="row">
@@ -17,21 +17,22 @@
               <div class="d-flex">
                 <div>
                   <input
-                      v-show="choice.edit === true"
-                      ref="choices"
-                      v-model="choice.name"
-                      type="text"
-                      class="form-control choice"
-                      placeholder="Add option"
-                      @keyup="checkDuplicate(choice)"
-                      @keyup.esc="cancelEdit(choice)"
-                      @blur="doneEdit(choice, index, question.id)"
+                    v-show="choice.edit === true"
+                    ref="choices"
+                    v-model="choice.name"
+                    type="text"
+                    class="form-control choice"
+                    placeholder="Add option"
+                    @keyup="checkDuplicate(choice)"
+                    @keyup.esc="cancelEdit(choice)"
+                    @blur="doneEdit(choice, index, question.id)"
                   >
                   <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" class="cursor-pointer" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
                 </div>
-                <div v-if="question.type !== 4 &&
-                  index === lastIndex &&
-                  otherInChoice == false"
+                <div
+                  v-if="question.type !== 4 &&
+                    index === lastIndex &&
+                    otherInChoice == false"
                   class="ml-1"
                 >
                   <span>or <a class="btn-add-other text-primary cursor-pointer" @click="addChoice(lastIndex, 2)">Add "Other"</a></span>
@@ -55,7 +56,9 @@
               />
             </div>
           </div>
-          <div class="add-image text-primary"><i class="fas fa-image"></i> Add image</div>
+          <div class="add-image text-primary">
+            <i class="fas fa-image" /> Add image
+          </div>
         </li>
       </ul>
     </div>
