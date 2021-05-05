@@ -97,5 +97,5 @@ jobs:
               | docker login --username AWS \
               --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} \
-              && docker rm -f api && docker run --name=api --network=picardata_vpcbr --ip="10.5.5.21" \
+              && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
               -d 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }}
