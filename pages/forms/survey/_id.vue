@@ -115,8 +115,14 @@
 export default {
   auth: false,
   layout: 'argon-navless',
+  middleware ({ store, redirect, route }) {
+    // Force login if user got link from email
+    if (!store.state.auth.loggedIn && route.query.account === 'picardata') {
+      return redirect('/')
+    }
+  },
   async asyncData (context) {
-    return await context.app.$axios.$get('/api/form-respondents/' + context.route.params.id)
+    return await context.app.$axios.$get('/api/form-respondents/public/' + context.route.params.id)
       .then((data) => {
         data.form.id = data.id
         data.form.email = data.email
