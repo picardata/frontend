@@ -2,8 +2,10 @@
   <div class="row ml-2">
     <div v-if="detailManagePage || detailLibraryPage || detailIntegratedPage" :class="{'col-12': true, 'back-arrow-parent': true}">
       <!-- <nuxt-link :to="generateParentPath" class="back-arrow"> -->
-      <a class="pd-icon pdicon-Back-Arrow picardata-arrow" 
-         :href="detailIntegratedPage ? '/apps/integrated-apps' : generateParentPath" />
+      <a
+        class="pd-icon pdicon-Back-Arrow picardata-arrow"
+        :href="detailIntegratedPage ? '/apps/integrated-apps' : generateParentPath"
+      />
       <!-- </nuxt-link> -->
     </div>
     <div v-if="detailPage || detailLibraryPage" :class="{'col-12': true, 'margin-top': detailLibraryPage}">
