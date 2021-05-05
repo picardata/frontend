@@ -332,7 +332,7 @@ export default {
 
     appClick (index) {
       const selectedIntegration = this.integrations[index]
-      this.$router.push('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'))
+      window.location.href = '/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-')
     }
   }
 }
