@@ -55,11 +55,6 @@
         </div>
       </div>
       <div class="row mt-5">
-        <div class="col-12">
-          <h3><img src="~/assets/nav_logo_dark.png" alt="Picardata"> How Picardata works?</h3>
-        </div>
-      </div>
-      <div class="row mt-5">
         <HowPicardataWorks />
       </div>
     </div>
