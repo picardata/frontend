@@ -168,6 +168,10 @@ export default {
 </script>
 
 <style scoped>
+.nav-last {
+  opacity: 0.3;
+}
+
 .picardata-paging-active {
   color: #3E4EDD;
 }
