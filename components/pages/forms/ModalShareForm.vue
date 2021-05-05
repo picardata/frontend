@@ -53,7 +53,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
   name: "ModalShareForm",
-  props: ['modals', 'title'],
+  props: ['modals', 'title', 'id'],
   components: {
     ValidationObserver,
     ValidationProvider
@@ -63,9 +63,12 @@ export default {
       formRecipient: '',
       subject: '',
       content: '',
-      linkForm: 'https://labinastudio.datagram.com/forms/d/e/kskksnfhfhfhywtiojeefkffkk',
+      linkForm: '',
       type: 'email'
     }
+  },
+  mounted() {
+    this.linkForm = window.location.origin + '/forms/surveys/' + this.id + '?account=public'
   },
   methods: {
     closeModal () {

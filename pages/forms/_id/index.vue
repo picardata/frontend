@@ -86,7 +86,7 @@
       </button>
     </div>
 
-    <ModalShare :modals="modals" :title="name" />
+    <ModalShare :modals="modals" :title="name" :id="this.id" />
   </div>
 </template>
 
