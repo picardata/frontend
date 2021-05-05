@@ -6,7 +6,7 @@
       <div class="content" @click="$sidebar.displaySidebar(false)">
         <nuxt />
       </div>
-      <content-footer v-if="!$route.meta.hideFooter" />
+      <!-- <content-footer v-if="!$route.meta.hideFooter" /> -->
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
 import SideBar from '~/components/layouts/argon/SideBar.vue'
-import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
+// import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -35,7 +35,6 @@ function initScrollbar (className) {
 
 export default {
   components: {
-    ContentFooter,
     SideBar
   },
   mounted () {

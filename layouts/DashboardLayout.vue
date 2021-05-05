@@ -195,7 +195,7 @@ function initScrollbar (className) {
 export default {
   components: {
     // DashboardNavbar,
-    ContentFooter
+    // ContentFooter
   },
   mounted () {
     this.initScrollbar()
