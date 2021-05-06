@@ -1,4 +1,59 @@
 <template>
+  <div class="row">
+          <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+        <submenu v-show="submenu" class="col-xl-2" :submenu-data="yourApp">
+          <template v-slot:breadcrumb>
+            <div class="manual-crumb">
+              Apps
+            </div>
+          </template>
+          <template v-if="submenu" v-slot:collapse>
+            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
+          </template>
+          <template v-else v-slot:expand>
+            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
+          </template>
+          <template v-slot:content>
+            <div class="row">
+              <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
+                <div class="box row">
+                  <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
+                    <h3 class="box-text">
+                      Your Integrated Apps
+                    </h3>
+                  </div>
+                  <div class="col-lg-12" style="margin-bottom:-5.625em">
+                    <p class="box-text box-number">
+                      {{ countTotalIntegrations }}
+                    </p>
+                  </div>
+                  <div class="col-lg-12">
+                    <hr class="text-left pull-left float-left">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <img
+                  slot="image"
+                  class="card-img-top"
+                  src="/img/integrated-apps.png"
+                >
+              </div>
+            </div>
+            <div class="row" style="margin">
+              <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
+                <nuxt-link to="/apps/app-library">
+                  <h5 class="box-text">
+                    + Add Application
+                  </h5>
+                </nuxt-link>
+              </div>
+            </div>
+          </template>
+        </submenu>
+      </transition>
+            <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+        <div v-show="submenu" class="col-xl-10">
   <div class="integrated-app">
     <base-header type="white" class="">
       <div class="row align-items-center py-4">
@@ -9,7 +64,7 @@
         </div>
       </div>
     </base-header>
-    <div class="container min-vh-80">
+    <div class="">
       <!-- <div class=""> -->
       <div class="row">
         <div class="col-sm-6 float-right picardata-title">
@@ -215,6 +270,10 @@
       </div>
     </div>
   </div>
+        </div>
+      </transition>
+  </div>
+
 </template>
 
 <script>
@@ -243,10 +302,41 @@ export default {
         modal0: false
       },
       totalIntegrations: [],
-      integrations: []
+      integrations: [],
+      yourApp: [
+        {
+          name: 'Your Apps',
+          type: 'subtitle'
+        },
+        {
+          link: '/apps/integrated-apps',
+          type: 'item',
+          name: 'Integrated Apps'
+        },
+        {
+          link: '/apps/manage-all-apps',
+          type: 'item',
+          name: 'Manage All Apps'
+        },
+        {
+          name: 'Integration',
+          type: 'subtitle'
+        },
+        {
+          link: '/apps/app-library',
+          type: 'item',
+          name: 'App Library'
+        }
+      ],
+      submenu: true,
     }
   },
   mounted () {
+    const element = document.querySelector('.integrated-app .header .container-fluid')
+    console.log('element = ')
+    console.log(element)
+    element.classList.remove('container-fluid')
+    // element.getElementsByClassName('container-fluid').className=""
     this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
@@ -342,6 +432,21 @@ export default {
     appClick (index) {
       const selectedIntegration = this.integrations[index]
       window.location.href = '/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-')
+    },
+
+    submenuAfterLeave (el) {
+      el.style.display = 'block'
+      el.style.left = '-14.6em'
+    },
+
+    submenuAfterEnter (el) {
+      el.style.display = 'block'
+      el.style.left = '0em'
+    }
+  },
+  computed: {
+    countTotalIntegrations: function() {
+      return this.totalIntegrations.length
     }
   }
 }
@@ -556,5 +661,49 @@ margin: auto;
 .picardata-arrow {
   color: #14142B;
   margin: auto
+}
+
+.slide-enter-active {
+  animation: slide .2s reverse;
+}
+
+.slide-leave-active {
+  animation: slide .2s;
+}
+
+@keyframes slide {
+  from { left: 0em; }
+  to { left: -14.6em; }
+}
+
+.manual-crumb {
+  color: #181C3B;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.box {
+  margin: 10px 10px 10px 10px;
+  width: 170px;
+  height: 320px;
+  background-color: #3E4EDD;
+  border-radius: 17px;
+}
+
+hr {
+  width: 50px;
+  color: white;
+  background-color: white;
+  border: 1.5px solid white;
+  border-radius: 5px;
+}
+
+.box-text {
+  color: white;
+}
+
+.box-number {
+    font-size: 50px;
+    font-weight: "bold";
 }
 </style>
