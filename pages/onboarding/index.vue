@@ -212,7 +212,6 @@ export default {
       this.$router.push('/')
     },
     changeFormComplete (complete) {
-      console.log(complete)
       this.isProfileCompleted = complete
     }
   }
