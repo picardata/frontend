@@ -73,18 +73,10 @@
             :change_type="changeType"
             :copy_field="copyField"
             :delete_field="deleteField"
+            :new_field="newField"
           />
         </form>
       </div>
-    </div>
-    <div class="stick-bottom">
-      <button
-        class="btn btn-primary btn-md "
-        type="button"
-        @click="newField"
-      >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-      </button>
     </div>
     <modal :show.sync="modals.modal0">
       <div class="modal-header">
@@ -140,6 +132,7 @@ export default {
           id: undefined,
           name: '',
           type: 0,
+          desc: false,
           required: false,
           fieldChoices: [
             {
@@ -282,6 +275,7 @@ export default {
         id: undefined,
         name: '',
         type: 0,
+        desc: false,
         required: false,
         fieldChoices: [
           {
@@ -484,9 +478,11 @@ input.question {
 }
 
 hr.header-break {
-  border-top: 8px solid var(--blue);
+  background:  var(--blue);
   margin-left: 15px;
   width: 130px;
+  border-radius: 40px !important;
+  height: 8px;
 }
 
 .dropdown-toggle::after {
