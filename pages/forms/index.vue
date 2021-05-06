@@ -310,19 +310,23 @@ export default {
       const dateTime = new Date(date)
       return days[dateTime.getDay()] + ', ' + dateTime.getDate() + ' ' + months[dateTime.getMonth()] + ' ' + dateTime.getFullYear()
     },
-    toggleSort () {
+    async toggleSort () {
       if (this.sort === 0) {
         this.sort = 1
       } else {
         this.sort = 0
       }
-      this.$axios.get('/api/forms/', {
+      const data = await this.$axios.get('/api/forms/', {
         params: this.sortParams
       })
-        .then((data) => {
-          console.log(data)
-          this.data = data.data
-        })
+
+      console.log('data = ')
+      console.log(data)
+        // .then((data) => {
+      console.log(data)
+      this.data = data.data
+      this.loadData(data.data)
+      // })
     },
     search () {
       this.$axios.get('/api/forms/', {
@@ -389,6 +393,14 @@ export default {
 
     getCurrentPage () {
       return this.currentPage
+    },
+
+    loadData(data) {
+      const dataResult = data
+      this.totalIntegrations = dataResult || []
+      this.integrations = dataResult
+      this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
+      this.setCurrentPage(1)
     }
 
 
