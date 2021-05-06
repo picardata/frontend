@@ -170,14 +170,15 @@
               </div>
             </div>
           </div>
-              <Paging
+
+        </div>
+                      <Paging
               style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
               :data="totalIntegrations"
               :get-total-page="getTotalPage"
               :get-current-page="getCurrentPage"
               :set-current-page="setCurrentPage"
             />
-        </div>
       </div>
       <modal name="delete-modal">
         <div class="modal-mask">
