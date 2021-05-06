@@ -1,7 +1,7 @@
 <template>
-  <div class="row">
+  <div class="row integrated-app-container">
           <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <submenu v-show="submenu" class="col-xl-2" :submenu-data="yourApp">
+        <submenu v-show="submenu" class="col-md-2" :submenu-data="yourApp">
           <template v-slot:breadcrumb>
             <div class="manual-crumb">
               Apps
@@ -52,8 +52,12 @@
           </template>
         </submenu>
       </transition>
+                  <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+        <div v-show="submenu" class="col-md-1">
+          </div>
+                  </transition>
             <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-xl-10">
+        <div v-show="submenu" class="col-md-9">
   <div class="integrated-app">
     <base-header type="white" class="">
       <div class="row align-items-center py-4">
@@ -706,4 +710,5 @@ hr {
     font-size: 50px;
     font-weight: "bold";
 }
+
 </style>
