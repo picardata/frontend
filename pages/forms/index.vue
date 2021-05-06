@@ -328,19 +328,21 @@ export default {
       this.loadData(data.data)
       // })
     },
-    search () {
-      this.$axios.get('/api/forms/', {
+    async search () {
+      const data = await this.$axios.get('/api/forms/', {
         params: this.sortParams
       })
-        .then((data) => {
-          console.log(data)
-          this.data = data.data
-        })
+
+      this.loadData(data.data)
+        // .then((data) => {
+          // console.log(data)
+          // this.data = data.data
+        // })
     },
     querySearch () {
-      if (this.qSearch.length > 2) {
+      // if (this.qSearch.length > 2) {
         this.search()
-      }
+      // }
     },
     deletePop (index) {
       this.selectedDeletion = this.data[index]
