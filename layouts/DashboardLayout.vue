@@ -175,7 +175,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 
 // import DashboardNavbar from '~/components/layouts/argon/DashboardNavbar.vue'
-import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
+// import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0

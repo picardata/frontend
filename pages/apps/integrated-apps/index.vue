@@ -1,233 +1,230 @@
 <template>
   <div class="row integrated-app-container">
-          <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <submenu v-show="submenu" class="col-md-2" :submenu-data="yourApp">
-          <template v-slot:breadcrumb>
-            <div class="manual-crumb">
-              Apps
-            </div>
-          </template>
-          <template v-if="submenu" v-slot:collapse>
-            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
-          </template>
-          <template v-else v-slot:expand>
-            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
-          </template>
-          <template v-slot:content>
-            <div class="row">
-              <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
-                <div class="box row">
-                  <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
-                    <h3 class="box-text">
-                      Your Integrated Apps
-                    </h3>
-                  </div>
-                  <div class="col-lg-12" style="margin-bottom:-5.625em">
-                    <p class="box-text box-number">
-                      {{ countTotalIntegrations }}
-                    </p>
-                  </div>
-                  <div class="col-lg-12">
-                    <hr class="text-left pull-left float-left">
-                  </div>
+    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+      <submenu v-show="submenu" class="col-md-2" :submenu-data="yourApp">
+        <template v-slot:breadcrumb>
+          <div class="manual-crumb">
+            Apps
+          </div>
+        </template>
+        <template v-if="submenu" v-slot:collapse>
+          <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
+        </template>
+        <template v-else v-slot:expand>
+          <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
+        </template>
+        <template v-slot:content>
+          <div class="row">
+            <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
+              <div class="box row">
+                <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
+                  <h3 class="box-text">
+                    Your Integrated Apps
+                  </h3>
+                </div>
+                <div class="col-lg-12" style="margin-bottom:-5.625em">
+                  <p class="box-text box-number">
+                    {{ countTotalIntegrations }}
+                  </p>
+                </div>
+                <div class="col-lg-12">
+                  <hr class="text-left pull-left float-left">
                 </div>
               </div>
-              <div class="col-lg-8">
-                <img
-                  slot="image"
-                  class="card-img-top"
-                  src="/img/integrated-apps.png"
-                >
-              </div>
             </div>
-            <div class="row" style="margin">
-              <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
-                <nuxt-link to="/apps/app-library">
-                  <h5 class="box-text">
-                    + Add Application
-                  </h5>
-                </nuxt-link>
-              </div>
-            </div>
-          </template>
-        </submenu>
-      </transition>
-                  <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-md-1">
-          </div>
-                  </transition>
-            <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-md-9">
-  <div class="integrated-app">
-    <base-header type="white" class="">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <route-breadcrumb :crumbs="crumbs" />
-          </nav>
-        </div>
-      </div>
-    </base-header>
-    <div class="">
-      <!-- <div class=""> -->
-      <div class="row">
-        <div class="col-sm-6 float-right picardata-title">
-          <div class="row ">
-            <a class="col-sm-1 pd-icon pdicon-Back-Arrow picardata-arrow" href="/apps" />
-            <!-- <div class="col-sm-1"></div> -->
-            <!-- <div class="col-sm-1" style="color: #14142B;"> -->
-            <!-- </div> -->
-            <div class="col-sm-11">
-              Integrated Apps
-            </div>
-            <!-- <div class="col-sm-4"></div> -->
-          </div>
-        </div>
-        <div class="col-sm-1" />
-        <div class="col-sm-5 float-left picardata-title-manage-app">
-          <a class="row" href="/apps/integrated-apps">
-            <div class="col-sm-6" />
-            <div class="col-sm-1">
-              <span class="pd-icon pdicon-Configure" />
-            </div>
-            <div class="col-sm-5">
-              Manage apps
-            </div>
-          </a>
-        </div>
-      </div>
-      <!-- </div> -->
-      <div>
-
-        <!-- <div class=""> -->
-        <form
-          id="navbar-search-main"
-          class="navbar-search form-inline"
-          :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
-        >
-          <div class="form-group" style="margin-top: 4%; margin-bottom: 4%">
-            <div
-              class="input-group input-group-alternative input-group-merge search-button"
-              style="background: #EFF0F7;border-radius: 12px;border: none; width: 100%"
-            >
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-search" /></span>
-              </div>
-              <input
-                class="form-control app-search"
-                placeholder="Search your integrated app"
-                type="text"
+            <div class="col-lg-8">
+              <img
+                slot="image"
+                class="card-img-top"
+                src="/img/integrated-apps.png"
               >
             </div>
           </div>
-          <button
-            type="button"
-            class="close"
-            data-action="search-close"
-            data-target="#navbar-search-main"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">×</span>
-          </button>
-        </form>
-        <div v-if="false" class="row pt-3">
-          <div class="col-xl-12">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="#" data-filter="all">All applications</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Collaboration Tools</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Customer Support</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Design</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Finance</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Human Resource</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Sales & Marketing</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" data-filter="">Social Media</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- </div> -->
-      </div>
-      <div class="row" style="margin-top: 1%">
-        <div class="col">
-          <base-button type="primary">
-            All
-          </base-button>
-          <base-button outline type="primary">
-            Collaboration
-          </base-button>
-          <base-button outline type="primary">
-            Design
-          </base-button>
-          <base-button outline type="primary">
-            Financial
-          </base-button>
-          <base-button outline type="primary">
-            Human Resource
-          </base-button>
-        </div>
-      </div>
-      <div class="img-banner" style="margin-top: 2%;margin-bottom: 2%" v-if="integrations.length === 0">
-        <div class="d-flex justify-content-center">
-          <nuxt-link to="/apps/app-library" class="btn btn-outline-primary btn-block already-had-account">
-            <span class="already-had-account-text">No integrated apps  yet. Start integrating now!</span>
-          </nuxt-link>
-        </div>
-      </div>
-      <div :class="'row p-0 ' + classAdded">
-        
-        <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" class="m-4">
-          <card class="pcd">
-            <div class="row justify-content-center">
-              <div class="col-sm-10 p-0">
-                <div class="text-center p-3 mb-3">
-                  <img
-                    slot="image"
-                    class="card-img-top app-img"
-                    :src="integration.application.logo"
-                    :alt="integration.application.name"
-                  >
-                </div>
-                <h5 class="card-title">
-                  {{ integration.application.name }}
+          <div class="row" style="margin">
+            <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
+              <nuxt-link to="/apps/app-library">
+                <h5 class="box-text">
+                  + Add Application
                 </h5>
-                <div class="card-body p-0">
-                  <div class="row">
-                    <div class="col-xl-2 p-3">
-                      <i class="fa fa-check text-success" />
-                    </div>
-                    <div class="col-xl-9 pt-3 pb-3">
-                      <p>
-                        Data Appear on Dashboard
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer p-0">
-                  <base-button outline class="w-100 p-3 " type="primary" @click="appClick(index)">
-                    View Picardata
-                  </base-button>
-                </div>
+              </nuxt-link>
+            </div>
+          </div>
+        </template>
+      </submenu>
+    </transition>
+    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+      <div v-show="submenu" class="col-md-1" />
+    </transition>
+    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+      <div v-show="submenu" class="col-md-9" style="margin-left: -3%">
+        <div class="integrated-app">
+          <base-header type="white" class="">
+            <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                  <route-breadcrumb :crumbs="crumbs" />
+                </nav>
               </div>
             </div>
-          </card>
-        </div>
-      </div>
-      <!-- <ItegratedAppsList
+          </base-header>
+          <div class="">
+            <!-- <div class=""> -->
+            <div class="row">
+              <div class="col-sm-6 float-right picardata-title">
+                <div class="row ">
+                  <a class="col-sm-1 pd-icon pdicon-Back-Arrow picardata-arrow" href="/apps" />
+                  <!-- <div class="col-sm-1"></div> -->
+                  <!-- <div class="col-sm-1" style="color: #14142B;"> -->
+                  <!-- </div> -->
+                  <div class="col-sm-11">
+                    Integrated Apps
+                  </div>
+                  <!-- <div class="col-sm-4"></div> -->
+                </div>
+              </div>
+              <div class="col-sm-1" />
+              <div class="col-sm-5 float-left picardata-title-manage-app">
+                <a class="row" href="/apps/integrated-apps">
+                  <div class="col-sm-6" />
+                  <div class="col-sm-1">
+                    <span class="pd-icon pdicon-Configure" />
+                  </div>
+                  <div class="col-sm-5">
+                    Manage apps
+                  </div>
+                </a>
+              </div>
+            </div>
+            <!-- </div> -->
+            <div>
+              <!-- <div class=""> -->
+              <form
+                id="navbar-search-main"
+                class="navbar-search form-inline"
+                :class="{'navbar-search-light': type === 'default', 'navbar-search-dark': type === 'light'}"
+              >
+                <div class="form-group" style="margin-top: 4%; margin-bottom: 4%">
+                  <div
+                    class="input-group input-group-alternative input-group-merge search-button"
+                    style="background: #EFF0F7;border-radius: 12px;border: none; width: 100%"
+                  >
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-search" /></span>
+                    </div>
+                    <input
+                      class="form-control app-search"
+                      placeholder="Search your integrated app"
+                      type="text"
+                    >
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="close"
+                  data-action="search-close"
+                  data-target="#navbar-search-main"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </form>
+              <div v-if="false" class="row pt-3">
+                <div class="col-xl-12">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <a href="#" data-filter="all">All applications</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Collaboration Tools</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Customer Support</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Design</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Finance</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Human Resource</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Sales & Marketing</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a href="#" data-filter="">Social Media</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div class="row" style="margin-top: 1%">
+              <div class="col">
+                <base-button type="primary">
+                  All
+                </base-button>
+                <base-button outline type="primary">
+                  Collaboration
+                </base-button>
+                <base-button outline type="primary">
+                  Design
+                </base-button>
+                <base-button outline type="primary">
+                  Financial
+                </base-button>
+                <base-button outline type="primary">
+                  Human Resource
+                </base-button>
+              </div>
+            </div>
+            <div v-if="integrations.length === 0" class="img-banner" style="margin-top: 2%;margin-bottom: 2%">
+              <div class="d-flex justify-content-center">
+                <nuxt-link to="/apps/app-library" class="btn btn-outline-primary btn-block already-had-account">
+                  <span class="already-had-account-text">No integrated apps  yet. Start integrating now!</span>
+                </nuxt-link>
+              </div>
+            </div>
+            <div :class="'row p-0 ' + classAdded">
+              <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" class="m-4">
+                <card class="pcd">
+                  <div class="row justify-content-center">
+                    <div class="col-sm-10 p-0">
+                      <div class="text-center p-3 mb-3">
+                        <img
+                          slot="image"
+                          class="card-img-top app-img"
+                          :src="integration.application.logo"
+                          :alt="integration.application.name"
+                        >
+                      </div>
+                      <h5 class="card-title">
+                        {{ integration.application.name }}
+                      </h5>
+                      <div class="card-body p-0">
+                        <div class="row">
+                          <div class="col-xl-2 p-3">
+                            <i class="fa fa-check text-success" />
+                          </div>
+                          <div class="col-xl-9 pt-3 pb-3">
+                            <p>
+                              Data Appear on Dashboard
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-footer p-0">
+                        <base-button outline class="w-100 p-3 " type="primary" @click="appClick(index)">
+                          View Picardata
+                        </base-button>
+                      </div>
+                    </div>
+                  </div>
+                </card>
+              </div>
+            </div>
+            <!-- <ItegratedAppsList
         class-added="ml-1 col-xl-10"
         app-class="col-4"
         :totalPage="totalPage"
@@ -235,49 +232,48 @@
         :size="size"
         :currentPage="currentPage"
         @setCurrentPage="setCurrentPage"/> -->
-      <div class="row" style="margin-bottom: 2%;" v-if="integrations.length > 0">
-        <div class="col-md-12 ">
-          <div class="picardata-paging float-right">
-            <div class="col-sm" @click="setPrevious()">
-              <span
-                v-if="isLastForPrev()"
-                class="pd-icon pdicon-Chevron-Left nav-last picardata-nav picardata-nav-inactive"
-              />
-              <span
-                v-else
-                class="pd-icon pdicon-Chevron-Left picardata-nav"
-              />
-            </div>
-            <span
-              v-for="n in this.totalPage"
-              :key="n"
-              class="col-sm picardata-paging-text"
-              @click="setCurrentPage(n)"
-            >
-              <span
-                v-if="isCurrentPage(n)"
-                class="picardata-paging-active"
-              >
-                {{ n }}
-              </span>
-              <span v-else>{{ n }}</span>
-            </span>
-            <div class="col-sm" @click="setNext()">
-              <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav picardata-nav-inactive" />
-              <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
+            <div v-if="integrations.length > 0" class="row" style="margin-bottom: 2%;">
+              <div class="col-md-12 ">
+                <div class="picardata-paging float-right">
+                  <div class="col-sm" @click="setPrevious()">
+                    <span
+                      v-if="isLastForPrev()"
+                      class="pd-icon pdicon-Chevron-Left nav-last picardata-nav picardata-nav-inactive"
+                    />
+                    <span
+                      v-else
+                      class="pd-icon pdicon-Chevron-Left picardata-nav"
+                    />
+                  </div>
+                  <span
+                    v-for="n in this.totalPage"
+                    :key="n"
+                    class="col-sm picardata-paging-text"
+                    @click="setCurrentPage(n)"
+                  >
+                    <span
+                      v-if="isCurrentPage(n)"
+                      class="picardata-paging-active"
+                    >
+                      {{ n }}
+                    </span>
+                    <span v-else>{{ n }}</span>
+                  </span>
+                  <div class="col-sm" @click="setNext()">
+                    <span v-if="isLastForNext()" class="pd-icon pdicon-Chevron-Right nav-last picardata-nav picardata-nav-inactive" />
+                    <span v-else class="pd-icon pdicon-Chevron-Right picardata-nav" />
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-12 ">   -->
+
+              <!-- </div> -->
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-12 ">   -->
-
-        <!-- </div> -->
       </div>
-    </div>
+    </transition>
   </div>
-        </div>
-      </transition>
-  </div>
-
 </template>
 
 <script>
@@ -332,7 +328,12 @@ export default {
           name: 'App Library'
         }
       ],
-      submenu: true,
+      submenu: true
+    }
+  },
+  computed: {
+    countTotalIntegrations () {
+      return this.totalIntegrations.length
     }
   },
   mounted () {
@@ -446,11 +447,6 @@ export default {
     submenuAfterEnter (el) {
       el.style.display = 'block'
       el.style.left = '0em'
-    }
-  },
-  computed: {
-    countTotalIntegrations: function() {
-      return this.totalIntegrations.length
     }
   }
 }
