@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="container picardata-container">
         <div class="row">
-          <div class="col-md-5">
+          <form class="col-md-5" autocomplete="off">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
               <h2 class="register-to-picardata">
@@ -100,7 +100,7 @@
             >
               Register
             </button>
-          </div>
+          </form>
           <div class="col-md-1" />
           <div class="col-md-6">
             <div class="img-banner">
