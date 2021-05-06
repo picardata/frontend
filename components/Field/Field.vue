@@ -8,7 +8,7 @@
             type="text"
             name="question"
             class="form-control question"
-            placeholder="Question"
+            placeholder="Question 1"
             @change="add_field(q_key)"
           >
           <div class="btn-group type-dropdown col-12 mt-5">
@@ -33,28 +33,79 @@
             </div>
           </div>
         </div>
-        <Choice v-if="q.type >= 2" :question="questions[q_key]" />
+        <div v-if="q.desc">
+          <div v-if="q.type != 0 && q.type != 1" class="clearfix">
+            <div class="col-sm-8 mt-3">
+              <textarea
+                name="text-desc"
+                class="form-control pcd mt-3"
+                placeholder="Description"
+              />
+            </div>
+          </div>
+          <div class="clearfix mt-3">
+            <div class="col-sm-8 mt-3">
+              <dropzone-file-upload v-model="fileSingle" />
+            </div>
+          </div>
+        </div>
+        <Choice v-if="q.type == 2 || q.type == 3" :question="questions[q_key]" />
+        <Textfield v-if="q.type == 0 || q.type == 1" />
+        <FieldUpload v-if="q.type == 4" />
+        <LinearScale v-if="q.type == 5" />
+        <div v-if="q.type == 6">
+          <div class="col-sm-8 mt-3">
+            <base-input id="example-date-input" type="date" placeholder="Day, month, year" />
+          </div>
+        </div>
+        <div v-if="q.type == 7">
+          <div class="col-sm-8 mt-3">
+            <base-input id="example-time-input" type="time" value="10:30:00" />
+          </div>
+        </div>
         <hr>
-        <div class="col-12 ">
-          <div>
-            <b-form-checkbox
-              v-model="q.required"
-              name="check-button"
-              class="d-inline text-primary font-weight-600"
-              switch
-              @change="add_field(q_key)"
-              @click="q.required = !q.required"
-            >
-              <span class="button-required">Required</span>
-            </b-form-checkbox>
-            <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
-              <font-awesome-icon :icon="['fas', 'copy']" />
-              <span>Duplicate</span>
-            </button>
-            <button type="button" class="btn btn-lg bg-white text-primary btn-copy-field" @click="delete_field(q_key)">
-              <font-awesome-icon :icon="['fas', 'trash']" />
-              <span>Remove</span>
-            </button>
+        <div class="row">
+          <div class="col-9 pl-5">
+            <div class="d-flex">
+              <div class="p-0 mr-3">
+                <b-form-checkbox
+                  v-model="q.required"
+                  name="check-button"
+                  class="d-inline text-primary font-weight-600"
+                  switch
+                  @change="add_field(q_key)"
+                  @click="q.required = !q.required"
+                >
+                  <span class="button-required">Required</span>
+                </b-form-checkbox>
+              </div>
+              <div class="divider p-0 pr-1" />
+              <div class="p-0 mr-1">
+                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc">
+                  <font-awesome-icon :icon="['fas', 'plus']" />
+                  <span>Add description/image</span>
+                </button>
+              </div>
+              <div class="divider p-0 pr-1" />
+              <div class="p-0 mr-1">
+                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
+                  <font-awesome-icon :icon="['fas', 'copy']" />
+                  <span>Duplicate</span>
+                </button>
+              </div>
+              <div class="divider p-0 pr-1" />
+              <div class="p-0">
+                <button type="button" class="btn btn-lg delete-button bg-white btn-copy-field" @click="delete_field(q_key)">
+                  <font-awesome-icon :icon="['fas', 'trash']" />
+                  <span>Remove</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 text-right">
+            <base-button outline type="primary" class="btn-prim" @click="new_field">
+              Add question
+            </base-button>
           </div>
         </div>
       </div>
@@ -62,11 +113,15 @@
   </div>
 </template>
 <script>
+import DropzoneFileUpload from '@/components/argon-core/Inputs/DropzoneFileUpload'
 import Choice from '~/components/Field/Choice'
+import Textfield from '~/components/Field/Textfield'
+import FieldUpload from '~/components/Field/FieldUpload'
+import LinearScale from '~/components/Field/LinearScale'
 
 export default {
   name: 'Field',
-  components: { Choice },
+  components: { Choice, Textfield, FieldUpload, LinearScale, DropzoneFileUpload },
   props: {
     questions: {
       type: Array,
@@ -77,10 +132,12 @@ export default {
     add_field: { type: Function },
     change_type: { type: Function },
     copy_field: { type: Function },
-    delete_field: { type: Function }
+    delete_field: { type: Function },
+    new_field: { type: Function }
   },
   data () {
     return {
+      fileSingle: [],
       typesOfQuestion: [
         {
           type: 0,
@@ -104,8 +161,23 @@ export default {
         },
         {
           type: 4,
-          name: 'Dropdown',
-          icon: 'caret-square-down'
+          name: 'File upload',
+          icon: 'cloud-upload-alt'
+        },
+        {
+          type: 5,
+          name: 'Linear scale',
+          icon: 'ellipsis-h'
+        },
+        {
+          type: 6,
+          name: 'Date',
+          icon: 'calendar'
+        },
+        {
+          type: 7,
+          name: 'Time',
+          icon: 'clock'
         }
       ]
     }
@@ -136,8 +208,19 @@ form {
   color: black;
 }
 
-input.question:focus {
+input.question:focus,textarea.pcd:focus {
   border-color: var(--primary);
+}
+textarea.pcd,input.pcd{
+  border-width: 0 0 2px 0;
+  border-radius: 0;
+  padding-left: 5px;
+  font-size: 16px;
+  color:#313131;
+}
+textarea.pcd:focus,input.pcd:focus {
+  border-color: var(--primary);
+  box-shadow: none;
 }
 
 .type-dropdown {
@@ -156,6 +239,7 @@ input.question {
   font-size: 24px;
   border-width: 0 0 2px 0;
   border-radius: 0;
+  padding-left: 5px;
 }
 
 .form-control:focus {
@@ -191,5 +275,24 @@ span.button-required {
 }
 .custom-switch .custom-control-label::after {
   top: 6px;
+}
+.delete-button{
+  color: #8B8B8D !important;
+}
+.btn-prim{
+  border: 2px solid #2534B6;
+  border-radius: 40px;
+  text-align: center;
+  color: #2534B6;
+}
+.btn-prim:hover{
+  color: white;
+}
+</style>
+<style>
+input[type="date"],
+input[type="time"]{
+  border-width:0px 0px 1px 0px;
+  border-radius: 0px;
 }
 </style>

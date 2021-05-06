@@ -65,7 +65,7 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              style="width: 66%"
+              :style="isProfileCompleted ? 'width: 66%' : 'width: 33%'"
               aria-valuenow="66"
               aria-valuemin="0"
               aria-valuemax="100"
@@ -84,7 +84,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
-      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" />
+      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)"/>
     </div>
     <div v-show="step === 4" class="col-12">
       <div class="col-9" style="margin-left: auto;margin-right: auto;">
@@ -177,17 +177,7 @@ export default {
           id: 4
         }
       ],
-      profile: {
-        name: '',
-        email: this.$auth.user.username,
-        phone: '',
-        formattedPhone: '',
-        location: '',
-        occupation: 0,
-        role: '',
-        organization: '',
-        workLocation: ''
-      }
+      isProfileCompleted: false
     }
   },
   computed: {
@@ -206,11 +196,23 @@ export default {
   },
   methods: {
     next () {
+      if (this.step === 3) {
+        this.$refs.completeProfile.post()
+          .then((result) => {
+            if (result) {
+              this.step += 1
+            }
+          })
+        return
+      }
+
       this.step = this.step + 1
     },
     skip () {
-      this.$refs.completeProfile.post()
-        .then(x => console.log(x))
+      this.$router.push('/')
+    },
+    changeFormComplete (complete) {
+      this.isProfileCompleted = complete
     }
   }
 }

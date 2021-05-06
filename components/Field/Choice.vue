@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-5">
-    <div class="card-body">
+  <div class="col-8 mt-3">
+    <div>
       <ul class="list-group">
         <li v-for="(choice, index) in question.fieldChoices" :key="index" class="list-group-item">
           <div class="row">
@@ -9,31 +9,35 @@
             </div>
             <div
               :class="{
-                'col-2': index === lastIndex,
+                'col-10': index === lastIndex,
                 'col-9': index !== lastIndex
               }"
               class="col-text"
             >
-              <input
-                v-show="choice.edit === true"
-                ref="choices"
-                v-model="choice.name"
-                type="text"
-                class="form-control choice"
-                placeholder="Add option"
-                @keyup="checkDuplicate(choice)"
-                @keyup.esc="cancelEdit(choice)"
-                @blur="doneEdit(choice, index, question.id)"
-              >
-              <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
-            </div>
-            <div
-              v-if="question.type !== 4 &&
-                index === lastIndex &&
-                otherInChoice == false"
-              class="col-5"
-            >
-              <span style="margin-left:-72px">or <a class="btn-add-other" @click="addChoice(lastIndex, 2)">add "other"</a></span>
+              <div class="d-flex">
+                <div>
+                  <input
+                    v-show="choice.edit === true"
+                    ref="choices"
+                    v-model="choice.name"
+                    type="text"
+                    class="form-control choice"
+                    placeholder="Add option"
+                    @keyup="checkDuplicate(choice)"
+                    @keyup.esc="cancelEdit(choice)"
+                    @blur="doneEdit(choice, index, question.id)"
+                  >
+                  <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" class="cursor-pointer" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
+                </div>
+                <div
+                  v-if="question.type !== 4 &&
+                    index === lastIndex &&
+                    otherInChoice == false"
+                  class="ml-1"
+                >
+                  <span>or <a class="btn-add-other text-primary cursor-pointer" @click="addChoice(lastIndex, 2)">Add "Other"</a></span>
+                </div>
+              </div>
             </div>
             <div class="col-1 col-btn">
               <font-awesome-icon
@@ -51,6 +55,9 @@
                 :icon="['fas', 'exclamation-triangle']"
               />
             </div>
+          </div>
+          <div class="add-image text-primary">
+            <i class="fas fa-image" /> Add image
           </div>
         </li>
       </ul>
@@ -265,36 +272,6 @@ export default {
 </script>
 
 <style scoped>
-.col-btn {
-  margin-left: 50px
-}
-
-.last-choice {
-  cursor: pointer;
-  color: #0337a8;
-}
-
-.btn-add-other {
-  cursor: pointer;
-  color: #0337a8!important;
-}
-
-.remove-icon {
-  cursor: pointer;
-}
-
-.col-text {
-  margin-left: -50px;
-}
-
-form {
-  width: 100%;
-}
-
-.form-control {
-  color: black;
-}
-
 input.choice:focus {
   border-color: var(--primary);
 }
@@ -308,5 +285,19 @@ input.choice {
   border-width: 0 0 2px 0;
   border-radius: 0;
   margin-top: -10px;
+  padding-left: 5px
+}
+.list-group-item{
+  border-width: 0px 0px 2px 0px;
+  border-radius: unset;
+  position: relative;
+}
+.list-group-item .row{
+  float: left;
+  width: 85%;
+}
+.list-group-item .add-image{
+  float: right;
+  margin-right: -30%;
 }
 </style>

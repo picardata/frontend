@@ -92,7 +92,7 @@ export default {
     },
     copyToClipborad () {
       const el = document.createElement('textarea');
-      el.value = this.linkForm;
+      el.value = this.getLink;
       document.body.appendChild(el);
       el.select();
       document.execCommand('copy');

@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding-complete-profile">
+  <div class="onboarding-complete-profile pb-5">
     <div class="row mt-5">
       <div class="col-12">
         <div class="title">
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div>
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+      <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
         <form @submit.prevent="handleSubmit(post)">
           <div class="row mt-5">
             <div class="col-md-2 px-0">
@@ -76,17 +76,6 @@
           </div>
         </form>
       </ValidationObserver>
-    </div>
-
-    <div class="row mt-5 justify-content-end">
-      <div class="pl-2">
-        <button type="button" class="btn btn-link btn-link-dark-gray btn-lg" @click.prevent="$emit('skip')">
-          Skip for now
-        </button>
-        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="post">
-          Next
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -156,7 +145,7 @@ export default {
         return false
       }
 
-      this.$axios.$post('/api/employees/', {
+      const result = this.$axios.$post('/api/employees/', {
         userProfile: {
           firstname: this.profile.name.trim(),
           lastname: '',
@@ -173,7 +162,7 @@ export default {
         }
       }).then((data) => {
         this.$auth.setUser(data)
-        this.$emit('finishSaveProfile')
+        return true
       }).catch((e) => {
         const errors = {}
 
@@ -193,6 +182,18 @@ export default {
         this.$refs.form.setErrors(errors)
         return false
       })
+
+      return result
+    },
+    onFormChange () {
+      let isComplete = true
+      for (const name in this.profile) {
+        if (!this.profile[name]) {
+          isComplete = false
+        }
+      }
+
+      this.$emit('formProfileChange', isComplete)
     }
   }
 }
