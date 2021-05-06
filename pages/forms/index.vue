@@ -149,23 +149,23 @@
                   </div>
                 </div>
                 <div class="row mt-2">
-                  <div class="col-md-4 col-sm-12">
+                  <div class="col-md-6 col-sm-12">
                     <button class="btn btn-gray-light" @click="shareModal(form)">
                       <span class="text-primary">Share</span>
                     </button>
                   </div>
-                  <div class="col-md-4 col-sm-12">
+                  <div class="col-md-6 col-sm-12">
                     <div class="divider d-inline" />
                     <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
                       <span class="text-primary">Open</span>
                     </nuxt-link>
                   </div>
-                  <div class="col-md-4 col-sm-12">
+                  <!-- <div class="col-md-4 col-sm-12">
                     <div class="divider d-inline" />
                     <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
                       Delete
                     </a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
