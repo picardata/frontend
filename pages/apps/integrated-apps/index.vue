@@ -39,6 +39,7 @@
       </div>
       <!-- </div> -->
       <div>
+
         <!-- <div class=""> -->
         <form
           id="navbar-search-main"
@@ -121,7 +122,15 @@
           </base-button>
         </div>
       </div>
+      <div class="img-banner" style="margin-top: 2%;margin-bottom: 2%" v-if="integrations.length === 0">
+        <div class="d-flex justify-content-center">
+          <nuxt-link to="/apps/app-library" class="btn btn-outline-primary btn-block already-had-account">
+            <span class="already-had-account-text">No integrated apps  yet. Start integrating now!</span>
+          </nuxt-link>
+        </div>
+      </div>
       <div :class="'row p-0 ' + classAdded">
+        
         <div v-for="(integration, index) in integrations" :key="integration.id" :class="appClass" class="m-4">
           <card class="pcd">
             <div class="row justify-content-center">
@@ -167,7 +176,7 @@
         :size="size"
         :currentPage="currentPage"
         @setCurrentPage="setCurrentPage"/> -->
-      <div class="row" style="margin-bottom: 2%;">
+      <div class="row" style="margin-bottom: 2%;" v-if="integrations.length > 0">
         <div class="col-md-12 ">
           <div class="picardata-paging float-right">
             <div class="col-sm" @click="setPrevious()">
