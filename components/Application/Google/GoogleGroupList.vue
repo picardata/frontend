@@ -165,9 +165,9 @@ export default {
   async fetch () {
     await this.$axios.get('/api/google-directories/get-groups-and-members')
       .then((data) => {
-        // eslint-disable-next-line no-console        
-        this.groups = data.data.groups.map(group => {
-          group.members = group.members.filter(member => {
+        // eslint-disable-next-line no-console
+        this.groups = data.data.groups.map((group) => {
+          group.members = group.members.filter((member) => {
             return member.isAMember === true
           })
           return group
