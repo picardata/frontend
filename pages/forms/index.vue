@@ -281,7 +281,7 @@ export default {
       totalIntegrations: [], 
       integrations: [], 
       totalPage: 1, 
-      size: 2, 
+      size: 9, 
       currentPage: 1,
       data: []
     }
