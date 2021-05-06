@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="row mt-3">
-          <div v-for="(form, index) in data" :key="form.id" class="p-4 col-md-4 col-sm-12">
+          <div v-for="(form, index) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
             <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
               <div class="card-body">
                 <h5 class="card-title">
@@ -170,6 +170,13 @@
               </div>
             </div>
           </div>
+              <Paging
+              style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
+              :data="totalIntegrations"
+              :get-total-page="getTotalPage"
+              :get-current-page="getCurrentPage"
+              :set-current-page="setCurrentPage"
+            />
         </div>
       </div>
       <modal name="delete-modal">
@@ -207,6 +214,7 @@
 import PrevPage from '@/components/PrevPage'
 import ModalShare from '@/components/pages/forms/ModalShareForm'
 import Submenu from '~/components/layouts/argon/Submenu'
+import Paging from '~/components/Custom/Paging'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -215,13 +223,15 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
-  components: { PrevPage, ModalShare, Submenu },
-  async asyncData (context) {
-    return await context.app.$axios.get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
-      .then((data) => {
-        console.log(data)
-        return { data: data.data }
-      })
+  components: { PrevPage, ModalShare, Submenu, Paging },
+  async fetch () {
+    const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
+
+    const dataResult = data
+    this.totalIntegrations = dataResult || []
+    this.integrations = dataResult
+    this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
+    this.setCurrentPage(1)
   },
   data () {
     return {
@@ -266,7 +276,13 @@ export default {
           name: 'Manage All Forms',
           type: 'item'
         }
-      ]
+      ],
+      totalIntegrations: [], 
+      integrations: [], 
+      totalPage: 1, 
+      size: 2, 
+      currentPage: 1,
+      data: []
     }
   },
   computed: {
@@ -345,7 +361,35 @@ export default {
     submenuAfterEnter (el) {
       el.style.display = 'block'
       el.style.left = '0em'
+    },
+        setCurrentPage (currentPage) {
+      if (currentPage > 0 && currentPage <= this.totalPage) {
+        console.log('current page = ')
+        console.log(currentPage)
+        this.currentPage = currentPage
+
+        const startIndex = ((this.currentPage * this.size) - this.size)
+        const finishIndex = this.currentPage * this.size
+
+        const newIntegrations = []
+        for (let i = startIndex; i < finishIndex; i++) {
+          if (typeof this.totalIntegrations[i] !== 'undefined') {
+            newIntegrations.push(this.totalIntegrations[i])
+          }
+        }
+
+        this.integrations = newIntegrations
+      }
+    },
+
+    getTotalPage () {
+      return this.totalPage
+    },
+
+    getCurrentPage () {
+      return this.currentPage
     }
+
 
   }
 }
