@@ -118,7 +118,7 @@
                 <p class="card-text f-14" @click="$router.push('/apps/app-library/' + application.id)">
                   {{ application.detail | truncate(90, '...') }}
                 </p>
-                <div class="pl-3">
+                <!-- <div class="pl-3">
                   <div class="row">
                     <div class="col p-0">
                       <div class="card-profile-stats d-flex justify-content-center">
@@ -143,7 +143,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
                   <base-button class="w-100" outline type="primary" @click="appClick2(application)">
                     Add to Picardata

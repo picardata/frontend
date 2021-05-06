@@ -42,7 +42,7 @@ export default {
           name: 'apps',
           displayName: 'Apps',
           icon: 'pdicon-Apps',
-          link: '/apps'
+          link: '/apps/integrated-apps'
         },
         {
           name: 'forms',

@@ -45,7 +45,7 @@
         {{ instruction }}
       </p>
     </div>
-    <div v-if="detailPage || detailLibraryPage" class="col-12">
+    <!-- <div v-if="detailPage || detailLibraryPage" class="col-12">
       <div class="card-profile-stats d-flex">
         <div class="p-0">
           <span class="heading"><i class="fa fa-download" /> 22</span>
@@ -55,7 +55,7 @@
           <span class="heading"><i class="fa fa-heart text-danger" /> 10</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <modal :show.sync="modals.modal0">
       <template slot="header">
         <h5 id="exampleModalLabel" class="modal-title" />

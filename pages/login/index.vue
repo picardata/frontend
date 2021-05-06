@@ -184,7 +184,7 @@ export default {
         if (!this.isLogin) {
           this.$router.push('/onboarding')
         } else {
-          this.$router.push('/')
+          this.$router.push('/apps/integrated-apps')
         }
       } catch (err) {
         this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
