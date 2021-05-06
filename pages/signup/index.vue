@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="container picardata-container">
         <div class="row">
-          <form class="col-md-5" autocomplete="off">
+          <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
               <h2 class="register-to-picardata">
@@ -21,6 +21,7 @@
                 v-model="username"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
                 placeholder="Email"
+                autocomplete="off"
                 @change="validateEmail"
                 @keyup="validateForRegisterButton"
               >
@@ -43,6 +44,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
                 placeholder="Password"
+                autocomplete="off"
                 @change="validatePassword"
                 @keyup="validateForRegisterButton"
               >
@@ -67,6 +69,7 @@
                 :type="showPasswordAgain ? 'text' : 'password'"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
                 placeholder="Password again"
+                autocomplete="off"
                 @change="validatePasswordAgain"
                 @keyup="validateForRegisterButton"
               >
@@ -100,7 +103,7 @@
             >
               Register
             </button>
-          </form>
+          </div>
           <div class="col-md-1" />
           <div class="col-md-6">
             <div class="img-banner">
@@ -140,6 +143,9 @@ export default {
       password: '',
       passwordAgain: ''
     }
+  },
+  mounted () {
+    this.disableAutoComplete()
   },
   // beforeMount () {
   //   return this.$auth.loggedIn ? this.$router.push('/') : ''
@@ -309,6 +315,22 @@ export default {
     },
     togglePasswordAgain () {
       this.showPasswordAgain = !this.showPasswordAgain
+    },
+    disableAutoComplete () {
+      const elements = document.querySelectorAll('[autocomplete="off"]')
+
+      if (!elements) {
+        return
+      }
+
+      elements.forEach((element) => {
+        element.setAttribute('readonly', 'readonly')
+        // element.style.backgroundColor = "inherit";
+
+        setTimeout(() => {
+          element.removeAttribute('readonly')
+        }, 500)
+      })
     }
   }
 }
