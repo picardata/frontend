@@ -179,7 +179,7 @@
                 </base-button>
               </div>
             </div>
-            <div v-if="integrations.length === 0" class="img-banner" style="margin-top: 2%;margin-bottom: 2%">
+            <div v-if="integrations.length === 0" class="img-banner" style="margin-top: 4%;margin-bottom: 2%">
               <div class="d-flex justify-content-center">
                 <nuxt-link to="/apps/app-library" class="btn btn-outline-primary btn-block already-had-account">
                   <span class="already-had-account-text">No integrated apps  yet. Start integrating now!</span>
