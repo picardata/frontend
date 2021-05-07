@@ -31,7 +31,7 @@
             <div class="row">
               <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
             </div>
-            <div class="row mt-3" style="margin-bottom: 4%"> 
+            <div class="row mt-3" style="margin-bottom: 4%">
               <div class="col-4">
                 <span class="form-title">Forms</span>
               </div>
