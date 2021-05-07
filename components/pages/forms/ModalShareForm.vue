@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <div class="checkbox">
-          <input id="colect-email" type="checkbox" value="1">
+          <input id="colect-email" type="checkbox" value="1" checked>
           <label for="colect-email">Collect email addresses</label>
         </div>
         <div class="font-weight-bold">
