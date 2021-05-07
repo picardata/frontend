@@ -72,7 +72,7 @@
             <div class="row">
               <div class="col-sm-6 float-right picardata-title">
                 <div class="row ">
-                  <a class="col-sm-1 pd-icon pdicon-Back-Arrow picardata-arrow" href="/apps" />
+                  <a id="app" class="col-sm-1 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
                   <!-- <div class="col-sm-1"></div> -->
                   <!-- <div class="col-sm-1" style="color: #14142B;"> -->
                   <!-- </div> -->
