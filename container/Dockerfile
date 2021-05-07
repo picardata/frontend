@@ -8,7 +8,7 @@ FROM node:14-alpine as production
 
 WORKDIR /app
 
-COPY . .
+COPY ../ .
 
 EXPOSE 3000
 
