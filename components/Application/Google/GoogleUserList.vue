@@ -1,11 +1,27 @@
 <template>
   <div class="card col-12 mt-3">
+    <div v-show="messages.createUserMessage === true" class="message-wrapper col-12">
+      <div class="message-body">
+        <base-alert class="inner-message" dismissible type="default" icon="ni ni-like-2">
+          <strong>Yay!</strong> a new user added!
+          <template v-slot:dismiss-icon>
+            <button
+              type="button"
+              class="close"
+              @click="messages.createUserMessage = false"
+            >
+              <span>&times;</span>
+            </button>
+          </template>
+        </base-alert>
+      </div>
+    </div>
     <div class="card-body">
       <div class="card-title">
         <div class="row">
           <div class="col-6">
             <h4 id="users">
-              Users ({{ usersCount }})
+              Users ({{ users.length }})
             </h4>
           </div>
           <div class="col-6">
@@ -141,6 +157,9 @@ export default {
       modals: {
         createUser: false
       },
+      messages: {
+        createUserMessage: false
+      },
       form: {
         new: true
       },
@@ -161,17 +180,15 @@ export default {
 
       this.groups.map((group) => {
         return group.members.filter((member) => {
-          if (member.isAMember === true) {
-            member.primaryEmail = member.email
-            member.groups = [{
-              id: group.id,
-              name: group.name,
-              email: group.email,
-              userRole: member.role
-            }]
-            delete member.role
-            users.push(member)
-          }
+          member.primaryEmail = member.email
+          member.groups = member.isAMember ? [{
+            id: group.id,
+            name: group.name,
+            email: group.email,
+            userRole: member.role
+          }] : []
+          delete member.role
+          users.push(member)
         })
       })
 
@@ -203,9 +220,6 @@ export default {
       })
 
       return result
-    },
-    usersCount () {
-      return this.users.length
     }
   },
   methods: {
@@ -241,6 +255,7 @@ export default {
             }
           )
           this.clearForm()
+          this.messages.createUserMessage = true
         }).catch((e) => {
           console.log(e)
         })
@@ -289,5 +304,22 @@ input {
   border-radius: 0;
   border-color: var(--primary);
   padding-left: 0;
+}
+
+.message-wrapper {
+    position: fixed;
+    top: 0;
+    left: 5%;
+    right: 0;
+    max-width: 95%;
+    z-index: 1000;
+}
+
+.message-body {
+  padding: 5px
+}
+
+.inner-message {
+    margin: 0 auto;
 }
 </style>
