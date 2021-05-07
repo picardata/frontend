@@ -130,7 +130,10 @@
         <button type="button" class="btn btn-link btn-link-dark-gray btn-lg btn-skip" @click="skip">
           Skip for now
         </button>
-        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+        <button v-if="step === 3" type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+          Save Profile
+        </button>
+        <button v-else type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
           Next
         </button>
       </div>
@@ -208,8 +211,29 @@ export default {
 
       this.step = this.step + 1
     },
-    skip () {
-      this.$router.push('/')
+    async skip () {
+      await this.$axios.$post('/api/employees/', {
+        userProfile: {
+          firstname: '',
+          lastname: '',
+          address: '',
+          phone: '',
+          email: this.$auth.user.username,
+          user: this.$auth.user.id
+        },
+        role: '',
+        occupation: '',
+        company: {
+          name: '',
+          location: ''
+        }
+      }).then((data) => {
+        this.$auth.setUser(data)
+        this.$router.push('/')
+        return true
+      }).catch((e) => {
+        console.log(e)
+      })
     },
     changeFormComplete (complete) {
       this.isProfileCompleted = complete
