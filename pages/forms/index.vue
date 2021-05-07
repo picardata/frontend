@@ -33,7 +33,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-4">
-                <h1>Forms</h1>
+                <span class="form-title">Forms</span>
               </div>
               <div class="col-8">
                 <span class="align-middle float-right">
@@ -177,7 +177,7 @@
               </div>
             </div>
             <Paging
-              style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
+              style="margin-top: 2%; margin-bottom: 4%;"
               :data="totalIntegrations"
               :get-total-page="getTotalPage"
               :get-current-page="getCurrentPage"
@@ -521,6 +521,21 @@ font-style: normal;
 font-weight: 600;
 font-size: 16px;
 line-height: 24px;
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
+
+.form-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 36px;
+line-height: 54px;
+/* identical to box height */
+
 letter-spacing: 0.75px;
 
 /* Body Text */
