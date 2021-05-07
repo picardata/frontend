@@ -28,7 +28,7 @@
             </div>
           </base-header>
           <div class="container-fluid mt--6">
-            <div class="row ">
+            <div class="row">
               <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
             </div>
             <div class="row mt-3">
@@ -133,7 +133,7 @@
               </div>
               <div v-for="(form) in integrations" :key="form.id" class="col-md-4 col-sm-12">
                 <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-                  <div class="card-body">
+                  <div class="card-body" style="margin: auto">
                     <h5 class="card-title">
                       {{ form.name }}
                     </h5>
