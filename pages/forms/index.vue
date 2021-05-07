@@ -28,10 +28,12 @@
             </div>
           </base-header>
           <div class="container-fluid mt--6">
-            <prev-page />
-            <div class="row mt-3">
+            <div class="row">
+              <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+            </div>
+            <div class="row mt-3" style="margin-bottom: 4%">
               <div class="col-4">
-                <h1>Forms</h1>
+                <span class="form-title">Forms</span>
               </div>
               <div class="col-8">
                 <span class="align-middle float-right">
@@ -39,7 +41,7 @@
                 </span>
               </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-3" style="margin-bottom: 4%">
               <div class="form-group col-12">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -64,7 +66,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-4">
-                <h4>All forms</h4>
+                <span class="all-form-title">All forms</span>
               </div>
               <div class="col-8">
                 <div class="dropdown col-3 fa-pull-right">
@@ -129,9 +131,9 @@
               <div v-if="integrations.length === 0" class="col-sm-12">
                 <span class="no-form-created-yet">No forms created yet</span>
               </div>
-              <div v-for="(form) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
+              <div v-for="(form) in integrations" :key="form.id" class="col-md-4 col-sm-12">
                 <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-                  <div class="card-body">
+                  <div class="card-body" style="margin: auto">
                     <h5 class="card-title">
                       {{ form.name }}
                     </h5>
@@ -154,13 +156,13 @@
                     <div class="row mt-2">
                       <div class="col-md-6 col-sm-12">
                         <button class="btn btn-gray-light" @click="shareModal(form)">
-                          <span class="text-primary">Share</span>
+                          <span class="share-open">Share</span>
                         </button>
                       </div>
                       <div class="col-md-6 col-sm-12">
                         <div class="divider d-inline" />
                         <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
-                          <span class="text-primary">Open</span>
+                          <span class="share-open">Open</span>
                         </nuxt-link>
                       </div>
                       <!-- <div class="col-md-4 col-sm-12">
@@ -175,7 +177,7 @@
               </div>
             </div>
             <Paging
-              style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
+              style="margin-top: 2%; margin-bottom: 4%;"
               :data="totalIntegrations"
               :get-total-page="getTotalPage"
               :get-current-page="getCurrentPage"
@@ -212,7 +214,7 @@
 </template>
 
 <script>
-import PrevPage from '@/components/PrevPage'
+// import PrevPage from '@/components/PrevPage'
 import ModalShare from '@/components/pages/forms/ModalShareForm'
 import Submenu from '~/components/layouts/argon/Submenu'
 import Paging from '~/components/Custom/Paging'
@@ -224,7 +226,7 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
-  components: { PrevPage, ModalShare, Submenu, Paging },
+  components: { ModalShare, Submenu, Paging },
   async fetch () {
     const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
 
@@ -485,9 +487,85 @@ div.vl {
 }
 
 .manual-crumb {
-  color: #181C3B;
-  font-size: 18px;
-  font-weight: 600;
+
+font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 50px;
+/* identical to box height, or 208% */
+
+letter-spacing: 1px;
+
+/* Grayscale / Title-Active */
+
+color: #14142B;
+}
+
+.picardata-arrow {
+  color: #14142B;
+  font-size: 200%;
+}
+
+.share-open {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 28px;
+/* or 175% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.75px;
+
+/* Main Button */
+
+color: #2534B6;
+}
+
+.card-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
+
+.form-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 36px;
+line-height: 54px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
+
+.all-form-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 30px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
 }
 </style>
 
