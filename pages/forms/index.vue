@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row picardata-form-index">
     <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
       <submenu v-show="submenu" class="col-xl-2" :submenu-data="formSubmenu">
         <template v-slot:breadcrumb>
@@ -492,5 +492,13 @@ div.vl {
   color: #181C3B;
   font-size: 18px;
   font-weight: 600;
+}
+</style>
+
+<style lang="scss">
+.picardata-form-index {
+  .slide-element {
+    min-height: 100vh;
+  }
 }
 </style>
