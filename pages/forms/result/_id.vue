@@ -71,14 +71,19 @@
               aria-expanded="true"
             >
               <font-awesome-icon :icon="['fas', 'question']" />&nbsp;
-              <span class="content">Choose Question</span>
+
+              <span v-if="selectedQuestion === ''" class="content">Choose Question</span>
+              <span v-else class="content">{{ selectedQuestion }}</span>
+
               <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
             </button>
             <div class="dropdown-menu">
+              <a class="dropdown-item cursor-pointer" @click="changeQuestion('')"> All </a>
               <a
                 v-for="(field, index) in fields"
                 :key="field.id + index"
                 class="dropdown-item cursor-pointer"
+                @click="changeQuestion(field.name)"
               >
                 {{ field.name }}
               </a>
@@ -87,7 +92,10 @@
         </div>
       </div>
       <div v-for="(field,index) in chartData" :key="index" class="row mt-5">
-        <div v-if="field.type === 0 || field.type === 1" class="col-xl-12">
+        <div
+          v-if="(field.type === 0 || field.type === 1) && (field.name === selectedQuestion || selectedQuestion === '')"
+          class="col-xl-12"
+        >
           <div class="card">
             <div class="card-body p-30">
               <hr class="header-break">
@@ -105,7 +113,10 @@
             </div>
           </div>
         </div>
-        <div v-if="field.type === 2 || field.type === 4" class="col-xl-12">
+        <div
+          v-if="(field.type === 2 || field.type === 4) && (field.name === selectedQuestion || selectedQuestion === '')"
+          class="col-xl-12"
+        >
           <div class="card">
             <div class="card-body p-30">
               <hr class="header-break">
@@ -149,7 +160,10 @@
             </div>
           </div>
         </div>
-        <div v-if="field.type === 3" class="col-xl-12">
+        <div
+          v-if="field.type === 3 && (field.name === selectedQuestion || selectedQuestion === '')"
+          class="col-xl-12"
+        >
           <div class="card">
             <div class="card-body p-30">
               <hr class="header-break">
@@ -245,7 +259,9 @@ export default {
       .catch(e => console.log(e))
   },
   data () {
-    return {}
+    return {
+      selectedQuestion: ''
+    }
   },
   computed: {
     chartData () {
@@ -311,6 +327,17 @@ export default {
           this.completedMessage = res.completedMessage
         })
         .catch(e => console.log(e))
+    },
+    showField (field) {
+      console.log(field)
+      if (this.selectedQuestion === '') {
+        return true
+      }
+
+      return field.name === this.selectedQuestion
+    },
+    changeQuestion (name) {
+      this.selectedQuestion = name
     }
   }
 }
