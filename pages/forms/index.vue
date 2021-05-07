@@ -127,7 +127,7 @@
         </div>
         <div class="row mt-3">
           <div v-if="integrations.length === 0" class="col-sm-12">
-            <span>No forms created yet</span>
+            <span class="no-form-created-yet">No forms created yet</span>
           </div>
           <div v-for="(form, index) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
             <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
@@ -499,6 +499,21 @@ div.vl {
 .picardata-form-index {
   .slide-element {
     min-height: 100vh;
+  }
+
+  .no-form-created-yet {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 50px;
+
+    text-align: center;
+    letter-spacing: 1px;
+
+
+    color: #14142B;
+    margin: auto;
   }
 }
 </style>
