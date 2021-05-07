@@ -79,8 +79,7 @@ jobs:
           IMAGE_TAG: ${{ steps.tag_version.outputs.new_tag }}
           GITHUB_TOKEN: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
         run: |
-          cd container \
-            && DOCKER_BUILDKIT=1 docker -D build  --target production \
+          DOCKER_BUILDKIT=1 docker -D build  --target production \
             --tag 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
