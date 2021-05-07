@@ -66,7 +66,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-4">
-                <h4>All forms</h4>
+                <span class="all-form-title">All forms</span>
               </div>
               <div class="col-8">
                 <div class="dropdown col-3 fa-pull-right">
@@ -534,6 +534,21 @@ font-style: normal;
 font-weight: bold;
 font-size: 36px;
 line-height: 54px;
+/* identical to box height */
+
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
+
+.all-form-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 30px;
 /* identical to box height */
 
 letter-spacing: 0.75px;
