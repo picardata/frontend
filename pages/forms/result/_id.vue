@@ -171,30 +171,6 @@
           </div>
         </div>
       </div>
-      <div>
-        <!--        <div class="row mt-5">-->
-        <!--          <div class="col-4">-->
-        <!--            <nav class="nav">-->
-        <!--              <a class="nav-link disabled" href="#">Summary</a>-->
-        <!--            </nav>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--        <div class="row mt-5">-->
-        <!--          <div class="col-12">-->
-        <!--            <div class="card">-->
-        <!--              <div class="card-body">-->
-        <!--                <h2>Total respondents: {{ totalRespondents }}</h2>-->
-        <!--                <div v-for="(respondent,index) in formRespondents" :key="index">-->
-        <!--                  <font-awesome-icon :icon="['fas', 'dot-circle']" class="d-inline" />-->
-        <!--                  <h4 style="font-size: 15px" class="d-inline">-->
-        <!--                    {{ respondent.email }}-->
-        <!--                  </h4>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-      </div>
     </div>
   </div>
 </template>
