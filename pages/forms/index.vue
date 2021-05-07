@@ -15,203 +15,200 @@
         </template>
       </submenu>
     </transition>
-        <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
+    <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
       <div v-show="submenu" class="col-xl-10">
-    <div>
-      <base-header type="white" class="pb-6">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-              <route-breadcrumb :crumbs="crumbs" />
-            </nav>
-          </div>
-        </div>
-      </base-header>
-      <div class="container-fluid mt--6">
-        <prev-page />
-        <div class="row mt-3">
-          <div class="col-4">
-            <h1>Forms</h1>
-          </div>
-          <div class="col-8">
-            <span class="align-middle float-right">
-              <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
-            </span>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="form-group col-12">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span id="inputGroupPrepend2" class="input-group-text border-0">
-                  <font-awesome-icon
-                    class="search-icon"
-                    fixed-width
-                    size="2x"
-                    :icon="['fas', 'search']"
-                  /></span>
-              </div>
-              <input
-                v-model="qSearch"
-                type="text"
-                class="form-control search-box border-0"
-                placeholder="Search created forms"
-                aria-describedby="inputGroupPrepend2"
-                @keyup="querySearch"
-              >
-            </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-4">
-            <h4>All forms</h4>
-          </div>
-          <div class="col-8">
-            <div class="dropdown col-3 fa-pull-right">
-              <button
-                v-if="sort === 0"
-                class="btn dropdown-toggle text-primary"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="true"
-              >
-                <font-awesome-icon
-                  fixed-width
-                  :icon="['fas', 'sort-amount-down-alt']"
-                />
-                Last updated
-              </button>
-              <button
-                v-if="sort === 1"
-                class="btn dropdown-toggle text-primary"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="true"
-              >
-                <font-awesome-icon
-                  fixed-width
-                  :icon="['fas', 'sort-amount-down-alt']"
-                />
-                Title
-              </button>
-              <div class="dropdown-menu" aria-labelledby="sort-dropdown">
-                <button
-                  v-if="sort === 1"
-                  class="dropdown-item font-weight-bold fa-pull-left text-primary"
-                  type="button"
-                  @click.prevent="toggleSort"
-                >
-                  <font-awesome-icon
-                    fixed-width
-                    :icon="['fas', 'sort-amount-down-alt']"
-                  />
-                  Last updated
-                </button>
-                <button
-                  v-if="sort === 0"
-                  class="dropdown-item font-weight-bold fa-pull-left text-primary"
-                  type="button"
-                  @click.prevent="toggleSort"
-                >
-                  <font-awesome-icon
-                    fixed-width
-                    :icon="['fas', 'sort-amount-down-alt']"
-                  />
-                  Title
-                </button>
+        <div>
+          <base-header type="white" class="pb-6">
+            <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                  <route-breadcrumb :crumbs="crumbs" />
+                </nav>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div v-if="integrations.length === 0" class="col-sm-12">
-            <span class="no-form-created-yet">No forms created yet</span>
-          </div>
-          <div v-for="(form, index) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
-            <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
-              <div class="card-body">
-                <h5 class="card-title">
-                  {{ form.name }}
-                </h5>
-                <div class="row">
-                  <div class="col-2 pt-3 pl-4">
+          </base-header>
+          <div class="container-fluid mt--6">
+            <prev-page />
+            <div class="row mt-3">
+              <div class="col-4">
+                <h1>Forms</h1>
+              </div>
+              <div class="col-8">
+                <span class="align-middle float-right">
+                  <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
+                </span>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="form-group col-12">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span id="inputGroupPrepend2" class="input-group-text border-0">
+                      <font-awesome-icon
+                        class="search-icon"
+                        fixed-width
+                        size="2x"
+                        :icon="['fas', 'search']"
+                      /></span>
+                  </div>
+                  <input
+                    v-model="qSearch"
+                    type="text"
+                    class="form-control search-box border-0"
+                    placeholder="Search created forms"
+                    aria-describedby="inputGroupPrepend2"
+                    @keyup="querySearch"
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">
+                <h4>All forms</h4>
+              </div>
+              <div class="col-8">
+                <div class="dropdown col-3 fa-pull-right">
+                  <button
+                    v-if="sort === 0"
+                    class="btn dropdown-toggle text-primary"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                  >
                     <font-awesome-icon
                       fixed-width
-                      size="lg"
-                      class="sync-icon"
-                      :icon="['fas', 'sync']"
+                      :icon="['fas', 'sort-amount-down-alt']"
                     />
-                  </div>
-                  <div class="col-10">
-                    <p class="card-text last-updated">
-                      Last updated:<br>
-                      {{ formatDate(form.updatedAt) }}
-                    </p>
-                  </div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-6 col-sm-12">
-                    <button class="btn btn-gray-light" @click="shareModal(form)">
-                      <span class="text-primary">Share</span>
+                    Last updated
+                  </button>
+                  <button
+                    v-if="sort === 1"
+                    class="btn dropdown-toggle text-primary"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                  >
+                    <font-awesome-icon
+                      fixed-width
+                      :icon="['fas', 'sort-amount-down-alt']"
+                    />
+                    Title
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="sort-dropdown">
+                    <button
+                      v-if="sort === 1"
+                      class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                      type="button"
+                      @click.prevent="toggleSort"
+                    >
+                      <font-awesome-icon
+                        fixed-width
+                        :icon="['fas', 'sort-amount-down-alt']"
+                      />
+                      Last updated
+                    </button>
+                    <button
+                      v-if="sort === 0"
+                      class="dropdown-item font-weight-bold fa-pull-left text-primary"
+                      type="button"
+                      @click.prevent="toggleSort"
+                    >
+                      <font-awesome-icon
+                        fixed-width
+                        :icon="['fas', 'sort-amount-down-alt']"
+                      />
+                      Title
                     </button>
                   </div>
-                  <div class="col-md-6 col-sm-12">
-                    <div class="divider d-inline" />
-                    <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
-                      <span class="text-primary">Open</span>
-                    </nuxt-link>
-                  </div>
-                  <!-- <div class="col-md-4 col-sm-12">
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div v-if="integrations.length === 0" class="col-sm-12">
+                <span class="no-form-created-yet">No forms created yet</span>
+              </div>
+              <div v-for="(form, _) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
+                <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      {{ form.name }}
+                    </h5>
+                    <div class="row">
+                      <div class="col-2 pt-3 pl-4">
+                        <font-awesome-icon
+                          fixed-width
+                          size="lg"
+                          class="sync-icon"
+                          :icon="['fas', 'sync']"
+                        />
+                      </div>
+                      <div class="col-10">
+                        <p class="card-text last-updated">
+                          Last updated:<br>
+                          {{ formatDate(form.updatedAt) }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-6 col-sm-12">
+                        <button class="btn btn-gray-light" @click="shareModal(form)">
+                          <span class="text-primary">Share</span>
+                        </button>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <div class="divider d-inline" />
+                        <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
+                          <span class="text-primary">Open</span>
+                        </nuxt-link>
+                      </div>
+                      <!-- <div class="col-md-4 col-sm-12">
                     <div class="divider d-inline" />
                     <a class="btn btn-gray-light" href="#" @click.prevent="deletePop(index)">
                       Delete
                     </a>
                   </div> -->
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-        </div>
-                      <Paging
+            <Paging
               style="margin: auto; margin-top: 2%; margin-bottom: 2%;"
               :data="totalIntegrations"
               :get-total-page="getTotalPage"
               :get-current-page="getCurrentPage"
               :set-current-page="setCurrentPage"
             />
-      </div>
-      <modal name="delete-modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-              <div class="modal-header">
-                <h5>Move to Trash?</h5>
-                <div class="cancel-integrate" @click="dismissModal">
-                  &times;
+          </div>
+          <modal name="delete-modal">
+            <div class="modal-mask">
+              <div class="modal-wrapper">
+                <div class="modal-container">
+                  <div class="modal-header">
+                    <h5>Move to Trash?</h5>
+                    <div class="cancel-integrate" @click="dismissModal">
+                      &times;
+                    </div>
+                  </div>
+                  <div class="modal-body">
+                    <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
+                    <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
+                  </div>
                 </div>
               </div>
-              <div class="modal-body">
-                <p>"{{ selectedDeletion.name }}" will be deleted forever.</p>
-              </div>
-              <div class="modal-footer">
-                <a href="#" class="btn btn-default" @click.prevent="dismissModal">Cancel</a>
-                <a href="#" class="btn btn-primary" @click.prevent="deleteConfirm">Move to Trash</a>
-              </div>
             </div>
-          </div>
+          </modal>
+
+          <ModalShare :id="selectedShare.id" :share-form="modals.shareForm" :title="selectedShare.name" @closeShareForm="modals.shareForm = false" />
         </div>
-      </modal>
-
-      <ModalShare :id="selectedShare.id" :share-form="modals.shareForm" :title="selectedShare.name" @closeShareForm="modals.shareForm = false" />
-    </div>
       </div>
-      </transition>
-
+    </transition>
   </div>
-
 </template>
 
 <script>
@@ -281,10 +278,10 @@ export default {
           type: 'item'
         }
       ],
-      totalIntegrations: [], 
-      integrations: [], 
-      totalPage: 1, 
-      size: 9, 
+      totalIntegrations: [],
+      integrations: [],
+      totalPage: 1,
+      size: 9,
       currentPage: 1,
       data: []
     }
@@ -325,7 +322,7 @@ export default {
 
       console.log('data = ')
       console.log(data)
-        // .then((data) => {
+      // .then((data) => {
       console.log(data)
       this.data = data.data
       this.loadData(data.data)
@@ -337,14 +334,14 @@ export default {
       })
 
       this.loadData(data.data)
-        // .then((data) => {
-          // console.log(data)
-          // this.data = data.data
-        // })
+      // .then((data) => {
+      // console.log(data)
+      // this.data = data.data
+      // })
     },
     querySearch () {
       // if (this.qSearch.length > 2) {
-        this.search()
+      this.search()
       // }
     },
     deletePop (index) {
@@ -372,7 +369,7 @@ export default {
       el.style.display = 'block'
       el.style.left = '0em'
     },
-        setCurrentPage (currentPage) {
+    setCurrentPage (currentPage) {
       if (currentPage > 0 && currentPage <= this.totalPage) {
         console.log('current page = ')
         console.log(currentPage)
@@ -400,14 +397,13 @@ export default {
       return this.currentPage
     },
 
-    loadData(data) {
+    loadData (data) {
       const dataResult = data
       this.totalIntegrations = dataResult || []
       this.integrations = dataResult
       this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
       this.setCurrentPage(1)
     }
-
 
   }
 }
@@ -510,7 +506,6 @@ div.vl {
 
     text-align: center;
     letter-spacing: 1px;
-
 
     color: #14142B;
     margin: auto;
