@@ -156,13 +156,13 @@
                     <div class="row mt-2">
                       <div class="col-md-6 col-sm-12">
                         <button class="btn btn-gray-light" @click="shareModal(form)">
-                          <span class="text-primary">Share</span>
+                          <span class="share-open">Share</span>
                         </button>
                       </div>
                       <div class="col-md-6 col-sm-12">
                         <div class="divider d-inline" />
                         <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
-                          <span class="text-primary">Open</span>
+                          <span class="share-open">Open</span>
                         </nuxt-link>
                       </div>
                       <!-- <div class="col-md-4 col-sm-12">
@@ -495,6 +495,24 @@ div.vl {
 .picardata-arrow {
   color: #14142B;
   font-size: 200%;
+}
+
+.share-open {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 28px;
+/* or 175% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.75px;
+
+/* Main Button */
+
+color: #2534B6;
 }
 </style>
 
