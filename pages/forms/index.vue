@@ -487,19 +487,12 @@ div.vl {
 }
 
 .manual-crumb {
-
-font-family: Poppins;
-font-style: normal;
-font-weight: 600;
-font-size: 24px;
-line-height: 50px;
-/* identical to box height, or 208% */
-
-letter-spacing: 1px;
-
-/* Grayscale / Title-Active */
-
-color: #14142B;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: #14142B;
 }
 
 .picardata-arrow {
