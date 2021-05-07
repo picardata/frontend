@@ -293,12 +293,12 @@ export default {
     return {
       crumbs: [
         {
-          name: 'App Library',
-          path: '/apps/app-library'
+          name: 'Apps',
+          path: '/apps/'
         },
         {
-          name: 'Apps',
-          path: '/apps'
+          name: 'App Library',
+          path: '/apps/app-library'
         }
       ],
       selectedApp: {},
