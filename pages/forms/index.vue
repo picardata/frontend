@@ -514,6 +514,19 @@ letter-spacing: 0.75px;
 
 color: #2534B6;
 }
+
+.card-title {
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0.75px;
+
+/* Body Text */
+
+color: #313131;
+}
 </style>
 
 <style lang="scss">
