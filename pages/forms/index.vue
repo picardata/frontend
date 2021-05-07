@@ -28,7 +28,9 @@
             </div>
           </base-header>
           <div class="container-fluid mt--6">
-            <prev-page />
+            <div class="row ">
+              <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+            </div>
             <div class="row mt-3">
               <div class="col-4">
                 <h1>Forms</h1>
@@ -212,7 +214,7 @@
 </template>
 
 <script>
-import PrevPage from '@/components/PrevPage'
+// import PrevPage from '@/components/PrevPage'
 import ModalShare from '@/components/pages/forms/ModalShareForm'
 import Submenu from '~/components/layouts/argon/Submenu'
 import Paging from '~/components/Custom/Paging'
@@ -224,7 +226,7 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
-  components: { PrevPage, ModalShare, Submenu, Paging },
+  components: { ModalShare, Submenu, Paging },
   async fetch () {
     const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc' } })
 
@@ -488,6 +490,11 @@ div.vl {
   color: #181C3B;
   font-size: 18px;
   font-weight: 600;
+}
+
+.picardata-arrow {
+  color: #14142B;
+  font-size: 200%;
 }
 </style>
 
