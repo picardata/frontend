@@ -126,6 +126,9 @@
           </div>
         </div>
         <div class="row mt-3">
+          <div v-if="integrations.length === 0" class="col-sm-12">
+            <span>No forms created yet</span>
+          </div>
           <div v-for="(form, index) in integrations" :key="form.id" class="p-4 col-md-4 col-sm-12">
             <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
               <div class="card-body">
