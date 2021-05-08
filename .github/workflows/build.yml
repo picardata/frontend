@@ -96,4 +96,4 @@ jobs:
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} \
               && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
               --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.picardata.com" \
-              -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }}
+              -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} yarn start
