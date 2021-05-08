@@ -42,9 +42,6 @@ jobs:
       - name: Run linter 👀
         run: yarn lint
 
-      - name: Run yarn build
-        run: yarn build
-
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5
@@ -79,6 +76,7 @@ jobs:
           IMAGE_TAG: ${{ steps.tag_version.outputs.new_tag }}
           GITHUB_TOKEN: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
         run: |
+          yarn build
           DOCKER_BUILDKIT=1 docker -D build  --target production \
             --tag 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -96,5 +94,5 @@ jobs:
               | docker login --username AWS \
               --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} \
-              && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
+              && docker rm -f frontend && docker run --name=frontend --entrypoint "npm start" --network=picardata_vpcbr --ip="10.5.5.21" \
               -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }}
