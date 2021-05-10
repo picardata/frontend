@@ -223,9 +223,14 @@ export default {
 .sub-title{
   font-size: 18px;
   font-weight: 600;
+  color: #313131;
 }
 .login-credential-input{
   margin-top: 40px;
+  &::placeholder{
+    color: #A0A3BD;
+    font-size: 16px;
+  }
 }
 .phonenumber-custom{
   margin-top: 40px;

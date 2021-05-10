@@ -65,7 +65,7 @@
             <div
               class="progress-bar bg-blue"
               role="progressbar"
-              :style="isProfileCompleted ? 'width: 66%' : 'width: 33%'"
+              :style="isProfileCompleted ? 'width: 66%' : 'width: 38%'"
               aria-valuenow="66"
               aria-valuemin="0"
               aria-valuemax="100"
@@ -156,7 +156,7 @@ export default {
   auth: true,
   data () {
     return {
-      step: 1,
+      step: 3,
       country: '',
       choices: [
         {
@@ -229,7 +229,7 @@ export default {
         }
       }).then((data) => {
         this.$auth.setUser(data)
-        this.$router.push('/')
+        this.$router.push('/apps/integrated-apps')
         return true
       }).catch((e) => {
         console.log(e)
