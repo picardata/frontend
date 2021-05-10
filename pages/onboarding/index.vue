@@ -156,7 +156,7 @@ export default {
   auth: true,
   data () {
     return {
-      step: 3,
+      step: 1,
       country: '',
       choices: [
         {
