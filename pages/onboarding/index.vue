@@ -84,7 +84,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
-      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)"/>
+      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
     </div>
     <div v-show="step === 4" class="col-12">
       <div class="col-9" style="margin-left: auto;margin-right: auto;">

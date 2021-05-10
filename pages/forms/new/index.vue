@@ -133,6 +133,7 @@ export default {
           name: '',
           type: 0,
           desc: false,
+          imageDesc: false,
           required: false,
           fieldChoices: [
             {
@@ -276,6 +277,7 @@ export default {
         name: '',
         type: 0,
         desc: false,
+        imageDesc: false,
         required: false,
         fieldChoices: [
           {
