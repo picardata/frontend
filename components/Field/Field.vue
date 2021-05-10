@@ -43,13 +43,13 @@
               />
             </div>
           </div>
-          <div class="clearfix mt-3" v-if="!q.imageDesc">
+          <div v-if="!q.imageDesc" class="clearfix mt-3">
             <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
               <font-awesome-icon :icon="['fas', 'image']" />
               <span>Add image</span>
             </button>
           </div>
-          <div class="clearfix mt-3" v-if="q.imageDesc">
+          <div v-if="q.imageDesc" class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
               <dropzone-file-upload v-model="fileSingle" />
             </div>
