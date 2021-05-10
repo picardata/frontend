@@ -32,7 +32,7 @@ export default {
     }
 
     setTimeout(() => {
-      window.location = '/apps/integrated-apps';
+      window.location = '/apps/integrated-apps'
     }, 3000)
   }
 }
