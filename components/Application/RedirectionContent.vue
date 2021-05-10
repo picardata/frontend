@@ -25,17 +25,14 @@ export default {
   mounted () {
     const error = this.$route.query.error
 
-    console.log('errornya = ')
-    console.log(error)
     if (error) {
       this.message = 'Integration is cancelled. Please wait. You will be redirected soon.'
     } else {
       this.message = 'We are processing your request. Please wait. You will be redirected soon.'
     }
 
-    const that = this
-    setTimeout(function () {
-      that.$router.push('/apps/integrated-apps')
+    setTimeout(() => {
+      this.$router.push('/apps/integrated-apps')
     }, 3000)
   }
 }
