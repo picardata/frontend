@@ -32,7 +32,7 @@ export default {
     }
 
     setTimeout(() => {
-      this.$router.push('/apps/integrated-apps')
+      window.location = '/apps/integrated-apps';
     }, 3000)
   }
 }
