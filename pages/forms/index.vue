@@ -228,7 +228,7 @@ export default {
   auth: true,
   components: { ModalShare, Submenu, Paging },
   async fetch () {
-    const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', 'page_number' : 1, 'items_per_page': '999' } })
+    const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', page_number: 1, items_per_page: '999' } })
 
     const dataResult = data
     this.totalIntegrations = dataResult || []
