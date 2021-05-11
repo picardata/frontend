@@ -229,7 +229,7 @@ export default {
         }
       }).then((data) => {
         this.$auth.setUser(data)
-        this.$router.push('/apps/integrated-apps')
+        this.$router.push('/apps/app-library')
         return true
       }).catch((e) => {
         console.log(e)
