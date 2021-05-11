@@ -295,7 +295,7 @@ export default {
     }
   },
   methods: {
-    async loadDefaultData() {
+    async loadDefaultData () {
       const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', page_number: 1, items_per_page: '999' } })
 
       const dataResult = data
