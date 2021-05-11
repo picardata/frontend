@@ -176,130 +176,238 @@
               <div class="col-xl-6">
                 <card>
                   <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Overview
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Total sales
-                    </h5>
+                    <div class="row">
+                      <div class="d-inline col-8">
+                        <h5 class="h3 mb-0">
+                          Finance
+                        </h5>
+                        <h6>
+                          Sales insight
+                        </h6>
+                        <h1>
+                          44.49K$ USD
+                        </h1>
+                      </div>
+                      <div class="col-4 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.firstWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
                   </template>
                   <div class="chart">
                     <line-chart
                       :height="350"
-                      :chart-data="salesChart.chartData"
+                      :chart-data="salesInsight.chartData"
+                    />
+                  </div>
+                </card>
+              </div>
+              <div class="col-xl-6">
+                <card>
+                  <template slot="header">
+                    <div class="row">
+                      <div class="d-inline col-8">
+                        <h5 class="h3 mb-0">
+                          Finance
+                        </h5>
+                        <h6>
+                          Transaction
+                        </h6>
+                        <h1>
+                          14.5K$ USD
+                        </h1>
+                      </div>
+                      <div class="col-4 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.secondWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
+                  </template>
+                  <div class="chart">
+                    <line-chart
+                      :height="350"
+                      :chart-data="transaction.chartData"
                     />
                   </div>
                 </card>
               </div>
 
-              <div class="col-xl-6">
+              <div class="col-xl-4">
                 <card>
                   <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Performance
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Total orders
-                    </h5>
+                    <div class="row">
+                      <div class="d-inline col-6">
+                        <h5 class="h3 mb-0">
+                          Social Media
+                        </h5>
+                        <h6>
+                          Followers
+                        </h6>
+                      </div>
+                      <div class="col-6 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.thirdWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
+                  </template>
+                  <div class="chart">
+                    <line-chart
+                      :height="350"
+                      :chart-data="socialMedia.chartData"
+                    />
+                  </div>
+                </card>
+              </div>
+
+              <div class="col-xl-4">
+                <card>
+                  <template slot="header">
+                    <div class="row">
+                      <div class="d-inline col-6">
+                        <h5 class="h3 mb-0">
+                          Human Resources
+                        </h5>
+                        <h6>
+                          Registered Users
+                        </h6>
+                      </div>
+                      <div class="col-6 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.forthWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
                   </template>
                   <div class="chart">
                     <bar-chart
-                      :chart-data="ordersChart.chartData"
+                      :chart-data="humanResources.chartData"
                       :height="350"
-                    />
-                  </div>
-                </card>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xl-6">
-                <card>
-                  <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Growth
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Sales value
-                    </h5>
-                  </template>
-                  <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="dotsChart.chartData"
-                      :extra-options="dotsChart.extraOptions"
                     />
                   </div>
                 </card>
               </div>
 
-              <div class="col-xl-6">
+              <div class="col-xl-4">
                 <card>
                   <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Users
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Audience overview
-                    </h5>
+                    <div class="row">
+                      <div class="d-inline col-6">
+                        <h5 class="h3 mb-0">
+                          Sales &amp; Marketing
+                        </h5>
+                        <h6>
+                          Registered Users
+                        </h6>
+                      </div>
+                      <div class="col-6 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.fifthWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
                   </template>
                   <div class="chart-area">
-                    <doughnut-chart
+                    <bar-chart
                       :height="350"
-                      :chart-data="doughnutChart.chartData"
-                      :extra-options="doughnutChart.extraOptions"
+                      :chart-data="salesAndMarketing.chartData"
+                      :extra-options="salesAndMarketing.extraOptions"
                     />
                   </div>
                 </card>
               </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xl-6">
+              <div class="col-xl-12">
                 <card>
                   <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Partners
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Affiliate traffic
-                    </h5>
+                    <div class="row">
+                      <div class="d-inline col-8">
+                        <h5 class="h3 mb-0">
+                          Financial
+                        </h5>
+                        <h6>
+                          Expenses
+                        </h6>
+                      </div>
+                      <div class="col-4 d-inline float-right">
+                        <base-input>
+                          <el-select
+                            v-model="selects.sixthWidget"
+                            filterable
+                            placeholder="Timeframe"
+                          >
+                            <el-option
+                              v-for="time in timeframes"
+                              :key="time.value"
+                              :label="time.label"
+                              :value="time.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                    </div>
                   </template>
                   <div class="chart">
                     <pie-chart
                       :height="350"
-                      :chart-data="pieChart.chartData"
-                      :extra-options="pieChart.extraOptions"
-                    />
-                  </div>
-                </card>
-              </div>
-              <div class="col-xl-6">
-                <card>
-                  <template slot="header">
-                    <!-- Subtitle -->
-                    <h6 class="surtitle">
-                      Overview
-                    </h6>
-                    <!-- Title -->
-                    <h5 class="h3 mb-0">
-                      Product comparison
-                    </h5>
-                  </template>
-                  <div class="chart-area">
-                    <bar-chart
-                      :height="350"
-                      :chart-data="barChartStacked.chartData"
-                      :extra-options="barChartStacked.extraOptions"
+                      :chart-data="financial.chartData"
+                      :extra-options="financial.extraOptions"
                     />
                   </div>
                 </card>
@@ -312,13 +420,12 @@
   </div>
 </template>
 <script>
-import DoughnutChart from '~/components/argon-core/Charts/DoughnutChart'
+import { Select, Option } from 'element-ui'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import PieChart from '~/components/argon-core/Charts/PieChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import { Charts } from '~/components/argon-core/Charts/config'
-import * as chartConfigs from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 
 function randomScalingFactor () {
@@ -328,11 +435,12 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    DoughnutChart,
     LineChart,
     BarChart,
     PieChart,
-    StatsCard
+    StatsCard,
+    [Select.name]: Select,
+    [Option.name]: Option
   },
   auth: true,
   layout: 'argon',
@@ -359,6 +467,34 @@ export default {
   },
   data () {
     return {
+      timeframes: [
+        {
+          label: 'This month',
+          value: 1
+        },
+        {
+          label: '4 months',
+          value: 4
+        },
+        {
+          label: '6 months',
+          value: 6
+        },
+        {
+          label: 'This year',
+          value: 12
+        }
+      ],
+      selects: {
+        firstWidget: 'This month',
+        secondWidget: '6 months',
+        thirdWidget: 'This months',
+        forthWidget: '4 months',
+        fifthWidget: '4 months',
+        sixthWidget: 'This year',
+        seventhWidget: '6 months',
+        eighthWidget: '6 months'
+      },
       submenu: true,
       totalIntegrations: 0,
       menus: [
@@ -431,18 +567,37 @@ export default {
           img: 'chorus.png'
         }
       ],
-      salesChart: {
+      salesInsight: {
         chartData: {
           labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [{
             label: 'Performance',
-            data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+            borderColor: Charts.colors.theme.primary
           }]
-
-        },
-        extraOptions: chartConfigs.blueChartOptions
+        }
       },
-      ordersChart: {
+      transaction: {
+        chartData: {
+          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: 'Performance',
+            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+            borderColor: Charts.colors.theme.warning
+          }]
+        }
+      },
+      socialMedia: {
+        chartData: {
+          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: 'Performance',
+            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+            borderColor: Charts.colors.theme.danger
+          }]
+        }
+      },
+      humanResources: {
         chartData: {
           labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [{
@@ -512,7 +667,7 @@ export default {
           }
         }
       },
-      pieChart: {
+      financial: {
         chartData: {
           labels: [
             'Danger',
@@ -550,7 +705,7 @@ export default {
           }
         }
       },
-      barChartStacked: {
+      salesAndMarketing: {
         chartData: {
           labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           datasets: [{
@@ -635,6 +790,14 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+  /deep/.el-input__inner {
+    border: 0px;
+    font-style: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    color: #2534B6;
+  }
+
   .slide-enter-active {
     animation: slide .2s reverse;
   }
