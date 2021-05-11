@@ -228,13 +228,7 @@ export default {
   auth: true,
   components: { ModalShare, Submenu, Paging },
   async fetch () {
-    const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', page_number: 1, items_per_page: '999' } })
-
-    const dataResult = data
-    this.totalIntegrations = dataResult || []
-    this.integrations = dataResult
-    this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
-    this.setCurrentPage(1)
+    await this.loadDefaultData()
   },
   data () {
     return {
@@ -301,6 +295,15 @@ export default {
     }
   },
   methods: {
+    async loadDefaultData () {
+      const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', page_number: 1, items_per_page: '999' } })
+
+      const dataResult = data
+      this.totalIntegrations = dataResult || []
+      this.integrations = dataResult
+      this.totalPage = Math.ceil(this.totalIntegrations.length / this.size)
+      this.setCurrentPage(1)
+    },
     shareModal (form) {
       this.selectedShare = form
       this.modals.shareForm = true
@@ -341,10 +344,12 @@ export default {
       // this.data = data.data
       // })
     },
-    querySearch () {
-      // if (this.qSearch.length > 2) {
-      this.search()
-      // }
+    async querySearch () {
+      if (this.qSearch.length > 0) {
+        this.search()
+      } else {
+        await this.loadDefaultData()
+      }
     },
     deletePop (index) {
       this.selectedDeletion = this.data[index]
