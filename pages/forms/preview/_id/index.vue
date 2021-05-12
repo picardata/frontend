@@ -6,7 +6,7 @@
           <route-breadcrumb :crumbs="crumbs" />
         </div>
         <div class="col-6">
-          <nuxt-link class="mr-3 btn btn-lg btn-outline-primary float-right btn-submit" :to="'/forms/' + $route.params.id">
+          <nuxt-link class="mr-3 btn btn-lg btn-outline-primary float-right btn-submit close-preview" :to="'/forms/' + $route.params.id">
             Close Preview
           </nuxt-link>
         </div>
@@ -308,5 +308,11 @@ input.form-control:focus {
 
 .border-choice {
   border-bottom: 1.5px solid #ccc;
+}
+
+.close-preview {
+  border: 2px solid #2A00A2;
+  font-weight: 600;
+  color: #2A00A2;
 }
 </style>
