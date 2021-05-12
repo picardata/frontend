@@ -61,7 +61,7 @@
               >
             </div>
             <div v-if="field.type === 2" class="form-group">
-              <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
+              <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline border-choice col-7">
                 <input
                   :id="choice.id"
                   v-model="answers[index].name"
@@ -81,7 +81,7 @@
               </div>
             </div>
             <div v-if="field.type === 3" class="form-group">
-              <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline">
+              <div v-for="choice in field.fieldChoices" :key="choice.id" class="form-inline border-choice col-7">
                 <input
                   :id="choice.id"
                   v-model="answers[index].name"
@@ -235,7 +235,7 @@ input.form-control.question {
 }
 
 input.form-control {
-  border-width: 0 0 2px 0;
+  border-width: 0 0 0 0;
   border-radius: 0;
   box-shadow: none;
 }
@@ -304,5 +304,9 @@ input.form-control:focus {
 
 .send-response {
   margin: 10px 10px 0px 0px
+}
+
+.border-choice {
+  border-bottom: 1.5px solid #ccc;
 }
 </style>
