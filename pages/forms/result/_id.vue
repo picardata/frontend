@@ -209,6 +209,9 @@ function pieChartData (field) {
   })
 
   field.fieldChoices.map((v) => {
+    if (v.status !== 1) {
+      return false
+    }
     if (!Object.prototype.hasOwnProperty.call(answers, v.name)) {
       answers[v.name] = 0
     }
