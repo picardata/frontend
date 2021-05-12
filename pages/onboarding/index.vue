@@ -203,7 +203,7 @@ export default {
         this.$refs.completeProfile.post()
           .then((result) => {
             if (result) {
-              this.step += 1
+              this.$router.push('/apps/app-library')
             }
           })
         return
