@@ -30,11 +30,13 @@
           <div class="container-fluid mt--6">
             <prev-page style="margin-bottom: 1.3em" />
             <div class="row">
-              <div class="page-title col-12">Manage All Forms</div>
+              <div class="page-title col-12">
+                Manage All Forms
+              </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <form          
+                <form
                   id="navbar-search-main"
                   class="navbar-search form-inline navbar-search-light"
                 >
@@ -64,19 +66,19 @@
                   </button>
                 </form>
               </div>
-            </div>            
+            </div>
             <div class="row">
               <div class="col-12">
                 <checkbox-table>
                   <template v-slot:table-header>
-                    <div></div>
+                    <div />
                   </template>
                   <template v-slot:table>
                     <el-table
                       class="table-responsive table-flush"
                       header-row-class-name="thead-light"
                       row-key="id"
-                      :data="forms"                      
+                      :data="forms"
                     >
                       <el-table-column
                         type="selection"
@@ -101,7 +103,7 @@
                         min-width="140px"
                         sortable
                       >
-                      <template v-slot="{row}">
+                        <template v-slot="{row}">
                           <b>{{ createdDateFormat(row.createdAt) }}</b>
                         </template>
                       </el-table-column>
@@ -137,13 +139,15 @@
                         align="center"
                       >
                         <template v-slot="{row}">
-                          <nuxt-link class="font-weight-bold" :to="'/forms/' + row.id">Edit Form</nuxt-link>
+                          <nuxt-link class="font-weight-bold" :to="'/forms/' + row.id">
+                            Edit Form
+                          </nuxt-link>
                         </template>
                       </el-table-column>
                     </el-table>
                   </template>
                 </checkbox-table>
-              </div>      
+              </div>
             </div>
           </div>
         </div>
@@ -152,9 +156,9 @@
   </div>
 </template>
 <script>
-import CheckboxTable from '~/components/tables/RegularTables/CheckboxTable'
 import { Table, TableColumn } from 'element-ui'
 import PrevPage from '@/components/PrevPage'
+import CheckboxTable from '~/components/tables/RegularTables/CheckboxTable'
 
 export default {
   layout: 'argon',
@@ -164,53 +168,53 @@ export default {
     [TableColumn.name]: TableColumn,
     PrevPage
   },
-  async fetch() {
+  async fetch () {
     await this.loadDefaultData()
   },
-  data() {
+  data () {
     return {
       users: [
-  {
-    id: 1,
-    name: 'Nungguin Ya',
-    image: 'img/theme/team-1.jpg',
-    createdAt: '10/09/2018',
-    product: 'Argon Dashboard PRO',
-    active: true
-  },
-  {
-    id: 2,
-    name: 'Nungguin Ya',
-    image: 'img/theme/team-2.jpg',
-    createdAt: '08/09/2018',
-    product: 'Argon Design System',
-    active: false
-  },
-  {
-    id: 3,
-    name: 'Nungguin Ya',
-    image: 'img/theme/team-3.jpg',
-    createdAt: '30/08/2018',
-    product: 'Black Dashboard',
-    active: false
-  },
-  {
-    id: 4,
-    name: 'Nungguin Ya',
-    image: 'img/theme/team-1.jpg',
-    createdAt: '10/09/2018',
-    product: 'Argon Dashboard PRO',
-    active: true
-  },
-  {
-    id: 5,
-    name: 'Nungguin Ya',
-    image: 'img/theme/team-2.jpg',
-    createdAt: '30/09/2018',
-    product: 'Vue Argon Dashboard',
-    active: true
-  }
-],
+        {
+          id: 1,
+          name: 'Nungguin Ya',
+          image: 'img/theme/team-1.jpg',
+          createdAt: '10/09/2018',
+          product: 'Argon Dashboard PRO',
+          active: true
+        },
+        {
+          id: 2,
+          name: 'Nungguin Ya',
+          image: 'img/theme/team-2.jpg',
+          createdAt: '08/09/2018',
+          product: 'Argon Design System',
+          active: false
+        },
+        {
+          id: 3,
+          name: 'Nungguin Ya',
+          image: 'img/theme/team-3.jpg',
+          createdAt: '30/08/2018',
+          product: 'Black Dashboard',
+          active: false
+        },
+        {
+          id: 4,
+          name: 'Nungguin Ya',
+          image: 'img/theme/team-1.jpg',
+          createdAt: '10/09/2018',
+          product: 'Argon Dashboard PRO',
+          active: true
+        },
+        {
+          id: 5,
+          name: 'Nungguin Ya',
+          image: 'img/theme/team-2.jpg',
+          createdAt: '30/09/2018',
+          product: 'Vue Argon Dashboard',
+          active: true
+        }
+      ],
       forms: [],
       crumbs: [
         {
@@ -247,7 +251,7 @@ export default {
           name: 'Manage All Forms',
           type: 'item'
         }
-      ],
+      ]
     }
   },
   methods: {
@@ -270,7 +274,7 @@ export default {
       return this.$moment(date).calendar()
     },
     createdDateFormat (date) {
-      return this.$moment(date).format("DD MMM YYYY")
+      return this.$moment(date).format('DD MMM YYYY')
     }
   }
 }
