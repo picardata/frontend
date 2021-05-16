@@ -37,6 +37,7 @@
           <div v-if="q.type != 0 && q.type != 1" class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
+                v-model="description_field"
                 name="text-desc"
                 class="form-control pcd mt-3"
                 placeholder="Description"
@@ -57,16 +58,28 @@
         </div>
         <Choice v-if="q.type == 2 || q.type == 3" :question="questions[q_key]" />
         <Textfield v-if="q.type == 0 || q.type == 1" />
-        <FieldUpload v-if="q.type == 4" />
-        <LinearScale v-if="q.type == 5" />
+        <FieldUpload v-if="q.type == 4" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <LinearScale v-if="q.type == 5" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <div v-if="q.type == 6">
           <div class="col-sm-8 mt-3">
-            <base-input id="example-date-input" type="date" placeholder="Day, month, year" />
+            <base-input
+              id="example-date-input"
+              v-model="dates.date"
+              type="date"
+              placeholder="Day, month, year"
+              @blur="submitDate(dates, q.id)"
+            />
           </div>
         </div>
         <div v-if="q.type == 7">
           <div class="col-sm-8 mt-3">
-            <base-input id="example-time-input" type="time" value="10:30:00" />
+            <base-input
+              id="example-time-input"
+              v-model="dates.time"
+              type="time"
+              value="10:30:00"
+              @blur="submitDate(dates, q.id)"
+            />
           </div>
         </div>
         <hr>
@@ -143,6 +156,12 @@ export default {
   },
   data () {
     return {
+      description_field: null,
+      image_field: null,
+      dates: {
+        date: null,
+        time: null
+      },
       fileSingle: [],
       typesOfQuestion: [
         {
@@ -186,6 +205,41 @@ export default {
           icon: 'clock'
         }
       ]
+    }
+  },
+  methods: {
+    async submitDate (dates, fieldId) {
+      await this.postDate(dates, fieldId)
+    },
+    async postDate (dates, fieldId) {
+      const toSave = {
+        dateValue: dates.date,
+        timeValue: dates.time,
+        field: fieldId,
+        description: this.description_field,
+        image: this.image_field
+      }
+      let axios
+
+      if (dates.id) {
+        axios = this.$axios.$put('/api/field-dates/' + dates.id, toSave)
+      } else {
+        axios = this.$axios.$post('/api/field-dates/', toSave)
+      }
+
+      await axios.then((res) => {
+        dates.id = res.id
+      })
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
+            }
+          }
+          return false
+        })
     }
   }
 }

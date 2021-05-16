@@ -6,9 +6,11 @@
       </div>
       <div class="col-sm-1 text-right pr-0">
         <b-form-checkbox
+          v-model="uploads.allow_spec"
           name="check-button"
           class="d-inline text-primary font-weight-600 pr-0"
           switch
+          @change="submitUpload(uploads, question.id)"
         >
           <span class="button-required" />
         </b-form-checkbox>
@@ -17,49 +19,39 @@
     <div class="row mt-3">
       <div class="col-sm-4 pl-0">
         <ul class="list-checks">
-          <li>
-            <base-checkbox class="mb-3">
-              Document
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              PDF
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              Drawing
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              Video
-            </base-checkbox>
+          <li v-for="type in types" v-if="type.id <= 4">
+            <div class="custom-control custom-checkbox mb-3">
+              <input
+                :id="type.id"
+                v-model="uploads.checkbox_val.list"
+                :value="type.id"
+                type="checkbox"
+                class="custom-control-input"
+                @change="submitUpload(uploads, question.id)"
+              >
+              <label :for="type.id" class="custom-control-label">
+                {{ type.name }}
+              </label>
+            </div>
           </li>
         </ul>
       </div>
       <div class="col-sm-4 pl-0">
         <ul class="list-checks">
-          <li>
-            <base-checkbox class="mb-3">
-              Spreadsheet
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              Presentation
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              Image
-            </base-checkbox>
-          </li>
-          <li>
-            <base-checkbox class="mb-3">
-              Audio
-            </base-checkbox>
+          <li v-for="type in types" v-if="type.id > 4">
+            <div class="custom-control custom-checkbox mb-3">
+              <input
+                :id="type.id"
+                v-model="uploads.checkbox_val.list"
+                :value="type.id"
+                type="checkbox"
+                class="custom-control-input"
+                @change="submitUpload(uploads, question.id)"
+              >
+              <label :for="type.id" class="custom-control-label">
+                {{ type.name }}
+              </label>
+            </div>
           </li>
         </ul>
       </div>
@@ -74,18 +66,15 @@
       >
         Choose max. number of files
         <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
-        <span>1</span>
+        <span>{{ uploads.max_num }}</span>
       </button>
       <div class="dropdown-menu">
         <a
+          v-for="nums in list_number"
           class="dropdown-item"
+          @click="change_number(nums.id)"
         >
-          1
-        </a>
-        <a
-          class="dropdown-item"
-        >
-          2
+          {{ nums.id }}
         </a>
       </div>
     </div>
@@ -99,18 +88,15 @@
       >
         Choose max. file sizes
         <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
-        <span>10 MB</span>
+        <span>{{ uploads.max_size }} MB</span>
       </button>
       <div class="dropdown-menu">
         <a
+          v-for="nums in list_number"
           class="dropdown-item"
+          @click="change_size(nums.id)"
         >
-          10 MB
-        </a>
-        <a
-          class="dropdown-item"
-        >
-          9 MB
+          {{ nums.id }} MB
         </a>
       </div>
     </div>
@@ -119,7 +105,132 @@
 
 <script>
 export default {
-  name: 'FieldUpload'
+  name: 'FieldUpload',
+  props: {
+    question: {
+      type: Object
+    },
+    desc_field: { type: String },
+    image_field: { type: String }
+  },
+  data () {
+    return {
+      desc_field: this.desc_field,
+      image_field: this.image_field,
+      uploads: {
+        allow_spec: null,
+        allow_specInt: null,
+        max_num: 1,
+        max_size: 10,
+        checkbox_val: {
+          list: []
+        }
+      },
+      list_number: [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 },
+        { id: 6 },
+        { id: 7 },
+        { id: 8 },
+        { id: 9 },
+        { id: 10 },
+        { id: 11 },
+        { id: 12 },
+        { id: 13 },
+        { id: 14 },
+        { id: 15 },
+        { id: 16 },
+        { id: 17 },
+        { id: 18 },
+        { id: 19 },
+        { id: 20 }
+      ],
+      types: [
+        {
+          name: 'Document',
+          id: 1
+        },
+        {
+          name: 'PDF',
+          id: 2
+        },
+        {
+          name: 'Drawing',
+          id: 3
+        },
+        {
+          name: 'Video',
+          id: 4
+        },
+        {
+          name: 'Spreadsheet',
+          id: 5
+        },
+        {
+          name: 'Presentation',
+          id: 6
+        },
+        {
+          name: 'Image',
+          id: 7
+        },
+        {
+          name: 'Audio',
+          id: 8
+        }
+      ]
+    }
+  },
+  methods: {
+    async submitUpload (uploads, fieldId) {
+      await this.postUpload(uploads, fieldId)
+    },
+    async postUpload (uploads, fieldId) {
+      const toSave = {
+        allowSpecificTypes: uploads.allow_spec ? 1 : 0,
+        checkboxValue: JSON.stringify(uploads.checkbox_val.list),
+        maxNumber: uploads.max_num,
+        maxSize: uploads.max_size,
+        field: fieldId,
+        description: this.desc_field,
+        image: this.image_field
+      }
+      let axios
+
+      if (uploads.id) {
+        axios = this.$axios.$put('/api/field-uploads/' + uploads.id, toSave)
+      } else {
+        axios = this.$axios.$post('/api/field-uploads/', toSave)
+      }
+
+      await axios.then((res) => {
+        uploads.id = res.id
+      })
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
+            }
+          }
+          return false
+        })
+    },
+    change_number (number) {
+      this.uploads.max_num = number
+
+      this.submitUpload(this.uploads, this.question.id)
+    },
+    change_size (number) {
+      this.uploads.max_size = number
+
+      this.submitUpload(this.uploads, this.question.id)
+    }
+  }
 }
 </script>
 
