@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import DropzoneFileUpload from '@/components/argon-core/Inputs/DropzoneFileUpload'
-
 export default {
   name: 'Textfield',
   props: {

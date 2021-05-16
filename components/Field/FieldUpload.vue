@@ -19,8 +19,8 @@
     <div class="row mt-3">
       <div class="col-sm-4 pl-0">
         <ul class="list-checks">
-          <li v-for="type in types" v-if="type.id <= 4">
-            <div class="custom-control custom-checkbox mb-3">
+          <li v-for="type in types" :key="type.id">
+            <div v-if="type.id <= 4" class="custom-control custom-checkbox mb-3">
               <input
                 :id="type.id"
                 v-model="uploads.checkbox_val.list"
@@ -38,8 +38,8 @@
       </div>
       <div class="col-sm-4 pl-0">
         <ul class="list-checks">
-          <li v-for="type in types" v-if="type.id > 4">
-            <div class="custom-control custom-checkbox mb-3">
+          <li v-for="type in types" :key="type.id">
+            <div v-if="type.id > 4" class="custom-control custom-checkbox mb-3">
               <input
                 :id="type.id"
                 v-model="uploads.checkbox_val.list"
@@ -71,6 +71,7 @@
       <div class="dropdown-menu">
         <a
           v-for="nums in list_number"
+          :key="nums.id"
           class="dropdown-item"
           @click="change_number(nums.id)"
         >
@@ -93,6 +94,7 @@
       <div class="dropdown-menu">
         <a
           v-for="nums in list_number"
+          :key="nums.id"
           class="dropdown-item"
           @click="change_size(nums.id)"
         >

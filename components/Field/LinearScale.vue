@@ -31,6 +31,7 @@
         <div class="dropdown-menu">
           <a
             v-for="nums in list_number"
+            :key="nums.id"
             class="dropdown-item"
             @click="change_from(nums.id)"
           >
@@ -55,6 +56,7 @@
         <div class="dropdown-menu">
           <a
             v-for="nums in list_number"
+            :key="nums.id"
             class="dropdown-item"
             @click="change_to(nums.id)"
           >
