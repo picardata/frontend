@@ -7,7 +7,7 @@
         class="form-control pcd mt-3"
         @blur="submitText(text, question.id)"
         @keyup="submitText(text, question.id)"
-      ></textarea>
+      />
       <div v-if="!question.imageDesc && question.desc" class="clearfix mt-3">
         <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="question.imageDesc = !question.imageDesc">
           <font-awesome-icon :icon="['fas', 'image']" />
@@ -42,7 +42,7 @@ export default {
       type: Object
     },
     q_key: { type: Number },
-    change_type:{ type: Function }
+    change_type: { type: Function }
   },
   data () {
     return {
@@ -50,7 +50,7 @@ export default {
       text: {
         desc: null,
         answer: null,
-        image:null
+        image: null
       },
       type_id: 0,
       first_trigger: true
@@ -58,9 +58,8 @@ export default {
   },
   methods: {
     submitText (text, fieldId) {
-      if(this.first_trigger)
-        this.change_type(this.q_key, this.type_id)
-        this.first_trigger = false
+      if (this.first_trigger) { this.change_type(this.q_key, this.type_id) }
+      this.first_trigger = false
 
       this.postText(text, fieldId)
     },
@@ -82,17 +81,17 @@ export default {
       await axios.then((res) => {
         text.id = res.id
       })
-          .catch((e) => {
-            this.errors = []
-            for (const field of ['username', 'password']) {
-              const errors = e.response.data.errors[field]
-              if (errors !== undefined) {
-                this.errors = this.errors.concat(errors)
-              }
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
             }
-            return false
-          })
-    },
+          }
+          return false
+        })
+    }
   }
 }
 </script>

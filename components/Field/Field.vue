@@ -57,7 +57,14 @@
           </div>
         </div>
         <Choice v-if="q.type == 2 || q.type == 3" :question="questions[q_key]" />
-        <Textfield v-if="q.type == 0 || q.type == 1" :q_key="q_key" :change_type="change_type" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <Textfield
+          v-if="q.type == 0 || q.type == 1"
+          :q_key="q_key"
+          :change_type="change_type"
+          :question="questions[q_key]"
+          :desc_field="description_field"
+          :image_field="image_field"
+        />
         <FieldUpload v-if="q.type == 4" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <LinearScale v-if="q.type == 5" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <div v-if="q.type == 6">
