@@ -44,20 +44,20 @@
               />
             </div>
           </div>
-          <div v-if="!q.imageDesc" class="clearfix mt-3">
+          <div v-if="!q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
             <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
               <font-awesome-icon :icon="['fas', 'image']" />
               <span>Add image</span>
             </button>
           </div>
-          <div v-if="q.imageDesc" class="clearfix mt-3">
+          <div v-if="q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
               <dropzone-file-upload v-model="fileSingle" />
             </div>
           </div>
         </div>
         <Choice v-if="q.type == 2 || q.type == 3" :question="questions[q_key]" />
-        <Textfield v-if="q.type == 0 || q.type == 1" />
+        <Textfield v-if="q.type == 0 || q.type == 1" :q_key="q_key" :change_type="change_type" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <FieldUpload v-if="q.type == 4" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <LinearScale v-if="q.type == 5" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <div v-if="q.type == 6">

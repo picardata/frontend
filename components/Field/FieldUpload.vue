@@ -115,8 +115,6 @@ export default {
   },
   data () {
     return {
-      desc_field: this.desc_field,
-      image_field: this.image_field,
       uploads: {
         allow_spec: null,
         allow_specInt: null,
