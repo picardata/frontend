@@ -367,7 +367,7 @@ export default {
         {
           id: undefined,
           allowSpecificTypes: null,
-          checkboxValue: null,
+          checkboxValue: [],
           maxNumber: 0,
           maxSize: 0,
           description: null,
@@ -451,7 +451,7 @@ export default {
           {
             id: undefined,
             allowSpecificTypes: null,
-            checkboxValue: null,
+            checkboxValue: [],
             maxNumber: 0,
             maxSize: 0,
             description: null,
