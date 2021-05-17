@@ -244,4 +244,8 @@ select.login-credential-input{
     top: 20%;
   }
 }
+
+.text-danger{
+  position: absolute;
+}
 </style>
