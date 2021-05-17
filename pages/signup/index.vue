@@ -226,7 +226,7 @@ export default {
       return password && password.length >= 8
     },
     isPasswordMatched (originalPassword, repeatedPassword) {
-      if(originalPassword.length === 0 || repeatedPassword.length === 0) {
+      if (originalPassword.length === 0 || repeatedPassword.length === 0) {
         return true
       }
       return originalPassword === repeatedPassword
