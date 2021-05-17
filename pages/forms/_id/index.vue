@@ -147,9 +147,89 @@ export default {
           alert: ''
         })
 
+        x.fieldTexts = x.fieldTexts.filter((y) => {
+          return y.status === 1
+        })
+
+        if (!x.fieldTexts.length > 0) {
+          x.fieldTexts.push({
+            id: undefined,
+            description: null,
+            shortAnswer: null,
+            image: null,
+            first_trigger: true
+          })
+        }
+
+        x.fieldUploads = x.fieldUploads.filter((y) => {
+          y.allow_spec = y.allowSpecificTypes === 1
+          y.checkboxValue = JSON.parse(y.checkboxValue)
+          return y.status === 1
+        })
+
+        if (!x.fieldUploads.length > 0) {
+          x.fieldUploads.push({
+            id: undefined,
+            allowSpecificTypes: null,
+            checkboxValue: [],
+            maxNumber: 0,
+            maxSize: 0,
+            description: null,
+            image: null
+          })
+        }
+
+        x.fieldLinearScales = x.fieldLinearScales.filter((y) => {
+          y.allow_spec = y.allowSpecificTypes === 1
+          return y.status === 1
+        })
+
+        if (!x.fieldLinearScales.length > 0) {
+          x.fieldLinearScales.push({
+            id: undefined,
+            allowSpecificTypes: null,
+            fromValue: 1,
+            toValue: 5,
+            label1: null,
+            label2: null,
+            description: null,
+            image: null
+          })
+        }
+
+        x.fieldDates = x.fieldDates.filter((y) => {
+          return y.status === 1
+        })
+
+        if (!x.fieldDates.length > 0) {
+          x.fieldDates.push({
+            id: undefined,
+            dateValue: null,
+            timeValue: null,
+            description: null,
+            image: null
+          })
+        }
+
         return x.status === 1
       })
 
+      data.data.questions.filter((b) => {
+        b.desc = false
+        b.imageDesc = false
+
+        if (b.type === 0 || b.type === 1) {
+          b.descText = b.fieldTexts[0].description
+        } else if (b.type === 4) {
+          b.descText = b.fieldUploads[0].description
+        } else if (b.type === 5) {
+          b.descText = b.fieldLinearScales[0].description
+        } else if (b.type === 6) {
+          b.descText = b.fieldDates[0].description
+        } else {
+          b.descText = null
+        }
+      })
       return data.data
     })
   },
@@ -226,6 +306,10 @@ export default {
     changeType (questionId, typeId) {
       this.questions[questionId].type = typeId
       this.bulkDeleteFieldChoices(questionId)
+      this.bulkDeleteFieldTexts(questionId)
+      this.bulkDeleteFieldUploads(questionId)
+      this.bulkDeleteFieldDates(questionId)
+      this.bulkDeleteFieldScales(questionId)
       this.submitField(questionId, this.id).then(() => {
         if (typeId > 1) {
           this.addChoices(questionId)
@@ -256,11 +340,86 @@ export default {
         }
       ]
     },
+    bulkDeleteFieldTexts (questionId) {
+      this.questions[questionId].fieldTexts.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-texts/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldTexts = [
+        {
+          id: undefined,
+          description: null,
+          shortAnswer: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldUploads (questionId) {
+      this.questions[questionId].fieldUploads.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-uploads/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldUploads = [
+        {
+          id: undefined,
+          allowSpecificTypes: null,
+          checkboxValue: null,
+          maxNumber: 0,
+          maxSize: 0,
+          description: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldScales (questionId) {
+      this.questions[questionId].fieldLinearScales.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-linear-scales/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldLinearScales = [
+        {
+          id: undefined,
+          allowSpecificTypes: null,
+          fromValue: 1,
+          toValue: 5,
+          label1: null,
+          label2: null,
+          description: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldDates (questionId) {
+      this.questions[questionId].fieldDates.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-dates/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldDates = [
+        {
+          id: undefined,
+          dateValue: null,
+          timeValue: null,
+          description: null,
+          image: null
+        }
+      ]
+    },
     newField () {
       this.questions.push({
         id: undefined,
         name: '',
         type: 0,
+        desc: false,
+        descText: null,
+        imageDesc: false,
         required: false,
         fieldChoices: [
           {
@@ -278,6 +437,45 @@ export default {
             edit: false,
             alert: ''
           }
+        ],
+        fieldDates: [
+          {
+            id: undefined,
+            description: null,
+            shortAnswer: null,
+            image: null,
+            first_trigger: true
+          }
+        ],
+        fieldUploads: [
+          {
+            id: undefined,
+            allowSpecificTypes: null,
+            checkboxValue: null,
+            maxNumber: 0,
+            maxSize: 0,
+            description: null,
+            image: null
+          }
+        ],
+        fieldLinearScales: [
+          {
+            id: undefined,
+            allowSpecificTypes: null,
+            fromValue: 1,
+            toValue: 5,
+            label1: null,
+            label2: null,
+            description: null,
+            image: null
+          }
+        ],
+        fieldTexts: [
+          {
+            id: undefined,
+            description: null,
+            shortAnswer: null
+          }
         ]
       })
       this.submitField(this.questionsLength - 1, this.id).then(() => {
@@ -293,12 +491,24 @@ export default {
         name: toCopy.name,
         type: toCopy.type,
         required: toCopy.required,
-        fieldChoices: this.copyChoices(toCopy.fieldChoices)
+        fieldChoices: this.copyChoices(toCopy.fieldChoices),
+        fieldDates: this.copyDates(toCopy.fieldDates),
+        fieldUploads: this.copyUploads(toCopy.fieldUploads),
+        fieldLinearScales: this.copyScales(toCopy.fieldLinearScales),
+        fieldTexts: this.copyTexts(toCopy.fieldTexts)
       }
       this.questions.splice(index + 1, 0, copied)
       this.submitField(index + 1, this.id).then(() => {
-        if (copied.type > 1) {
+        if (copied.type === 0 || copied.type === 1) {
+          this.addTexts(index + 1)
+        } else if (copied.type === 2 || copied.type === 3) {
           this.addChoices(index + 1)
+        } else if (copied.type === 4) {
+          this.addUploads(index + 1)
+        } else if (copied.type === 5) {
+          this.addScales(index + 1)
+        } else if (copied.type > 5) {
+          this.addDates(index + 1)
         }
       })
     },
@@ -310,6 +520,54 @@ export default {
           name: v.name,
           edit: false,
           alert: v.alert
+        }
+      })
+    },
+    copyDates (dates) {
+      return dates.map((v) => {
+        return {
+          id: undefined,
+          dateValue: v.dateValue,
+          timeValue: v.timeValue,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyUploads (uploads) {
+      return uploads.map((v) => {
+        return {
+          id: undefined,
+          allowSpecificTypes: v.allowSpecificTypes,
+          checkboxValue: v.checkboxValue,
+          maxNumber: v.maxNumber,
+          maxSize: v.maxSize,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyScales (scales) {
+      return scales.map((v) => {
+        return {
+          id: undefined,
+          allowSpecificTypes: v.allowSpecificTypes,
+          fromValue: v.fromValue,
+          toValue: v.toValue,
+          label1: v.label1,
+          label2: v.label2,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyTexts (texts) {
+      return texts.map((v) => {
+        return {
+          id: undefined,
+          shortAnswer: v.shortAnswer,
+          description: v.description,
+          image: v.image
         }
       })
     },
@@ -329,6 +587,74 @@ export default {
                 v.id = res.id
               })
           }
+        })
+    },
+    addTexts (index) {
+      this.questions[index]
+        .fieldTexts
+        .map((v) => {
+          this.$axios.$post('/api/field-texts/', {
+            description: v.description,
+            image: v.image,
+            shortAnswer: v.shortAnswer,
+            field: this.questions[index].id
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addUploads (index) {
+      this.questions[index]
+        .fieldUploads
+        .map((v) => {
+          this.$axios.$post('/api/field-uploads/', {
+            allowSpecificTypes: v.allowSpecificTypes,
+            checkboxValue: JSON.stringify(v.checkboxValue),
+            maxNumber: v.maxNumber,
+            maxSize: v.maxSize,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addScales (index) {
+      this.questions[index]
+        .fieldLinearScales
+        .map((v) => {
+          this.$axios.$post('/api/field-linear-scales/', {
+            allowSpecificTypes: v.allowSpecificTypes,
+            fromValue: v.fromValue,
+            toValue: v.toValue,
+            label1: v.label1,
+            label2: v.label2,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addDates (index) {
+      this.questions[index]
+        .fieldDates
+        .map((v) => {
+          this.$axios.$post('/api/field-dates/', {
+            dateValue: v.dateValue,
+            timeValue: v.timeValue,
+            field: this.questions[index].id,
+            description: v.description_field,
+            image: v.image_field
+          })
+            .then((res) => {
+              v.id = res.id
+            })
         })
     },
     deleteField (index) {

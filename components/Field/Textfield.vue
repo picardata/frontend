@@ -1,8 +1,8 @@
 <template>
   <div class="col-8">
-    <div>
+    <div v-for="(text, index) in question.fieldTexts" :key="index">
       <textarea
-        v-model="text.desc"
+        v-model="text.description"
         name="text-desc"
         class="form-control pcd mt-3"
         @blur="submitText(text, question.id)"
@@ -17,10 +17,15 @@
       <div v-if="question.imageDesc && question.desc" class="clearfix mt-3">
         <div class="col-sm-8 mt-3">
           <dropzone-file-upload v-model="fileSingle" />
+
+          <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
+            <font-awesome-icon :icon="['fas', 'times']" />
+            <span>Cancel</span>
+          </button>
         </div>
       </div>
       <input
-        v-model="text.answer"
+        v-model="text.shortAnswer"
         type="text"
         name="input-answer"
         class="form-control pcd mt-3"
@@ -45,27 +50,23 @@ export default {
   data () {
     return {
       fileSingle: [],
-      text: {
-        desc: null,
-        answer: null,
-        image: null
-      },
-      type_id: 0,
-      first_trigger: true
+      type_id: 0
     }
   },
   methods: {
     submitText (text, fieldId) {
-      if (this.first_trigger) { this.change_type(this.q_key, this.type_id) }
-      this.first_trigger = false
+      if (text.first_trigger && !this.question.id) {
+        this.change_type(this.q_key, this.type_id)
+        text.first_trigger = false
+      }
 
       this.postText(text, fieldId)
     },
     async postText (text, fieldId) {
       const toSave = {
-        description: text.desc,
+        description: text.description,
         image: text.image,
-        shortAnswer: text.answer,
+        shortAnswer: text.shortAnswer,
         field: fieldId
       }
       let axios

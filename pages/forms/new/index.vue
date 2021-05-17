@@ -133,6 +133,7 @@ export default {
           name: '',
           type: 0,
           desc: false,
+          descText: null,
           imageDesc: false,
           required: false,
           fieldChoices: [
@@ -149,6 +150,48 @@ export default {
               name: 'Add option',
               edit: false,
               alert: ''
+            }
+          ],
+          fieldDates: [
+            {
+              id: undefined,
+              description: null,
+              shortAnswer: null,
+              image: null,
+              first_trigger: true
+            }
+          ],
+          fieldUploads: [
+            {
+              id: undefined,
+              allowSpecificTypes: null,
+              allow_spec: false,
+              checkboxValue: null,
+              maxNumber: 0,
+              maxSize: 0,
+              description: null,
+              image: null
+            }
+          ],
+          fieldLinearScales: [
+            {
+              id: undefined,
+              allowSpecificTypes: null,
+              allow_spec: false,
+              fromValue: 1,
+              toValue: 5,
+              label1: null,
+              label2: null,
+              description: null,
+              image: null
+            }
+          ],
+          fieldTexts: [
+            {
+              id: undefined,
+              description: null,
+              shortAnswer: null,
+              first_trigger: true
             }
           ]
         }
@@ -295,6 +338,45 @@ export default {
             edit: false,
             alert: ''
           }
+        ],
+        fieldDates: [
+          {
+            id: undefined,
+            description: null,
+            shortAnswer: null,
+            image: null,
+            first_trigger: true
+          }
+        ],
+        fieldUploads: [
+          {
+            id: undefined,
+            allowSpecificTypes: null,
+            checkboxValue: null,
+            maxNumber: 0,
+            maxSize: 0,
+            description: null,
+            image: null
+          }
+        ],
+        fieldLinearScales: [
+          {
+            id: undefined,
+            allowSpecificTypes: null,
+            fromValue: 1,
+            toValue: 5,
+            label1: null,
+            label2: null,
+            description: null,
+            image: null
+          }
+        ],
+        fieldTexts: [
+          {
+            id: undefined,
+            description: null,
+            shortAnswer: null
+          }
         ]
       })
       this.submitField(this.questionsLength - 1, this.id).then(() => {
@@ -310,7 +392,11 @@ export default {
         name: toCopy.name,
         type: toCopy.type,
         required: toCopy.required,
-        fieldChoices: this.copyChoices(toCopy.fieldChoices)
+        fieldChoices: this.copyChoices(toCopy.fieldChoices),
+        fieldDates: this.copyDates(toCopy.fieldDates),
+        fieldUploads: this.copyUploads(toCopy.fieldUploads),
+        fieldLinearScales: this.copyScales(toCopy.fieldLinearScales),
+        fieldTexts: this.copyTexts(toCopy.fieldTexts)
       }
       this.questions.splice(index + 1, 0, copied)
       this.addField(index + 1).then(() => {
@@ -327,6 +413,54 @@ export default {
           name: v.name,
           edit: false,
           alert: v.alert
+        }
+      })
+    },
+    copyDates (dates) {
+      return dates.map((v) => {
+        return {
+          id: undefined,
+          dateValue: v.dateValue,
+          timeValue: v.timeValue,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyUploads (uploads) {
+      return uploads.map((v) => {
+        return {
+          id: undefined,
+          allowSpecificTypes: v.allowSpecificTypes,
+          checkboxValue: v.checkboxValue,
+          maxNumber: v.maxNumber,
+          maxSize: v.maxSize,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyScales (scales) {
+      return scales.map((v) => {
+        return {
+          id: undefined,
+          allowSpecificTypes: v.allowSpecificTypes,
+          fromValue: v.fromValue,
+          toValue: v.toValue,
+          label1: v.label1,
+          label2: v.label2,
+          description: v.description,
+          image: v.image
+        }
+      })
+    },
+    copyTexts (texts) {
+      return texts.map((v) => {
+        return {
+          id: undefined,
+          shortAnswer: v.shortAnswer,
+          description: v.description,
+          image: v.image
         }
       })
     },

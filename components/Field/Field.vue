@@ -33,11 +33,11 @@
             </div>
           </div>
         </div>
-        <div v-if="q.desc">
+        <div v-if="q.desc || q.descText != null">
           <div v-if="q.type != 0 && q.type != 1" class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
-                v-model="description_field"
+                v-model="q.descText"
                 name="text-desc"
                 class="form-control pcd mt-3"
                 placeholder="Description"
@@ -53,6 +53,11 @@
           <div v-if="q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
               <dropzone-file-upload v-model="fileSingle" />
+
+              <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
+                <font-awesome-icon :icon="['fas', 'times']" />
+                <span>Cancel</span>
+              </button>
             </div>
           </div>
         </div>
@@ -65,30 +70,9 @@
           :desc_field="description_field"
           :image_field="image_field"
         />
-        <FieldUpload v-if="q.type == 4" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <FieldUpload v-if="q.type == 4" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <LinearScale v-if="q.type == 5" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
-        <div v-if="q.type == 6">
-          <div class="col-sm-8 mt-3">
-            <base-input
-              id="example-date-input"
-              v-model="dates.date"
-              type="date"
-              placeholder="Day, month, year"
-              @blur="submitDate(dates, q.id)"
-            />
-          </div>
-        </div>
-        <div v-if="q.type == 7">
-          <div class="col-sm-8 mt-3">
-            <base-input
-              id="example-time-input"
-              v-model="dates.time"
-              type="time"
-              value="10:30:00"
-              @blur="submitDate(dates, q.id)"
-            />
-          </div>
-        </div>
+        <FieldDate v-if="q.type == 6 || q.type == 7" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <hr>
         <div class="row">
           <div class="col-9 pl-5">
@@ -144,10 +128,11 @@ import Choice from '~/components/Field/Choice'
 import Textfield from '~/components/Field/Textfield'
 import FieldUpload from '~/components/Field/FieldUpload'
 import LinearScale from '~/components/Field/LinearScale'
+import FieldDate from '~/components/Field/FieldDate'
 
 export default {
   name: 'Field',
-  components: { Choice, Textfield, FieldUpload, LinearScale, DropzoneFileUpload },
+  components: { Choice, Textfield, FieldUpload, LinearScale, DropzoneFileUpload, FieldDate },
   props: {
     questions: {
       type: Array,
@@ -165,10 +150,6 @@ export default {
     return {
       description_field: null,
       image_field: null,
-      dates: {
-        date: null,
-        time: null
-      },
       fileSingle: [],
       typesOfQuestion: [
         {
@@ -212,41 +193,6 @@ export default {
           icon: 'clock'
         }
       ]
-    }
-  },
-  methods: {
-    async submitDate (dates, fieldId) {
-      await this.postDate(dates, fieldId)
-    },
-    async postDate (dates, fieldId) {
-      const toSave = {
-        dateValue: dates.date,
-        timeValue: dates.time,
-        field: fieldId,
-        description: this.description_field,
-        image: this.image_field
-      }
-      let axios
-
-      if (dates.id) {
-        axios = this.$axios.$put('/api/field-dates/' + dates.id, toSave)
-      } else {
-        axios = this.$axios.$post('/api/field-dates/', toSave)
-      }
-
-      await axios.then((res) => {
-        dates.id = res.id
-      })
-        .catch((e) => {
-          this.errors = []
-          for (const field of ['username', 'password']) {
-            const errors = e.response.data.errors[field]
-            if (errors !== undefined) {
-              this.errors = this.errors.concat(errors)
-            }
-          }
-          return false
-        })
     }
   }
 }
