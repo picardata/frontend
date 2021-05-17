@@ -259,7 +259,17 @@ export default {
       // if (this.validateEmail() && this.validatePasswordAgain()) {
       //   this.disableRegisterButton = false;
       // }
+
+      const passwordAgain = this.passwordAgain
+
+      if (!this.isPasswordMatched(password, passwordAgain)) {
+        this.errors.passwordAgain = "Password isn't matched"
+        this.errors.password = this.errors.passwordAgain
+        return false
+      }
+
       this.errors.password = ''
+      this.errors.passwordAgain = ''
       return true
     },
     validatePasswordAgain () {
