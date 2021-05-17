@@ -226,7 +226,10 @@ export default {
       return password && password.length >= 8
     },
     isPasswordMatched (originalPassword, repeatedPassword) {
-      return originalPassword.length > 0 && repeatedPassword.length > 0 && (originalPassword === repeatedPassword)
+      if(originalPassword.length === 0 || repeatedPassword.length === 0) {
+        return true
+      }
+      return originalPassword === repeatedPassword
     },
     isPasswordFormatValid (password) {
       // if(password.length === 0) {
@@ -277,6 +280,8 @@ export default {
 
       const originalPassword = this.password
 
+      console.log('Mantab = ');
+      console.log(this.isPasswordMatched(originalPassword, password));
       if (!this.isPasswordMatched(originalPassword, password)) {
         this.errors.passwordAgain = "Password isn't matched"
         this.errors.password = this.errors.passwordAgain
@@ -292,6 +297,7 @@ export default {
       //   this.disableRegisterButton = !this.disableRegisterButton;
       // }
       this.errors.passwordAgain = ''
+      this.errors.password = ''
       return true
     },
     validateForRegisterButton () {
