@@ -290,8 +290,6 @@ export default {
 
       const originalPassword = this.password
 
-      console.log('Mantab = ');
-      console.log(this.isPasswordMatched(originalPassword, password));
       if (!this.isPasswordMatched(originalPassword, password)) {
         this.errors.passwordAgain = "Password isn't matched"
         this.errors.password = this.errors.passwordAgain
