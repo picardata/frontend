@@ -94,7 +94,7 @@
               <div
                 class="progress-bar bg-blue"
                 role="progressbar"
-                style="width: 100%"
+                :style="isIntegratedGoogle ? 'width: 100%' : 'width: 82%'"
                 aria-valuenow="99"
                 aria-valuemin="0"
                 aria-valuemax="100"
@@ -184,7 +184,8 @@ export default {
           id: 4
         }
       ],
-      isProfileCompleted: false
+      isProfileCompleted: false,
+      isIntegratedGoogle: false
     }
   },
   computed: {
