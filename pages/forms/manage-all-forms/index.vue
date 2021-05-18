@@ -177,48 +177,6 @@ export default {
   },
   data () {
     return {
-      users: [
-        {
-          id: 1,
-          name: 'Nungguin Ya',
-          image: 'img/theme/team-1.jpg',
-          createdAt: '10/09/2018',
-          product: 'Argon Dashboard PRO',
-          active: true
-        },
-        {
-          id: 2,
-          name: 'Nungguin Ya',
-          image: 'img/theme/team-2.jpg',
-          createdAt: '08/09/2018',
-          product: 'Argon Design System',
-          active: false
-        },
-        {
-          id: 3,
-          name: 'Nungguin Ya',
-          image: 'img/theme/team-3.jpg',
-          createdAt: '30/08/2018',
-          product: 'Black Dashboard',
-          active: false
-        },
-        {
-          id: 4,
-          name: 'Nungguin Ya',
-          image: 'img/theme/team-1.jpg',
-          createdAt: '10/09/2018',
-          product: 'Argon Dashboard PRO',
-          active: true
-        },
-        {
-          id: 5,
-          name: 'Nungguin Ya',
-          image: 'img/theme/team-2.jpg',
-          createdAt: '30/09/2018',
-          product: 'Vue Argon Dashboard',
-          active: true
-        }
-      ],
       forms: [],
       crumbs: [
         {
@@ -227,7 +185,7 @@ export default {
         },
         {
           name: 'Manage All Forms',
-          path: '/forms'
+          path: '/forms/manage-all-forms'
         }
       ],
       submenu: true,
@@ -251,7 +209,7 @@ export default {
           type: 'item'
         },
         {
-          link: '/manage-all-forms',
+          link: '/forms/manage-all-forms',
           name: 'Manage All Forms',
           type: 'item'
         }
