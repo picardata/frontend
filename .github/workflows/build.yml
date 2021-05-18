@@ -80,20 +80,3 @@ jobs:
           DOCKER_BUILDKIT=1 docker -D build  --target production \
             --tag 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-      - name: Deploy to Prod server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.PROD_IP }}
-          username: "emewuser"
-          port: "22"
-          key: ${{ secrets.EMEW_SSH_KEY }}
-          passphrase: ${{ secrets.EMEW_SSH_PASSPHRASE }}
-          script: |
-            hostname && aws ecr get-login-password --region ap-southeast-1 \
-              | docker login --username AWS \
-              --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
-              && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} \
-              && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
-              --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.picardata.com" \
-              -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ steps.tag_version.outputs.new_tag }} yarn start
