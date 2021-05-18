@@ -112,9 +112,14 @@
   </div>
 </template>
 <script>
+import loaderMixin from '~/mixins/loader'
+
 export default {
   auth: false,
   layout: 'argon-navless',
+  mixins: [
+    loaderMixin
+  ],
   middleware ({ store, redirect, route }) {
     // Force login if user got link from email
     if (!store.state.auth.loggedIn && route.query.account === 'picardata') {

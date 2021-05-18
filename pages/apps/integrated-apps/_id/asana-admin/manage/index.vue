@@ -105,9 +105,13 @@
 import AsanaUserList from '@/components/Application/Asana/AsanaUserList'
 import AsanaGroupList from '@/components/Application/Asana/AsanaGroupList'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     AsanaGroupList,
     AsanaUserList,

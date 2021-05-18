@@ -25,11 +25,15 @@
 
 <script>
 import ApplicationDetail from '@/components/Application/ApplicationDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   name: 'IndexVue',
   layout: 'argon',
   components: { ApplicationDetail },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     const data = await context.app.$axios.get('/api/applications/' + context.route.params.id)
 

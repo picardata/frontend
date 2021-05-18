@@ -38,9 +38,13 @@
 import ZoomMeetingWidget from '@/components/Application/Zoom/ZoomMeetingWidget'
 import ZoomWebinarWidget from '@/components/Application/Zoom/ZoomWebinarWidget'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     ZoomWebinarWidget,
     ZoomMeetingWidget,

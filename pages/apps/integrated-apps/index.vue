@@ -277,11 +277,14 @@
 </template>
 
 <script>
-
+import loaderMixin from '~/mixins/loader'
 // import ItegratedAppsList from '@/components/Application/IntegratedAppsList'
 export default {
   name: 'Index',
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   // components: { ItegratedAppsList },
   data () {
     return {

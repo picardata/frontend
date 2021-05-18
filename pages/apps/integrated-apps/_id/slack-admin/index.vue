@@ -73,9 +73,13 @@ import SlackUserGroupCount from '@/components/Application/Slack/SlackUserGroupCo
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import * as chartConfigs from '~/components/argon-core/Charts/config'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: { SlackUserCount, ApplicationDetail, SlackUserGroupCount, LineChart },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)

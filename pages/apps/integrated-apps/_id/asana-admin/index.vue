@@ -38,9 +38,13 @@
 import AsanaTasksWidget from '@/components/Application/Asana/AsanaTaskWidget'
 import AsanaProjectWidget from '@/components/Application/Asana/AsanaProjectWidget'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: { AsanaProjectWidget, AsanaTasksWidget, ApplicationDetail },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)

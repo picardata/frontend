@@ -191,6 +191,7 @@
 <script>
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import PieChart from '~/components/argon-core/Charts/PieChart'
+import loaderMixin from '~/mixins/loader'
 
 function getRandomColor (i) {
   return 'hsl(' + (i + 15) * 360 * Math.random() + ',' +
@@ -240,6 +241,9 @@ export default {
     PieChart,
     BarChart
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {

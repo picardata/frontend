@@ -84,9 +84,13 @@ import VideosViews from '~/components/Application/Facebook/Widgets/VideosViews'
 import PostList from '~/components/Application/Facebook/Widgets/PostList'
 import PostEngagements from '~/components/Application/Facebook/Widgets/PostEngagements'
 import * as chartConfigs from '~/components/argon-core/Charts/config'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     ApplicationDetail,
     PageViews,

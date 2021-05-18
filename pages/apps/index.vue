@@ -119,9 +119,14 @@
 
 <script>
 import Submenu from '~/components/layouts/argon/Submenu'
+import loaderMixin from '~/mixins/loader'
+
 export default {
   name: 'Index',
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: { Submenu },
   data () {
     return {

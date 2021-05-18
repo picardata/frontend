@@ -113,9 +113,13 @@ import SlackChannelList from '@/components/Application/Slack/SlackChannelList'
 import SlackUserList from '@/components/Application/Slack/SlackUserList'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
 import SlackUnreadMessages from '~/components/Application/Slack/SlackUnreadMessages'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     SlackUserList,
     SlackChannelList,

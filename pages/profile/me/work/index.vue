@@ -93,9 +93,13 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     ValidationObserver,
     ValidationProvider

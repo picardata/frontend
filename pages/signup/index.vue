@@ -124,10 +124,15 @@
 </template>
 <script>
 
+import loaderMixin from '~/mixins/loader'
+
 export default {
   name: 'AdminAuthPage',
   layout: 'empty',
   auth: false,
+  mixins: [
+    loaderMixin
+  ],
   data () {
     return {
       errors: {

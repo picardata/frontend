@@ -145,6 +145,7 @@ import CompleteProfile from '@/components/Onboarding/CompleteProfile'
 import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
 import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
 import AppLibrary from '~/pages/apps/app-library/index.vue'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   components: {
@@ -154,6 +155,9 @@ export default {
     AppLibrary
   },
   auth: true,
+  mixins: [
+    loaderMixin
+  ],
   data () {
     return {
       step: 1,

@@ -427,6 +427,7 @@ import PieChart from '~/components/argon-core/Charts/PieChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
+import loaderMixin from '~/mixins/loader'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -444,6 +445,9 @@ export default {
   },
   auth: true,
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
       .then((data) => {
