@@ -126,10 +126,10 @@ import loaderMixin from '~/mixins/loader'
 export default {
   name: 'IndexVue',
   layout: 'argon',
+  components: { PrevPage, Field, ModalShare },
   mixins: [
     loaderMixin
   ],
-  components: { PrevPage, Field, ModalShare },
   async asyncData (context) {
     return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
       data.data.questions = data.data.fields.filter((x) => {

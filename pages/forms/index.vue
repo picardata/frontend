@@ -273,7 +273,7 @@ export default {
           type: 'item'
         },
         {
-          link: '/manage-all-forms',
+          link: '/forms/manage-all-forms',
           name: 'Manage All Forms',
           type: 'item'
         }
