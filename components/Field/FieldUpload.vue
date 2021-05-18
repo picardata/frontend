@@ -1,105 +1,109 @@
 <template>
   <div class="col-8">
-    <div class="row mt-3">
-      <div class="col-sm-11">
-        Allow only specific file types
+    <div v-for="(uploads, index) in question.fieldUploads" :key="index">
+      <div class="row mt-3">
+        <div class="col-sm-11">
+          Allow only specific file types
+        </div>
+        <div class="col-sm-1 text-right pr-0">
+          <b-form-checkbox
+            v-model="uploads.allow_spec"
+            name="check-button"
+            class="d-inline text-primary font-weight-600 pr-0"
+            switch
+            @change="submitUpload(uploads, question.id)"
+          >
+            <span class="button-required" />
+          </b-form-checkbox>
+        </div>
       </div>
-      <div class="col-sm-1 text-right pr-0">
-        <b-form-checkbox
-          v-model="uploads.allow_spec"
-          name="check-button"
-          class="d-inline text-primary font-weight-600 pr-0"
-          switch
-          @change="submitUpload(uploads, question.id)"
+      <div v-if="uploads.allow_spec">
+        <div class="row mt-3">
+          <div class="col-sm-4 pl-0">
+            <ul class="list-checks">
+              <li v-for="type in types" :key="type.id">
+                <div v-if="type.id <= 4" class="custom-control custom-checkbox mb-3">
+                  <input
+                    :id="question.id + '-id-' + type.id"
+                    v-model="uploads.checkboxValue"
+                    :value="type.id"
+                    type="checkbox"
+                    class="custom-control-input"
+                    @change="submitUpload(uploads, question.id)"
+                  >
+                  <label :for="question.id + '-id-' + type.id" class="custom-control-label">
+                    {{ type.name }}
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-4 pl-0">
+            <ul class="list-checks">
+              <li v-for="type in types" :key="type.id">
+                <div v-if="type.id > 4" class="custom-control custom-checkbox mb-3">
+                  <input
+                    :id="question.id + '-id-' + type.id"
+                    v-model="uploads.checkboxValue"
+                    :value="type.id"
+                    type="checkbox"
+                    class="custom-control-input"
+                    @change="submitUpload(uploads, question.id)"
+                  >
+                  <label :for="question.id + '-id-' + type.id" class="custom-control-label">
+                    {{ type.name }}
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 type-dropdown">
+        <button
+          class="btn btn-default btn-lg text-left dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="true"
         >
-          <span class="button-required" />
-        </b-form-checkbox>
+          Choose max. number of files
+          <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
+          <span>{{ uploads.maxNumber }}</span>
+        </button>
+        <div class="dropdown-menu">
+          <a
+            v-for="nums in list_number"
+            :key="nums.id"
+            class="dropdown-item"
+            @click="change_number(uploads, nums.id)"
+          >
+            {{ nums.id }}
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-sm-4 pl-0">
-        <ul class="list-checks">
-          <li v-for="type in types" :key="type.id">
-            <div v-if="type.id <= 4" class="custom-control custom-checkbox mb-3">
-              <input
-                :id="type.id"
-                v-model="uploads.checkbox_val.list"
-                :value="type.id"
-                type="checkbox"
-                class="custom-control-input"
-                @change="submitUpload(uploads, question.id)"
-              >
-              <label :for="type.id" class="custom-control-label">
-                {{ type.name }}
-              </label>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="col-sm-4 pl-0">
-        <ul class="list-checks">
-          <li v-for="type in types" :key="type.id">
-            <div v-if="type.id > 4" class="custom-control custom-checkbox mb-3">
-              <input
-                :id="type.id"
-                v-model="uploads.checkbox_val.list"
-                :value="type.id"
-                type="checkbox"
-                class="custom-control-input"
-                @change="submitUpload(uploads, question.id)"
-              >
-              <label :for="type.id" class="custom-control-label">
-                {{ type.name }}
-              </label>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row mt-3 type-dropdown">
-      <button
-        class="btn btn-default btn-lg text-left dropdown-toggle"
-        type="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="true"
-      >
-        Choose max. number of files
-        <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
-        <span>{{ uploads.max_num }}</span>
-      </button>
-      <div class="dropdown-menu">
-        <a
-          v-for="nums in list_number"
-          :key="nums.id"
-          class="dropdown-item"
-          @click="change_number(nums.id)"
+      <div class="row mt-3 type-dropdown">
+        <button
+          class="btn btn-default btn-lg text-left dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="true"
         >
-          {{ nums.id }}
-        </a>
-      </div>
-    </div>
-    <div class="row mt-3 type-dropdown">
-      <button
-        class="btn btn-default btn-lg text-left dropdown-toggle"
-        type="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="true"
-      >
-        Choose max. file sizes
-        <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
-        <span>{{ uploads.max_size }} MB</span>
-      </button>
-      <div class="dropdown-menu">
-        <a
-          v-for="nums in list_number"
-          :key="nums.id"
-          class="dropdown-item"
-          @click="change_size(nums.id)"
-        >
-          {{ nums.id }} MB
-        </a>
+          Choose max. file sizes
+          <font-awesome-icon :icon="['fas', 'angle-down']" class="fa-pull-right" />
+          <span>{{ uploads.maxSize }} MB</span>
+        </button>
+        <div class="dropdown-menu">
+          <a
+            v-for="nums in list_number"
+            :key="nums.id"
+            class="dropdown-item"
+            @click="change_size(uploads, nums.id)"
+          >
+            {{ nums.id }} MB
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -113,19 +117,11 @@ export default {
       type: Object
     },
     desc_field: { type: String },
-    image_field: { type: String }
+    image_field: { type: String },
+    q_key: { type: Number }
   },
   data () {
     return {
-      uploads: {
-        allow_spec: null,
-        allow_specInt: null,
-        max_num: 1,
-        max_size: 10,
-        checkbox_val: {
-          list: []
-        }
-      },
       list_number: [
         { id: 1 },
         { id: 2 },
@@ -191,12 +187,12 @@ export default {
     async postUpload (uploads, fieldId) {
       const toSave = {
         allowSpecificTypes: uploads.allow_spec ? 1 : 0,
-        checkboxValue: JSON.stringify(uploads.checkbox_val.list),
-        maxNumber: uploads.max_num,
-        maxSize: uploads.max_size,
+        checkboxValue: JSON.stringify(uploads.checkboxValue),
+        maxNumber: uploads.maxNumber,
+        maxSize: uploads.maxSize,
         field: fieldId,
-        description: this.desc_field,
-        image: this.image_field
+        description: this.question.descText,
+        image: uploads.image
       }
       let axios
 
@@ -220,15 +216,15 @@ export default {
           return false
         })
     },
-    change_number (number) {
-      this.uploads.max_num = number
+    change_number (uploads, number) {
+      uploads.maxNumber = number
 
-      this.submitUpload(this.uploads, this.question.id)
+      this.submitUpload(uploads, this.question.id)
     },
-    change_size (number) {
-      this.uploads.max_size = number
+    change_size (uploads, number) {
+      uploads.maxSize = number
 
-      this.submitUpload(this.uploads, this.question.id)
+      this.submitUpload(uploads, this.question.id)
     }
   }
 }
