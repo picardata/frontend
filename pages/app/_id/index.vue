@@ -61,11 +61,15 @@
 <script>
 
 import GoogleUserList from '~/components/Application/Google/GoogleUserList.vue'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   components: {
     GoogleUserList
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {

@@ -159,6 +159,7 @@
 import { Table, TableColumn } from 'element-ui'
 import PrevPage from '@/components/PrevPage'
 import CheckboxTable from '~/components/tables/RegularTables/CheckboxTable'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
@@ -168,6 +169,9 @@ export default {
     [TableColumn.name]: TableColumn,
     PrevPage
   },
+  mixins: [
+    loaderMixin
+  ],
   async fetch () {
     await this.loadDefaultData()
   },

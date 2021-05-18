@@ -163,9 +163,13 @@
 import { ValidationProvider } from 'vee-validate'
 // import VuePhoneNumberInput from 'vue-phone-number-input'
 import listCountryCode from '~/country-code.json'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     ValidationProvider
   },

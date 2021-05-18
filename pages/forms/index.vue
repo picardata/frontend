@@ -218,6 +218,7 @@
 import ModalShare from '@/components/pages/forms/ModalShareForm'
 import Submenu from '~/components/layouts/argon/Submenu'
 import Paging from '~/components/Custom/Paging'
+import loaderMixin from '~/mixins/loader'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -227,6 +228,9 @@ export default {
   layout: 'argon',
   auth: true,
   components: { ModalShare, Submenu, Paging },
+  mixins: [
+    loaderMixin
+  ],
   async fetch () {
     await this.loadDefaultData()
   },

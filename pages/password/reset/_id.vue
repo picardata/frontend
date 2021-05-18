@@ -34,8 +34,13 @@
 </template>
 
 <script>
+import loaderMixin from '~/mixins/loader'
+
 export default {
   auth: false,
+  mixins: [
+    loaderMixin
+  ],
   data () {
     return {
       errors: [],

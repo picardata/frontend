@@ -111,6 +111,7 @@
 import GoogleUserList from '~/components/Application/Google/GoogleUserList.vue'
 import GoogleGroupList from '~/components/Application/Google/GoogleGroupList.vue'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
@@ -119,6 +120,9 @@ export default {
     GoogleGroupList,
     ApplicationManageDetail
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {

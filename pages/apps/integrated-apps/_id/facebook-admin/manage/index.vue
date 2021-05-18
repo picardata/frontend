@@ -103,9 +103,13 @@
 
 import FacebookPageList from '@/components/Application/Facebook/FacebookPageList'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     FacebookPageList,
     ApplicationManageDetail

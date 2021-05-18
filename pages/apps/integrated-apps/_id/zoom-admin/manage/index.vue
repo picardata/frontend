@@ -105,9 +105,13 @@
 import ZoomUserList from '@/components/Application/Zoom/ZoomUserList'
 import ZoomGroupList from '@/components/Application/Zoom/ZoomGroupList'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     ZoomGroupList,
     ZoomUserList,

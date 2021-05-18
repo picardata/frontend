@@ -135,8 +135,13 @@
   </div>
 </template>
 <script>
+import loaderMixin from '~/mixins/loader'
+
 export default {
   layout: 'argon-navless',
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {

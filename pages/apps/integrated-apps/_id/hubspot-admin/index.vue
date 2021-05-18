@@ -54,9 +54,13 @@ import HubspotUserCount from '@/components/Application/Hubspot/HubspotUserCount'
 import HubspotCompanyCount from '@/components/Application/Hubspot/HubspotCompanyCount'
 import HubspotContactCount from '@/components/Application/Hubspot/HubspotContactCount'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   components: {
     HubspotCompanyCount,
     HubspotUserCount,

@@ -274,10 +274,14 @@
 <script>
 
 // import AppLibraryList from '@/components/Application/AppLibraryList'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   name: 'Index',
   layout: 'argon',
+  mixins: [
+    loaderMixin
+  ],
   // components: { AppLibraryList },
   props: {
     classAdded: {

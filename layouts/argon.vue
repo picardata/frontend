@@ -4,6 +4,11 @@
     <SideBar />
     <div class="main-content">
       <div class="content" @click="$sidebar.displaySidebar(false)">
+        <div v-if="isLoading" class="overlay">
+          <div class="lds-ellipsis">
+            <div /><div /><div /><div />
+          </div>
+        </div>
         <nuxt />
       </div>
       <!-- <content-footer v-if="!$route.meta.hideFooter" /> -->
@@ -14,6 +19,7 @@
 /* eslint-disable no-new */
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import { mapState } from 'vuex'
 
 import SideBar from '~/components/layouts/argon/SideBar.vue'
 // import ContentFooter from '~/components/layouts/argon/ContentFooter.vue'
@@ -40,6 +46,9 @@ export default {
   mounted () {
     this.initScrollbar()
   },
+  computed: {
+    ...mapState('loader', ['isLoading', 'refCount'])
+  },
   methods: {
     initScrollbar () {
       const isWindows = navigator.platform.startsWith('Win')
@@ -51,6 +60,8 @@ export default {
 }
 </script>
 <style scoped>
+@import url('~/assets/sass/custom/_loading.scss');
+
 .content {
   padding-left: 30px;
   padding-right: 30px;

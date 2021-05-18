@@ -54,7 +54,8 @@
     "vue-phone-number-input": "^1.1.10",
     "vue-sidebar-menu": "^4.7.4",
     "vue2-transitions": "^0.2.3",
-    "vueup": "^1.3.0"
+    "vueup": "^1.3.0",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
