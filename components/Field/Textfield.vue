@@ -5,6 +5,7 @@
         v-model="text.description"
         name="text-desc"
         class="form-control pcd mt-3"
+        placeholder="Description"
         @blur="submitText(text, question.id)"
         @keyup="submitText(text, question.id)"
       />

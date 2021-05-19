@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <Choice v-if="q.type == 2 || q.type == 3" :question="questions[q_key]" />
+        <Choice v-if="q.type == 2 || q.type == 3 || q.type == 4" :question="questions[q_key]" />
         <Textfield
           v-if="q.type == 0 || q.type == 1"
           :q_key="q_key"
@@ -70,9 +70,9 @@
           :desc_field="description_field"
           :image_field="image_field"
         />
-        <FieldUpload v-if="q.type == 4" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
-        <LinearScale v-if="q.type == 5" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
-        <FieldDate v-if="q.type == 6 || q.type == 7" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <FieldUpload v-if="q.type == 5" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <LinearScale v-if="q.type == 6" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <FieldDate v-if="q.type == 7 || q.type == 8" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <hr>
         <div class="row">
           <div class="col-9 pl-5">
@@ -174,21 +174,26 @@ export default {
         },
         {
           type: 4,
+          name: 'Drop-down',
+          icon: 'caret-square-down'
+        },
+        {
+          type: 5,
           name: 'File upload',
           icon: 'cloud-upload-alt'
         },
         {
-          type: 5,
+          type: 6,
           name: 'Linear scale',
           icon: 'ellipsis-h'
         },
         {
-          type: 6,
+          type: 7,
           name: 'Date',
           icon: 'calendar'
         },
         {
-          type: 7,
+          type: 8,
           name: 'Time',
           icon: 'clock'
         }
