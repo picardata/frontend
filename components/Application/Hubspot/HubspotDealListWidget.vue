@@ -53,7 +53,7 @@
           <template v-slot="{row}">
             <div class="media align-items-center">
               <div class="media-body">
-                <span class="name mb-0 text-sm">{{ row.ownerName }} ({{ row.ownerEmail }})</span>
+                <span class="name mb-0 text-sm">{{createOwnerName(row)}}</span>
               </div>
             </div>
           </template>
@@ -184,6 +184,17 @@ export default {
       })
   },
   methods: {
+    createOwnerName(owner) {
+      if(owner.ownerName && owner.ownerEmail) {
+        return `${owner.ownerName} ( ${owner.ownerEmail} )`;
+      } else if(owner.ownerName) {
+        return owner.ownerName;
+      } else if(owner.ownerEmail) {
+        return owner.ownerEmail;
+      } else {
+        return '';
+      }
+    },
     async saveGroup () {
       try {
         console.log('close date = ')
