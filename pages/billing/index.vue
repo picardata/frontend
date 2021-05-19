@@ -1,69 +1,73 @@
 <template>
   <div class="row picardata-form-index">
     <div v-show="submenu" class="col-xl-12 pl-0">
-        <div>
-          <base-header type="white" class="pb-6">
-            <div class="row align-items-center py-4">
-              <div class="col-lg-6 col-7">
-                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                  <route-breadcrumb :crumbs="crumbs" />
-                </nav>
-              </div>
+      <div>
+        <base-header type="white" class="pb-6">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <route-breadcrumb :crumbs="crumbs" />
+              </nav>
             </div>
-          </base-header>
-          <div class="container-fluid mt--6">
-            <div class="row">
-              <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+          </div>
+        </base-header>
+        <div class="container-fluid mt--6">
+          <div class="row">
+            <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <span class="form-title">Manage Billing</span>
             </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <span class="form-title">Manage Billing</span>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <ul class="list-packages">
-                  <li>
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <div class="card border border-primary p-4">
-                          <div class="d-flex">
-                            <div class="mr-3">
-                              <div class="all-form-title">Package: Pro </div>
-                            </div>
-                            <div class="mt-1">
-                              <div class="divider d-inline" />
-                              <span class="span-desc">SINCE APRIL 2020</span>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <ul class="list-packages">
+                <li>
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="card border border-primary p-4">
+                        <div class="d-flex">
+                          <div class="mr-3">
+                            <div class="all-form-title">
+                              Package: Pro
                             </div>
                           </div>
-                          <div class="d-flex mt-2">
-                            <div class="mr-5">
-                              <ul class="pl-0 list-item-packages">
-                                <li>3 Integrations</li>
-                                <li>2 subsidiary accounts</li>
-                                <li>Software Stack Management</li>
-                              </ul>
-                            </div>
-                            <div>
-                              <ul class="pl-0 list-item-packages">
-                                <li>User Management</li>
-                                <li>Dashboard Management</li>
-                                <li>Survey Management</li>
-                              </ul>
-                            </div>
+                          <div class="mt-1">
+                            <div class="divider d-inline" />
+                            <span class="span-desc">SINCE APRIL 2020</span>
+                          </div>
+                        </div>
+                        <div class="d-flex mt-2">
+                          <div class="mr-5">
+                            <ul class="pl-0 list-item-packages">
+                              <li>3 Integrations</li>
+                              <li>2 subsidiary accounts</li>
+                              <li>Software Stack Management</li>
+                            </ul>
+                          </div>
+                          <div>
+                            <ul class="pl-0 list-item-packages">
+                              <li>User Management</li>
+                              <li>Dashboard Management</li>
+                              <li>Survey Management</li>
+                            </ul>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-5 text-right">
-                        <nuxt-link to="/billing" class="btn btn-lg btn-primary btn-round">Add or Upgrade Subscription</nuxt-link>
-                      </div>
                     </div>
-                  </li>
-                </ul>
-              </div>
+                    <div class="col-sm-5 text-right">
+                      <nuxt-link to="/billing" class="btn btn-lg btn-primary btn-round">
+                        Add or Upgrade Subscription
+                      </nuxt-link>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -73,7 +77,7 @@ import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 
 export default {
-  name: "index",
+  name: 'IndexVue',
   layout: 'argon',
   auth: true,
   components: { Submenu },
@@ -88,7 +92,7 @@ export default {
           path: '/billing'
         }
       ],
-      submenu: true,
+      submenu: true
     }
   }
 }
