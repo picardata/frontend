@@ -51,6 +51,12 @@ export default {
           link: '/forms'
         },
         {
+          name: 'billing',
+          displayName: 'Billing',
+          icon: 'pdicon-Forms',
+          link: '/billing'
+        },
+        {
           name: 'profile',
           displayName: 'Profile',
           icon: 'pdicon-Profile',
