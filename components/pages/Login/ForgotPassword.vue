@@ -239,7 +239,8 @@ export default {
     findEmail () {
       this.$axios
         .$post('/api/forgot-password', {
-          email: this.email
+          email: this.email,
+          hostUrl:  location.protocol + "//" +window.location.hostname
         })
         .then((data) => {
           if (data.success !== true) {
