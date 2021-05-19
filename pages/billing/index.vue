@@ -73,14 +73,13 @@
 </template>
 
 <script>
-import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 
 export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
-  components: { Submenu },
+  components: { },
   mixins: [
     loaderMixin
   ],
