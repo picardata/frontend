@@ -220,11 +220,11 @@ export default {
 
         if (b.type === 0 || b.type === 1) {
           b.descText = b.fieldTexts[0].description
-        } else if (b.type === 4) {
-          b.descText = b.fieldUploads[0].description
         } else if (b.type === 5) {
-          b.descText = b.fieldLinearScales[0].description
+          b.descText = b.fieldUploads[0].description
         } else if (b.type === 6) {
+          b.descText = b.fieldLinearScales[0].description
+        } else if (b.type > 6) {
           b.descText = b.fieldDates[0].description
         } else {
           b.descText = null
@@ -501,13 +501,13 @@ export default {
       this.submitField(index + 1, this.id).then(() => {
         if (copied.type === 0 || copied.type === 1) {
           this.addTexts(index + 1)
-        } else if (copied.type === 2 || copied.type === 3) {
+        } else if (copied.type === 2 || copied.type === 3 || copied.type === 4) {
           this.addChoices(index + 1)
-        } else if (copied.type === 4) {
-          this.addUploads(index + 1)
         } else if (copied.type === 5) {
+          this.addUploads(index + 1)
+        } else if (copied.type === 6) {
           this.addScales(index + 1)
-        } else if (copied.type > 5) {
+        } else if (copied.type > 6) {
           this.addDates(index + 1)
         }
       })
