@@ -66,6 +66,30 @@
               </ul>
             </div>
           </div>
+          <hr class="black-line" />
+          <div class="row mt-4 mb-4">
+            <div class="col-12">
+              <span class="all-form-title">Billing</span>
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-sm-12 mt-3">
+                  <span class="card-text">Your next billing date is June 1, 2021.</span>
+                </div>
+                <div class="col-sm-12 mt-3">
+                  <div class="d-flex">
+                    <div class="ml-2 mr-4"><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></div>
+                    <div class="cards-info">
+                      <span>&bullet;&bullet;&bullet;&bullet;</span>
+                      <span>&bullet;&bullet;&bullet;&bullet;</span>
+                      <span>&bullet;&bullet;&bullet;&bullet;</span>
+                      <span>1256</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -122,6 +146,18 @@ h1 {
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.75px;
+
+  /* Body Text */
+
+  color: #313131;
+}
+.card-text {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.75px;
@@ -190,6 +226,20 @@ h1 {
     /* Body Text */
 
     color: #000;
+  }
+}
+hr{
+  &.black-line{
+    width: 100%;
+    color: #E0E0E0;
+    background-color: #E0E0E0;
+    margin:1em auto;
+  }
+}
+.cards-info{
+  span{
+    letter-spacing: 0.75px;
+    margin-rigt: 6px;
   }
 }
 </style>
