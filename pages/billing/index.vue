@@ -66,7 +66,7 @@
               </ul>
             </div>
           </div>
-          <hr class="black-line" />
+          <hr class="black-line">
           <div class="row mt-4 mb-4">
             <div class="col-12">
               <span class="all-form-title">Billing</span>
@@ -78,7 +78,9 @@
                 </div>
                 <div class="col-sm-12 mt-3">
                   <div class="d-flex">
-                    <div class="ml-2 mr-4"><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></div>
+                    <div class="ml-2 mr-4">
+                      <img src="~/assets/visa_logo.svg" alt="Visa-Logo">
+                    </div>
                     <div class="cards-info">
                       <span>&bullet;&bullet;&bullet;&bullet;</span>
                       <span>&bullet;&bullet;&bullet;&bullet;</span>
