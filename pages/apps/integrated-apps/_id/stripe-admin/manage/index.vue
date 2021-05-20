@@ -118,12 +118,12 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
-      .then((data) => {
-        return {
-          data: data.data
-        }
-      })
+    const data = await context.app.$axios.get('/api/integrations/' + context.route.params.id)
+
+    const result = data.data
+    return {
+      data: result
+    }
   },
   data () {
     return {
@@ -152,10 +152,8 @@ export default {
     }
   },
   methods: {
-    deleteModal () {
-      this.$axios.delete('/api/integrations/' + this.data.id)
-        .then(res => console.log(res))
-        .catch(e => console.log(e))
+    async deleteModal () {
+      await this.$axios.delete('/api/integrations/' + this.data.id)
       this.$router.push('/apps/integrated-apps')
     }
   }
