@@ -315,7 +315,7 @@ export default {
       ]
     },
     newField (index) {
-      this.questions.splice(index+1, 0, {
+      this.questions.splice(index + 1, 0, {
         id: undefined,
         name: '',
         type: 0,
@@ -435,7 +435,7 @@ export default {
         return {
           id: undefined,
           allowSpecificTypes: v.allowSpecificTypes,
-          allow_spec:v.allow_spec,
+          allow_spec: v.allow_spec,
           checkboxValue: v.checkboxValue,
           maxNumber: v.maxNumber,
           maxSize: v.maxSize,
