@@ -22,7 +22,6 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: [ '7.4' ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,7 +40,7 @@ jobs:
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ github.event.inputs.version }} \
               && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
               --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.picardata.com" \
-              -d -i -test 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ github.event.inputs.version }} yarn start
+              -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ github.event.inputs.version }} yarn start
       - name: Notify Discord On Failure
         if: ${{ failure() }}
         env:
