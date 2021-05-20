@@ -1,7 +1,6 @@
 <template>
   <div>
     <ApplicationManageDetail :crumbs="crumbs" :data="data" />
-    <!-- </div> -->
     <div class="container-fluid mt-3">
       <div class="row mt-5">
         <ul id="pills-tab" class="nav mb-3" role="tablist">
@@ -20,8 +19,14 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="#pages"
-            >Pages</a>
+              href="#users"
+            >Users</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#groups"
+            >Groups</a>
           </li>
           <li class="nav-item">
             <a
@@ -56,7 +61,6 @@
             </div>
           </div>
         </div>
-        <HubspotPageList />
         <div class="card col-12 mt-3">
           <div class="card-body">
             <div class="card-title">
@@ -69,7 +73,7 @@
                 <div class="col-12">
                   <h4>Uninstall App</h4>
                   <p>Remove <span class="font-weight-bolder">{{ data.application.name }}</span> from Picardata and prevent members from using it.</p>
-                  <base-button type="primary" @click="modals.modal0 = true">
+                  <base-button type="primary" @click="modals.uninstall = true">
                     Uninstall {{ data.application.name }}
                   </base-button>
                 </div>
@@ -79,9 +83,9 @@
         </div>
       </div>
     </div>
-    <modal :show.sync="modals.modal0">
+    <modal :show.sync="modals.uninstall">
       <template slot="header">
-        <h5 id="exampleModalLabel" class="modal-title">
+        <h5 class="modal-title">
           Uninstall {{ this.data.application.name }}
         </h5>
       </template>
@@ -89,7 +93,7 @@
         Are you sure you want to uninstall {{ this.data.application.name }}?
       </div>
       <template slot="footer">
-        <base-button type="secondary" @click="modals.modal0 = false">
+        <base-button type="secondary" @click="modals.uninstall = false">
           Cancel
         </base-button>
         <base-button type="primary" @click.prevent="deleteModal">
@@ -102,15 +106,17 @@
 
 <script>
 
-import HubspotPageList from '@/components/Application/Hubspot/HubspotPageList'
 import ApplicationManageDetail from '~/components/Application/ApplicationManageDetail'
+import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
   components: {
-    HubspotPageList,
     ApplicationManageDetail
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {
@@ -123,7 +129,7 @@ export default {
     return {
       dialog: true,
       modals: {
-        modal0: false
+        uninstall: false
       },
       crumbs: [
         {
@@ -135,11 +141,11 @@ export default {
           path: '/apps/integrated-apps'
         },
         {
-          name: 'Hubspot',
-          path: '/apps/integrated-apps/' + this.$route.params.id + '/hubspot-admin'
+          name: 'Google',
+          path: '/apps/integrated-apps/' + this.$route.params.id + '/google-admin'
         },
         {
-          name: 'Manage Hubspot',
+          name: 'Manage Google',
           path: '/apps/integrated-apps'
         }
       ]
@@ -156,7 +162,7 @@ export default {
 }
 </script>
 <style scoped>
-.card-title h4 {
+.card-title h4  {
   font-size: 28px;
 }
 </style>
