@@ -103,15 +103,7 @@
         </base-button>
       </div>
     </modal>
-    <div class="stick-bottom">
-      <button
-        class="btn btn-primary btn-md "
-        type="button"
-        @click="newField"
-      >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-      </button>
-    </div>
+
 
     <ModalShare :id="id" :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
   </div>
@@ -148,6 +140,7 @@ export default {
         })
 
         x.fieldTexts = x.fieldTexts.filter((y) => {
+          y.first_trigger = false;
           return y.status === 1
         })
 
@@ -230,6 +223,8 @@ export default {
           b.descText = null
         }
       })
+
+      console.log(data.data.questions)
       return data.data
     })
   },
@@ -412,8 +407,8 @@ export default {
         }
       ]
     },
-    newField () {
-      this.questions.push({
+    newField (index) {
+      this.questions.splice(index+1, 0, {
         id: undefined,
         name: '',
         type: 0,
@@ -489,6 +484,9 @@ export default {
       const copied = {
         id: undefined,
         name: toCopy.name,
+        desc: toCopy.desc,
+        descText: toCopy.descText,
+        imageDesc: toCopy.imageDesc,
         type: toCopy.type,
         required: toCopy.required,
         fieldChoices: this.copyChoices(toCopy.fieldChoices),
@@ -539,6 +537,7 @@ export default {
         return {
           id: undefined,
           allowSpecificTypes: v.allowSpecificTypes,
+          allow_spec:v.allow_spec,
           checkboxValue: v.checkboxValue,
           maxNumber: v.maxNumber,
           maxSize: v.maxSize,
@@ -669,9 +668,7 @@ export default {
         })
         .then((data) => {
           // eslint-disable-next-line no-console
-          console.log(data)
           this.id = data.id
-          console.log(data.updatedAt)
           this.updatedAt = data.updatedAt
         })
         .catch((e) => {
