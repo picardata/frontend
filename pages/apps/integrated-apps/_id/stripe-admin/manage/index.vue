@@ -121,9 +121,12 @@ export default {
     const data = await context.app.$axios.get('/api/integrations/' + context.route.params.id)
 
     const result = data.data
-    return {
-      data: result
-    }
+    if(result.status === 1) {
+      return {
+        data: result
+      }
+    } 
+    context.redirect('/apps/integrated-apps')
   },
   data () {
     return {
