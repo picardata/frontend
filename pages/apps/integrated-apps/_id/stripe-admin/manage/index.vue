@@ -141,11 +141,11 @@ export default {
           path: '/apps/integrated-apps'
         },
         {
-          name: 'Google',
-          path: '/apps/integrated-apps/' + this.$route.params.id + '/google-admin'
+          name: 'Stripe',
+          path: '/apps/integrated-apps/' + this.$route.params.id + '/stripe-admin'
         },
         {
-          name: 'Manage Google',
+          name: 'Manage Stripe',
           path: '/apps/integrated-apps'
         }
       ]
