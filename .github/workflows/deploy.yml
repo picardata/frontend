@@ -22,7 +22,6 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: [ '7.4' ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -48,7 +47,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: Github Actions
           DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          DISCORD_EMBEDS: '[{"title":"Job Failed","color":13369344,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application deployment with version ${{ github.event.inputs.version }} failed."}]'
+          DISCORD_EMBEDS: '[{"title":"Frontend ${{ github.event.inputs.version }} Failed","color":13369344,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application deployment with version ${{ github.event.inputs.version }} failed."}]'
         uses: Ilshidur/action-discord@master
       - name: Notify Discord On Success
         if: ${{ success() }}
@@ -56,5 +55,5 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: Github Actions
           DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          DISCORD_EMBEDS: '[{"title":"Job Successful","color":52224,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application with version ${{ github.event.inputs.version }} has been deployed."}]'
+          DISCORD_EMBEDS: '[{"title":"Frontend ${{ github.event.inputs.version }} Successful","color":52224,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application with version ${{ github.event.inputs.version }} has been deployed."}]'
         uses: Ilshidur/action-discord@master
