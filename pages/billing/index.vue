@@ -239,4 +239,18 @@ h1 {
     color: #000;
   }
 }
+hr{
+  &.black-line{
+    width: 100%;
+    color: #E0E0E0;
+    background-color: #E0E0E0;
+    margin:1em auto;
+  }
+}
+.cards-info{
+  span{
+    letter-spacing: 0.75px;
+    margin-rigt: 6px;
+  }
+}
 </style>
