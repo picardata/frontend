@@ -1,7 +1,7 @@
 <template>
   <div class="col-12">
     <div v-for="(dates, index) in question.fieldDates" :key="index">
-      <div v-if="question.type == 6">
+      <div v-if="question.type == 7">
         <div class="col-sm-8 mt-3">
           <base-input
             id="example-date-input"
@@ -12,7 +12,7 @@
           />
         </div>
       </div>
-      <div v-if="question.type == 7">
+      <div v-if="question.type == 8">
         <div class="col-sm-8 mt-3">
           <base-input
             id="example-time-input"

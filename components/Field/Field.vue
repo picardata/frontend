@@ -8,7 +8,7 @@
             type="text"
             name="question"
             class="form-control question"
-            placeholder="Question 1"
+            :placeholder="'Question '+(q_key+1)"
             @change="add_field(q_key)"
           >
           <div class="btn-group type-dropdown col-12 mt-5">
@@ -86,7 +86,7 @@
                   @change="add_field(q_key)"
                   @click="q.required = !q.required"
                 >
-                  <span class="button-required">Required</span>
+                  <span class="button-required">Required *</span>
                 </b-form-checkbox>
               </div>
               <div class="divider p-0 pr-1" />
