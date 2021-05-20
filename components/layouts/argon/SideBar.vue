@@ -53,7 +53,7 @@ export default {
         {
           name: 'billing',
           displayName: 'Billing',
-          icon: 'pdicon-Forms',
+          icon: 'icon-Billing',
           link: '/billing'
         },
         {

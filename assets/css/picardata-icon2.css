@@ -1,0 +1,96 @@
+@font-face {
+  font-family: 'picardata2';
+  src:  url('fonts/picardata2.eot?15j2xf');
+  src:  url('fonts/picardata2.eot?15j2xf#iefix') format('embedded-opentype'),
+    url('fonts/picardata2.ttf?15j2xf') format('truetype'),
+    url('fonts/picardata2.woff?15j2xf') format('woff'),
+    url('fonts/picardata2.svg?15j2xf#picardata2') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'picardata2' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Download:before {
+  content: "\e912";
+}
+.icon-Duplicate:before {
+  content: "\e913";
+}
+.icon-Projects:before {
+  content: "\e914";
+}
+.icon-Teams:before {
+  content: "\e915";
+}
+.icon-Tasks:before {
+  content: "\e916";
+}
+.icon-Billing:before {
+  content: "\e900";
+}
+.icon-Home:before {
+  content: "\e901";
+}
+.icon-Alert-info:before {
+  content: "\e902";
+}
+.icon-Apps:before {
+  content: "\e903";
+}
+.icon-Back-Arrow:before {
+  content: "\e904";
+}
+.icon-Check:before {
+  content: "\e905";
+}
+.icon-Chevron-Down:before {
+  content: "\e906";
+}
+.icon-Chevron-Right:before {
+  content: "\e907";
+}
+.icon-Chevron-Left:before {
+  content: "\e908";
+}
+.icon-Collapse:before {
+  content: "\e909";
+}
+.icon-Configure:before {
+  content: "\e90a";
+}
+.icon-Cross:before {
+  content: "\e90b";
+}
+.icon-Delete:before {
+  content: "\e90c";
+}
+.icon-Forms:before {
+  content: "\e90d";
+}
+.icon-Expand:before {
+  content: "\e90e";
+}
+.icon-Settings:before {
+  content: "\e90f";
+}
+.icon-Profile:before {
+  content: "\e910";
+}
+.icon-Logout:before {
+  content: "\e911";
+}
