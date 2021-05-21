@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div v-show="step === 1" class="col-9">
+    <div v-if="step === 1" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -28,7 +28,7 @@
       </div>
       <WelcomeOnboard />
     </div>
-    <div v-show="step === 2" class="col-9">
+    <div v-if="step === 2" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -58,7 +58,7 @@
         <HowPicardataWorks />
       </div>
     </div>
-    <div v-show="step === 3" class="col-9">
+    <div v-if="step === 3" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
@@ -86,7 +86,7 @@
       </div>
       <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
     </div>
-    <div v-show="step === 4" class="col-12">
+    <div v-if="step === 4" class="col-12">
       <div class="col-9" style="margin-left: auto;margin-right: auto;">
         <div class="row text-center">
           <div class="mt-4 col-12">
@@ -206,10 +206,8 @@ export default {
     next () {
       if (this.step === 3) {
         this.$refs.completeProfile.post()
-          .then((result) => {
-            if (result) {
-              this.$router.push('/apps/app-library')
-            }
+          .then(() => {
+            this.step = this.step + 1
           })
         return
       }
