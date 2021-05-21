@@ -69,84 +69,97 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <checkbox-table>
-                  <template v-slot:table-header>
-                    <div />
-                  </template>
-                  <template v-slot:table>
-                    <el-table
-                      class="table-responsive table-flush"
-                      header-row-class-name="thead-light"
-                      row-key="id"
-                      :data="forms"
+                <div v-if="totalForms > 0" class="card">
+                  <div class="card-header">
+                    <div class="row">
+                      <div class="col-6">
+                        <input id="check-all" v-model="selectAllCheckbox" type="checkbox" class="form-checkbox d-inline" @click="selectAllForms()">
+                        <label class="d-inline" for="check-all">Select all forms</label>
+                      </div>
+                      <div class="col-6">
+                        <div class="float-right">
+                          <div class="btn-card btn-duplicate d-inline">
+                            <i class="pd-icon icon-Duplicate" />Duplicate
+                          </div>
+                          <span style="opacity: 0.4">|</span>
+                          <div class="btn-card btn-remove d-inline">
+                            <i class="pd-icon icon-Delete" />Remove
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <el-table
+                    class="table-responsive table-flush"
+                    header-row-class-name="thead-light"
+                    row-key="id"
+                    :data="forms"
+                  >
+                    <el-table-column
+                      label=""
+                      min-width="40px"
                     >
-                      <el-table-column
-                        type="selection"
-                        align="left"
-                        min-width="120px"
-                      />
+                      <template v-slot="{row}">
+                        <input v-model="row.checkbox" type="checkbox" class="form-checkbox">
+                      </template>
+                    </el-table-column>
 
-                      <el-table-column
-                        label="File Name"
-                        min-width="220px"
-                        prop="name"
-                        sortable
-                      >
-                        <template v-slot="{row}">
-                          <b>{{ row.name }}</b>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        label="Created"
-                        prop="createdAt"
-                        width="170px"
-                        min-width="140px"
-                        sortable
-                      >
-                        <template v-slot="{row}">
-                          <b>{{ createdDateFormat(row.createdAt) }}</b>
-                        </template>
-                      </el-table-column>
+                    <el-table-column
+                      label="File Name"
+                      min-width="220px"
+                      prop="name"
+                      sortable
+                    >
+                      <template v-slot="{row}">
+                        <b>{{ row.name }}</b>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="Created"
+                      prop="createdAt"
+                      width="170px"
+                      min-width="140px"
+                      sortable
+                    >
+                      <template v-slot="{row}">
+                        <b>{{ createdDateFormat(row.createdAt) }}</b>
+                      </template>
+                    </el-table-column>
 
-                      <el-table-column
-                        label="Last Opened"
-                        min-width="180px"
-                        prop="updatedAt"
-                        sortable
-                      >
-                        <template v-slot="{row}">
-                          <b>{{ lastUpdateFormat(row.updatedAt) }}</b>
-                        </template>
-                      </el-table-column>
+                    <el-table-column
+                      label="Last Opened"
+                      min-width="180px"
+                      prop="updatedAt"
+                      sortable
+                    >
+                      <template v-slot="{row}">
+                        <b>{{ lastUpdateFormat(row.updatedAt) }}</b>
+                      </template>
+                    </el-table-column>
 
-                      <el-table-column
-                        min-width="120px"
-                        label="Respondents"
-                        prop="name"
-                        sortable
-                        align="center"
-                      >
-                        <template v-slot="{row}">
-                          <b>{{ row.formRespondents.length }}</b>
-                        </template>
-                      </el-table-column>
+                    <el-table-column
+                      min-width="120px"
+                      label="Respondents"
+                      prop="name"
+                      sortable
+                    >
+                      <template v-slot="{row}">
+                        <b>{{ row.formRespondents.length }}</b>
+                      </template>
+                    </el-table-column>
 
-                      <el-table-column
-                        min-width="120px"
-                        label="Action"
-                        prop=""
-                        sortable
-                        align="center"
-                      >
-                        <template v-slot="{row}">
-                          <nuxt-link class="font-weight-bold" :to="'/forms/' + row.id">
-                            Edit Form
-                          </nuxt-link>
-                        </template>
-                      </el-table-column>
-                    </el-table>
-                  </template>
-                </checkbox-table>
+                    <el-table-column
+                      min-width="120px"
+                      label="Actions"
+                    >
+                      <template v-slot="{row}">
+                        <nuxt-link class="font-weight-bold" :to="'/forms/' + row.id">
+                          Edit Form
+                        </nuxt-link>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
               </div>
             </div>
           </div>
@@ -158,13 +171,11 @@
 <script>
 import { Table, TableColumn } from 'element-ui'
 import PrevPage from '@/components/PrevPage'
-import CheckboxTable from '~/components/tables/RegularTables/CheckboxTable'
 import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
   components: {
-    CheckboxTable,
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     PrevPage
@@ -177,6 +188,8 @@ export default {
   },
   data () {
     return {
+      selectedForms: [],
+      selectAllCheckbox: false,
       forms: [],
       crumbs: [
         {
@@ -216,13 +229,20 @@ export default {
       ]
     }
   },
+  computed: {
+    totalForms () {
+      return this.forms.length
+    }
+  },
   methods: {
     async loadDefaultData () {
       const data = await this.$axios.$get('/api/forms/', { params: { 'order[updatedAt]': 'desc', page_number: 1, items_per_page: '999' } })
 
-      const dataResult = data
+      const dataResult = data.map((form) => {
+        form.checkbox = false
+        return form
+      })
       this.forms = dataResult
-      console.log(this.forms)
     },
     submenuAfterLeave (el) {
       el.style.display = 'block'
@@ -237,11 +257,93 @@ export default {
     },
     createdDateFormat (date) {
       return this.$moment(date).format('DD MMM YYYY')
+    },
+    selectAllForms () {
+      this.selectAllCheckbox = !this.selectAllCheckbox
+
+      this.forms.map((form) => {
+        form.checkbox = this.selectAllCheckbox
+        return form
+      })
+
+      if (this.selectAllCheckbox === true) {
+        this.selectedForms = this.forms
+      } else {
+        this.selectedForms = []
+      }
     }
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+i {
+  margin-right: 15px;
+}
+
+.btn-card {
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.btn-duplicate {
+  color: #2534B6;
+}
+
+.btn-remove {
+  color: #8B8B8D;
+}
+
+.card, .card-header {
+  border-bottom: none!important;
+  box-shadow: none!important;
+}
+
+// /deep/.el-table::before {
+//   content: none;
+// }
+
+.form-checkbox {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: 0;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+// /deep/.el-table th.is-leaf {
+//   border-bottom: none;
+// }
+
+/deep/tr.el-table__row {
+  border: 1px solid #E0E0E0!important;
+  border-radius: 5px!important;
+}
+
+/deep/.thead-light > th {
+  color: #8B8B8D;
+  font-style: Poppins;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: white;
+  text-transform: capitalize;
+}
+
+/deep/.caret-wrapper {
+  display: none;
+}
+
+/deep/thead th {
+  border: 0px;
+  .cell {
+    min-height: 64px!important;
+  }
+}
+
 .page-title {
   font-weight: 700;
   font-size: 36px;
