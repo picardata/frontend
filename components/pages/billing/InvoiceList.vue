@@ -185,5 +185,8 @@ table{
        background-color: #DAE6FF;
     }
   }
+  a{
+    color: #3E4EDD;
+  }
 }
 </style>
