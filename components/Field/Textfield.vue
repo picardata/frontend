@@ -31,6 +31,7 @@
         name="input-answer"
         class="form-control pcd mt-3"
         placeholder="Short-answer text"
+        disabled=""
         @blur="submitText(text, question.id)"
         @keyup="submitText(text, question.id)"
       >

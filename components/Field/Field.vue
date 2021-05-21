@@ -113,7 +113,7 @@
             </div>
           </div>
           <div class="col-3 text-right">
-            <base-button outline type="primary" class="btn-prim" @click="new_field">
+            <base-button outline type="primary" class="btn-prim" @click="new_field(q_key)">
               Add question
             </base-button>
           </div>
