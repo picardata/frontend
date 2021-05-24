@@ -146,6 +146,15 @@ h1{
   font-weight: normal;
   font-size: 14px;
   padding: 10px 14px;
+  color: #3E4EDD;
+}
+
+.btn-outline-primary{
+  color: #3E4EDD;
+
+  &:hover{
+    color: #FFFFFF;
+  }
 }
 
 table{
