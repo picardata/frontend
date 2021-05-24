@@ -188,6 +188,7 @@ export default {
           } else {
             name = name === 'Other' ? v.other : name
           }
+          name = [...new Set(name)]
 
           this.$axios.$post('/api/field-answers/', {
             name: typeof name === 'object' ? name.join(',') : name,
