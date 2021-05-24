@@ -22,29 +22,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(card, index) in cards" :key="index + cards.date">
-              <td>{{ card.number }}</td>
-              <td> {{ card.expired }} </td>
-              <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
-              <td>
-                <span v-if="card.isDefault" class="card-default">Default card</span>
-                <span v-else class="card-option">
+            <template v-if="showAll">
+              <tr v-for="(card, index) in cards" :key="index + cards.date">
+                <td>{{ card.number }}</td>
+                <td> {{ card.expired }} </td>
+                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <span v-if="card.isDefault" class="card-default">Default card</span>
+                  <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
                   <a class="delete-icon" href="#" @click.prevent="showModalDelete(index)"><i class="fa fa-trash-alt"></i></a>
                 </span>
-              </td>
+                </td>
+              </tr>
+            </template>
+            <template v-else>
+              <tr v-for="card in 3" :key="card">
+                <td>{{ cards[card - 1].number }}</td>
+                <td> {{ cards[card - 1].expired }} </td>
+                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <span v-if="cards[card - 1].isDefault" class="card-default">Default card</span>
+                  <span v-else class="card-option">
+                  <a class="color-primary" href="#">Set as default</a>
+                  |
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card - 1)"><i class="fa fa-trash-alt"></i></a>
+                </span>
+                </td>
+              </tr>
+            </template>
+            <tr v-if="!showAll && cards.length > 3">
+              <td><a href="#" @click.prevent="showAll = true"> See {{ cards.length - 3 }} cards more </a></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <Paging
-          style="width: 100%"
-          :data="cards"
-          :get-total-page="getTotalPage"
-          :get-current-page="getCurrentPage"
-          :set-current-page="setCurrentPage"
-      />
     </div>
 
     <modal :show.sync="modals.delete">
@@ -73,8 +86,7 @@ export default {
   name: "InvoiceList",
   data () {
     return {
-      cards: [],
-      cardsPage1: [
+      cards: [
         {
           number: '****1251',
           expired: '1/2025',
@@ -126,63 +138,14 @@ export default {
           isDefault: false,
         },
       ],
-      cardsPage2: [
-        {
-          number: '****1216',
-          expired: '11/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1226',
-          expired: '12/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1236',
-          expired: '1/2026',
-          isDefault: false,
-        },
-        {
-          number: '****1246',
-          expired: '2/2026',
-          isDefault: false,
-        },
-        {
-          number: '****1256',
-          expired: '2/2026',
-          isDefault: false,
-        }
-      ],
-      totalPage: 2,
-      currentPage: 1,
       modals: {
         delete: false
       },
+      showAll: false,
       selectedCard: 0
     }
   },
-  created() {
-    this.cards = this.cardsPage1
-  },
   methods: {
-    setCurrentPage (currentPage) {
-      if (currentPage > 0 && currentPage <= this.totalPage) {
-        this.currentPage = currentPage
-
-        if (currentPage === 1) {
-          this.cards = this.cardsPage1
-        } else {
-          this.cards = this.cardsPage2
-        }
-      }
-    },
-    getTotalPage () {
-      return this.totalPage
-    },
-
-    getCurrentPage () {
-      return this.currentPage
-    },
     showModalDelete (id) {
       this.modals.delete = true
       this.selectedCard = id
