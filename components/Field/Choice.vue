@@ -23,6 +23,7 @@
                     type="text"
                     class="form-control choice"
                     placeholder="Add option"
+                    @focus="select(index)"
                     @keyup="checkDuplicate(choice)"
                     @keyup.esc="cancelEdit(choice)"
                     @blur="doneEdit(choice, index, question.id)"
@@ -171,6 +172,9 @@ export default {
 
       await this.submitChoice(choice, key, fieldId)
       choice.edit = false
+    },
+    select: function(index){
+      event.target.setSelectionRange(0, this.question.fieldChoices[index].name.length);
     },
     cancelEdit (choice) {
       choice.name = this.beforeEditCache

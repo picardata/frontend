@@ -216,7 +216,8 @@ ol li:not(:first-child){
   text-align: left;
   background-color: transparent;
   box-shadow: none;
-  border-width: 0px 0px 0px 0px;
+  border: solid #dee2e6;
+  border-width: 0px 0px 2px 0px;
   font-size: 16px;
   width: 100%;
   border-radius: 0px;
