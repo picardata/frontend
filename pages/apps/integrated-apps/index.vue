@@ -317,11 +317,6 @@ export default {
           name: 'Integrated Apps'
         },
         {
-          link: '/apps/manage-all-apps',
-          type: 'item',
-          name: 'Manage All Apps'
-        },
-        {
           name: 'Integration',
           type: 'subtitle'
         },

@@ -83,7 +83,7 @@
                       :key="app.name + index"
                       class="app shadow"
                     >
-                      <img :src="require(`~/assets/dashboard-img/${app.img}`)" alt="">
+                      <img class="img-apps" :src="`/img/apps/${app.img}/logo.png`" alt="">
                       <h1>{{ app.title }}</h1>
                     </div>
                   </div>
@@ -539,36 +539,32 @@ export default {
       ],
       mostAccessedApps: [
         {
-          title: 'Intercom',
-          img: 'intercom.png'
-        },
-        {
           title: 'Slack',
-          img: 'slack.png'
+          img: 'slack'
         },
         {
-          title: 'Airtable',
-          img: 'airtable.png'
+          title: 'Asana',
+          img: 'asana'
         },
         {
-          title: 'Twitter',
-          img: 'twitter.png'
+          title: 'Stripe',
+          img: 'stripe'
         },
         {
-          title: 'Paypal',
-          img: 'paypal.png'
+          title: 'Facebook',
+          img: 'facebook'
         },
         {
-          title: 'Mailchimp',
-          img: 'mailchimp.png'
+          title: 'Zoom',
+          img: 'zoom'
         },
         {
-          title: 'Instagram',
-          img: 'instagram.png'
+          title: 'Hubspot',
+          img: 'hubspot'
         },
         {
-          title: 'Chorus.ai',
-          img: 'chorus.png'
+          title: 'Google',
+          img: 'google'
         }
       ],
       salesInsight: {
@@ -959,7 +955,7 @@ export default {
       justify-content: space-between;
 
       img{
-        width: fit-content;
+        width: 40px;
       }
       h1{
         font-size: 14px;
