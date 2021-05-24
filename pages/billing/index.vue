@@ -185,7 +185,7 @@ h1 {
 
   /* Body Text */
 
-  color: #313131;
+  color: #000000;
 }
 
 .form-title {
