@@ -173,8 +173,8 @@ export default {
       await this.submitChoice(choice, key, fieldId)
       choice.edit = false
     },
-    select: function(index){
-      event.target.setSelectionRange(0, this.question.fieldChoices[index].name.length);
+    select (index) {
+      event.target.setSelectionRange(0, this.question.fieldChoices[index].name.length)
     },
     cancelEdit (choice) {
       choice.name = this.beforeEditCache
