@@ -114,6 +114,10 @@ import Field from '@/components/Field/Field'
 import ModalShare from '@/components/pages/forms/ModalShareForm'
 import loaderMixin from '~/mixins/loader'
 
+const falseLoader = {
+  loader: false
+}
+
 export default {
   name: 'IndexVue',
   layout: 'argon',
@@ -267,9 +271,9 @@ export default {
       let axios
 
       if (fieldId) {
-        axios = this.$axios.$put('/api/fields/' + fieldId, toSave)
+        axios = this.$axios.$put('/api/fields/' + fieldId, toSave, falseLoader)
       } else {
-        axios = this.$axios.$post('/api/fields/', toSave)
+        axios = this.$axios.$post('/api/fields/', toSave, falseLoader)
       }
 
       await axios.then((data) => {
@@ -664,7 +668,7 @@ export default {
         .$patch('/api/forms/' + this.id, {
           name: this.name,
           description: this.description
-        })
+        }, falseLoader)
         .then((data) => {
           // eslint-disable-next-line no-console
           this.id = data.id

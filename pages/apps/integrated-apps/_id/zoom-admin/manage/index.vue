@@ -109,14 +109,14 @@ import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
-  mixins: [
-    loaderMixin
-  ],
   components: {
     ZoomGroupList,
     ZoomUserList,
     ApplicationManageDetail
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {

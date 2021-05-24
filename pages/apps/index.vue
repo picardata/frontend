@@ -124,10 +124,10 @@ import loaderMixin from '~/mixins/loader'
 export default {
   name: 'Index',
   layout: 'argon',
+  components: { Submenu },
   mixins: [
     loaderMixin
   ],
-  components: { Submenu },
   data () {
     return {
       crumbs: [

@@ -97,13 +97,13 @@ import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
-  mixins: [
-    loaderMixin
-  ],
   components: {
     ValidationObserver,
     ValidationProvider
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
       .then((data) => {

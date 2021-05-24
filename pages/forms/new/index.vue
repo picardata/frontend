@@ -105,6 +105,10 @@
 import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
 
+const falseLoader = {
+  loader: false
+}
+
 export default {
   name: 'IndexVue',
   layout: 'argon',
@@ -242,9 +246,9 @@ export default {
       let axios
 
       if (fieldId) {
-        axios = this.$axios.$put('/api/fields/' + fieldId, toSave)
+        axios = this.$axios.$put('/api/fields/' + fieldId, toSave, falseLoader)
       } else {
-        axios = this.$axios.$post('/api/fields/', toSave)
+        axios = this.$axios.$post('/api/fields/', toSave, falseLoader)
       }
 
       await axios.then((data) => {
@@ -496,7 +500,7 @@ export default {
           .$post('/api/forms/', {
             name: this.name,
             description: this.description
-          })
+          }, falseLoader)
           .then((data) => {
             // eslint-disable-next-line no-console
             console.log(data)
@@ -522,7 +526,7 @@ export default {
           .$patch('/api/forms/' + this.id, {
             name: this.name,
             description: this.description
-          })
+          }, falseLoader)
           .then((data) => {
             // eslint-disable-next-line no-console
             console.log(data)
