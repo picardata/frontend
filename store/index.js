@@ -97,7 +97,7 @@ const createStore = () => {
         }),
         mutations: {
           loading(state, isLoading) {
-            console.log({isLoading})
+            // console.log({isLoading})
             if (isLoading) {
               state.refCount++;
               state.isLoading = true;

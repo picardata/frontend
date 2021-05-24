@@ -2,8 +2,8 @@ export default {
   created () {
     this.$axios.interceptors.request.use(
       (config) => {
-        this.$store.commit('loader/loading', true)
-        console.log(config)
+        const loader = config.loader === undefined ? true : config.loader
+        this.$store.commit('loader/loading', loader)
         return config
       },
       (error) => {
@@ -15,7 +15,6 @@ export default {
     this.$axios.interceptors.response.use(
       (response) => {
         this.$store.commit('loader/loading', false)
-        console.log(response)
         return response
       },
       (error) => {
