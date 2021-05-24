@@ -1,6 +1,6 @@
 <template>
   <div class="row picardata-form-index">
-    <div v-show="submenu" class="col-xl-12 pl-0">
+    <div v-show="submenu" class="col-xl-12 pl-0 mt-3">
       <div>
         <base-header type="white" class="pb-6">
           <div class="row align-items-center py-4">
@@ -185,7 +185,7 @@ h1 {
 
   /* Body Text */
 
-  color: #313131;
+  color: #000000;
 }
 
 .form-title {
