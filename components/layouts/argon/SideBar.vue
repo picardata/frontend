@@ -5,7 +5,7 @@
         <a class="navbar-brand text-white" href="/"><img src="~/assets/logo.png" alt="Picardata Logo"></a>
       </div>
       <div class="navbar-inner">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mt-5">
           <li
             v-for="(item, key) in menus"
             :key="item.name + key"
@@ -96,3 +96,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.navbar-nav{
+  margin-top: 3rem !important;;
+  li{
+    &:first-child{
+      margin-top: 1.5rem !important;
+    }
+  }
+}
+</style>
