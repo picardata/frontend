@@ -73,23 +73,26 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+
+            <div v-if="mostAccessedApps.length >= 1" class="row">
               <div class="col-12">
                 <div class="most-apps">
                   <h4>Most Accessed Apps</h4>
                   <div class="list-apps">
                     <div
                       v-for="(app, index) in mostAccessedApps"
-                      :key="app.name + index"
-                      class="app shadow"
+                      :key="app.application.name + index"
+                      class="app shadow cursor-pointer"
+                      @click="appClick(index)"
                     >
-                      <img class="img-apps" :src="`/img/apps/${app.img}/logo.png`" alt="">
-                      <h1>{{ app.title }}</h1>
+                      <img class="img-apps" :src="app.application.logo" alt="">
+                      <h1>{{ app.application.name }}</h1>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="row">
               <div class="col-lg-12" style="margin: 2em 0em 2em 0em">
                 <h4 class="d-inline stat-menu-title">
@@ -537,36 +540,7 @@ export default {
           name: 'Human Resources'
         }
       ],
-      mostAccessedApps: [
-        {
-          title: 'Slack',
-          img: 'slack'
-        },
-        {
-          title: 'Asana',
-          img: 'asana'
-        },
-        {
-          title: 'Stripe',
-          img: 'stripe'
-        },
-        {
-          title: 'Facebook',
-          img: 'facebook'
-        },
-        {
-          title: 'Zoom',
-          img: 'zoom'
-        },
-        {
-          title: 'Hubspot',
-          img: 'hubspot'
-        },
-        {
-          title: 'Google',
-          img: 'google'
-        }
-      ],
+      mostAccessedApps: [],
       salesInsight: {
         chartData: {
           labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -769,6 +743,7 @@ export default {
     this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
       // eslint-disable-next-line no-return-assign
       .then((data) => {
+        this.mostAccessedApps = data.data.filter(x => x.status === 1)
         this.totalIntegrations = data.data.filter(x => x.status === 1).length
       }).catch(
       // eslint-disable-next-line no-console
@@ -785,6 +760,10 @@ export default {
     submenuAfterEnter (el) {
       el.style.display = 'block'
       el.style.left = '0em'
+    },
+    appClick (index) {
+      const selectedIntegration = this.mostAccessedApps[index]
+      window.open('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'), '_blank').focus()
     }
   }
 }
