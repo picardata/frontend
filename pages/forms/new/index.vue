@@ -106,7 +106,7 @@ import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
 
 const falseLoader = {
-  'loader': false
+  loader: false
 }
 
 export default {

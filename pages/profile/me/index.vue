@@ -167,12 +167,12 @@ import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
-  mixins: [
-    loaderMixin
-  ],
   components: {
     ValidationProvider
   },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     const userMe = await context.app.$axios.get('/api/users/me')
     // .then((data) => {

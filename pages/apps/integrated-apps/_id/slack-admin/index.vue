@@ -77,10 +77,10 @@ import loaderMixin from '~/mixins/loader'
 
 export default {
   layout: 'argon',
+  components: { SlackUserCount, ApplicationDetail, SlackUserGroupCount, LineChart },
   mixins: [
     loaderMixin
   ],
-  components: { SlackUserCount, ApplicationDetail, SlackUserGroupCount, LineChart },
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
       .then((data) => {

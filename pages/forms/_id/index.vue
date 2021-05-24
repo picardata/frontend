@@ -115,7 +115,7 @@ import ModalShare from '@/components/pages/forms/ModalShareForm'
 import loaderMixin from '~/mixins/loader'
 
 const falseLoader = {
-  'loader': false
+  loader: false
 }
 
 export default {
