@@ -72,58 +72,7 @@ export default {
   },
   data () {
     return {
-      cards: [
-        {
-          number: '****1251',
-          expired: '1/2025',
-          isDefault: true,
-        },
-        {
-          number: '****1252',
-          expired: '2/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1253',
-          expired: '3/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1254',
-          expired: '4/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1255',
-          expired: '5/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1256',
-          expired: '6/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1257',
-          expired: '7/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1258',
-          expired: '8/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1259',
-          expired: '9/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1250',
-          expired: '10/2025',
-          isDefault: false,
-        },
-      ],
+      cards: [],
       totalToDisplay: 3,
       modals: {
         delete: false
