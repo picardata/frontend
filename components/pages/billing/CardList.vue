@@ -23,7 +23,7 @@
           </thead>
           <tbody>
             <template v-if="showAll">
-              <tr v-for="(card, index) in cards" :key="index">
+              <tr v-for="(card, index) in cards" :key="card.id">
                 <td>{{ card.number }}</td>
                 <td> {{ card.expired }} </td>
                 <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
@@ -47,7 +47,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card].id)"><i class="fa fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
@@ -60,24 +60,7 @@
       </div>
     </div>
 
-    <modal :show.sync="modals.delete">
-      <template slot="header">
-        <h5 class="modal-title">
-          Delete card
-        </h5>
-      </template>
-      <div>
-        Are you sure want to delete this card?
-      </div>
-      <template slot="footer">
-        <base-button type="secondary" @click="modals.delete = false">
-          Cancel
-        </base-button>
-        <base-button type="danger" @click="deleteUser">
-          Delete
-        </base-button>
-      </template>
-    </modal>
+    <CardDelete :modals="modals" :cardId="selectedCard" />
   </div>
 </template>
 
@@ -94,6 +77,8 @@ export default {
     for(let i=0;i<cards.length;i++) {
       const card = cards[i]
 
+      console.log('card = ')
+      console.log(card)
       newCards.push({
         id: card.id,
         number: `****${card.last4}`,
@@ -181,6 +166,8 @@ export default {
   methods: {
     showModalDelete (id) {
       this.modals.delete = true
+      console.log('id = ')
+      console.log(id)
       this.selectedCard = id
     },
     deleteUser () {
