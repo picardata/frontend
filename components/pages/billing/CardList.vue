@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <CardDelete :modals="modals" :cardId="selectedCard" />
+    <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="updateData"/>
   </div>
 </template>
 
@@ -68,38 +68,7 @@
 export default {
   name: "InvoiceList",
   async fetch () {
-    const cardsRaw = await this.$axios.get('/api/billings/cards')
-
-    // console.log('cards raw = ')
-    const cards = cardsRaw.data.cards
-
-    const newCards = []
-    for(let i=0;i<cards.length;i++) {
-      const card = cards[i]
-
-      console.log('card = ')
-      console.log(card)
-      newCards.push({
-        id: card.id,
-        number: `****${card.last4}`,
-        expired: `${card.exp_month}/${card.exp_year}`,
-        isDefault: false        
-      })
-    }
-    // console.log('cards = ')
-    // console.log(newCards)
-
-    if(newCards.length > 0) {
-      newCards[0].isDefault = true;
-    }
-
-    console.log('new cards =')
-    console.log(newCards)
-
-    this.cards = newCards
-    if (newCards.length <= 3) {
-      this.totalToDisplay = newCards.length
-    }
+    await this.updateData();
   },
   data () {
     return {
@@ -173,6 +142,40 @@ export default {
     deleteUser () {
       this.cards.splice(this.selectedCard, 1)
       this.modals.delete = false
+    },
+    async updateData() {
+      const cardsRaw = await this.$axios.get('/api/billings/cards')
+
+      // console.log('cards raw = ')
+      const cards = cardsRaw.data.cards
+
+      const newCards = []
+      for(let i=0;i<cards.length;i++) {
+        const card = cards[i]
+
+        console.log('card = ')
+        console.log(card)
+        newCards.push({
+          id: card.id,
+          number: `****${card.last4}`,
+          expired: `${card.exp_month}/${card.exp_year}`,
+          isDefault: false        
+        })
+      }
+      // console.log('cards = ')
+      // console.log(newCards)
+
+      if(newCards.length > 0) {
+        newCards[0].isDefault = true;
+      }
+
+      console.log('new cards =')
+      console.log(newCards)
+
+      this.cards = newCards
+      if (newCards.length <= 3) {
+        this.totalToDisplay = newCards.length
+      }
     }
   }
 }

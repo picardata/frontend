@@ -24,11 +24,12 @@ export default {
   name: "InvoiceList",
   props: ['modals', 'cardId'],
   methods: {
-    deleteUser () {
+    async deleteUser () {
     //   this.cards.splice(this.cardId, 1)
       console.log('masuk bro !')
       console.log(this.cardId)
       this.modals.delete = false
+      this.$emit('onDelete')
     }
   }
 }
