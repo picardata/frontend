@@ -23,7 +23,7 @@
           </thead>
           <tbody>
             <template v-if="showAll">
-              <tr v-for="(card, index) in cards" :key="index + cards.date">
+              <tr v-for="(card, index) in cards" :key="index">
                 <td>{{ card.number }}</td>
                 <td> {{ card.expired }} </td>
                 <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
@@ -32,13 +32,13 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(index)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="fa fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
             </template>
             <template v-else>
-              <tr v-for="card in 3" :key="card">
+              <tr v-for="card in this.totalToDisplay" :key="card">
                 <td>{{ cards[card - 1].number }}</td>
                 <td> {{ cards[card - 1].expired }} </td>
                 <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
@@ -47,7 +47,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card - 1)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="fa fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
@@ -84,6 +84,38 @@
 <script>
 export default {
   name: "InvoiceList",
+  async fetch () {
+    const cardsRaw = await this.$axios.get('/api/billings/cards')
+
+    // console.log('cards raw = ')
+    const cards = cardsRaw.data.cards
+
+    const newCards = []
+    for(let i=0;i<cards.length;i++) {
+      const card = cards[i]
+
+      newCards.push({
+        id: card.id,
+        number: `****${card.last4}`,
+        expired: `${card.exp_month}/${card.exp_year}`,
+        isDefault: false        
+      })
+    }
+    // console.log('cards = ')
+    // console.log(newCards)
+
+    if(newCards.length > 0) {
+      newCards[0].isDefault = true;
+    }
+
+    console.log('new cards =')
+    console.log(newCards)
+
+    this.cards = newCards
+    if (newCards.length <= 3) {
+      this.totalToDisplay = newCards.length
+    }
+  },
   data () {
     return {
       cards: [
@@ -138,6 +170,7 @@ export default {
           isDefault: false,
         },
       ],
+      totalToDisplay: 3,
       modals: {
         delete: false
       },
