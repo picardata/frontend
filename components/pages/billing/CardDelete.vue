@@ -67,5 +67,6 @@ button {
 .delete-button {
   background: #FFFFFF;
   color: #2534B6;
+  border-color: #2534B6;
 }
 </style>
