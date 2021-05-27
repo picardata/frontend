@@ -29,7 +29,7 @@
                       <div class="card border border-primary p-4">
                         <div class="d-flex">
                           <div class="mr-3">
-                            <div class="all-form-title">
+                            <div class="all-form-title bold-text">
                               Package: Pro
                             </div>
                           </div>
@@ -96,7 +96,7 @@
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
             <div class="col-12">
-              <CardList />
+              <!--              <CardList />-->
             </div>
           </div>
 
@@ -115,15 +115,14 @@
 <script>
 import loaderMixin from '~/mixins/loader'
 import InvoiceList from '~/components/pages/billing/InvoiceList'
-import CardList from '~/components/pages/billing/CardList'
+// import CardList from '~/components/pages/billing/CardList'
 
 export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
   components: {
-    InvoiceList,
-    CardList
+    InvoiceList
   },
   mixins: [
     loaderMixin
@@ -217,11 +216,14 @@ h1 {
 
   color: #313131;
 }
+.bold-text{
+  font-weight:700 !important;
+}
 .btn-round {
   height: 56px;
   border-radius: 40px;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 14px;
   padding: 15px 30px;
 }
 </style>
@@ -261,6 +263,11 @@ hr{
   span{
     letter-spacing: 0.75px;
     margin-rigt: 6px;
+  }
+}
+div{
+  &.divider{
+    border-left: 1px solid #EFF7FF !important;
   }
 }
 </style>
