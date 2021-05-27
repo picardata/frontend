@@ -1,10 +1,21 @@
 <template>
-    <modal :show.sync="modals.delete" :show-close="false">
-      <template slot="header">
-        <h5 class="modal-title">
-          Delete card
-        </h5>
-      </template>
+    <modal :show.sync="modals.delete" :show-close="false" class="picardata-delete-modal">
+    <template slot="header">
+      <div>
+        <div class="row back-arrow-parent">
+          <div class="col-md-12">
+            <a class="pd-icon pdicon-Back-Arrow back-arrow" @click="handleClose" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h5 class="parent-title">
+                <span class="first-title">Juara dunia</span>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </template>
       <div>
         This cannot be undone, but you can always set up a new card.
       </div>
@@ -28,6 +39,9 @@ export default {
       await this.$axios.delete(`/api/billings/cards/${this.cardId}`)
       this.modals.delete = false
       this.$emit('onDelete')
+    },
+    handleClose() {
+      this.modals.delete = false
     }
   }
 }
