@@ -20,12 +20,14 @@
         This cannot be undone, but you can always set up a new card.
       </div>
       <template slot="footer">
-        <base-button @click="deleteUser" class="delete-button">
-          Delete
-        </base-button>
-        <base-button @click="modals.delete = false" type="primary" class="cancel-button">
-          Cancel
-        </base-button>
+        <div class="modal-footer-delete">
+          <base-button @click="deleteUser" class="delete-button">
+            Delete
+          </base-button>
+          <base-button @click="modals.delete = false" type="primary" class="cancel-button">
+            Cancel
+          </base-button>
+        </div>
       </template>
     </modal>
 </template>
@@ -48,6 +50,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal-footer-delete {
+  margin: auto;
+}
+
 button {
   font-family: Poppins;
   font-style: normal;
