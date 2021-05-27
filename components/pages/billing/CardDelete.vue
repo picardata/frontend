@@ -4,7 +4,9 @@
       <div>
         <div class="row back-arrow-parent">
           <div class="col-md-12">
-            <a class="pd-icon pdicon-Back-Arrow back-arrow" @click="handleClose" />
+            <a class="pd-icon pdicon-Back-Arrow back-arrow" 
+               @click="handleClose" 
+               style="color: #14142B;font-size: 200%;cursor: pointer;"/>
           </div>
         </div>
         <div class="row">
