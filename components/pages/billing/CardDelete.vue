@@ -55,6 +55,7 @@ export default {
 }
 
 button {
+  width: 200px;
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
