@@ -47,7 +47,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card].id)"><i class="far fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card - 1].id)"><i class="far fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>

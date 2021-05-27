@@ -25,8 +25,7 @@ export default {
   props: ['modals', 'cardId'],
   methods: {
     async deleteUser () {
-      console.log('masuk bro !')
-      console.log(this.cardId)
+      await this.$axios.delete(`/api/billings/cards/${this.cardId}`)
       this.modals.delete = false
       this.$emit('onDelete')
     }
