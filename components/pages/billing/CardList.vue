@@ -124,6 +124,8 @@ export default {
       this.cards = newCards
       if (newCards.length <= 3) {
         this.totalToDisplay = newCards.length
+      } else if(newCards.length > 3) {
+        this.totalToDisplay = 3;
       }
     }
   }
