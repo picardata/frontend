@@ -73,7 +73,7 @@ export default {
   data () {
     return {
       cards: [],
-      totalToDisplay: 3,
+      totalToDisplay: 0,
       modals: {
         delete: false
       },
