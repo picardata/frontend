@@ -22,7 +22,7 @@
       <template slot="footer">
         <div class="modal-footer-delete">
           <base-button @click="deleteUser" class="delete-button">
-            Delete
+            Delete Card
           </base-button>
           <base-button @click="modals.delete = false" type="primary" class="cancel-button">
             Cancel
