@@ -40,8 +40,8 @@ export default {
   props: ['modals', 'cardId'],
   methods: {
     async deleteUser () {
-      await this.$axios.delete(`/api/billings/cards/${this.cardId}`)
       this.modals.delete = false
+      await this.$axios.delete(`/api/billings/cards/${this.cardId}`)
       this.$emit('onDelete')
     },
     handleClose() {
