@@ -18,7 +18,7 @@
               <th scope="col">Card Number</th>
               <th scope="col">Expired Month/Year</th>
               <th scope="col">Card Type</th>
-              <th scope="col">Action</th>
+              <th scope="col" width="10%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -32,7 +32,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="far fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
@@ -47,7 +47,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card].id)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card].id)"><i class="far fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
@@ -144,7 +144,8 @@ h1{
   border-radius: 40px;
   font-weight: normal;
   font-size: 14px;
-  padding: 10px 14px;
+  padding: 10px 24px;
+  letter-spacing: 0.75px;
 }
 
 table{
@@ -156,6 +157,7 @@ table{
       font-weight: 600;
       font-size: 16px;
       padding-left: 0;
+      text-transform: capitalize;
     }
   }
   tbody{
