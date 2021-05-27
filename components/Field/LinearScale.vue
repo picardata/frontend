@@ -21,8 +21,8 @@
               0
             </a>
             <a
-                class="dropdown-item"
-                @click="change_from(scale, 1)"
+              class="dropdown-item"
+              @click="change_from(scale, 1)"
             >
               1
             </a>

@@ -36,10 +36,10 @@
               <h3 class="d-inline">
                 {{ field.name }}
               </h3>
-              <h3 v-if="field.required == 1" class="d-inline" style="color: red">
+              <h3 v-if="field.required === 1" class="d-inline" style="color: red">
                 *
               </h3>
-              <label v-if="shortField[index].description != ''" class="d-block text-muted" style="font-size: 12px;">{{ shortField[index].description }}</label>
+              <label v-if="shortField[index].description !== ''" class="d-block text-muted" style="font-size: 12px;">{{ shortField[index].description }}</label>
             </div><br>
             <div v-if="field.type === 0" class="form-group scroll-horizontal">
               <input
@@ -115,14 +115,15 @@
               <div style="width:25em" class="file-upload">
                 <br>
                 <div class="custom-file">
-                  <input type="file"
-                         class="custom-file-input"
-                         id="customFileLang"
-                         lang="en"
-                         @change="setFiles(index)"
-                  />
+                  <input
+                    id="customFileLang"
+                    type="file"
+                    class="custom-file-input"
+                    lang="en"
+                    @change="setFiles(index)"
+                  >
                   <label class="custom-file-label" for="customFileLang">
-                    {{label}}
+                    {{ label }}
                   </label>
                 </div>
                 <label class="mt-2 text-muted ">Allowing types :</label>
@@ -137,15 +138,21 @@
               <div style="width:32em;" class="linear-scale scroll-horizontal">
                 <br>
                 <div class="text-center">
-                  <div class="d-inline">{{ shortField[index].linear.label1 }}</div>
-                  <div v-for="n in shortField[index].linear.toValue" class="d-inline">
-                    <base-radio v-model="answers[index].scale"
-                                :name="n"
-                                class="mb-3 d-inline">
+                  <div class="d-inline">
+                    {{ shortField[index].linear.label1 }}
+                  </div>
+                  <div v-for="(n,n_key) in shortField[index].linear.toValue" :key="n_key" class="d-inline">
+                    <base-radio
+                      v-model="answers[index].scale"
+                      :name="n"
+                      class="mb-3 d-inline"
+                    >
                       {{ n }}
                     </base-radio>
                   </div>
-                  <div class="d-inline ml-4">{{ shortField[index].linear.label2 }}</div>
+                  <div class="d-inline ml-4">
+                    {{ shortField[index].linear.label2 }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -153,10 +160,10 @@
               <div style="width: 25em" class="field-dates">
                 <br>
                 <base-input
-                    v-model="answers[index].date"
-                    id="example-date-input"
-                    type="date"
-                    placeholder="Day, month, year"
+                  id="example-date-input"
+                  v-model="answers[index].date"
+                  type="date"
+                  placeholder="Day, month, year"
                 />
               </div>
             </div>
@@ -164,9 +171,9 @@
               <div style="width: 25em" class="field-dates">
                 <br>
                 <base-input
-                    v-model="answers[index].time"
-                    id="example-time-input"
-                    type="time"
+                  id="example-time-input"
+                  v-model="answers[index].time"
+                  type="time"
                 />
               </div>
             </div>
@@ -232,7 +239,7 @@ export default {
           if (field.type === 0 || field.type === 1) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: '',
               other: '',
               files: '',
@@ -247,7 +254,7 @@ export default {
           } else if (field.type === 3) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: [],
               other: '',
               files: '',
@@ -262,7 +269,7 @@ export default {
           } else if (field.type === 4) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: field.fieldChoices[0].name,
               files: '',
               scale: '',
@@ -276,7 +283,7 @@ export default {
           } else if (field.type === 5) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: '',
               other: '',
               files: '',
@@ -292,7 +299,7 @@ export default {
           } else if (field.type === 6) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: '',
               other: '',
               files: '',
@@ -308,7 +315,7 @@ export default {
           } else if (field.type === 7 || field.type === 8) {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: '',
               other: '',
               files: '',
@@ -324,7 +331,7 @@ export default {
           } else {
             data.answers.push({
               fieldId: field.id,
-              type:field.type,
+              type: field.type,
               name: '',
               other: '',
               files: '',
@@ -389,28 +396,24 @@ export default {
           id: 8
         }
       ],
-      files:[]
+      files: []
     }
   },
   computed: {
     answeredQuestion () {
       return this.answers.filter((v) => {
-        if(v.type < 5) {
+        if (v.type < 5) {
           if (typeof v.name === 'object') {
             return !!v.name.map(x => x).length
           } else {
             return !!v.name
           }
-        }
-        else if(v.type == 5) return !!v.files
-        else if(v.type == 6) return !!v.scale
-        else if(v.type == 7) return !!v.date
-        else if(v.type == 8) return !!v.time
+        } else if (v.type === 5) { return !!v.files } else if (v.type === 6) { return !!v.scale } else if (v.type === 7) { return !!v.date } else if (v.type === 8) { return !!v.time }
       }).length
     },
-    label() {
-      let fileNames = [];
-      for (let file of this.files) {
+    label () {
+      const fileNames = []
+      for (const file of this.files) {
         fileNames.push(file.name)
       }
       return fileNames.length ? fileNames.join(', ') : 'Select file'
@@ -433,30 +436,28 @@ export default {
       }
       return warning
     },
-    whichField(type, i){
-      if(type < 5) return this.falsyValue(this.answers[i].name,type)
-      if(type === 5) return this.falsyValue(this.answers[i].files,type)
-      if(type === 6) return this.falsyValue(this.answers[i].scale,type)
-      if(type === 7) return this.falsyValue(this.answers[i].date,type)
-      if(type === 8) return this.falsyValue(this.answers[i].time,type)
+    whichField (type, i) {
+      if (type < 5) { return this.falsyValue(this.answers[i].name, type) }
+      if (type === 5) { return this.falsyValue(this.answers[i].files, type) }
+      if (type === 6) { return this.falsyValue(this.answers[i].scale, type) }
+      if (type === 7) { return this.falsyValue(this.answers[i].date, type) }
+      if (type === 8) { return this.falsyValue(this.answers[i].time, type) }
       return false
     },
     falsyValue (value, type) {
-      if (typeof value === 'object' && type != 5) {
+      if (typeof value === 'object' && type !== 5) {
         return !value.map(x => x).length
+      } else if (type === 5 && typeof value === 'object' && value[0].length > 0) {
+        return !value
       } else {
-        if(type === 5 && typeof value === 'object' && value[0].length > 0){
-          return !value
-        }else{
-          return !value
-        }
+        return !value
       }
     },
     sendResponse () {
       this.checkRequiredFields()
       console.log(this.answers)
     },
-    setFiles(index){
+    setFiles (index) {
       this.files = event.target.files
       this.answers[index].files = this.files
     }
