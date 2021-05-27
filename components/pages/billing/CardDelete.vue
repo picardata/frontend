@@ -10,7 +10,7 @@
         <div class="row">
           <div class="col-md-12">
             <h5 class="parent-title">
-                <span class="first-title">Juara dunia</span>
+                <span class="first-title" style="font-size: 20px;">Are you sure want to delete this card?</span>
             </h5>
           </div>
         </div>
