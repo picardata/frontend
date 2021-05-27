@@ -1,5 +1,5 @@
 <template>
-    <modal :show.sync="modals.delete">
+    <modal :show.sync="modals.delete" :show-close="false">
       <template slot="header">
         <h5 class="modal-title">
           Delete card
