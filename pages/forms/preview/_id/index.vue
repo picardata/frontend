@@ -39,8 +39,9 @@
               <h3 v-if="field.required == 1" class="d-inline" style="color: red">
                 *
               </h3>
+              <label v-if="shortField[index].description != ''" class="d-block text-muted" style="font-size: 12px;">{{ shortField[index].description }}</label>
             </div><br>
-            <div v-if="field.type === 0" class="form-group">
+            <div v-if="field.type === 0" class="form-group scroll-horizontal">
               <input
                 v-model="answers[index].name"
                 type="text"
@@ -50,7 +51,7 @@
                 style="width:42.5em"
               >
             </div>
-            <div v-if="field.type === 1" class="form-group">
+            <div v-if="field.type === 1" class="form-group scroll-horizontal">
               <input
                 v-model="answers[index].name"
                 type="text"
@@ -110,6 +111,65 @@
                 </select>
               </div>
             </div>
+            <div v-if="field.type === 5" class="form-group">
+              <div style="width:25em" class="file-upload">
+                <br>
+                <div class="custom-file">
+                  <input type="file"
+                         class="custom-file-input"
+                         id="customFileLang"
+                         lang="en"
+                         @change="setFiles(index)"
+                  />
+                  <label class="custom-file-label" for="customFileLang">
+                    {{label}}
+                  </label>
+                </div>
+                <label class="mt-2 text-muted ">Allowing types :</label>
+                <ul class="list-type text-muted ">
+                  <li v-for="(checkbox, check_key) in shortField[index].uploads.checkboxValue" :key="check_key" class="text-muted ">
+                    {{ types[checkbox-1].name }} <span v-if="check_key < (shortField[index].uploads.checkboxValue.length - 1)">,</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div v-if="field.type === 6" class="form-group">
+              <div style="width:32em;" class="linear-scale scroll-horizontal">
+                <br>
+                <div class="text-center">
+                  <div class="d-inline">{{ shortField[index].linear.label1 }}</div>
+                  <div v-for="n in shortField[index].linear.toValue" class="d-inline">
+                    <base-radio v-model="answers[index].scale"
+                                :name="n"
+                                class="mb-3 d-inline">
+                      {{ n }}
+                    </base-radio>
+                  </div>
+                  <div class="d-inline ml-4">{{ shortField[index].linear.label2 }}</div>
+                </div>
+              </div>
+            </div>
+            <div v-if="field.type === 7" class="form-group">
+              <div style="width: 25em" class="field-dates">
+                <br>
+                <base-input
+                    v-model="answers[index].date"
+                    id="example-date-input"
+                    type="date"
+                    placeholder="Day, month, year"
+                />
+              </div>
+            </div>
+            <div v-if="field.type === 8" class="form-group">
+              <div style="width: 25em" class="field-dates">
+                <br>
+                <base-input
+                    v-model="answers[index].time"
+                    id="example-time-input"
+                    type="time"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -146,34 +206,139 @@ export default {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {
         data.answers = []
+        data.shortField = []
         data.fields = data.fields.filter((field) => {
           field.errors = []
           field.fieldChoices = field.fieldChoices.filter((choice) => {
             return choice.status === 1
           })
+          field.fieldTexts = field.fieldTexts.filter((y) => {
+            return y.status === 1
+          })
+          field.fieldUploads = field.fieldUploads.filter((y) => {
+            y.checkboxValue = JSON.parse(y.checkboxValue)
+            return y.status === 1
+          })
+          field.fieldLinearScales = field.fieldLinearScales.filter((y) => {
+            return y.status === 1
+          })
+          field.fieldDates = field.fieldDates.filter((y) => {
+            return y.status === 1
+          })
           return field.status === 1
         })
 
         data.fields.map((field) => {
-          if (field.type === 3) {
+          if (field.type === 0 || field.type === 1) {
             data.answers.push({
               fieldId: field.id,
+              type:field.type,
+              name: '',
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              description: field.fieldTexts[0].description,
+              image: field.fieldTexts[0].image
+            })
+          } else if (field.type === 3) {
+            data.answers.push({
+              fieldId: field.id,
+              type:field.type,
               name: [],
-              other: ''
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              description: '',
+              image: ''
             })
           } else if (field.type === 4) {
             data.answers.push({
               fieldId: field.id,
-              name: field.fieldChoices[0].name
+              type:field.type,
+              name: field.fieldChoices[0].name,
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              description: '',
+              image: ''
+            })
+          } else if (field.type === 5) {
+            data.answers.push({
+              fieldId: field.id,
+              type:field.type,
+              name: '',
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              uploads: field.fieldUploads[0],
+              description: field.fieldUploads[0].description,
+              image: field.fieldUploads[0].image
+            })
+          } else if (field.type === 6) {
+            data.answers.push({
+              fieldId: field.id,
+              type:field.type,
+              name: '',
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              linear: field.fieldLinearScales[0],
+              description: field.fieldLinearScales[0].description,
+              image: field.fieldLinearScales[0].image
+            })
+          } else if (field.type === 7 || field.type === 8) {
+            data.answers.push({
+              fieldId: field.id,
+              type:field.type,
+              name: '',
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              date: field.fieldDates[0],
+              description: field.fieldDates[0].description,
+              image: field.fieldDates[0].image
             })
           } else {
             data.answers.push({
               fieldId: field.id,
+              type:field.type,
               name: '',
-              other: ''
+              other: '',
+              files: '',
+              scale: '',
+              date: '',
+              time: ''
+            })
+            data.shortField.push({
+              description: '',
+              image: ''
             })
           }
         })
+        console.log(data)
         return data
       })
       .catch(e => console.log(e))
@@ -189,18 +354,66 @@ export default {
           name: 'Preview',
           path: '/forms/' + this.$route.params.id
         }
-      ]
+      ],
+      types: [
+        {
+          name: 'Document',
+          id: 1
+        },
+        {
+          name: 'PDF',
+          id: 2
+        },
+        {
+          name: 'Drawing',
+          id: 3
+        },
+        {
+          name: 'Video',
+          id: 4
+        },
+        {
+          name: 'Spreadsheet',
+          id: 5
+        },
+        {
+          name: 'Presentation',
+          id: 6
+        },
+        {
+          name: 'Image',
+          id: 7
+        },
+        {
+          name: 'Audio',
+          id: 8
+        }
+      ],
+      files:[]
     }
   },
   computed: {
     answeredQuestion () {
       return this.answers.filter((v) => {
-        if (typeof v.name === 'object') {
-          return !!v.name.map(x => x).length
-        } else {
-          return !!v.name
+        if(v.type < 5) {
+          if (typeof v.name === 'object') {
+            return !!v.name.map(x => x).length
+          } else {
+            return !!v.name
+          }
         }
+        else if(v.type == 5) return !!v.files
+        else if(v.type == 6) return !!v.scale
+        else if(v.type == 7) return !!v.date
+        else if(v.type == 8) return !!v.time
       }).length
+    },
+    label() {
+      let fileNames = [];
+      for (let file of this.files) {
+        fileNames.push(file.name)
+      }
+      return fileNames.length ? fileNames.join(', ') : 'Select file'
     }
   },
   methods: {
@@ -213,23 +426,39 @@ export default {
     checkRequiredFields () {
       let warning = 0
       for (const i in this.fields) {
-        if (this.falsyValue(this.answers[i].name) && this.fields[i].required) {
+        if (this.whichField(this.fields[i].type, i) && this.fields[i].required) {
           this.fields[i].errors.push('This form is required')
           warning++
         }
       }
       return warning
     },
-    falsyValue (value) {
-      if (typeof value === 'object') {
+    whichField(type, i){
+      if(type < 5) return this.falsyValue(this.answers[i].name,type)
+      if(type === 5) return this.falsyValue(this.answers[i].files,type)
+      if(type === 6) return this.falsyValue(this.answers[i].scale,type)
+      if(type === 7) return this.falsyValue(this.answers[i].date,type)
+      if(type === 8) return this.falsyValue(this.answers[i].time,type)
+      return false
+    },
+    falsyValue (value, type) {
+      if (typeof value === 'object' && type != 5) {
         return !value.map(x => x).length
       } else {
-        return !value
+        if(type === 5 && typeof value === 'object' && value[0].length > 0){
+          return !value
+        }else{
+          return !value
+        }
       }
     },
     sendResponse () {
       this.checkRequiredFields()
       console.log(this.answers)
+    },
+    setFiles(index){
+      this.files = event.target.files
+      this.answers[index].files = this.files
     }
   }
 }
@@ -319,5 +548,38 @@ input.form-control:focus {
   border: 2px solid #2A00A2;
   font-weight: 600;
   color: #2A00A2;
+}
+.file-upload label.text-muted{
+  font-size: 12px;
+}
+.file-upload .custom-file-label{
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.list-type {
+  display: inline;
+  padding-left:5px;
+}
+.list-type li{
+  display:inline;
+  list-style: none;
+  font-size: 12px;
+}
+.linear-scale{
+  height: 85px;
+}
+.scroll-horizontal{
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+</style>
+
+<style>
+.linear-scale .custom-control-label::before,
+.linear-scale .custom-control-label::after{
+  left: -3px !important;
+  top: 25px !important;
 }
 </style>

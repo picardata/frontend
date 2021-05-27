@@ -1,22 +1,6 @@
 <template>
   <div class="col-8">
     <div v-for="(scale, index) in question.fieldLinearScales" :key="index">
-      <div class="row mt-3">
-        <div class="col-sm-11">
-          Allow only specific file types
-        </div>
-        <div class="col-sm-1 text-right pr-0">
-          <b-form-checkbox
-            v-model="scale.allow_spec"
-            name="check-button"
-            class="d-inline text-primary font-weight-600 pr-0"
-            switch
-            @change="submitScale(scale, question.id)"
-          >
-            <span class="button-required" />
-          </b-form-checkbox>
-        </div>
-      </div>
       <div class="row mt-3 type-dropdown">
         <div class="col-sm-2">
           <button
@@ -31,12 +15,16 @@
           </button>
           <div class="dropdown-menu">
             <a
-              v-for="nums in list_number"
-              :key="nums.id"
               class="dropdown-item"
-              @click="change_from(scale, nums.id)"
+              @click="change_from(scale, 0)"
             >
-              {{ nums.id }}
+              0
+            </a>
+            <a
+                class="dropdown-item"
+                @click="change_from(scale, 1)"
+            >
+              1
             </a>
           </div>
         </div>
@@ -128,17 +116,7 @@ export default {
         { id: 7 },
         { id: 8 },
         { id: 9 },
-        { id: 10 },
-        { id: 11 },
-        { id: 12 },
-        { id: 13 },
-        { id: 14 },
-        { id: 15 },
-        { id: 16 },
-        { id: 17 },
-        { id: 18 },
-        { id: 19 },
-        { id: 20 }
+        { id: 10 }
       ]
     }
   },
@@ -151,8 +129,8 @@ export default {
         allowSpecificTypes: scale.allow_spec ? 1 : 0,
         fromValue: scale.fromValue,
         toValue: scale.toValue,
-        label1: scale.label1 === '' ? null : '',
-        label2: scale.label2 === '' ? null : '',
+        label1: scale.label1 === '' ? null : scale.label1,
+        label2: scale.label2 === '' ? null : scale.label2,
         field: fieldId,
         description: this.question.descText,
         image: scale.image
