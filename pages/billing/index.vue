@@ -96,7 +96,7 @@
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
             <div class="col-12">
-<!--              <CardList />-->
+              <!--              <CardList />-->
             </div>
           </div>
 
@@ -115,15 +115,14 @@
 <script>
 import loaderMixin from '~/mixins/loader'
 import InvoiceList from '~/components/pages/billing/InvoiceList'
-import CardList from '~/components/pages/billing/CardList'
+// import CardList from '~/components/pages/billing/CardList'
 
 export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
   components: {
-    InvoiceList,
-    CardList
+    InvoiceList
   },
   mixins: [
     loaderMixin
