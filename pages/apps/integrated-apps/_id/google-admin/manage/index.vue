@@ -83,6 +83,24 @@
             </div>
           </div>
         </div>
+        <div class="card col-12 mt-3">
+          <div class="card-body">
+            <div class="card-title">
+              <h4 id="settings">
+                Manual Sync
+              </h4>
+            </div>
+            <div class="card-text">
+              <div class="row">
+                <div class="col-12">
+                  <base-button type="primary" @click="syncGoogleUsers">
+                    Sync Google Users
+                  </base-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <modal :show.sync="modals.uninstall">
@@ -163,6 +181,9 @@ export default {
         .then(res => console.log(res))
         .catch(e => console.log(e))
       this.$router.push('/apps/integrated-apps')
+    },
+    async syncGoogleUsers () {
+      await this.$axios.$post('/api/integration-users/google-integration-users')
     }
   }
 }
@@ -172,3 +193,4 @@ export default {
   font-size: 28px;
 }
 </style>
+/api/integration-users/google-integration-users
