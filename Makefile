@@ -16,7 +16,7 @@ destroy:
 	cd container && docker-compose down
 
 build-dev:
-	cd container && docker -D build --tag picardata/frontend:latest .
+	cd container && docker -D build --target builder --tag picardata/frontend:latest .
 
 lint:
 	yarn lint -- --fix
