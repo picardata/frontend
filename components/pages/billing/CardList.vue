@@ -23,7 +23,7 @@
           </thead>
           <tbody>
             <template v-if="showAll">
-              <tr v-for="(card, index) in cards" :key="index + cards.date">
+              <tr v-for="(card, index) in cards" :key="card.id">
                 <td>{{ card.number }}</td>
                 <td> {{ card.expired }} </td>
                 <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
@@ -32,13 +32,13 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(index)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card.id)"><i class="fa fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
             </template>
             <template v-else>
-              <tr v-for="card in 3" :key="card">
+              <tr v-for="card in this.totalToDisplay" :key="card">
                 <td>{{ cards[card - 1].number }}</td>
                 <td> {{ cards[card - 1].expired }} </td>
                 <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
@@ -47,7 +47,7 @@
                   <span v-else class="card-option">
                   <a class="color-primary" href="#">Set as default</a>
                   |
-                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(card - 1)"><i class="fa fa-trash-alt"></i></a>
+                  <a class="delete-icon" href="#" @click.prevent="showModalDelete(cards[card].id)"><i class="fa fa-trash-alt"></i></a>
                 </span>
                 </td>
               </tr>
@@ -60,84 +60,20 @@
       </div>
     </div>
 
-    <modal :show.sync="modals.delete">
-      <template slot="header">
-        <h5 class="modal-title">
-          Delete card
-        </h5>
-      </template>
-      <div>
-        Are you sure want to delete this card?
-      </div>
-      <template slot="footer">
-        <base-button type="secondary" @click="modals.delete = false">
-          Cancel
-        </base-button>
-        <base-button type="danger" @click="deleteUser">
-          Delete
-        </base-button>
-      </template>
-    </modal>
+    <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="updateData"/>
   </div>
 </template>
 
 <script>
 export default {
   name: "InvoiceList",
+  async fetch () {
+    await this.updateData();
+  },
   data () {
     return {
-      cards: [
-        {
-          number: '****1251',
-          expired: '1/2025',
-          isDefault: true,
-        },
-        {
-          number: '****1252',
-          expired: '2/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1253',
-          expired: '3/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1254',
-          expired: '4/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1255',
-          expired: '5/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1256',
-          expired: '6/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1257',
-          expired: '7/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1258',
-          expired: '8/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1259',
-          expired: '9/2025',
-          isDefault: false,
-        },
-        {
-          number: '****1250',
-          expired: '10/2025',
-          isDefault: false,
-        },
-      ],
+      cards: [],
+      totalToDisplay: 3,
       modals: {
         delete: false
       },
@@ -148,11 +84,47 @@ export default {
   methods: {
     showModalDelete (id) {
       this.modals.delete = true
+      console.log('id = ')
+      console.log(id)
       this.selectedCard = id
     },
     deleteUser () {
       this.cards.splice(this.selectedCard, 1)
       this.modals.delete = false
+    },
+    async updateData() {
+      const cardsRaw = await this.$axios.get('/api/billings/cards')
+
+      // console.log('cards raw = ')
+      const cards = cardsRaw.data.cards
+
+      const newCards = []
+      for(let i=0;i<cards.length;i++) {
+        const card = cards[i]
+
+        console.log('card = ')
+        console.log(card)
+        newCards.push({
+          id: card.id,
+          number: `****${card.last4}`,
+          expired: `${card.exp_month}/${card.exp_year}`,
+          isDefault: false        
+        })
+      }
+      // console.log('cards = ')
+      // console.log(newCards)
+
+      if(newCards.length > 0) {
+        newCards[0].isDefault = true;
+      }
+
+      console.log('new cards =')
+      console.log(newCards)
+
+      this.cards = newCards
+      if (newCards.length <= 3) {
+        this.totalToDisplay = newCards.length
+      }
     }
   }
 }
