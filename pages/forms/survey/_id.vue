@@ -98,11 +98,11 @@
                   <br>
                   <div class="custom-file">
                     <input
-                        id="customFileLang"
-                        type="file"
-                        class="custom-file-input"
-                        lang="en"
-                        @change="setFiles(index)"
+                      id="customFileLang"
+                      type="file"
+                      class="custom-file-input"
+                      lang="en"
+                      @change="setFiles(index)"
                     >
                     <label class="custom-file-label" for="customFileLang">
                       {{ label }}
@@ -125,9 +125,9 @@
                     </div>
                     <div v-for="(n,n_key) in shortField[index].linear.toValue" :key="n_key" class="d-inline">
                       <base-radio
-                          v-model="answers[index].scale"
-                          :name="n"
-                          class="mb-3 d-inline"
+                        v-model="answers[index].scale"
+                        :name="n"
+                        class="mb-3 d-inline"
                       >
                         {{ n }}
                       </base-radio>
@@ -142,10 +142,10 @@
                 <div style="width: 25em" class="field-dates">
                   <br>
                   <base-input
-                      id="example-date-input"
-                      v-model="answers[index].date"
-                      type="date"
-                      placeholder="Day, month, year"
+                    id="example-date-input"
+                    v-model="answers[index].date"
+                    type="date"
+                    placeholder="Day, month, year"
                   />
                 </div>
               </div>
@@ -153,9 +153,9 @@
                 <div style="width: 25em" class="field-dates">
                   <br>
                   <base-input
-                      id="example-time-input"
-                      v-model="answers[index].time"
-                      type="time"
+                    id="example-time-input"
+                    v-model="answers[index].time"
+                    type="time"
                   />
                 </div>
               </div>
@@ -336,7 +336,7 @@ export default {
       })
       .catch(e => console.log(e))
   },
-  data() {
+  data () {
     return {
       types: [
         {
@@ -396,10 +396,10 @@ export default {
       if (errors === 0) {
         await this.answers.map((v, i) => {
           let name = v.name
-          let files = v.files
-          let scale = v.scale
-          let date = v.date
-          let time = v.time
+          const files = v.files
+          const scale = v.scale
+          const date = v.date
+          const time = v.time
           if (typeof name === 'object') {
             name = name.map((a) => {
               if (a === 'Other') {
@@ -415,16 +415,16 @@ export default {
           this.$axios.$post('/api/field-answers/', {
             name: typeof name === 'object' ? name.join(',') : name,
             fileName: typeof files === 'object' ? files[0].name : '',
-            scale: scale,
-            date: date,
-            time: time,
+            scale,
+            date,
+            time,
             formRespondent: this.$route.params.id,
             field: this.fields[i].id
           })
-              .then(() => {
-                this.$router.push('/forms/survey/thank-you?form=' + this.id)
-              })
-              .catch(res => console.log(res))
+            .then(() => {
+              this.$router.push('/forms/survey/thank-you?form=' + this.id)
+            })
+            .catch(res => console.log(res))
         })
       }
     },
