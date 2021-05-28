@@ -70,6 +70,15 @@ export default {
   async fetch () {
     await this.updateData();
   },
+  // mounted() {
+  //   this.$notify({
+  //       verticalAlign: 'bottom', 
+  //       horizontalAlign: 'left', 
+  //       message: 'Card succesfully deleted', 
+  //       showClose:true,
+  //       timeout: 99999999,
+  //       closeOnClick: false});
+  // },
   data () {
     return {
       cards: [],
@@ -88,6 +97,7 @@ export default {
         verticalAlign: 'bottom', 
         horizontalAlign: 'left', 
         message: 'Card succesfully deleted', 
+        type: 'info',
         showClose:false});
     },
     showModalDelete (id) {

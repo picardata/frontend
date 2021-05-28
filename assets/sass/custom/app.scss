@@ -120,8 +120,25 @@ select.picardata-input-rounded {
 }
 
 
-.alert-info {
-  background-color: #2534b6;
+.notifications  {
+  button {
+    display: none;
+  }
+
+  .alert-text {
+    margin: auto;
+    color: #FCFCFC;
+  }
+
+  .alert {
+    width: 374px;
+    height: 70px;
+  }
+
+  .alert-info {
+    background: #3E4EDD;
+    border-radius: 16px;
+  }  
 }
 
 .picardata-std-modal, .picardata-delete-modal {
