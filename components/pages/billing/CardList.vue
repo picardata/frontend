@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card-list">
     <div class="row">
       <div class="col-6">
         <h1>Manage Cards</h1>
@@ -61,9 +61,6 @@
     </div>
 
     <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="deleteCreditCard"/>
-    <base-alert type="primary" style="width: 22%" v-if="showDeleteAlert">
-        <span style="margin: auto;">Card succesfully deleted</span>
-    </base-alert>
   </div>
 </template>
 
@@ -81,15 +78,17 @@ export default {
         delete: false
       },
       showAll: false,
-      selectedCard: 0,
-      showDeleteAlert: false
+      selectedCard: 0
     }
   },
   methods: {
     async deleteCreditCard() {
       await this.updateData();
-      this.showDeleteAlert = true;
-      setTimeout(() => { this.showDeleteAlert = false; }, 2000);
+      this.$notify({
+        verticalAlign: 'bottom', 
+        horizontalAlign: 'left', 
+        message: 'Card succesfully deleted', 
+        showClose:false});
     },
     showModalDelete (id) {
       this.modals.delete = true
@@ -142,6 +141,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 h1{
   font-size: 20px;
   font-style: normal;
