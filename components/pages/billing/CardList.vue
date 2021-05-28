@@ -60,7 +60,10 @@
       </div>
     </div>
 
-    <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="updateData"/>
+    <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="deleteCreditCard"/>
+    <base-alert type="primary" style="width: 22%" v-if="showDeleteAlert">
+        <span style="margin: auto;">Card succesfully deleted</span>
+    </base-alert>
   </div>
 </template>
 
@@ -78,10 +81,16 @@ export default {
         delete: false
       },
       showAll: false,
-      selectedCard: 0
+      selectedCard: 0,
+      showDeleteAlert: false
     }
   },
   methods: {
+    async deleteCreditCard() {
+      await this.updateData();
+      this.showDeleteAlert = true;
+      setTimeout(() => { this.showDeleteAlert = false; }, 2000);
+    },
     showModalDelete (id) {
       this.modals.delete = true
       console.log('id = ')
