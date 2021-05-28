@@ -88,7 +88,7 @@ export default {
         verticalAlign: 'bottom', 
         horizontalAlign: 'left', 
         message: 'Card successfully deleted', 
-        type: 'info',
+        type: 'success',
         showClose:false});
     },
     showModalDelete (id) {
