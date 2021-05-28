@@ -8,6 +8,7 @@
             v-model="dates.dateValue"
             type="date"
             placeholder="Day, month, year"
+            disabled="disabled"
             @blur="submitDate(dates, question.id)"
           />
         </div>
@@ -19,6 +20,7 @@
             v-model="dates.timeValue"
             type="time"
             value="10:30:00"
+            disabled="disabled"
             @blur="submitDate(dates, question.id)"
           />
         </div>
