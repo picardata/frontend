@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <notifications />
     <div class="main-content">
       <nuxt />
     </div>
@@ -9,6 +10,7 @@
 /* eslint-disable no-new */
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import { mapState } from 'vuex'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -29,6 +31,9 @@ export default {
   mounted () {
     this.initScrollbar()
   },
+  computed: {
+    ...mapState('loader', ['isLoading', 'refCount'])
+  },
   methods: {
     initScrollbar () {
       const isWindows = navigator.platform.startsWith('Win')
@@ -39,5 +44,5 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style scoped>
 </style>
