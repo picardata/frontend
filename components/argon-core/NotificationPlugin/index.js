@@ -51,10 +51,19 @@ const NotificationsPlugin = {
       methods: {
         notify(notification) {
           this.notificationStore.notify(notification);
+        },
+        notifySuccess(message) {
+          this.notify({
+            verticalAlign: 'bottom', 
+            horizontalAlign: 'left', 
+            message: message, 
+            type: 'success',
+            showClose:false});
         }
       }
     });
     Vue.prototype.$notify = app.notify;
+    Vue.prototype.$notifySuccess = app.notifySuccess;
     Vue.prototype.$notifications = app.notificationStore;
     Vue.component('Notifications', Notifications);
     if (options) {

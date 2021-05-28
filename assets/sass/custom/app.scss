@@ -119,6 +119,33 @@ select.picardata-input-rounded {
   }  
 }
 
+
+.notifications  {
+  button {
+    display: none;
+  }
+
+  .alert-text {
+    margin: auto;
+    color: #FCFCFC;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 32px;
+  }
+
+  .alert {
+    width: 374px;
+    height: 70px;
+  }
+
+  .alert-success {
+    background: #3E4EDD;
+    border-radius: 16px;
+  }  
+}
+
 .picardata-std-modal, .picardata-delete-modal {
   .first-title {
     color: #181C3B;
