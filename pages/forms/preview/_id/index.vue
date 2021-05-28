@@ -36,7 +36,7 @@
               <h3 class="d-inline">
                 {{ field.name }}
               </h3>
-              <h3 v-if="field.required === 1" class="d-inline" style="color: red">
+              <h3 v-if="field.required == 1" class="d-inline" style="color: red">
                 *
               </h3>
               <label v-if="shortField[index].description !== ''" class="d-block text-muted" style="font-size: 12px;">{{ shortField[index].description }}</label>
@@ -120,18 +120,22 @@
                     type="file"
                     class="custom-file-input"
                     lang="en"
+                    multiple=""
                     @change="setFiles(index)"
                   >
                   <label class="custom-file-label" for="customFileLang">
                     {{ label }}
                   </label>
                 </div>
-                <label class="mt-2 text-muted ">Allowing types :</label>
+                <label class="mt-2 text-muted " v-if="shortField[index].uploads.checkboxValue.length > 0">Allowing types is</label>
                 <ul class="list-type text-muted ">
                   <li v-for="(checkbox, check_key) in shortField[index].uploads.checkboxValue" :key="check_key" class="text-muted ">
                     {{ types[checkbox-1].name }} <span v-if="check_key < (shortField[index].uploads.checkboxValue.length - 1)">,</span>
                   </li>
                 </ul>
+                <div>
+                  <label class="mt-2 text-muted " v-if="shortField[index].uploads.maxSize > 0"> Max file size is {{ shortField[index].uploads.maxSize }}mb </label>
+                </div>
               </div>
             </div>
             <div v-if="field.type === 6" class="form-group">
@@ -430,8 +434,10 @@ export default {
       let warning = 0
       for (const i in this.fields) {
         if (this.whichField(this.fields[i].type, i) && this.fields[i].required) {
-          this.fields[i].errors.push('This form is required')
+          this.fields[i].errors.length <= 0 ? this.fields[i].errors.push('This form is required') : ''
           warning++
+        }else{
+          this.fields[i].errors = [];
         }
       }
       return warning
@@ -447,7 +453,7 @@ export default {
     falsyValue (value, type) {
       if (typeof value === 'object' && type !== 5) {
         return !value.map(x => x).length
-      } else if (type === 5 && typeof value === 'object' && value[0].length > 0) {
+      } else if (type === 5 && typeof value === 'object' && value[0] && value[0].length > 0) {
         return !value
       } else {
         return !value
@@ -458,8 +464,38 @@ export default {
       console.log(this.answers)
     },
     setFiles (index) {
-      this.files = event.target.files
+      this.files = [...new Set(event.target.files)]
+      this.isFileNumberLimited(index)
+      this.isFileSizeLimited(index)
       this.answers[index].files = this.files
+    },
+    isFileNumberLimited(index){
+      if(this.files.length > this.shortField[index].uploads.maxNumber){
+        this.files = []
+        this.notifyVue('danger','You can only upload a maximum of '+this.shortField[index].uploads.maxNumber+' files')
+        return false
+      }
+      return true
+    },
+    isFileSizeLimited(index){
+      let returns = true;
+      this.files.map((file) => {
+        if(file.size > (this.shortField[index].uploads.maxSize*1048576)){
+          returns = false;
+        }
+      })
+      if(!returns){
+        this.files = []
+        this.notifyVue('danger','Maximum file size is '+this.shortField[index].uploads.maxSize+'mb')
+      }
+      return returns
+    },
+    notifyVue(type = 'default',message) {
+      this.$notify({
+        message:message,
+        timeout: 5000,
+        type
+      });
     }
   }
 }
