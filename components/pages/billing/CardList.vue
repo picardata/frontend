@@ -84,12 +84,7 @@ export default {
   methods: {
     async deleteCreditCard() {
       await this.updateData();
-      this.$notify({
-        verticalAlign: 'bottom', 
-        horizontalAlign: 'left', 
-        message: 'Card successfully deleted', 
-        type: 'success',
-        showClose:false});
+      this.$notifySuccess('Card successfully deleted');
     },
     showModalDelete (id) {
       this.modals.delete = true
