@@ -1,0 +1,99 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - sit
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Get yarn cache directory path 🛠
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies 👨🏻‍💻
+        run: yarn
+
+      - name: Run linter 👀
+        run: yarn lint
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: picardata/frontend
+          IMAGE_TAG: sit.${{ github.run_number }}
+          GITHUB_TOKEN: ${{ secrets.FRONTEND_GITHUB_TOKEN }}
+        run: |
+          yarn build
+          DOCKER_BUILDKIT=1 docker -D build  --target production \
+            --tag 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to SIT server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SIT_IP }}
+          username: "emewuser"
+          port: "22"
+          key: ${{ secrets.EMEW_SSH_KEY }}
+          passphrase: ${{ secrets.EMEW_SSH_PASSPHRASE }}
+          script: |
+            hostname && aws ecr get-login-password --region ap-southeast-1 \
+              | docker login --username AWS \
+              --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
+              && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:sit.${{ github.run_number }} \
+              && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
+              --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.picardata.com" \
+              -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:sit.${{ github.run_number }} yarn start
+      - name: Notify Discord On Failure
+        if: ${{ failure() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.SIT_DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: Github Actions
+          DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          DISCORD_EMBEDS: '[{"title":"[SIT] Frontend sit.${{ github.run_number }} Failed","color":13369344,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application deployment with version sit.${{ github.run_number }} failed."}]'
+        uses: Ilshidur/action-discord@master
+      - name: Notify Discord On Success
+        if: ${{ success() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.SIT_DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: Github Actions
+          DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          DISCORD_EMBEDS: '[{"title":"[SIT] Frontend sit.${{ github.run_number }} Successful","color":52224,"author":{"name":"Author: ${{ github.actor }}"},"description":"The Frontend application with version sit.${{ github.run_number }} has been deployed."}]'
+        uses: Ilshidur/action-discord@master

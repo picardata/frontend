@@ -2,8 +2,7 @@ name: ci
 
 on:
   pull_request:
-    branches:
-      - master
+    branches: [ sit, master ]
 
 jobs:
   ci:
