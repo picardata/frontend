@@ -95,10 +95,13 @@
               />
             </div>
             <div class="form-group mt-4">
-              <div class=""><input type="checkbox" @click="handleTermAndPrivacy" v-model="termAndPrivacy"/></div>
-              <div>
-              By Continuing, you confirm and acknowledge that you have read and you agree to our <a href="https://drive.google.com/file/d/11qIsXocRG6EtkpdhH1649HVC5VgAB4Vp/view?usp=sharing" target="_blank">terms of services</a> and <a href="https://drive.google.com/file/d/1qOjaPGbIyLNNlVV4AeWN3CUz9Lkt4VQd/view?usp=sharing" target="_blank">privacy policy</a>.</div>
+              <div class="">
+                <input v-model="termAndPrivacy" type="checkbox" @click="handleTermAndPrivacy">
               </div>
+              <div>
+                By Continuing, you confirm and acknowledge that you have read and you agree to our <a href="https://drive.google.com/file/d/11qIsXocRG6EtkpdhH1649HVC5VgAB4Vp/view?usp=sharing" target="_blank">terms of services</a> and <a href="https://drive.google.com/file/d/1qOjaPGbIyLNNlVV4AeWN3CUz9Lkt4VQd/view?usp=sharing" target="_blank">privacy policy</a>.
+              </div>
+            </div>
 
             <button
               type="button"
@@ -319,13 +322,13 @@ export default {
       this.errors.password = ''
       return true
     },
-    isFieldValid() {
+    isFieldValid () {
       return this.isEmailFormatValid(this.username) &&
           this.isPasswordLengthValid(this.password) &&
           this.isPasswordLengthValid(this.passwordAgain) &&
           this.isPasswordFormatValid(this.password) &&
           this.isPasswordFormatValid(this.passwordAgain) &&
-          this.isPasswordMatched(this.password, this.passwordAgain);
+          this.isPasswordMatched(this.password, this.passwordAgain)
     },
     validateForRegisterButton () {
       if (this.isEmailFormatValid(this.username) &&
@@ -366,9 +369,9 @@ export default {
         }, 500)
       })
     },
-    handleTermAndPrivacy() {
-      if(this.isFieldValid()
-         && !this.termAndPrivacy) {
+    handleTermAndPrivacy () {
+      if (this.isFieldValid() &&
+         !this.termAndPrivacy) {
         this.disableRegisterButton = false
       } else {
         this.disableRegisterButton = true
