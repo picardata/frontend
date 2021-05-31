@@ -1,8 +1,8 @@
 <template>
   <pie-chart
     :height="350"
-    :chart-data="financial.chartData"
-    :extra-options="financial.extraOptions"
+    :chart-data="totalIntegration.chartData"
+    :extra-options="totalIntegration.extraOptions"
   />
 </template>
 
@@ -14,36 +14,32 @@ function randomScalingFactor () {
   return Math.round(Math.random() * 100)
 }
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 export default {
   components: {
     PieChart
   },
+  async fetch() {
+    const totalIntegrationResult = await this.$axios.$get('/api/integrations/total-users/stats')
+    console.log('total integration result = ')
+    console.log(totalIntegrationResult)
+  },
   data () {
     return {
-      financial: {
+      totalIntegration: {
         chartData: {
-          labels: [
-            'Danger',
-            'Warning',
-            'Success',
-            'Primary',
-            'Info'
-          ],
+          labels: [],
           datasets: [{
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ],
-            backgroundColor: [
-              Charts.colors.theme.danger,
-              Charts.colors.theme.warning,
-              Charts.colors.theme.success,
-              Charts.colors.theme.primary,
-              Charts.colors.theme.info
-            ],
+            data: [],
+            backgroundColor: [],
             label: 'Dataset 1'
           }]
         },
