@@ -1,9 +1,9 @@
 <template>
-    <pie-chart
-        :height="350"
-        :chart-data="financial.chartData"
-        :extra-options="financial.extraOptions"
-    />
+  <pie-chart
+    :height="350"
+    :chart-data="financial.chartData"
+    :extra-options="financial.extraOptions"
+  />
 </template>
 
 <script>
@@ -16,8 +16,7 @@ function randomScalingFactor () {
 
 export default {
   components: {
-    PieChart,
-    Charts
+    PieChart
   },
   data () {
     return {
@@ -58,7 +57,7 @@ export default {
             animateRotate: true
           }
         }
-      },
+      }
     }
   }
 }
