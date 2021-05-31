@@ -95,7 +95,7 @@
               />
             </div>
             <div class="form-group mt-4">
-              <div class=""><input type="checkbox"/></div>
+              <div class=""><input type="checkbox" @click="handleTermAndPrivacy" v-model="termAndPrivacy"/></div>
               <div>
               By Continuing, you confirm and acknowledge that you have read and you agree to our terms of services and privacy policy.</div>
               </div>
@@ -151,7 +151,8 @@ export default {
       disableRegisterButton: true,
       username: '',
       password: '',
-      passwordAgain: ''
+      passwordAgain: '',
+      termAndPrivacy: false
     }
   },
   mounted () {
@@ -318,13 +319,22 @@ export default {
       this.errors.password = ''
       return true
     },
+    isFieldValid() {
+      return this.isEmailFormatValid(this.username) &&
+          this.isPasswordLengthValid(this.password) &&
+          this.isPasswordLengthValid(this.passwordAgain) &&
+          this.isPasswordFormatValid(this.password) &&
+          this.isPasswordFormatValid(this.passwordAgain) &&
+          this.isPasswordMatched(this.password, this.passwordAgain);
+    },
     validateForRegisterButton () {
       if (this.isEmailFormatValid(this.username) &&
           this.isPasswordLengthValid(this.password) &&
           this.isPasswordLengthValid(this.passwordAgain) &&
           this.isPasswordFormatValid(this.password) &&
           this.isPasswordFormatValid(this.passwordAgain) &&
-          this.isPasswordMatched(this.password, this.passwordAgain)) {
+          this.isPasswordMatched(this.password, this.passwordAgain) &&
+          this.termAndPrivacy) {
         this.disableRegisterButton = false
       } else {
         this.disableRegisterButton = true
@@ -355,6 +365,14 @@ export default {
           element.removeAttribute('readonly')
         }, 500)
       })
+    },
+    handleTermAndPrivacy() {
+      if(this.isFieldValid()
+         && !this.termAndPrivacy) {
+        this.disableRegisterButton = false
+      } else {
+        this.disableRegisterButton = true
+      }
     }
   }
 }
