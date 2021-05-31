@@ -382,13 +382,10 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Financial
+                          Total Users
                         </h5>
-                        <h6>
-                          Expenses
-                        </h6>
                       </div>
-                      <div class="col-4 d-inline float-right">
+                      <!-- <div class="col-4 d-inline float-right">
                         <base-input>
                           <el-select
                             v-model="selects.sixthWidget"
@@ -403,15 +400,11 @@
                             />
                           </el-select>
                         </base-input>
-                      </div>
+                      </div> -->
                     </div>
                   </template>
                   <div class="chart">
-                    <pie-chart
-                      :height="350"
-                      :chart-data="financial.chartData"
-                      :extra-options="financial.extraOptions"
-                    />
+                    <TotalIntegrationChart />
                   </div>
                 </card>
               </div>
@@ -426,8 +419,9 @@
 import { Select, Option } from 'element-ui'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
-import PieChart from '~/components/argon-core/Charts/PieChart'
+// import PieChart from '~/components/argon-core/Charts/PieChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
+import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
@@ -441,8 +435,8 @@ export default {
     Submenu,
     LineChart,
     BarChart,
-    PieChart,
     StatsCard,
+    TotalIntegrationChart,
     [Select.name]: Select,
     [Option.name]: Option
   },
