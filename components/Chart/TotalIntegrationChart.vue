@@ -1,7 +1,7 @@
 <template>
   <pie-chart
     :height="350"
-    :chart-data="totalIntegration.chartData"
+    :chart-data="chartData"
     :extra-options="totalIntegration.extraOptions"
   />
 </template>
@@ -31,18 +31,34 @@ export default {
     const totalIntegrationResult = await this.$axios.$get('/api/integrations/total-users/stats')
     console.log('total integration result = ')
     console.log(totalIntegrationResult)
+    
+    const labels = []
+    const data = []
+    const backgroundColor = []
+
+    for(let i=0;i<totalIntegrationResult.length;i++) {
+      const totalIntegration = totalIntegrationResult[i];
+
+      labels.push(totalIntegration.name)
+      data.push(totalIntegration.totalIntegration)
+      backgroundColor.push(getRandomColor())
+    }
+
+    this.chartData = {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: backgroundColor,
+            label: 'Total user this year'
+          }]
+        }
+
+    console.log(this.chartData)
   },
   data () {
     return {
+      chartData: null,
       totalIntegration: {
-        chartData: {
-          labels: [],
-          datasets: [{
-            data: [],
-            backgroundColor: [],
-            label: 'Dataset 1'
-          }]
-        },
         extraOptions: {
           responsive: true,
           legend: {
