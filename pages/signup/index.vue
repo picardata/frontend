@@ -94,6 +94,12 @@
                 v-html="errors.passwordAgain"
               />
             </div>
+            <div class="form-group mt-4">
+              <input v-model="termAndPrivacy" type="checkbox" @click="handleTermAndPrivacy">
+              <div>
+                By Continuing, you confirm and acknowledge that you have read and you agree to our <a href="https://drive.google.com/file/d/11qIsXocRG6EtkpdhH1649HVC5VgAB4Vp/view?usp=sharing" target="_blank">terms of services</a> and <a href="https://drive.google.com/file/d/1qOjaPGbIyLNNlVV4AeWN3CUz9Lkt4VQd/view?usp=sharing" target="_blank">privacy policy</a>.
+              </div>
+            </div>
 
             <button
               type="button"
@@ -146,7 +152,8 @@ export default {
       disableRegisterButton: true,
       username: '',
       password: '',
-      passwordAgain: ''
+      passwordAgain: '',
+      termAndPrivacy: false
     }
   },
   mounted () {
@@ -313,13 +320,22 @@ export default {
       this.errors.password = ''
       return true
     },
+    isFieldValid () {
+      return this.isEmailFormatValid(this.username) &&
+          this.isPasswordLengthValid(this.password) &&
+          this.isPasswordLengthValid(this.passwordAgain) &&
+          this.isPasswordFormatValid(this.password) &&
+          this.isPasswordFormatValid(this.passwordAgain) &&
+          this.isPasswordMatched(this.password, this.passwordAgain)
+    },
     validateForRegisterButton () {
       if (this.isEmailFormatValid(this.username) &&
           this.isPasswordLengthValid(this.password) &&
           this.isPasswordLengthValid(this.passwordAgain) &&
           this.isPasswordFormatValid(this.password) &&
           this.isPasswordFormatValid(this.passwordAgain) &&
-          this.isPasswordMatched(this.password, this.passwordAgain)) {
+          this.isPasswordMatched(this.password, this.passwordAgain) &&
+          this.termAndPrivacy) {
         this.disableRegisterButton = false
       } else {
         this.disableRegisterButton = true
@@ -350,6 +366,14 @@ export default {
           element.removeAttribute('readonly')
         }, 500)
       })
+    },
+    handleTermAndPrivacy () {
+      if (this.isFieldValid() &&
+         !this.termAndPrivacy) {
+        this.disableRegisterButton = false
+      } else {
+        this.disableRegisterButton = true
+      }
     }
   }
 }
