@@ -94,6 +94,11 @@
                 v-html="errors.passwordAgain"
               />
             </div>
+            <div class="form-group mt-4">
+              <div class=""><input type="checkbox"/></div>
+              <div>
+              By Continuing, you confirm and acknowledge that you have read and you agree to our terms of services and privacy policy.</div>
+              </div>
 
             <button
               type="button"
