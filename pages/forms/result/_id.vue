@@ -108,7 +108,7 @@
               <div class="mt-4">
                 <div v-for="(answer, ansId) in field.fieldAnswers" :key="answer.id + ansId" class="responded mb-3 fw-500">
                   <span v-if="field.type === 0 || field.type === 1">{{ answer.name }}</span>
-                  <span v-if="field.type === 5"><img :src="answer.fileName" /></span>
+                  <span v-if="field.type === 5"><img :src="answer.fileName"></span>
                   <span v-if="field.type === 7">{{ createdDateFormat(answer.date) }}</span>
                   <span v-if="field.type === 8">{{ answer.time }}</span>
                 </div>
@@ -224,33 +224,33 @@ function pieChartData (field) {
 }
 
 function barChartData (field) {
-  let answers = {}
+  const answers = {}
   let options = []
-  if(field.type === 6){
-    let to_value = field.fieldLinearScales[0].toValue
+  if (field.type === 6) {
+    const toValue = field.fieldLinearScales[0].toValue
     let n = 1
 
-    while(n <= to_value){
+    while (n <= toValue) {
       options.push(n)
       answers[n] = 0
       n++
     }
   }
   field.fieldAnswers.forEach((v) => {
-    if(field.type === 6){
+    if (field.type === 6) {
       if (options.indexOf(v.scale) > 0) {
-        if(Object.prototype.hasOwnProperty.call(answers, v.scale)){
+        if (Object.prototype.hasOwnProperty.call(answers, v.scale)) {
           answers[v.scale]++
-        }else{
+        } else {
           answers[v.scale] = 1
         }
       }
-    }else{
+    } else {
       options = v.name.split(',')
     }
 
     options.forEach((o) => {
-      if(field.type !== 6){
+      if (field.type !== 6) {
         if (!Object.prototype.hasOwnProperty.call(answers, o)) {
           answers[o] = 1
         } else {
