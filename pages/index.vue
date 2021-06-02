@@ -382,7 +382,7 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Total Users
+                          Total picardata users (company) in a year
                         </h5>
                       </div>
                       <!-- <div class="col-4 d-inline float-right">
