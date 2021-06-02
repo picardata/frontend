@@ -74,11 +74,11 @@
           />
         </form>
       </div>
-      <div class="stick-bottom" v-if="this.noField">
+      <div v-if="this.noField" class="stick-bottom">
         <button
-            class="btn btn-primary btn-md "
-            type="button"
-            @click="newField"
+          class="btn btn-primary btn-md "
+          type="button"
+          @click="newField"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
@@ -486,7 +486,7 @@ export default {
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
       this.questions.splice(index, 1)
-      if(this.questions.length === 0){
+      if (this.questions.length === 0) {
         this.noField = true
       }
     },
