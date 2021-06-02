@@ -82,27 +82,16 @@
           />
         </form>
       </div>
+      <div class="stick-bottom" v-if="this.noField">
+        <button
+            class="btn btn-primary btn-md "
+            type="button"
+            @click="newField"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </button>
+      </div>
     </div>
-    <modal :show.sync="modals.modal0">
-      <div class="modal-header">
-        <h3>Share form {{ name }}</h3>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label for="">Send to</label>
-          <input v-model="formRecipient" type="text" class="form-control">
-          <label for="">Subject</label>
-          <input v-model="subject" type="text" class="form-control">
-          <label for="">Message</label>
-          <input v-model="content" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <base-button tag="button" type="primary" @click="sendForm">
-          Send form
-        </base-button>
-      </div>
-    </modal>
 
     <ModalShare :id="id" :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
   </div>
@@ -233,6 +222,7 @@ export default {
   },
   data () {
     return {
+      noField: false,
       crumbs: [
         {
           name: 'Forms',
@@ -411,6 +401,7 @@ export default {
       ]
     },
     newField (index) {
+      this.noField = false
       this.questions.splice(index + 1, 0, {
         id: undefined,
         name: '',
@@ -662,6 +653,9 @@ export default {
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
       this.questions.splice(index, 1)
+      if(this.questions.length === 0){
+        this.noField = true
+      }
     },
     submit () {
       this.$axios

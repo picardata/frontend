@@ -31,9 +31,6 @@
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
             <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
-            <nuxt-link :to="id ? '/forms/result/' + id : ''" class="btn btn-lg  text-primary btn-preview">
-              <font-awesome-icon :icon="['fas', 'poll']" />
-              Survey results</nuxt-link>
           </span>
         </div>
       </div>
@@ -77,33 +74,25 @@
           />
         </form>
       </div>
+      <div class="stick-bottom" v-if="this.noField">
+        <button
+            class="btn btn-primary btn-md "
+            type="button"
+            @click="newField"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </button>
+      </div>
     </div>
-    <modal :show.sync="modals.modal0">
-      <div class="modal-header">
-        <h3>Share form {{ name }}</h3>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label for="">Send to</label>
-          <input v-model="formRecipient" type="text" class="form-control">
-          <label for="">Subject</label>
-          <input v-model="subject" type="text" class="form-control">
-          <label for="">Message</label>
-          <input v-model="content" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <base-button tag="button" type="primary" @click="sendForm">
-          Send form
-        </base-button>
-      </div>
-    </modal>
+
+    <ModalShare :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
   </div>
 </template>
 
 <script>
 import PrevPage from '@/components/PrevPage'
 import Field from '@/components/Field/Field'
+import ModalShare from '@/components/pages/forms/ModalShareForm'
 
 const falseLoader = {
   loader: false
@@ -114,12 +103,14 @@ export default {
   layout: 'argon',
   components: {
     PrevPage,
-    Field
+    Field,
+    ModalShare
   },
   data () {
     return {
       id: '',
       name: 'Untitled form',
+      noField: false,
       crumbs: [
         {
           name: 'Forms',
@@ -201,7 +192,8 @@ export default {
         }
       ],
       modals: {
-        modal0: false
+        modal0: false,
+        shareForm: false
       },
       formRecipient: '',
       subject: '',
@@ -216,10 +208,10 @@ export default {
     },
   methods: {
     shareModal () {
-      this.modals.modal0 = true
+      this.modals.shareForm = true
     },
     dismissModal () {
-      this.modals.modal0 = false
+      this.modals.shareForm = false
     },
     sendForm () {
       this.formRecipient.split(',').map((v) => {
@@ -319,6 +311,7 @@ export default {
       ]
     },
     newField (index) {
+      this.noField = false
       this.questions.splice(index + 1, 0, {
         id: undefined,
         name: '',
@@ -493,6 +486,9 @@ export default {
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
       this.questions.splice(index, 1)
+      if(this.questions.length === 0){
+        this.noField = true
+      }
     },
     async submit () {
       if (this.id === '') {
