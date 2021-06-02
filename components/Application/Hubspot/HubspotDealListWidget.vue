@@ -180,7 +180,7 @@ export default {
     this.$axios.get('/api/hubspot/deals')
       .then((data) => {
         console.log(data.data)
-        this.deals = data.data['deals']
+        this.deals = data.data.deals
       })
   },
   methods: {
