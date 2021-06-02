@@ -77,7 +77,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    'nuxt-stripe-module'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -94,6 +95,9 @@ export default {
     axios: {
       baseURL: process.env.BASE_URL || 'http://api.local.picardata.com',
       browserBaseURL: process.env.BASE_URL || 'http://api.local.picardata.com'
+    },
+    stripe: {
+      publishableKey: 'pk_test_51IuaxHGpyuP14g89LB1U1V4CNGsz8JteNvEoqSohLLffRo32zjrH2qYbKsxRAq2Z0LXth3JZY5lUyA6bvkI2RfoQ002aFkcfVb'
     }
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
