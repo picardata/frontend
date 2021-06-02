@@ -54,7 +54,7 @@ export default {
 <style lang="scss" scoped>
 .first-title {
   font-family: Poppins;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 40px;
