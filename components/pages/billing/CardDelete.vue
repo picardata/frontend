@@ -12,13 +12,13 @@
         <div class="row">
           <div class="col-md-12">
             <h5 class="parent-title">
-                <span class="first-title" style="font-size: 20px;">Are you sure want to delete this card?</span>
+                <span class="first-title">Are you sure want to delete this card?</span>
             </h5>
           </div>
         </div>
       </div>
     </template>
-      <div>
+      <div class="description">
         This cannot be undone, but you can always set up a new card.
       </div>
       <template slot="footer">
@@ -52,6 +52,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.first-title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: left;
+}
+
+.description {
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 34px;
+  letter-spacing: 0.75px;
+  text-align: left;
+}
+
 .modal-footer-delete {
   margin: auto;
 }
