@@ -93,7 +93,7 @@
       </div>
       <div v-for="(field,index) in chartData" :key="index" class="row mt-5">
         <div
-          v-if="(field.type === 0 || field.type === 1) && (field.name === selectedQuestion || selectedQuestion === '')"
+          v-if="(field.type === 0 || field.type === 1 || field.type === 5 || field.type === 7 || field.type === 8) && (field.name === selectedQuestion || selectedQuestion === '')"
           class="col-xl-12"
         >
           <div class="card">
@@ -107,7 +107,10 @@
               </div>
               <div class="mt-4">
                 <div v-for="(answer, ansId) in field.fieldAnswers" :key="answer.id + ansId" class="responded mb-3 fw-500">
-                  {{ answer.name }}
+                  <span v-if="field.type === 0 || field.type === 1">{{ answer.name }}</span>
+                  <span v-if="field.type === 5"><img :src="answer.fileName"></span>
+                  <span v-if="field.type === 7">{{ createdDateFormat(answer.date) }}</span>
+                  <span v-if="field.type === 8">{{ answer.time }}</span>
                 </div>
               </div>
             </div>
@@ -161,7 +164,7 @@
           </div>
         </div>
         <div
-          v-if="field.type === 3 && (field.name === selectedQuestion || selectedQuestion === '')"
+          v-if="(field.type === 3 || field.type === 6) && (field.name === selectedQuestion || selectedQuestion === '')"
           class="col-xl-12"
         >
           <div class="card">
@@ -222,13 +225,37 @@ function pieChartData (field) {
 
 function barChartData (field) {
   const answers = {}
+  let options = []
+  if (field.type === 6) {
+    const toValue = field.fieldLinearScales[0].toValue
+    let n = 1
+
+    while (n <= toValue) {
+      options.push(n)
+      answers[n] = 0
+      n++
+    }
+  }
   field.fieldAnswers.forEach((v) => {
-    const options = v.name.split(',')
+    if (field.type === 6) {
+      if (options.indexOf(v.scale) > 0) {
+        if (Object.prototype.hasOwnProperty.call(answers, v.scale)) {
+          answers[v.scale]++
+        } else {
+          answers[v.scale] = 1
+        }
+      }
+    } else {
+      options = v.name.split(',')
+    }
+
     options.forEach((o) => {
-      if (!Object.prototype.hasOwnProperty.call(answers, o)) {
-        answers[o] = 1
-      } else {
-        answers[o]++
+      if (field.type !== 6) {
+        if (!Object.prototype.hasOwnProperty.call(answers, o)) {
+          answers[o] = 1
+        } else {
+          answers[o]++
+        }
       }
     })
   })
@@ -248,13 +275,11 @@ export default {
     return await context.app.$axios.$get('/api/forms/' + context.route.params.id)
       .then((data) => {
         data.fields.map((v) => {
-          if (v.type === 0) {
+          if (v.type === 0 || v.type === 1 || v.type === 5 || v.type === 7 || v.type === 8) {
             v.chart = 'list'
-          } else if (v.type === 1) {
-            v.chart = 'list'
-          } else if (v.type === 2) {
+          } else if (v.type === 2 || v.type === 4) {
             v.chart = 'pie'
-          } else if (v.type === 3) {
+          } else if (v.type === 3 || v.type === 6) {
             v.chart = 'bar'
           } else {
             v.chart = 'pie'
@@ -336,7 +361,6 @@ export default {
         .catch(e => console.log(e))
     },
     showField (field) {
-      console.log(field)
       if (this.selectedQuestion === '') {
         return true
       }
@@ -345,6 +369,9 @@ export default {
     },
     changeQuestion (name) {
       this.selectedQuestion = name
+    },
+    createdDateFormat (date) {
+      return this.$moment(date).format('DD MMMM YYYY')
     }
   }
 }
