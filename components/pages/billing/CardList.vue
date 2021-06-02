@@ -5,7 +5,7 @@
         <h1>Manage Cards</h1>
       </div>
       <div class="col-6">
-        <button class="btn btn-lg btn-primary btn-round float-right">
+        <button class="btn btn-lg btn-primary btn-round float-right" @click="modals.add = true">
           Add New Card
         </button>
       </div>
@@ -61,21 +61,31 @@
     </div>
 
     <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="deleteCreditCard"/>
+
+    <CardAdd :modals="modals" @onAdd="addCreditCard"/>
   </div>
 </template>
 
 <script>
+import CardDelete from "@/components/pages/billing/CardDelete"
+import CardAdd from "@/components/pages/billing/CardAdd"
+
 export default {
   name: "InvoiceList",
   async fetch () {
     await this.updateData();
+  },
+  components: {
+    CardDelete,
+    CardAdd
   },
   data () {
     return {
       cards: [],
       totalToDisplay: 0,
       modals: {
-        delete: false
+        delete: false,
+        add: false
       },
       showAll: false,
       selectedCard: 0
@@ -86,10 +96,12 @@ export default {
       await this.updateData();
       this.$notifySuccess('Card successfully deleted');
     },
+    async addCreditCard() {
+      await this.updateData();
+      this.$notifySuccess('Card successfully added');
+    },
     showModalDelete (id) {
       this.modals.delete = true
-      console.log('id = ')
-      console.log(id)
       this.selectedCard = id
     },
     deleteUser () {
@@ -106,8 +118,6 @@ export default {
       for(let i=0;i<cards.length;i++) {
         const card = cards[i]
 
-        console.log('card = ')
-        console.log(card)
         newCards.push({
           id: card.id,
           number: `****${card.last4}`,
@@ -122,16 +132,13 @@ export default {
         newCards[0].isDefault = true;
       }
 
-      console.log('new cards =')
-      console.log(newCards)
-
       this.cards = newCards
       if (newCards.length <= 3) {
         this.totalToDisplay = newCards.length
       } else if(newCards.length > 3) {
         this.totalToDisplay = 3;
       }
-    }
+    },
   }
 }
 </script>
