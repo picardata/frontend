@@ -95,7 +95,9 @@ export default {
       });
     },
     async addCard() {
-      let token = await this.$stripe.createToken(stripe.card)
+      let token = await this.$stripe.createToken(stripe.card).then(function(result) {
+        return result
+      });
 
       this.handleClose()
 
