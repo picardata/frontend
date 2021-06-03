@@ -79,6 +79,8 @@
             :copy_field="copyField"
             :delete_field="deleteField"
             :new_field="newField"
+            :submit_field="submitField"
+            :fId="id"
           />
         </form>
       </div>
@@ -204,6 +206,7 @@ export default {
         b.imageDesc = false
 
         if (b.type === 0 || b.type === 1) {
+          b.desc = true
           b.descText = b.fieldTexts[0].description
         } else if (b.type === 5) {
           b.descText = b.fieldUploads[0].description
@@ -251,11 +254,14 @@ export default {
       this.modals.shareForm = true
     },
     async submitField (index, formId) {
+      console.log('iya kesini dia')
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
         name: this.questions[index].name ? this.questions[index].name : 'Question',
         type: this.questions[index].type,
         required: this.questions[index].required,
+        description: this.questions[index].description,
+        image: this.questions[index].image,
         form: formId
       }
       let axios
@@ -299,8 +305,17 @@ export default {
       this.bulkDeleteFieldDates(questionId)
       this.bulkDeleteFieldScales(questionId)
       this.submitField(questionId, this.id).then(() => {
-        if (typeId > 1) {
+        if (typeId > 1 && typeId < 5) {
           this.addChoices(questionId)
+        }else if(typeId === 5){
+          this.addUploads(questionId)
+        }else if(typeId === 6){
+          this.addScales(questionId)
+        }else if(typeId === 7 || typeId === 8){
+          this.addDates(questionId)
+        }else{
+          this.questions[questionId].desc = true
+          this.addTexts(questionId)
         }
       })
     },
