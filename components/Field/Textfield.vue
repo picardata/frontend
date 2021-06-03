@@ -52,11 +52,9 @@ export default {
 
       if (text.id) {
         axios = this.$axios.$put('/api/field-texts/' + text.id, toSave)
-      } else {
-        if (this.firstTrigger) {
-          this.firstTrigger = false
-          axios = this.$axios.$post('/api/field-texts/', toSave)
-        }
+      } else if (this.firstTrigger) {
+        this.firstTrigger = false
+        axios = this.$axios.$post('/api/field-texts/', toSave)
       }
 
       await axios.then((res) => {
