@@ -299,8 +299,16 @@ export default {
       this.bulkDeleteFieldDates(questionId)
       this.bulkDeleteFieldScales(questionId)
       this.submitField(questionId, this.id).then(() => {
-        if (typeId > 1) {
+        if (typeId > 1 && typeId < 5) {
           this.addChoices(questionId)
+        }else if(typeId === 5){
+          this.addUploads(questionId)
+        }else if(typeId === 6){
+          this.addScales(questionId)
+        }else if(typeId === 7 || typeId === 8){
+          this.addDates(questionId)
+        }else{
+          this.addTexts(questionId)
         }
       })
     },
