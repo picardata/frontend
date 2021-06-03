@@ -307,14 +307,13 @@ export default {
       this.submitField(questionId, this.id).then(() => {
         if (typeId > 1 && typeId < 5) {
           this.addChoices(questionId)
-        }else if(typeId === 5){
+        } else if (typeId === 5) {
           this.addUploads(questionId)
-        }else if(typeId === 6){
+        } else if( typeId === 6) {
           this.addScales(questionId)
-        }else if(typeId === 7 || typeId === 8){
+        } else if( typeId === 7 || typeId === 8) {
           this.addDates(questionId)
-        }else{
-          this.questions[questionId].desc = true
+        } else {
           this.addTexts(questionId)
         }
       })
