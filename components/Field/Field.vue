@@ -33,24 +33,25 @@
             </div>
           </div>
         </div>
-        <div v-if="q.desc || q.descText != null">
-          <div v-if="q.type != 0 && q.type != 1" class="clearfix">
+        <div v-if="q.desc || q.description != null">
+          <div class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
-                v-model="q.descText"
+                v-model="q.description"
                 name="text-desc"
                 class="form-control pcd mt-3"
                 placeholder="Description"
+                @keyup="submit_field(q_key, fId)"
               />
             </div>
           </div>
-          <div v-if="!q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
+          <div v-if="!q.imageDesc" class="clearfix mt-3">
             <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
               <font-awesome-icon :icon="['fas', 'image']" />
               <span>Add image</span>
             </button>
           </div>
-          <div v-if="q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
+          <div v-if="q.imageDesc" class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
               <dropzone-file-upload v-model="fileSingle" />
 
@@ -140,11 +141,13 @@ export default {
         return []
       }
     },
+    fId: { type: Number },
     add_field: { type: Function },
     change_type: { type: Function },
     copy_field: { type: Function },
     delete_field: { type: Function },
-    new_field: { type: Function }
+    new_field: { type: Function },
+    submit_field: { type: Function }
   },
   data () {
     return {
