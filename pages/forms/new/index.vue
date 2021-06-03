@@ -75,7 +75,7 @@
             :delete_field="deleteField"
             :new_field="newField"
             :submit_field="submitField"
-            :fId="id"
+            :f-id="id"
           />
         </form>
       </div>
@@ -298,9 +298,9 @@ export default {
             this.addChoices(questionId)
           } else if (typeId === 5) {
             this.addUploads(questionId)
-          } else if( typeId === 6) {
+          } else if (typeId === 6) {
             this.addScales(questionId)
-          } else if( typeId === 7 || typeId === 8) {
+          } else if (typeId === 7 || typeId === 8) {
             this.addDates(questionId)
           } else {
             this.addTexts(questionId)
