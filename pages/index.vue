@@ -409,7 +409,6 @@
 import { Select, Option } from 'element-ui'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
-// import PieChart from '~/components/argon-core/Charts/PieChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
