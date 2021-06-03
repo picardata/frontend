@@ -428,6 +428,7 @@ export default {
     BarChart,
     StatsCard,
     TotalIntegrationChart,
+    FacebookFollowerStat,
     [Select.name]: Select,
     [Option.name]: Option
   },

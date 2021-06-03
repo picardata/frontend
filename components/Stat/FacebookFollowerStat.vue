@@ -1,13 +1,14 @@
 <template>
-    <stats-card
-        title="Total Facebook Page Follower"
-        type="gradient-info"
-        :sub-title="this.facebookFollowerCount"
-        icon="ni ni-chart-bar-32">
-        <template slot="footer">
-        <span class="text-nowrap">Since last month</span>
-        </template>
-    </stats-card>
+  <stats-card
+    title="Total Facebook Page Follower"
+    type="gradient-info"
+    :sub-title="this.facebookFollowerCount"
+    icon="ni ni-chart-bar-32"
+  >
+    <template slot="footer">
+      <span class="text-nowrap">Since last month</span>
+    </template>
+  </stats-card>
 </template>
 
 <script>
@@ -24,7 +25,7 @@ export default {
   },
   data () {
     return {
-      facebookFollowerCount: 0 
+      facebookFollowerCount: 0
     }
   }
 }
