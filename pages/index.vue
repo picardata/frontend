@@ -162,17 +162,7 @@
                 </stats-card>
               </div>
               <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Performance"
-                  type="gradient-info"
-                  sub-title="49,65%"
-                  icon="ni ni-chart-bar-32"
-                >
-                  <template slot="footer">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up" /> 54.8%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+                <FacebookFollowerStat />
               </div>
             </div>
             <div class="row">
@@ -422,6 +412,7 @@ import BarChart from '~/components/argon-core/Charts/BarChart'
 // import PieChart from '~/components/argon-core/Charts/PieChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
+import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
