@@ -89,6 +89,7 @@
             class="form-control"
             placeholder="Email"
             required="required"
+            autocomplete="off"
           >
         </div>
         <div class="form-group">
@@ -101,10 +102,11 @@
             class="form-control"
             placeholder="Password"
             required="required"
+            autocomplete="off"
           >
         </div>
         <div>
-          <h4>Joined Groups</h4>
+          <h4 v-if="!form.new">Joined Groups</h4>
           <table v-for="group,index in user.groups" :key="index" style="margin-bottom: 10px">
             <tr>
               <td width="5px">
@@ -235,30 +237,40 @@ export default {
       }
     },
     saveUser () {
-      this.$axios.$post('/api/google-directories/users', {
-        password: this.user.password,
-        primaryEmail: this.user.primaryEmail,
-        givenName: this.user.name.givenName,
-        familyName: this.user.name.familyName
-      })
-        .then((data) => {
-          console.log(data)
-          this.modals.createUser = false
-          this.users.push(
-            {
-              password: '',
-              primaryEmail: data.primaryEmail,
-              name: {
-                familyName: data.name.familyName,
-                givenName: data.name.givenName
-              }
-            }
-          )
-          this.clearForm()
-          this.messages.createUserMessage = true
-        }).catch((e) => {
-          console.log(e)
+      if (this.form.new) {
+        this.$axios.$post('/api/google-directories/users', {
+          password: this.user.password,
+          primaryEmail: this.user.primaryEmail,
+          givenName: this.user.name.givenName,
+          familyName: this.user.name.familyName
         })
+          .then((data) => {
+            this.modals.createUser = false
+            this.users.push(
+              {
+                password: '',
+                primaryEmail: data.primaryEmail,
+                name: {
+                  familyName: data.name.familyName,
+                  givenName: data.name.givenName
+                }
+              }
+            )
+            this.clearForm()
+            this.messages.createUserMessage = true
+          })
+      } else {
+        const id = this.users[this.user.index].id
+        this.$axios.$put(`/api/google-directories/users/${id}`, {
+          primaryEmail: this.user.primaryEmail,
+          givenName: this.user.name.givenName,
+          familyName: this.user.name.familyName
+        })
+          .then(() => {
+            this.modals.createUser = false
+            this.clearForm()
+          })
+      }
     },
     deleteUser () {
       this.$axios.$delete('/api/google-directories/users/' + this.user.primaryEmail, this.user)
