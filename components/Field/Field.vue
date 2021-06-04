@@ -92,7 +92,7 @@
               </div>
               <div class="divider p-0 pr-1" />
               <div class="p-0 mr-1">
-                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc">
+                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc; q.description = null">
                   <font-awesome-icon :icon="['fas', 'plus']" />
                   <span>Add description/image</span>
                 </button>
