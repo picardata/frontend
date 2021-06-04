@@ -254,7 +254,6 @@ export default {
       this.modals.shareForm = true
     },
     async submitField (index, formId) {
-      console.log('iya kesini dia')
       const fieldId = this.questions[index].id ? this.questions[index].id : undefined
       const toSave = {
         name: this.questions[index].name ? this.questions[index].name : 'Question',
