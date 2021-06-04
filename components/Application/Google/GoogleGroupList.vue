@@ -209,25 +209,35 @@ export default {
       }
     },
     saveGroup () {
-      this.$axios.$post('/api/google-directories/groups', {
-        name: this.group.name,
-        email: this.group.email,
-        description: this.group.description
-      })
-        .then((data) => {
-          this.modals.createGroup = false
-          this.groups.push(
-            {
-              name: data.name,
-              email: data.email,
-              description: data.description
-            }
-          )
-          this.clearForm()
-          console.log(data)
-        }).catch((e) => {
-          console.log(e)
+      if (this.form.new) {
+        this.$axios.$post('/api/google-directories/groups', {
+          name: this.group.name,
+          email: this.group.email,
+          description: this.group.description
         })
+          .then((data) => {
+            this.modals.createGroup = false
+            this.groups.push(
+              {
+                name: data.name,
+                email: data.email,
+                description: data.description
+              }
+            )
+            this.clearForm()
+          })
+      } else {
+        const id = this.groups[this.group.index].id
+        this.$axios.$put(`/api/google-directories/groups/${id}`, {
+          name: this.group.name,
+          email: this.group.email,
+          description: this.group.description
+        })
+          .then(() => {
+            this.modals.createGroup = false
+            this.clearForm()
+          })
+      }
     },
     deleteGroup () {
       this.$axios.$delete('/api/google-directories/groups/' + this.group.email, this.group)
