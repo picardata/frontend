@@ -349,7 +349,6 @@ export default {
             })
           }
         })
-        console.log(data)
         return data
       })
       .catch(e => console.log(e))
@@ -463,7 +462,6 @@ export default {
     },
     sendResponse () {
       this.checkRequiredFields()
-      console.log(this.answers)
     },
     setFiles (index) {
       this.files = [...new Set(event.target.files)]
