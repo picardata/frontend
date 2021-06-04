@@ -200,10 +200,7 @@
                     </div>
                   </template>
                   <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="salesInsight.chartData"
-                    />
+                   <FacebookPostReachChart />
                   </div>
                 </card>
               </div>
@@ -411,6 +408,7 @@ import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
+import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
@@ -428,6 +426,7 @@ export default {
     StatsCard,
     TotalIntegrationChart,
     FacebookFollowerStat,
+    FacebookPostReachChart,
     [Select.name]: Select,
     [Option.name]: Option
   },
