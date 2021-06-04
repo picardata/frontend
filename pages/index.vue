@@ -178,7 +178,7 @@
                     </div>
                   </template>
                   <div class="chart">
-                   <FacebookPostReachChart />
+                    <FacebookPostReachChart />
                   </div>
                 </card>
               </div>
