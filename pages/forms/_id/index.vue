@@ -315,6 +315,11 @@ export default {
         } else {
           this.addTexts(questionId)
         }
+        if (typeId < 2) {
+          this.questions[questionId].desc = true
+        } else {
+          this.questions[questionId].desc = false
+        }
       })
     },
     bulkDeleteFieldChoices (questionId) {
