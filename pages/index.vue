@@ -172,30 +172,8 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Finance
+                          Facebook Page: Total Post Reach
                         </h5>
-                        <h6>
-                          Sales insight
-                        </h6>
-                        <h1>
-                          44.49K$ USD
-                        </h1>
-                      </div>
-                      <div class="col-4 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.firstWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
