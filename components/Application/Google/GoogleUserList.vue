@@ -89,6 +89,7 @@
             class="form-control"
             placeholder="Email"
             required="required"
+            autocomplete="off"
           >
         </div>
         <div class="form-group">
@@ -101,10 +102,11 @@
             class="form-control"
             placeholder="Password"
             required="required"
+            autocomplete="off"
           >
         </div>
         <div>
-          <h4>Joined Groups</h4>
+          <h4 v-if="!form.new">Joined Groups</h4>
           <table v-for="group,index in user.groups" :key="index" style="margin-bottom: 10px">
             <tr>
               <td width="5px">
