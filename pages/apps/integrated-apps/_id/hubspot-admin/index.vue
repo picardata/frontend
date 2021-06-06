@@ -32,6 +32,27 @@
         <div class="col-3">
           <HubspotContactCount />
         </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="closedWon.loaded === true" :chartData="closedWon" :dealStage="closedWon.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="appointmentScheduled.loaded === true" :chartData="appointmentScheduled" :dealStage="appointmentScheduled.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="qualifiedToBuy.loaded === true" :chartData="qualifiedToBuy" :dealStage="qualifiedToBuy.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="presentationScheduled.loaded === true" :chartData="presentationScheduled" :dealStage="presentationScheduled.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="decisionMakerBoughtIn.loaded === true" :chartData="decisionMakerBoughtIn" :dealStage="decisionMakerBoughtIn.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="contractSent.loaded === true" :chartData="contractSent" :dealStage="contractSent.dealStage" />
+        </div>
+        <div class="col-3">
+          <HubspotDealChart v-if="closedLost.loaded === true" :chartData="closedLost" :dealStage="closedLost.dealStage" />
+        </div>
         <div class="col-12 ">
           <HubspotContactListWidget />
         </div>
@@ -53,6 +74,7 @@ import HubspotDealListWidget from '@/components/Application/Hubspot/HubspotDealL
 import HubspotUserCount from '@/components/Application/Hubspot/HubspotUserCount'
 import HubspotCompanyCount from '@/components/Application/Hubspot/HubspotCompanyCount'
 import HubspotContactCount from '@/components/Application/Hubspot/HubspotContactCount'
+import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import loaderMixin from '~/mixins/loader'
 
@@ -65,7 +87,8 @@ export default {
     HubspotCompanyListWidget,
     HubspotContactListWidget,
     ApplicationDetail,
-    HubspotContactCount
+    HubspotContactCount,
+    HubspotDealChart
   },
   mixins: [
     loaderMixin
@@ -93,7 +116,90 @@ export default {
           name: 'Hubspot',
           path: '/apps/integrated-apps'
         }
+      ],
+      closedWon: {
+        dealStage: 'closedwon',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      appointmentScheduled: {
+        dealStage: 'appointmentscheduled',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      qualifiedToBuy: {
+        dealStage: 'qualifiedtobuy',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      presentationScheduled: {
+        dealStage: 'presentationscheduled',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      decisionMakerBoughtIn: {
+        dealStage: 'decisionmakerboughtin',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      contractSent: {
+        dealStage: 'contractsent',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      closedLost: {
+        dealStage: 'closedlost',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+    }
+  },
+  mounted() {
+    this.getDealsData()
+  },
+  methods: {
+    async getDealsData() {
+      const stages = [
+        this.appointmentScheduled,
+        this.qualifiedToBuy,
+        this.presentationScheduled,
+        this.decisionMakerBoughtIn,
+        this.contractSent,
+        this.closedWon,
+        this.closedLost,
       ]
+
+      await this.$axios.get('/api/hubspot/deals/stats', {
+        'params': {
+          'month': this.$moment().format('M'),
+          'year': this.$moment().format('Y')
+        }
+      })
+      .then((data) => {
+        data.data.map((deal) => {
+          stages.map((stage) => {
+            if(deal.dealStage === stage.dealStage) {
+              stage.labels.push(
+                deal.day + '/' + deal.month
+              )
+              stage.datasets[0].data.push(
+                deal.total
+              )
+            }
+          })
+        })
+
+        stages.map((stage) => {
+          stage.loaded = true
+        })
+      })
     }
   }
 }
