@@ -4,6 +4,7 @@
       <div class="row mt-3 type-dropdown">
         <div class="col-sm-2">
           <button
+            :id="elementId.fromToggle+'-'+q_key"
             class="btn btn-default btn-lg text-left dropdown-toggle"
             type="button"
             data-toggle="dropdown"
@@ -15,12 +16,14 @@
           </button>
           <div class="dropdown-menu">
             <a
+              :id="elementId.fromSelect+'-'+q_key+'-'+0"
               class="dropdown-item"
               @click="change_from(scale, 0)"
             >
               0
             </a>
             <a
+                :id="elementId.fromSelect+'-'+q_key+'-'+1"
               class="dropdown-item"
               @click="change_from(scale, 1)"
             >
@@ -33,6 +36,7 @@
         </div>
         <div class="col-sm-2">
           <button
+            :id="elementId.toToggle+'-'+q_key"
             class="btn btn-default btn-lg text-left dropdown-toggle"
             type="button"
             data-toggle="dropdown"
@@ -44,12 +48,13 @@
           </button>
           <div class="dropdown-menu">
             <a
-              v-for="nums in list_number"
-              :key="nums.id"
+              :id="elementId.fromSelect+'-'+q_key+'-'+n"
+              v-for="n in 10"
+              :key="n_key"
               class="dropdown-item"
-              @click="change_to(scale, nums.id)"
+              @click="change_to(scale, n_key)"
             >
-              {{ nums.id }}
+              {{ n }}
             </a>
           </div>
         </div>
@@ -59,6 +64,7 @@
           <ol>
             <li>
               <input
+                :id="elementId.label1+'-'+q_key"
                 v-model="scale.label1"
                 placeholder="Label 1 (Optional)"
                 type="text"
@@ -70,6 +76,7 @@
             </li>
             <li>
               <input
+                :id="elementId.label2+'-'+q_key"
                 v-model="scale.label2"
                 placeholder="Label 2 (Optional)"
                 type="text"
@@ -94,10 +101,19 @@ export default {
       type: Object
     },
     desc_field: { type: String },
-    image_field: { type: String }
+    image_field: { type: String },
+    q_key: { type: Number }
   },
   data () {
     return {
+      elementId:{
+        fromToggle: 'maxNumberDropdownToggle',
+        fromSelect: 'maxNumberDropdownSelect',
+        toToggle: 'maxSizeDropdownToggle',
+        toSelect: 'maxSizeDropdownSelect',
+        label1: 'label1Input',
+        label2: 'label2Input'
+      },
       scale: {
         allow_spec: null,
         allow_specInt: null,
@@ -105,19 +121,7 @@ export default {
         toValue: 10,
         label_1: null,
         label_2: null
-      },
-      list_number: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-        { id: 6 },
-        { id: 7 },
-        { id: 8 },
-        { id: 9 },
-        { id: 10 }
-      ]
+      }
     }
   },
   methods: {

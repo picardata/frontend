@@ -4,7 +4,7 @@
       <div v-if="question.type == 7">
         <div class="col-sm-8 mt-3">
           <base-input
-            id="example-date-input"
+            :id="elementId.date_input + '-' + q_key"
             v-model="dates.dateValue"
             type="date"
             placeholder="Day, month, year"
@@ -16,7 +16,7 @@
       <div v-if="question.type == 8">
         <div class="col-sm-8 mt-3">
           <base-input
-            id="example-time-input"
+            :id="elementId.time_input + '-' + q_key"
             v-model="dates.timeValue"
             type="time"
             value="10:30:00"
@@ -35,10 +35,15 @@ export default {
   props: {
     question: {
       type: Object
-    }
+    },
+    q_key: { type: Number }
   },
   data () {
     return {
+      elementId:{
+        date_input: 'inputDate',
+        time_input: 'inputTime',
+      }
     }
   },
   methods: {
