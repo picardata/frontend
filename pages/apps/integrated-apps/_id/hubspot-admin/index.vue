@@ -32,26 +32,8 @@
         <div class="col-3">
           <HubspotContactCount />
         </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="closedWon.loaded === true" :chartData="closedWon" :dealStage="closedWon.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="appointmentScheduled.loaded === true" :chartData="appointmentScheduled" :dealStage="appointmentScheduled.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="qualifiedToBuy.loaded === true" :chartData="qualifiedToBuy" :dealStage="qualifiedToBuy.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="presentationScheduled.loaded === true" :chartData="presentationScheduled" :dealStage="presentationScheduled.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="decisionMakerBoughtIn.loaded === true" :chartData="decisionMakerBoughtIn" :dealStage="decisionMakerBoughtIn.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="contractSent.loaded === true" :chartData="contractSent" :dealStage="contractSent.dealStage" />
-        </div>
-        <div class="col-3">
-          <HubspotDealChart v-if="closedLost.loaded === true" :chartData="closedLost" :dealStage="closedLost.dealStage" />
+        <div class="col-6">
+          <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
         </div>
         <div class="col-12 ">
           <HubspotContactListWidget />
@@ -117,89 +99,58 @@ export default {
           path: '/apps/integrated-apps'
         }
       ],
-      closedWon: {
-        dealStage: 'closedwon',
+      dealsChart: {
+        dealStage: 'allstages',
         loaded: false,
         labels: [],
-        datasets: [{data: []}]
-      },
-      appointmentScheduled: {
-        dealStage: 'appointmentscheduled',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
-      qualifiedToBuy: {
-        dealStage: 'qualifiedtobuy',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
-      presentationScheduled: {
-        dealStage: 'presentationscheduled',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
-      decisionMakerBoughtIn: {
-        dealStage: 'decisionmakerboughtin',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
-      contractSent: {
-        dealStage: 'contractsent',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
-      closedLost: {
-        dealStage: 'closedlost',
-        loaded: false,
-        labels: [],
-        datasets: [{data: []}]
-      },
+        datasets: [{ data: [] }]
+      }
     }
   },
-  mounted() {
+  mounted () {
     this.getDealsData()
   },
   methods: {
-    async getDealsData() {
-      const stages = [
-        this.appointmentScheduled,
-        this.qualifiedToBuy,
-        this.presentationScheduled,
-        this.decisionMakerBoughtIn,
-        this.contractSent,
-        this.closedWon,
-        this.closedLost,
-      ]
-
+    async getDealsData () {
+      const labels = []
+      const chartData = []
       await this.$axios.get('/api/hubspot/deals/stats', {
-        'params': {
-          'month': this.$moment().format('M'),
-          'year': this.$moment().format('Y')
+        params: {
+          month: this.$moment().format('M'),
+          year: this.$moment().format('Y')
         }
       })
-      .then((data) => {
-        data.data.map((deal) => {
-          stages.map((stage) => {
-            if(deal.dealStage === stage.dealStage) {
-              stage.labels.push(
-                deal.day + '/' + deal.month
-              )
-              stage.datasets[0].data.push(
-                deal.total
-              )
+        .then((data) => {
+          data.data.map((deal) => {
+            const l = this.dealStageFormat(deal.dealStage)
+            if (!labels.includes(l)) {
+              labels.push(l)
+              chartData.push(deal.total)
+            } else {
+              const i = labels.indexOf(l)
+              chartData[i] += deal.total
             }
           })
-        })
 
-        stages.map((stage) => {
-          stage.loaded = true
+          this.dealsChart.labels = labels
+          this.dealsChart.datasets[0].data = chartData
+
+          this.dealsChart.loaded = true
         })
-      })
+    },
+    dealStageFormat (stage) {
+      const stages = {
+        appointmentscheduled: 'Appointment scheduled',
+        qualifiedtobuy: 'Qualified to buy',
+        presentationscheduled: 'Presentation scheduled',
+        decisionmakerboughtin: 'Decision maker bought-In',
+        contractsent: 'Contract sent',
+        closedwon: 'Closed won',
+        closedlost: 'Closed lost',
+        allstages: 'All stages'
+      }
+
+      return stages[stage]
     }
   }
 }
