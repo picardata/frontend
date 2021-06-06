@@ -106,7 +106,9 @@
           >
         </div>
         <div>
-          <h4 v-if="!form.new">Joined Groups</h4>
+          <h4 v-if="!form.new">
+            Joined Groups
+          </h4>
           <table v-for="group,index in user.groups" :key="index" style="margin-bottom: 10px">
             <tr>
               <td width="5px">

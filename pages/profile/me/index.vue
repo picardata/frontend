@@ -56,6 +56,7 @@
                 :disabled="isInViewMode()"
                 label="First Name"
                 @input="valueChanged()"
+                :id="'input-text-first-name'"
               />
               <RoundedInput
                 v-model="profile.lastname"
@@ -63,6 +64,7 @@
                 :disabled="isInViewMode()"
                 label="Last Name"
                 @input="valueChanged()"
+                :id="'input-text-last-name'"
               />
               <RoundedInput
                 v-model="profile.email"
@@ -70,6 +72,7 @@
                 :disabled="isInViewMode()"
                 label="Email"
                 @input="valueChanged()"
+                :id="'input-text-email'"
               />
               <RoundedInput
                 v-model="profile.phone"
@@ -77,6 +80,7 @@
                 :disabled="isInViewMode()"
                 label="Phone number"
                 @input="valueChanged()"
+                :id="'input-text-phone-number'"
               />
               <RoundedInput
                 v-model="generalLocation"
@@ -84,6 +88,7 @@
                 :disabled="isInViewMode()"
                 label="Location"
                 @input="valueChanged()"
+                :id="'input-text-location'"
               />
             </div>
           </div>
@@ -99,7 +104,7 @@
               <ValidationProvider v-slot="{ errors }" vid="occupation" name="occupation">
                 <div class="form-group">
                   <label class="label">Occupation</label>
-                  <select v-model="workOccupation" class="form-control radius-input" :disabled="isInViewMode()">
+                  <select v-model="workOccupation" class="form-control radius-input" :disabled="isInViewMode()" id="input-select-occupation">
                     <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">
                       {{ choice.name }}
                     </option>
@@ -113,6 +118,7 @@
                 :disabled="isInViewMode()"
                 label="Role"
                 @input="valueChanged()"
+                :id="'input-text-role'"
               />
               <RoundedInput
                 v-model="employee.organization"
@@ -120,6 +126,7 @@
                 :disabled="isInViewMode()"
                 label="Company"
                 @input="valueChanged()"
+                :id="'input-text-company'"
               />
               <RoundedInput
                 v-model="employee.workLocation"
@@ -127,17 +134,19 @@
                 :disabled="isInViewMode()"
                 label="City"
                 @input="valueChanged()"
+                :id="'input-text-city'"
               />
             </div>
           </div>
           <div v-if="this.buttonStatus !== 'LOADING'" class="row button-radius">
             <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
-              <span @click="cancel">Cancel</span>
+              <span @click="cancel" id="button-cancel-edit-profle">Cancel</span>
             </div>
             <div v-if="buttonStatus === 'VIEW'" class="col-sm-8 col-xs-12 text-right">
               <button
                 class="btn btn-primary btn-lg"
                 @click="save"
+                id="button-edit-profile"
               >
                 <span>Edit Profile</span>
               </button>
@@ -147,6 +156,7 @@
                 class="btn btn-primary btn-lg"
                 :disabled="this.buttonStatus !== 'SAVE'"
                 @click="save"
+                id="button-save-profile"
               >
                 <span>Save Profile</span>
               </button>
