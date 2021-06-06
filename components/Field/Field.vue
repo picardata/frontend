@@ -26,8 +26,8 @@
             </button>
             <div class="dropdown-menu">
               <a
-                :id="elementId.dropdown_select + '-' + q_key + '-' + t_key"
                 v-for="(t, t_key) in typesOfQuestion"
+                :id="elementId.dropdown_select + '-' + q_key + '-' + t_key"
                 :key="t_key"
                 class="dropdown-item"
                 @click="change_type(q_key, t_key)"
@@ -156,14 +156,14 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         question_title: 'questionTitle',
         question_desc: 'questionDescription',
         question_req: 'questionRequired',
         question_addDesc: 'questionAddDescription',
         question_duplicate: 'questionDuplicate',
         question_remove: 'questionRemove',
-        question_add:'addQuestion',
+        question_add: 'addQuestion',
         add_image: 'addImage',
         cancel_image: 'cancelImage',
         drop_image: 'dropImage',

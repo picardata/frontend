@@ -75,8 +75,8 @@
         </button>
         <div class="dropdown-menu">
           <a
+            v-for="(n,n_key) in 20"
             :id="elementId.max_numberSelect+'-'+q_key+'-'+n"
-            v-for="n in 20"
             :key="n_key"
             class="dropdown-item"
             @click="change_number(uploads, n)"
@@ -87,7 +87,7 @@
       </div>
       <div class="row mt-3 type-dropdown">
         <button
-            :id="elementId.max_sizeToggle + '-' + q_key"
+          :id="elementId.max_sizeToggle + '-' + q_key"
           class="btn btn-default btn-lg text-left dropdown-toggle"
           type="button"
           data-toggle="dropdown"
@@ -100,8 +100,8 @@
         </button>
         <div class="dropdown-menu">
           <a
+            v-for="(n,n_key) in 20"
             :id="elementId.max_sizeSelect+'-'+q_key+'-'+n"
-            v-for="n in 20"
             :key="n_key"
             class="dropdown-item"
             @click="change_size(uploads, n)"
@@ -127,13 +127,13 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         allow_specInput: 'allowSpecInput',
         option_name: 'optionName',
         max_numberToggle: 'maxNumberDropdownToggle',
         max_numberSelect: 'maxNumberDropdownSelect',
         max_sizeToggle: 'maxSizeDropdownToggle',
-        max_sizeSelect: 'maxSizeDropdownSelect',
+        max_sizeSelect: 'maxSizeDropdownSelect'
       },
       types: [
         {

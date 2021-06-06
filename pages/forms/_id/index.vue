@@ -13,7 +13,9 @@
       <prev-page />
       <div class="row mt-3">
         <div class="col-6">
-          <h1 :id="elementId.title_form">{{ name }}</h1>
+          <h1 :id="elementId.title_form">
+            {{ name }}
+          </h1>
           <div class="rox pl-1">
             <p>Last Modified {{ formattedUpdatedAt }}</p>
           </div>
@@ -228,14 +230,14 @@ export default {
   data () {
     return {
       noField: false,
-      elementId:{
+      elementId: {
         add_form: 'addNewForm',
         preview_form: 'previewForm',
         share_form: 'shareForm',
         desc_form: 'descriptionForm',
         response_form: 'viewResponseForm',
         title_form: 'titleForm',
-        back_button:'backButton'
+        back_button: 'backButton'
       },
       crumbs: [
         {

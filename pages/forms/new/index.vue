@@ -113,14 +113,14 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         add_form: 'addNewForm',
         preview_form: 'previewForm',
         share_form: 'shareForm',
         desc_form: 'descriptionForm',
         title_form: 'titleForm',
         title_formInput: 'titleFormInput',
-        back_button:'backButton'
+        back_button: 'backButton'
       },
       id: '',
       name: 'Untitled form',
@@ -588,71 +588,71 @@ export default {
     },
     addTexts (index) {
       this.questions[index]
-          .fieldTexts
-          .map((v) => {
-            this.$axios.$post('/api/field-texts/', {
-              description: v.description,
-              image: v.image,
-              shortAnswer: v.shortAnswer,
-              field: this.questions[index].id
-            })
-                .then((res) => {
-                  v.id = res.id
-                })
+        .fieldTexts
+        .map((v) => {
+          this.$axios.$post('/api/field-texts/', {
+            description: v.description,
+            image: v.image,
+            shortAnswer: v.shortAnswer,
+            field: this.questions[index].id
           })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
     },
     addUploads (index) {
       this.questions[index]
-          .fieldUploads
-          .map((v) => {
-            this.$axios.$post('/api/field-uploads/', {
-              allowSpecificTypes: v.allow_spec ? 1 : 0,
-              checkboxValue: JSON.stringify(v.checkboxValue),
-              maxNumber: v.maxNumber,
-              maxSize: v.maxSize,
-              field: this.questions[index].id,
-              description: v.description,
-              image: v.image
-            })
-                .then((res) => {
-                  v.id = res.id
-                })
+        .fieldUploads
+        .map((v) => {
+          this.$axios.$post('/api/field-uploads/', {
+            allowSpecificTypes: v.allow_spec ? 1 : 0,
+            checkboxValue: JSON.stringify(v.checkboxValue),
+            maxNumber: v.maxNumber,
+            maxSize: v.maxSize,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
           })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
     },
     addScales (index) {
       this.questions[index]
-          .fieldLinearScales
-          .map((v) => {
-            this.$axios.$post('/api/field-linear-scales/', {
-              allowSpecificTypes: v.allowSpecificTypes,
-              fromValue: v.fromValue,
-              toValue: v.toValue,
-              label1: v.label1,
-              label2: v.label2,
-              field: this.questions[index].id,
-              description: v.description,
-              image: v.image
-            })
-                .then((res) => {
-                  v.id = res.id
-                })
+        .fieldLinearScales
+        .map((v) => {
+          this.$axios.$post('/api/field-linear-scales/', {
+            allowSpecificTypes: v.allowSpecificTypes,
+            fromValue: v.fromValue,
+            toValue: v.toValue,
+            label1: v.label1,
+            label2: v.label2,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
           })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
     },
     addDates (index) {
       this.questions[index]
-          .fieldDates
-          .map((v) => {
-            this.$axios.$post('/api/field-dates/', {
-              dateValue: v.dateValue,
-              timeValue: v.timeValue,
-              field: this.questions[index].id,
-              description: v.description_field,
-              image: v.image_field
-            })
-                .then((res) => {
-                  v.id = res.id
-                })
+        .fieldDates
+        .map((v) => {
+          this.$axios.$post('/api/field-dates/', {
+            dateValue: v.dateValue,
+            timeValue: v.timeValue,
+            field: this.questions[index].id,
+            description: v.description_field,
+            image: v.image_field
           })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
     },
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)

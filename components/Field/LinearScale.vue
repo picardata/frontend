@@ -23,7 +23,7 @@
               0
             </a>
             <a
-                :id="elementId.fromSelect+'-'+q_key+'-'+1"
+              :id="elementId.fromSelect+'-'+q_key+'-'+1"
               class="dropdown-item"
               @click="change_from(scale, 1)"
             >
@@ -48,11 +48,11 @@
           </button>
           <div class="dropdown-menu">
             <a
+              v-for="(n,n_key) in 10"
               :id="elementId.fromSelect+'-'+q_key+'-'+n"
-              v-for="n in 10"
               :key="n_key"
               class="dropdown-item"
-              @click="change_to(scale, n_key)"
+              @click="change_to(scale, n)"
             >
               {{ n }}
             </a>
@@ -106,7 +106,7 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         fromToggle: 'maxNumberDropdownToggle',
         fromSelect: 'maxNumberDropdownSelect',
         toToggle: 'maxSizeDropdownToggle',

@@ -40,9 +40,9 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         date_input: 'inputDate',
-        time_input: 'inputTime',
+        time_input: 'inputTime'
       }
     }
   },

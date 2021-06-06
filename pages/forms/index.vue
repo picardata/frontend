@@ -29,7 +29,7 @@
           </base-header>
           <div class="container-fluid mt--6">
             <div class="row">
-              <a :id="elementId.back_button" id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+              <a :id="elementId.back_button" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
             </div>
             <div class="row mt-3" style="margin-bottom: 4%">
               <div class="col-4">
@@ -54,8 +54,8 @@
                       /></span>
                   </div>
                   <input
-                    v-model="qSearch"
                     :id="elementId.search_input"
+                    v-model="qSearch"
                     type="text"
                     class="form-control search-box border-0"
                     placeholder="Search created forms"
@@ -238,13 +238,13 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         add_form: 'addNewForm',
         open_form: 'openForm',
         share_form: 'shareForm',
         title_form: 'titleForm',
-        back_button:'backButton',
-        last_updated:'lastUpdated',
+        back_button: 'backButton',
+        last_updated: 'lastUpdated',
         search_input: 'searchInput'
       },
       crumbs: [

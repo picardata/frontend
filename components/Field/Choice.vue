@@ -17,8 +17,8 @@
               <div class="d-flex">
                 <div>
                   <input
-                    :id="elementId.option_input + '-' + index + '-' + question.id"
                     v-show="choice.edit === true"
+                    :id="elementId.option_input + '-' + index + '-' + question.id"
                     ref="choices"
                     v-model="choice.name"
                     type="text"
@@ -31,11 +31,23 @@
                   >
                   <span
                     v-if="index === lastIndex &&
-                    !otherInChoice"
-                      :id="elementId.option_add + '-' + index + '-' + question.id" v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" class="cursor-pointer" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
+                      !otherInChoice"
+                    v-show="choice.edit === false"
+                    :id="elementId.option_add + '-' + index + '-' + question.id"
+                    :class="{'last-choice' : index == lastIndex}"
+                    class="cursor-pointer"
+                    @click="addChoice(index, 1)"
+                    @dblclick="edit(choice, index)"
+                  >{{ choice.name }}</span>
                   <span
-                      v-if="index !== lastIndex"
-                      :id="elementId.option_name + '-' + index + '-' + question.id" v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" class="cursor-pointer" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
+                    v-if="index !== lastIndex"
+                    v-show="choice.edit === false"
+                    :id="elementId.option_name + '-' + index + '-' + question.id"
+                    :class="{'last-choice' : index == lastIndex}"
+                    class="cursor-pointer"
+                    @click="addChoice(index, 1)"
+                    @dblclick="edit(choice, index)"
+                  >{{ choice.name }}</span>
                 </div>
                 <div
                   v-if="question.type !== 4 &&
@@ -83,7 +95,7 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         option_input: 'inputOption',
         option_name: 'optionName',
         option_add: 'addOption',

@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      elementId:{
+      elementId: {
         short_answer: 'shortAnswerInput'
       },
       fileSingle: [],
