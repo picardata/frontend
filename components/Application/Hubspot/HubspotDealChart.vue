@@ -14,7 +14,7 @@
           <div class="chart">
             <bar-chart
               :height="300"
-              :chart-data="chartData"
+              :chart-data="barChartData"
             />
           </div>
         </div>
@@ -32,6 +32,16 @@ export default {
   props: {
     dealStage: String,
     chartData: Object
+  },
+  computed: {
+    barChartData () {
+      return {
+        datasets: this.chartData.datasets,
+        labels: this.chartData.labels.map((label) => {
+          return this.dealStageFormat(label)
+        })
+      }
+    }
   },
   methods: {
     dealStageFormat (stage) {
