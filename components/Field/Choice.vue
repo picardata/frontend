@@ -76,7 +76,7 @@
               />
             </div>
           </div>
-          <div class="add-image text-primary">
+          <div v-if="show_features" class="add-image text-primary">
             <i class="fas fa-image" /> Add image
           </div>
         </li>
@@ -91,7 +91,8 @@ export default {
   props: {
     question: {
       type: Object
-    }
+    },
+    show_features: { type: Boolean }
   },
   data () {
     return {
