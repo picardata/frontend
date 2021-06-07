@@ -134,11 +134,19 @@ export default {
         }
       ]
 
-      return icons.filter((v) => {
+      const resultIcons = icons.filter((v) => {
         if (type.search(v.type) > 0) {
           return v
+        } else {
+          return icons[0]
         }
-      })[0].icon
+      })
+
+      if (resultIcons.length > 0) {
+        return resultIcons[0].icon
+      }
+
+      return ''
     },
 
     setCurrentPage (currentPage) {
