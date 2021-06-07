@@ -161,6 +161,9 @@
                   </template>
                 </stats-card>
               </div>
+              <div class="col-xl-3 col-6">
+                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              </div>
               <div class="col-xl-3 col-md-6">
                 <FacebookFollowerStat />
               </div>
@@ -357,6 +360,7 @@
 </template>
 <script>
 import { Select, Option } from 'element-ui'
+import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
@@ -367,6 +371,7 @@ import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
+import hubspotMixin from '~/mixins/hubspot'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -383,12 +388,14 @@ export default {
     FacebookPostReachChart,
     FacebookPageLikeChart,
     [Select.name]: Select,
-    [Option.name]: Option
+    [Option.name]: Option,
+    HubspotDealChart
   },
   auth: true,
   layout: 'argon',
   mixins: [
-    loaderMixin
+    loaderMixin,
+    hubspotMixin
   ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
@@ -690,6 +697,9 @@ export default {
           console.log(e)
         }
       )
+
+    // Hubspot get deals chart data
+    this.getHubspotChartDealsData()
   },
   methods: {
     submenuAfterLeave (el) {
