@@ -188,38 +188,13 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Finance
+                          Facebook Page: Total Page Likes
                         </h5>
-                        <h6>
-                          Transaction
-                        </h6>
-                        <h1>
-                          14.5K$ USD
-                        </h1>
-                      </div>
-                      <div class="col-4 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.secondWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="transaction.chartData"
-                    />
+                    <FacebookPageLikeChart />
                   </div>
                 </card>
               </div>
@@ -387,6 +362,7 @@ import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
+import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
@@ -405,6 +381,7 @@ export default {
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
+    FacebookPageLikeChart,
     [Select.name]: Select,
     [Option.name]: Option
   },
