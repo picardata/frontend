@@ -13,14 +13,16 @@
       <prev-page />
       <div class="row mt-3">
         <div class="col-6">
-          <h1>{{ name }}</h1>
+          <h1 :id="elementId.title_form">
+            {{ name }}
+          </h1>
           <div class="rox pl-1">
             <p>Last Modified {{ formattedUpdatedAt }}</p>
           </div>
         </div>
         <div class="col-6">
           <span class="align-middle float-right">
-            <nuxt-link to="/forms/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
+            <nuxt-link :id="elementId.add_form" to="/forms/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
           </span>
         </div>
       </div>
@@ -28,17 +30,17 @@
         <div class="col-4">
           <nav class="nav">
             <a class="nav-link disabled" href="#">Questions</a>
-            <nuxt-link class="nav-link" :to="'/forms/result/' + id">
+            <nuxt-link :id="elementId.response_form" class="nav-link" :to="'/forms/result/' + id">
               View Responses
             </nuxt-link>
           </nav>
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
-            <nuxt-link :to="'/forms/preview/' + id" class="btn btn-lg bg-white btn-preview">
+            <nuxt-link :id="elementId.preview_form" :to="'/forms/preview/' + id" class="btn btn-lg bg-white btn-preview">
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
-            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+            <button :id="elementId.share_form" class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
           </span>
         </div>
       </div>
@@ -51,6 +53,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.title_form"
                   v-model="name"
                   type="text"
                   name="name"
@@ -62,6 +65,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.desc_form"
                   v-model="description"
                   type="text"
                   name="description"
@@ -226,6 +230,15 @@ export default {
   data () {
     return {
       noField: false,
+      elementId: {
+        add_form: 'addNewForm',
+        preview_form: 'previewForm',
+        share_form: 'shareForm',
+        desc_form: 'descriptionForm',
+        response_form: 'viewResponseForm',
+        title_form: 'titleForm',
+        back_button: 'backButton'
+      },
       crumbs: [
         {
           name: 'Forms',
@@ -620,7 +633,7 @@ export default {
         .fieldUploads
         .map((v) => {
           this.$axios.$post('/api/field-uploads/', {
-            allowSpecificTypes: v.allowSpecificTypes,
+            allowSpecificTypes: v.allow_spec ? 1 : 0,
             checkboxValue: JSON.stringify(v.checkboxValue),
             maxNumber: v.maxNumber,
             maxSize: v.maxSize,

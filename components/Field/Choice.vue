@@ -18,6 +18,7 @@
                 <div>
                   <input
                     v-show="choice.edit === true"
+                    :id="elementId.option_input + '-' + index + '-' + question.id"
                     ref="choices"
                     v-model="choice.name"
                     type="text"
@@ -28,15 +29,33 @@
                     @keyup.esc="cancelEdit(choice)"
                     @blur="doneEdit(choice, index, question.id)"
                   >
-                  <span v-show="choice.edit === false" :class="{'last-choice' : index == lastIndex}" class="cursor-pointer" @click="addChoice(index, 1)" @dblclick="edit(choice, index)">{{ choice.name }}</span>
+                  <span
+                    v-if="index === lastIndex &&
+                      !otherInChoice"
+                    v-show="choice.edit === false"
+                    :id="elementId.option_add + '-' + index + '-' + question.id"
+                    :class="{'last-choice' : index == lastIndex}"
+                    class="cursor-pointer"
+                    @click="addChoice(index, 1)"
+                    @dblclick="edit(choice, index)"
+                  >{{ choice.name }}</span>
+                  <span
+                    v-if="index !== lastIndex"
+                    v-show="choice.edit === false"
+                    :id="elementId.option_name + '-' + index + '-' + question.id"
+                    :class="{'last-choice' : index == lastIndex}"
+                    class="cursor-pointer"
+                    @click="addChoice(index, 1)"
+                    @dblclick="edit(choice, index)"
+                  >{{ choice.name }}</span>
                 </div>
                 <div
                   v-if="question.type !== 4 &&
                     index === lastIndex &&
-                    otherInChoice == false"
+                    !otherInChoice"
                   class="ml-1"
                 >
-                  <span>or <a class="btn-add-other text-primary cursor-pointer" @click="addChoice(lastIndex, 2)">Add "Other"</a></span>
+                  <span>or <a :id="elementId.add_other + '-' + index + '-' + question.id" class="btn-add-other text-primary cursor-pointer" @click="addChoice(lastIndex, 2)">Add "Other"</a></span>
                 </div>
               </div>
             </div>
@@ -76,6 +95,12 @@ export default {
   },
   data () {
     return {
+      elementId: {
+        option_input: 'inputOption',
+        option_name: 'optionName',
+        option_add: 'addOption',
+        add_other: 'addOtherOption'
+      },
       beforeEditCache: '',
       icons: [
         {

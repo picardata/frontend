@@ -10,14 +10,14 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
-      <prev-page />
+      <prev-page :id="elementId.back_button" />
       <div class="row mt-3">
         <div class="col-6">
           <h1>Create blank form</h1>
         </div>
         <div class="col-6">
           <span class="align-middle float-right">
-            <nuxt-link to="/forms/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
+            <nuxt-link :id="elementId.add_form" to="/forms/new" class="btn btn btn-outline-primary btn-create">Create other blank form</nuxt-link>
           </span>
         </div>
       </div>
@@ -27,10 +27,11 @@
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
-            <nuxt-link :to="id ? '/forms/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
+            <nuxt-link :id="elementId.preview_form" :to="id ? '/forms/preview/' + id : ''" class="btn btn-lg  text-primary btn-preview">
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
-            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+            <button :id="elementId.share_form" class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+
           </span>
         </div>
       </div>
@@ -43,6 +44,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.title_formInput"
                   v-model="name"
                   type="text"
                   name="name"
@@ -54,6 +56,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.desc_form"
                   v-model="description"
                   type="text"
                   name="description"
@@ -110,6 +113,15 @@ export default {
   },
   data () {
     return {
+      elementId: {
+        add_form: 'addNewForm',
+        preview_form: 'previewForm',
+        share_form: 'shareForm',
+        desc_form: 'descriptionForm',
+        title_form: 'titleForm',
+        title_formInput: 'titleFormInput',
+        back_button: 'backButton'
+      },
       id: '',
       name: 'Untitled form',
       noField: false,
@@ -329,6 +341,78 @@ export default {
         }
       ]
     },
+    bulkDeleteFieldTexts (questionId) {
+      this.questions[questionId].fieldTexts.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-texts/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldTexts = [
+        {
+          id: undefined,
+          description: null,
+          shortAnswer: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldUploads (questionId) {
+      this.questions[questionId].fieldUploads.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-uploads/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldUploads = [
+        {
+          id: undefined,
+          allowSpecificTypes: null,
+          checkboxValue: [],
+          maxNumber: 0,
+          maxSize: 0,
+          description: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldScales (questionId) {
+      this.questions[questionId].fieldLinearScales.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-linear-scales/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldLinearScales = [
+        {
+          id: undefined,
+          allowSpecificTypes: null,
+          fromValue: 1,
+          toValue: 5,
+          label1: null,
+          label2: null,
+          description: null,
+          image: null
+        }
+      ]
+    },
+    bulkDeleteFieldDates (questionId) {
+      this.questions[questionId].fieldDates.map((x) => {
+        if (x.id) {
+          this.$axios.$delete('/api/field-dates/' + x.id)
+        }
+      })
+
+      this.questions[questionId].fieldDates = [
+        {
+          id: undefined,
+          dateValue: null,
+          timeValue: null,
+          description: null,
+          image: null
+        }
+      ]
+    },
     newField (index) {
       this.noField = false
       this.questions.splice(index + 1, 0, {
@@ -500,6 +584,74 @@ export default {
                 v.id = res.id
               })
           }
+        })
+    },
+    addTexts (index) {
+      this.questions[index]
+        .fieldTexts
+        .map((v) => {
+          this.$axios.$post('/api/field-texts/', {
+            description: v.description,
+            image: v.image,
+            shortAnswer: v.shortAnswer,
+            field: this.questions[index].id
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addUploads (index) {
+      this.questions[index]
+        .fieldUploads
+        .map((v) => {
+          this.$axios.$post('/api/field-uploads/', {
+            allowSpecificTypes: v.allow_spec ? 1 : 0,
+            checkboxValue: JSON.stringify(v.checkboxValue),
+            maxNumber: v.maxNumber,
+            maxSize: v.maxSize,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addScales (index) {
+      this.questions[index]
+        .fieldLinearScales
+        .map((v) => {
+          this.$axios.$post('/api/field-linear-scales/', {
+            allowSpecificTypes: v.allowSpecificTypes,
+            fromValue: v.fromValue,
+            toValue: v.toValue,
+            label1: v.label1,
+            label2: v.label2,
+            field: this.questions[index].id,
+            description: v.description,
+            image: v.image
+          })
+            .then((res) => {
+              v.id = res.id
+            })
+        })
+    },
+    addDates (index) {
+      this.questions[index]
+        .fieldDates
+        .map((v) => {
+          this.$axios.$post('/api/field-dates/', {
+            dateValue: v.dateValue,
+            timeValue: v.timeValue,
+            field: this.questions[index].id,
+            description: v.description_field,
+            image: v.image_field
+          })
+            .then((res) => {
+              v.id = res.id
+            })
         })
     },
     deleteField (index) {

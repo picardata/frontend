@@ -2,6 +2,7 @@
   <div class="col-8">
     <div v-for="(text, index) in question.fieldTexts" :key="index">
       <input
+        :id="elementId.short_answer + '-' + q_key"
         v-model="text.shortAnswer"
         type="text"
         name="input-answer"
@@ -27,6 +28,9 @@ export default {
   },
   data () {
     return {
+      elementId: {
+        short_answer: 'shortAnswerInput'
+      },
       fileSingle: [],
       type_id: 0,
       firstTrigger: true
