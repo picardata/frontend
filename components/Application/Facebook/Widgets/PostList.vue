@@ -137,6 +137,8 @@ export default {
       const resultIcons = icons.filter((v) => {
         if (type.search(v.type) > 0) {
           return v
+        } else {
+          return icons[0]
         }
       })
 
@@ -144,7 +146,7 @@ export default {
         return resultIcons[0].icon
       }
 
-      return '';
+      return ''
     },
 
     setCurrentPage (currentPage) {
