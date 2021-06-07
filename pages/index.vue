@@ -161,14 +161,14 @@
                   </template>
                 </stats-card>
               </div>
-              <div class="col-xl-3 col-6">
-                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
-              </div>
               <div class="col-xl-3 col-md-6">
                 <FacebookFollowerStat />
               </div>
             </div>
             <div class="row">
+              <div class="col-6">
+                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              </div>
               <div class="col-xl-6">
                 <card>
                   <template slot="header">
