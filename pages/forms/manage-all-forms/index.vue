@@ -49,6 +49,7 @@
                         <span class="input-group-text"><i class="fas fa-search" /></span>
                       </div>
                       <input
+                        :id="'input-text-search-forms'"
                         class="form-control app-search"
                         placeholder="Search created forms"
                         type="text"
@@ -73,8 +74,8 @@
                   <div class="card-header">
                     <div class="row">
                       <div class="col-6">
-                        <input id="check-all" v-model="selectAllCheckbox" type="checkbox" class="form-checkbox d-inline" @click="selectAllForms()">
-                        <label class="d-inline" for="check-all">Select all forms</label>
+                        <input id="input-checkbox-check-all" v-model="selectAllCheckbox" type="checkbox" class="form-checkbox d-inline" @click="selectAllForms()">
+                        <label class="d-inline" for="input-checkbox-check-all">Select all forms</label>
                       </div>
                       <div class="col-6">
                         <div class="float-right">
@@ -111,7 +112,7 @@
                       sortable
                     >
                       <template v-slot="{row}">
-                        <b>{{ row.name }}</b>
+                        <b :id="'text-title-form-'+row.id">{{ row.name }}</b>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -153,7 +154,7 @@
                       label="Actions"
                     >
                       <template v-slot="{row}">
-                        <nuxt-link class="font-weight-bold" :to="'/forms/' + row.id">
+                        <nuxt-link :id="'button-edit-forms-'+row.id" class="font-weight-bold" :to="'/forms/' + row.id">
                           Edit Form
                         </nuxt-link>
                       </template>
