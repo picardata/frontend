@@ -21,7 +21,6 @@
       <div>
         <div id="card-element"></div>
         <div class="mt-4">
-          <label class="form-control-label"> Name on Card </label>
           <input type="text" class="form-control" v-model="name" placeholder="Labina Kirby">
         </div>
       </div>
