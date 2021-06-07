@@ -124,7 +124,7 @@ export default {
       })
         .then((data) => {
           data.data.map((deal) => {
-            const l = this.dealStageFormat(deal.dealStage)
+            const l = deal.dealStage
             if (!labels.includes(l)) {
               labels.push(l)
               chartData.push(deal.total)
@@ -139,20 +139,6 @@ export default {
 
           this.dealsChart.loaded = true
         })
-    },
-    dealStageFormat (stage) {
-      const stages = {
-        appointmentscheduled: 'Appointment scheduled',
-        qualifiedtobuy: 'Qualified to buy',
-        presentationscheduled: 'Presentation scheduled',
-        decisionmakerboughtin: 'Decision maker bought-In',
-        contractsent: 'Contract sent',
-        closedwon: 'Closed won',
-        closedlost: 'Closed lost',
-        allstages: 'All stages'
-      }
-
-      return stages[stage]
     }
   },
   mounted () {
