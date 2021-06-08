@@ -202,123 +202,23 @@
                 </card>
               </div>
 
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <card>
                   <template slot="header">
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Social Media
+                          Facebook Page: Total Page View &amp; Total Video View
                         </h5>
-                        <h6>
-                          Followers
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.thirdWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="socialMedia.chartData"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Human Resources
-                        </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.forthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <bar-chart
-                      :chart-data="humanResources.chartData"
-                      :height="350"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Sales &amp; Marketing
-                        </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.fifthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart-area">
-                    <bar-chart
-                      :height="350"
-                      :chart-data="salesAndMarketing.chartData"
-                      :extra-options="salesAndMarketing.extraOptions"
-                    />
+                    <FacebookVideoAndPageViewChart />
                   </div>
                 </card>
               </div>
+
               <div class="col-xl-12">
                 <card>
                   <template slot="header">
@@ -361,13 +261,12 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
-import LineChart from '~/components/argon-core/Charts/LineChart'
-import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
+import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
@@ -380,13 +279,12 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    LineChart,
-    BarChart,
     StatsCard,
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
     FacebookPageLikeChart,
+    FacebookVideoAndPageViewChart,
     [Select.name]: Select,
     [Option.name]: Option,
     HubspotDealChart
