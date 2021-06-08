@@ -74,8 +74,15 @@
                   <div class="card-header">
                     <div class="row">
                       <div class="col-6">
-                        <input id="input-checkbox-check-all" v-model="selectAllCheckbox" type="checkbox" class="form-checkbox d-inline" @click="selectAllForms()">
-                        <label class="d-inline" for="input-checkbox-check-all">Select all forms</label>
+                        <input
+                          id="check-all"
+                          v-model="selectAllCheckbox"
+                          :indeterminate.prop="indeterminateCheckbox"
+                          type="checkbox"
+                          class="form-checkbox d-inline"
+                          @click="selectAllForms()"
+                        >
+                        <label class="d-inline" for="check-all">Select all forms</label>
                       </div>
                       <div class="col-6">
                         <div class="float-right">
@@ -83,7 +90,7 @@
                             <i class="pd-icon icon-Duplicate" />Duplicate
                           </div>
                           <span style="opacity: 0.4">|</span>
-                          <div class="btn-card btn-remove d-inline">
+                          <div class="btn-card btn-remove d-inline" @click="removeSelectedForms()">
                             <i class="pd-icon icon-Delete" />Remove
                           </div>
                         </div>
@@ -94,7 +101,7 @@
                     class="table-responsive table-flush"
                     header-row-class-name="thead-light"
                     row-key="id"
-                    :data="forms"
+                    :data="tableData"
                   >
                     <el-table-column
                       label=""
@@ -189,8 +196,7 @@ export default {
   },
   data () {
     return {
-      selectedForms: [],
-      selectAllCheckbox: false,
+      allFormsSelected: false,
       forms: [],
       crumbs: [
         {
@@ -232,7 +238,34 @@ export default {
   },
   computed: {
     totalForms () {
-      return this.forms.length
+      return this.tableData.length
+    },
+    selectAllCheckbox () {
+      const totalChecked = this.forms.filter((form) => {
+        return !!form.checkbox && !form.deleted
+      }).length
+
+      if (totalChecked === this.totalForms) {
+        return true
+      } else {
+        return false
+      }
+    },
+    indeterminateCheckbox () {
+      const totalChecked = this.forms.filter((form) => {
+        return !!form.checkbox && !form.deleted
+      }).length
+
+      if (totalChecked > 0 && totalChecked < this.totalForms) {
+        return true
+      } else {
+        return false
+      }
+    },
+    tableData () {
+      return this.forms.filter((form) => {
+        return form.deleted === false
+      })
     }
   },
   methods: {
@@ -241,6 +274,7 @@ export default {
 
       const dataResult = data.map((form) => {
         form.checkbox = false
+        form.deleted = false
         return form
       })
       this.forms = dataResult
@@ -260,18 +294,20 @@ export default {
       return this.$moment(date).format('DD MMM YYYY')
     },
     selectAllForms () {
-      this.selectAllCheckbox = !this.selectAllCheckbox
+      this.allFormsSelected = !this.selectAllCheckbox
 
       this.forms.map((form) => {
-        form.checkbox = this.selectAllCheckbox
+        form.checkbox = this.allFormsSelected
         return form
       })
-
-      if (this.selectAllCheckbox === true) {
-        this.selectedForms = this.forms
-      } else {
-        this.selectedForms = []
-      }
+    },
+    async removeSelectedForms () {
+      await this.forms.filter((form, index) => {
+        if (form.checkbox === true) {
+          this.$axios.$delete('/api/forms/' + form.id)
+          this.forms[index].deleted = true
+        }
+      })
     }
   }
 }
@@ -290,20 +326,18 @@ i {
 
 .btn-duplicate {
   color: #2534B6;
+  cursor: pointer;
 }
 
 .btn-remove {
   color: #8B8B8D;
+  cursor: pointer;
 }
 
 .card, .card-header {
   border-bottom: none!important;
   box-shadow: none!important;
 }
-
-// /deep/.el-table::before {
-//   content: none;
-// }
 
 .form-checkbox {
   width: 16px;
@@ -315,10 +349,6 @@ i {
   line-height: 1;
   vertical-align: middle;
 }
-
-// /deep/.el-table th.is-leaf {
-//   border-bottom: none;
-// }
 
 /deep/tr.el-table__row {
   border: 1px solid #E0E0E0!important;
