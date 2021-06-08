@@ -51,6 +51,12 @@ export default {
           link: '/forms'
         },
         {
+          name: 'tasks',
+          displayName: 'Tasks',
+          icon: 'icon-Tasks',
+          link: '/tasks'
+        },
+        {
           name: 'billing',
           displayName: 'Billing',
           icon: 'icon-Billing',
