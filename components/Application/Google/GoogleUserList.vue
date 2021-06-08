@@ -224,6 +224,9 @@ export default {
       return result
     }
   },
+  mounted () {
+    this.disableAutoComplete()
+  },
   methods: {
     clearForm () {
       this.user = {
@@ -294,6 +297,23 @@ export default {
       this.user = this.users[index]
       this.user.index = index
       this.modals.createUser = true
+    },
+    disableAutoComplete () {
+      const elements = document.querySelectorAll('[autocomplete="off"]')
+      console.log(elements)
+
+      if (!elements) {
+        return
+      }
+
+      elements.forEach((element) => {
+        element.setAttribute('readonly', 'readonly')
+        // element.style.backgroundColor = "inherit";
+
+        setTimeout(() => {
+          element.removeAttribute('readonly')
+        }, 500)
+      })
     }
   }
 }
