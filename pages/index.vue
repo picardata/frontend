@@ -311,30 +311,10 @@
                           Facebook Page: Total Video View &amp;	 Total View
                         </h5>
                       </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.fifthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
                     </div>
                   </template>
                   <div class="chart-area">
-                    <bar-chart
-                      :height="350"
-                      :chart-data="salesAndMarketing.chartData"
-                      :extra-options="salesAndMarketing.extraOptions"
-                    />
+                    <FacebookVideoAndPageViewChart/>
                   </div>
                 </card>
               </div>
@@ -383,6 +363,7 @@ import LineChart from '~/components/argon-core/Charts/LineChart'
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
+import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import { Charts } from '~/components/argon-core/Charts/config'
@@ -402,6 +383,7 @@ export default {
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
+    FacebookVideoAndPageViewChart,
     [Select.name]: Select,
     [Option.name]: Option
   },
