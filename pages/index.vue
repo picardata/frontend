@@ -208,7 +208,7 @@
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Facebook Page: Total Video View &amp; Total View
+                          Facebook Page: Total Page View &amp; Total Video View 
                         </h5>
                       </div>
                     </div>
