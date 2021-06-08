@@ -286,36 +286,13 @@
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Sales &amp; Marketing
+                          Facebook Page: Total Video View &amp; Total View
                         </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.fifthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart-area">
-                    <bar-chart
-                      :height="350"
-                      :chart-data="salesAndMarketing.chartData"
-                      :extra-options="salesAndMarketing.extraOptions"
-                    />
+                    <FacebookVideoAndPageViewChart />
                   </div>
                 </card>
               </div>
@@ -368,6 +345,7 @@ import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
+import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
@@ -387,6 +365,7 @@ export default {
     FacebookFollowerStat,
     FacebookPostReachChart,
     FacebookPageLikeChart,
+    FacebookVideoAndPageViewChart,
     [Select.name]: Select,
     [Option.name]: Option,
     HubspotDealChart
