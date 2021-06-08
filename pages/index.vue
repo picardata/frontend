@@ -308,11 +308,8 @@
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Sales &amp; Marketing
+                          Facebook Page: Total Video View &amp;	 Total View
                         </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
                       </div>
                       <div class="col-6 d-inline float-right">
                         <base-input>
