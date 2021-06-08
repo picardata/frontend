@@ -202,85 +202,7 @@
                 </card>
               </div>
 
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Social Media
-                        </h5>
-                        <h6>
-                          Followers
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.thirdWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="socialMedia.chartData"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Human Resources
-                        </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.forthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <bar-chart
-                      :chart-data="humanResources.chartData"
-                      :height="350"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <card>
                   <template slot="header">
                     <div class="row">
@@ -296,6 +218,8 @@
                   </div>
                 </card>
               </div>
+
+
               <div class="col-xl-12">
                 <card>
                   <template slot="header">

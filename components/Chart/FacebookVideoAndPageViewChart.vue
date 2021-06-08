@@ -33,8 +33,9 @@ export default {
     BarChart
   },
   async fetch () {
-    const pageViewResponse = await this.$axios.$get('/api/facebook/page-views')
-    const pageVideoViewResponse = await this.$axios.$get('/api/facebook/videos-views')
+    const responses = await Promise.all([this.$axios.$get('/api/facebook/page-views'), this.$axios.$get('/api/facebook/videos-views')])
+    const pageViewResponse = responses[0]
+    const pageVideoViewResponse = responses[1]
 
     const viewResponse = getResponseData(pageViewResponse)
     const videoViewRespone = getResponseData(pageVideoViewResponse)
