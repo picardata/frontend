@@ -11,25 +11,21 @@ import moment from 'moment'
 import BarChart from '~/components/argon-core/Charts/BarChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 
-function randomScalingFactor () {
-  return Math.round(Math.random() * 100)
-}
+function getResponseData (dataParam) {
+  if (dataParam.length > 0) {
+    const dataRaw = dataParam[0]
+    const values = dataRaw.values
 
-function getResponseData(dataParam) {
-    if (dataParam.length > 0) {
-      const dataRaw = dataParam[0]
-      const values = dataRaw.values
+    const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
+    const data = values.map(value => value.value)
 
-      const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
-      const data = values.map(value => value.value)
-
-      return {
-        labels,
-        data
-      }
+    return {
+      labels,
+      data
     }
+  }
 
-    return null;
+  return null
 }
 
 export default {
@@ -78,4 +74,3 @@ export default {
   }
 }
 </script>
-

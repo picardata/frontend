@@ -308,13 +308,13 @@
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Facebook Page: Total Video View &amp;	 Total View
+                          Facebook Page: Total Video View &amp; Total View
                         </h5>
                       </div>
                     </div>
                   </template>
                   <div class="chart-area">
-                    <FacebookVideoAndPageViewChart/>
+                    <FacebookVideoAndPageViewChart />
                   </div>
                 </card>
               </div>
