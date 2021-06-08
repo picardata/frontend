@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <div v-if="q.desc || q.description != null">
+        <div v-if="show_features && q.desc || q.descText != null">
           <div class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <Choice v-if="q.type == 2 || q.type == 3 || q.type == 4" :question="questions[q_key]" />
+        <Choice v-if="q.type == 2 || q.type == 3 || q.type == 4" :show_features="show_features" :question="questions[q_key]" />
         <Textfield
           v-if="q.type == 0 || q.type == 1"
           :q_key="q_key"
@@ -74,6 +74,7 @@
           :question="questions[q_key]"
           :desc_field="description_field"
           :image_field="image_field"
+          :show_features="show_features"
         />
         <FieldUpload v-if="q.type == 5" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <LinearScale v-if="q.type == 6" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
@@ -95,8 +96,8 @@
                   <span class="button-required">Required *</span>
                 </b-form-checkbox>
               </div>
-              <div class="divider p-0 pr-1" />
-              <div class="p-0 mr-1">
+              <div v-if="show_features" class="divider p-0 pr-1" />
+              <div v-if="show_features" class="p-0 mr-1">
                 <button :id="elementId.question_addDesc + '-' + q_key" type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc; q.description = null">
                   <font-awesome-icon :icon="['fas', 'plus']" />
                   <span>Add description/image</span>
@@ -156,6 +157,7 @@ export default {
   },
   data () {
     return {
+      show_features: false,
       elementId: {
         question_title: 'questionTitle',
         question_desc: 'questionDescription',
@@ -198,27 +200,27 @@ export default {
           type: 4,
           name: 'Drop-down',
           icon: 'caret-square-down'
-        },
-        {
-          type: 5,
-          name: 'File upload',
-          icon: 'cloud-upload-alt'
-        },
-        {
-          type: 6,
-          name: 'Linear scale',
-          icon: 'ellipsis-h'
-        },
-        {
-          type: 7,
-          name: 'Date',
-          icon: 'calendar'
-        },
-        {
-          type: 8,
-          name: 'Time',
-          icon: 'clock'
         }
+        // ,{
+        //   type: 5,
+        //   name: 'File upload',
+        //   icon: 'cloud-upload-alt'
+        // },
+        // {
+        //   type: 6,
+        //   name: 'Linear scale',
+        //   icon: 'ellipsis-h'
+        // },
+        // {
+        //   type: 7,
+        //   name: 'Date',
+        //   icon: 'calendar'
+        // },
+        // {
+        //   type: 8,
+        //   name: 'Time',
+        //   icon: 'clock'
+        // }
       ]
     }
   }
