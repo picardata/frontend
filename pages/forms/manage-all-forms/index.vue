@@ -74,8 +74,15 @@
                   <div class="card-header">
                     <div class="row">
                       <div class="col-6">
-                        <input id="input-checkbox-check-all" v-model="selectAllCheckbox" type="checkbox" class="form-checkbox d-inline" @click="selectAllForms()">
-                        <label class="d-inline" for="input-checkbox-check-all">Select all forms</label>
+                        <input
+                          id="check-all"
+                          v-model="selectAllCheckbox"
+                          :indeterminate.prop="indeterminateCheckbox"
+                          type="checkbox"
+                          class="form-checkbox d-inline"
+                          @click="selectAllForms()"
+                        >
+                        <label class="d-inline" for="check-all">Select all forms</label>
                       </div>
                       <div class="col-6">
                         <div class="float-right">
@@ -190,7 +197,7 @@ export default {
   data () {
     return {
       selectedForms: [],
-      selectAllCheckbox: false,
+      allFormsSelected: false,
       forms: [],
       crumbs: [
         {
@@ -233,6 +240,28 @@ export default {
   computed: {
     totalForms () {
       return this.forms.length
+    },
+    selectAllCheckbox () {
+      const totalChecked = this.forms.filter((form) => {
+        return !!form.checkbox
+      }).length
+
+      if (totalChecked === this.totalForms) {
+        return true
+      } else {
+        return false
+      }
+    },
+    indeterminateCheckbox () {
+      const totalChecked = this.forms.filter((form) => {
+        return !!form.checkbox
+      }).length
+
+      if (totalChecked > 0 && totalChecked < this.totalForms) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -260,14 +289,14 @@ export default {
       return this.$moment(date).format('DD MMM YYYY')
     },
     selectAllForms () {
-      this.selectAllCheckbox = !this.selectAllCheckbox
+      this.allFormsSelected = !this.selectAllCheckbox
 
       this.forms.map((form) => {
-        form.checkbox = this.selectAllCheckbox
+        form.checkbox = this.allFormsSelected
         return form
       })
 
-      if (this.selectAllCheckbox === true) {
+      if (this.allFormsSelected === true) {
         this.selectedForms = this.forms
       } else {
         this.selectedForms = []
