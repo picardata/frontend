@@ -219,7 +219,6 @@
                 </card>
               </div>
 
-
               <div class="col-xl-12">
                 <card>
                   <template slot="header">
@@ -262,8 +261,6 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
-import LineChart from '~/components/argon-core/Charts/LineChart'
-import BarChart from '~/components/argon-core/Charts/BarChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
@@ -282,8 +279,6 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    LineChart,
-    BarChart,
     StatsCard,
     TotalIntegrationChart,
     FacebookFollowerStat,
