@@ -300,7 +300,6 @@ export default {
     },
     disableAutoComplete () {
       const elements = document.querySelectorAll('[autocomplete="off"]')
-      console.log(elements)
 
       if (!elements) {
         return
