@@ -90,7 +90,7 @@
                             <i class="pd-icon icon-Duplicate" />Duplicate
                           </div>
                           <span style="opacity: 0.4">|</span>
-                          <div class="btn-card btn-remove d-inline">
+                          <div class="btn-card btn-remove d-inline" @click="removeSelectedForms()">
                             <i class="pd-icon icon-Delete" />Remove
                           </div>
                         </div>
@@ -101,7 +101,7 @@
                     class="table-responsive table-flush"
                     header-row-class-name="thead-light"
                     row-key="id"
-                    :data="forms"
+                    :data="tableData"
                   >
                     <el-table-column
                       label=""
@@ -196,7 +196,6 @@ export default {
   },
   data () {
     return {
-      selectedForms: [],
       allFormsSelected: false,
       forms: [],
       crumbs: [
@@ -239,11 +238,11 @@ export default {
   },
   computed: {
     totalForms () {
-      return this.forms.length
+      return this.tableData.length
     },
     selectAllCheckbox () {
       const totalChecked = this.forms.filter((form) => {
-        return !!form.checkbox
+        return !!form.checkbox && !form.deleted
       }).length
 
       if (totalChecked === this.totalForms) {
@@ -254,7 +253,7 @@ export default {
     },
     indeterminateCheckbox () {
       const totalChecked = this.forms.filter((form) => {
-        return !!form.checkbox
+        return !!form.checkbox && !form.deleted
       }).length
 
       if (totalChecked > 0 && totalChecked < this.totalForms) {
@@ -262,6 +261,11 @@ export default {
       } else {
         return false
       }
+    },
+    tableData () {
+      return this.forms.filter((form) => {
+        return form.deleted === false
+      })
     }
   },
   methods: {
@@ -270,6 +274,7 @@ export default {
 
       const dataResult = data.map((form) => {
         form.checkbox = false
+        form.deleted = false
         return form
       })
       this.forms = dataResult
@@ -295,12 +300,14 @@ export default {
         form.checkbox = this.allFormsSelected
         return form
       })
-
-      if (this.allFormsSelected === true) {
-        this.selectedForms = this.forms
-      } else {
-        this.selectedForms = []
-      }
+    },
+    async removeSelectedForms () {
+      await this.forms.filter((form, index) => {
+        if (form.checkbox === true) {
+          this.$axios.$delete('/api/forms/' + form.id)
+          this.forms[index].deleted = true
+        }
+      })
     }
   }
 }
@@ -319,20 +326,18 @@ i {
 
 .btn-duplicate {
   color: #2534B6;
+  cursor: pointer;
 }
 
 .btn-remove {
   color: #8B8B8D;
+  cursor: pointer;
 }
 
 .card, .card-header {
   border-bottom: none!important;
   box-shadow: none!important;
 }
-
-// /deep/.el-table::before {
-//   content: none;
-// }
 
 .form-checkbox {
   width: 16px;
@@ -344,10 +349,6 @@ i {
   line-height: 1;
   vertical-align: middle;
 }
-
-// /deep/.el-table th.is-leaf {
-//   border-bottom: none;
-// }
 
 /deep/tr.el-table__row {
   border: 1px solid #E0E0E0!important;
