@@ -82,7 +82,7 @@
                           type="checkbox"
                           class="form-checkbox d-inline"
                           @click="selectAllForms()"
-                          style="margin-bottom: 3px"
+                          style="margin-bottom: 2px"
                         >
                         <label class="d-inline" for="check-all">Select all forms</label>
                       </div>
@@ -163,7 +163,7 @@
                       label="Actions"
                     >
                       <template v-slot="{row}">
-                        <nuxt-link :id="'button-edit-forms-'+row.id" class="font-weight-bold" :to="'/forms/' + row.id">
+                        <nuxt-link :id="'button-edit-forms-'+row.id" class="font-weight-bold edit-form" :to="'/forms/' + row.id">
                           Edit Form
                         </nuxt-link>
                       </template>
@@ -320,6 +320,16 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+b {
+  font-size: 16px;
+}
+
+.edit-form {
+  text-decoration: underline;
+  font-size: 16px;
+  color: #2534B6;
+}
+
 .form-search::placeholder {
   color: #A0A3BD;
   font-size: 16px;
@@ -352,9 +362,10 @@ i {
 }
 
 .form-checkbox {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   font-size: 16px;
+  border: 2px solid;
   border-radius: 3px;
   cursor: pointer;
   outline: 0;
@@ -374,7 +385,8 @@ i {
 }
 
 /deep/.thead-light > th {
-  color: #8B8B8D;
+  color: #313131;
+  opacity: 0.4;
   font-style: Poppins;
   font-weight: 600;
   font-size: 16px;
