@@ -20,6 +20,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
                 placeholder="Email"
                 @change="validateEmail"
+                @keyup.enter="onSubmit"
               >
               <span v-if="email.length" class="form-icon" @click="emptyInput('email')"><i class="fa fa-times" /></span>
               <span
@@ -41,6 +42,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
                 placeholder="Password"
                 @change="validatePassword"
+                @keyup.enter="onSubmit"
               >
 
               <span v-if="showPassword && password.length" class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>

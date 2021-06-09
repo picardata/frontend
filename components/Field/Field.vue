@@ -4,6 +4,7 @@
       <div class="card-body">
         <div class=" col-8">
           <input
+            :id="elementId.question_title + '-' + q_key"
             v-model="q.name"
             type="text"
             name="question"
@@ -13,6 +14,7 @@
           >
           <div class="btn-group type-dropdown col-12 mt-5">
             <button
+              :id="elementId.dropdown_toggle + '-' + q_key"
               class="btn btn-default btn-lg text-left dropdown-toggle"
               type="button"
               data-toggle="dropdown"
@@ -25,6 +27,7 @@
             <div class="dropdown-menu">
               <a
                 v-for="(t, t_key) in typesOfQuestion"
+                :id="elementId.dropdown_select + '-' + q_key + '-' + t_key"
                 :key="t_key"
                 class="dropdown-item"
                 @click="change_type(q_key, t_key)"
@@ -33,35 +36,37 @@
             </div>
           </div>
         </div>
-        <div v-if="q.desc || q.descText != null">
-          <div v-if="q.type != 0 && q.type != 1" class="clearfix">
+        <div v-if="show_features && q.desc || q.descText != null">
+          <div class="clearfix">
             <div class="col-sm-8 mt-3">
               <textarea
-                v-model="q.descText"
+                :id="elementId.question_desc + '-' + q_key"
+                v-model="q.description"
                 name="text-desc"
                 class="form-control pcd mt-3"
                 placeholder="Description"
+                @keyup="submit_field(q_key, fId)"
               />
             </div>
           </div>
-          <div v-if="!q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
-            <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
+          <div v-if="!q.imageDesc" class="clearfix mt-3">
+            <button :id="elementId.add_image + '-' + q_key" type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
               <font-awesome-icon :icon="['fas', 'image']" />
               <span>Add image</span>
             </button>
           </div>
-          <div v-if="q.imageDesc && q.type != 0 && q.type != 1" class="clearfix mt-3">
+          <div v-if="q.imageDesc" class="clearfix mt-3">
             <div class="col-sm-8 mt-3">
-              <dropzone-file-upload v-model="fileSingle" />
+              <dropzone-file-upload :id="elementId.drop_image + '-' + q_key" v-model="fileSingle" />
 
-              <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
+              <button :id="elementId.cancel_image + '-' + q_key" type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
                 <font-awesome-icon :icon="['fas', 'times']" />
                 <span>Cancel</span>
               </button>
             </div>
           </div>
         </div>
-        <Choice v-if="q.type == 2 || q.type == 3 || q.type == 4" :question="questions[q_key]" />
+        <Choice v-if="q.type == 2 || q.type == 3 || q.type == 4" :show_features="show_features" :question="questions[q_key]" />
         <Textfield
           v-if="q.type == 0 || q.type == 1"
           :q_key="q_key"
@@ -69,16 +74,18 @@
           :question="questions[q_key]"
           :desc_field="description_field"
           :image_field="image_field"
+          :show_features="show_features"
         />
         <FieldUpload v-if="q.type == 5" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
-        <LinearScale v-if="q.type == 6" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
-        <FieldDate v-if="q.type == 7 || q.type == 8" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <LinearScale v-if="q.type == 6" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
+        <FieldDate v-if="q.type == 7 || q.type == 8" :q_key="q_key" :question="questions[q_key]" :desc_field="description_field" :image_field="image_field" />
         <hr>
         <div class="row">
           <div class="col-9 pl-5">
             <div class="d-flex">
               <div class="p-0 mr-3">
                 <b-form-checkbox
+                  :id="elementId.question_req + '-' + q_key"
                   v-model="q.required"
                   name="check-button"
                   class="d-inline text-primary font-weight-600"
@@ -89,23 +96,23 @@
                   <span class="button-required">Required *</span>
                 </b-form-checkbox>
               </div>
-              <div class="divider p-0 pr-1" />
-              <div class="p-0 mr-1">
-                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc">
+              <div v-if="show_features" class="divider p-0 pr-1" />
+              <div v-if="show_features" class="p-0 mr-1">
+                <button :id="elementId.question_addDesc + '-' + q_key" type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.desc = !q.desc; q.description = null">
                   <font-awesome-icon :icon="['fas', 'plus']" />
                   <span>Add description/image</span>
                 </button>
               </div>
               <div class="divider p-0 pr-1" />
               <div class="p-0 mr-1">
-                <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
+                <button :id="elementId.question_duplicate + '-' + q_key" type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="copy_field(q_key)">
                   <font-awesome-icon :icon="['fas', 'copy']" />
                   <span>Duplicate</span>
                 </button>
               </div>
               <div class="divider p-0 pr-1" />
               <div class="p-0">
-                <button type="button" class="btn btn-lg delete-button bg-white btn-copy-field" @click="delete_field(q_key)">
+                <button :id="elementId.question_remove + '-' + q_key" type="button" class="btn btn-lg delete-button bg-white btn-copy-field" @click="delete_field(q_key)">
                   <font-awesome-icon :icon="['fas', 'trash']" />
                   <span>Remove</span>
                 </button>
@@ -113,7 +120,7 @@
             </div>
           </div>
           <div class="col-3 text-right">
-            <base-button outline type="primary" class="btn-prim" @click="new_field(q_key)">
+            <base-button :id="elementId.question_add + '-' + q_key" outline type="primary" class="btn-prim" @click="new_field(q_key)">
               Add question
             </base-button>
           </div>
@@ -140,14 +147,31 @@ export default {
         return []
       }
     },
+    fId: { type: Number },
     add_field: { type: Function },
     change_type: { type: Function },
     copy_field: { type: Function },
     delete_field: { type: Function },
-    new_field: { type: Function }
+    new_field: { type: Function },
+    submit_field: { type: Function }
   },
   data () {
     return {
+      show_features: false,
+      elementId: {
+        question_title: 'questionTitle',
+        question_desc: 'questionDescription',
+        question_req: 'questionRequired',
+        question_addDesc: 'questionAddDescription',
+        question_duplicate: 'questionDuplicate',
+        question_remove: 'questionRemove',
+        question_add: 'addQuestion',
+        add_image: 'addImage',
+        cancel_image: 'cancelImage',
+        drop_image: 'dropImage',
+        dropdown_toggle: 'toggleDropdown',
+        dropdown_select: 'selectDropdown'
+      },
       description_field: null,
       image_field: null,
       fileSingle: [],
@@ -176,27 +200,27 @@ export default {
           type: 4,
           name: 'Drop-down',
           icon: 'caret-square-down'
-        },
-        {
-          type: 5,
-          name: 'File upload',
-          icon: 'cloud-upload-alt'
-        },
-        {
-          type: 6,
-          name: 'Linear scale',
-          icon: 'ellipsis-h'
-        },
-        {
-          type: 7,
-          name: 'Date',
-          icon: 'calendar'
-        },
-        {
-          type: 8,
-          name: 'Time',
-          icon: 'clock'
         }
+        // ,{
+        //   type: 5,
+        //   name: 'File upload',
+        //   icon: 'cloud-upload-alt'
+        // },
+        // {
+        //   type: 6,
+        //   name: 'Linear scale',
+        //   icon: 'ellipsis-h'
+        // },
+        // {
+        //   type: 7,
+        //   name: 'Date',
+        //   icon: 'calendar'
+        // },
+        // {
+        //   type: 8,
+        //   name: 'Time',
+        //   icon: 'clock'
+        // }
       ]
     }
   }

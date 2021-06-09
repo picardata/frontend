@@ -77,77 +77,66 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup" :disableButton="disabledButtonSave">
       <template slot="first-title">
         Contact
       </template>
       <template slot="content">
-        <div class="form-group">
-          <input
-            id="company"
-            v-model="group.company"
-            type="text"
-            name="company"
-            class="form-control"
-            placeholder="Company Name"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="email"
-            v-model="group.email"
-            type="email"
-            name="email"
-            class="form-control"
-            placeholder="Email"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="firstname"
-            v-model="group.firstname"
-            type="firstname"
-            name="firstname"
-            class="form-control"
-            placeholder="Firstname"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="lastname"
-            v-model="group.lastname"
-            type="lastname"
-            name="lastname"
-            class="form-control"
-            placeholder="Lastname"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="phone"
-            v-model="group.phone"
-            type="phone"
-            name="phone"
-            class="form-control"
-            placeholder="Phone"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="website"
-            v-model="group.website"
-            type="website"
-            name="website"
-            class="form-control"
-            placeholder="Website, ex: test.com"
-            required="required"
-          >
-        </div>
+        <ValidationObserver ref="observer" @keyup="onFormChange">
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required|email" name="email">
+            <div class="form-group">
+              <input
+                id="email"
+                v-model="group.email"
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Email"
+              >
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required" name="firstname">
+            <div class="form-group">
+              <input
+                id="firstname"
+                v-model="group.firstname"
+                type="text"
+                name="firstname"
+                class="form-control"
+                placeholder="Firstname"
+              >
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required" name="lastname">
+            <div class="form-group">
+              <input
+                id="lastname"
+                v-model="group.lastname"
+                type="text"
+                name="lastname"
+                class="form-control"
+                placeholder="Lastname"
+              >
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required" name="phone">
+            <div class="form-group">
+              <input
+                id="phone"
+                v-model="group.phone"
+                type="text"
+                name="phone"
+                class="form-control"
+                placeholder="Phone"
+              >
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </ValidationObserver>
       </template>
     </AddModal>
   </div>
@@ -155,83 +144,69 @@
 
 <script>
 import { Table, TableColumn } from 'element-ui'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 // import AddModal from '../../Custom/AddModal';
 export default {
   name: 'HubspotContactListWidget',
   components: {
     [Table.name]: Table,
-    [TableColumn.name]: TableColumn
+    [TableColumn.name]: TableColumn,
+    ValidationObserver,
+    ValidationProvider
   },
   data () {
     return {
       contacts: [],
-      groups: [],
       modals: {
-        createGroup: false,
-        addUser: false
+        createGroup: false
       },
       form: {
         new: true
       },
-      groupUsers: {},
       group: {
         index: 0,
-        company: '',
         email: '',
         firstname: '',
         lastname: '',
-        phone: '',
-        website: ''
+        phone: ''
       },
-      href: '/apps/integrated-apps'
+      disabledButtonSave: true
     }
   },
   computed: {
     generateParentPath () {
       const currentPath = this.$route.path.split('/')
       currentPath.pop()
-      console.log('parent path = ')
-      console.log(currentPath)
-      const newPath = currentPath.join('/')
-      console.log('new path = ')
-      console.log(newPath)
       return '/apps/integrated-apps'
     }
   },
   mounted () {
     this.$axios.get('/api/hubspot/contacts')
       .then((data) => {
-        console.log(data.data.contacts)
         this.contacts = data.data.contacts
       })
   },
   methods: {
     async saveGroup () {
       try {
-        if (this.group.company &&
-           this.group.email &&
+        if (this.group.email &&
            this.group.firstname &&
            this.group.lastname &&
-           this.group.phone &&
-           this.group.website) {
+           this.group.phone) {
           const data = await this.$axios.$post('/api/hubspot/contacts', {
-            company: this.group.company,
             email: this.group.email,
             firstname: this.group.firstname,
             lastname: this.group.lastname,
-            phone: this.group.phone,
-            website: this.group.website
+            phone: this.group.phone
           })
 
           this.modals.createGroup = false
-          this.groups.push(
+          this.contacts.push(
             {
-              company: data.company,
               email: data.email,
               firstname: data.firstname,
               lastname: data.lastname,
-              phone: data.phone,
-              website: data.website
+              phone: data.phone
             })
           window.open(data.url, '_blank').focus()
           this.clearForm()
@@ -243,12 +218,10 @@ export default {
     clearForm () {
       this.group = {
         index: 0,
-        company: '',
         email: '',
         firstname: '',
         lastname: '',
-        phone: '',
-        website: ''
+        phone: ''
       }
     },
     openForm () {
@@ -260,6 +233,25 @@ export default {
       this.form.new = false
       // this.clearForm()
       this.modals.createGroup = false
+    },
+    async onFormChange () {
+      let isComplete = true
+      for (const name in this.group) {
+        if (!this.group[name] && name !== 'index') {
+          isComplete = false
+        }
+      }
+
+      if (!isComplete) {
+        return
+      }
+
+      const valid = await this.$refs.observer.validate()
+      if (valid) {
+        this.disabledButtonSave = false
+      } else {
+        this.disabledButtonSave = true
+      }
     }
   }
 }

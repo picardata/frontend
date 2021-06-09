@@ -91,7 +91,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup">
       <template slot="first-title">
         Company
       </template>
@@ -125,7 +125,6 @@
 
 <script>
 import { Table, TableColumn } from 'element-ui'
-// import AddModal from "../../Custom/AddModal";
 
 export default {
   name: 'HubspotCompanyListWidget',
@@ -136,7 +135,6 @@ export default {
   data () {
     return {
       companies: [],
-      groups: [],
       modals: {
         createGroup: false,
         addUser: false
@@ -149,14 +147,12 @@ export default {
         index: 0,
         name: '',
         domain: ''
-      },
-      href: '/apps/integrated-apps'
+      }
     }
   },
   mounted () {
     this.$axios.get('/api/hubspot/companies')
       .then((data) => {
-        console.log(data.data.companies)
         this.companies = data.data.companies
         // this.modals.createGroup = false;
       })
@@ -170,7 +166,7 @@ export default {
         })
 
         this.modals.createGroup = false
-        this.groups.push(
+        this.companies.push(
           {
             name: data.name,
             domain: data.domain

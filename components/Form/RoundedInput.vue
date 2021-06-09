@@ -2,6 +2,7 @@
   <div class="form-group">
     <label class="label">{{ this.label }}</label>
     <input
+      :id="this.id"
       :placeholder="this.placeholder"
       required="required"
       type="text"
@@ -15,6 +16,6 @@
 <script>
 export default {
   name: 'RoundedInput',
-  props: ['value', 'placeholder', 'disabled', 'label']
+  props: ['value', 'placeholder', 'disabled', 'label', 'id']
 }
 </script>
