@@ -7,7 +7,7 @@
     </template>
     <template slot="header">
       <div>
-        <div class="row back-arrow-parent">
+        <div v-if="href" class="row back-arrow-parent">
           <div class="col-md-12">
             <a class="pd-icon pdicon-Back-Arrow back-arrow" :href="href" />
           </div>
@@ -30,7 +30,10 @@
       <slot name="content" />
     </div>
     <template slot="footer">
-      <base-button type="primary" @click.prevent="saveGroup">
+      <base-button v-if="typeof disableButton === 'undefined'" type="primary" @click.prevent="saveGroup">
+        Finish adding data
+      </base-button>
+      <base-button v-else type="primary" :disabled="disableButton" @click.prevent="saveGroup">
         Finish adding data
       </base-button>
     </template>
@@ -41,7 +44,7 @@
 
 export default {
   name: 'AddModal',
-  props: ['modals', 'closeForm', 'form', 'href', 'saveGroup']
+  props: ['modals', 'closeForm', 'form', 'href', 'saveGroup', 'disableButton']
 }
 </script>
 <style scoped lang="scss">
