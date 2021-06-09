@@ -44,10 +44,10 @@ export default {
     }
   },
   methods: {
-    generateElementId(arr) {
+    generateElementId (arr) {
       return arr.map((a) => {
-        return a.replace(/\s/g, "-")
-      }).join("-").toLowerCase()
+        return a.replace(/\s/g, '-')
+      }).join('-').toLowerCase()
     }
   }
 }
