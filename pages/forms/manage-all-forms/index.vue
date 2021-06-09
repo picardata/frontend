@@ -53,6 +53,7 @@
                         class="form-control app-search"
                         placeholder="Search created forms"
                         type="text"
+                        v-model="search"
                       >
                     </div>
                   </div>
@@ -197,6 +198,7 @@ export default {
   data () {
     return {
       allFormsSelected: false,
+      search: '',
       forms: [],
       crumbs: [
         {
@@ -264,7 +266,11 @@ export default {
     },
     tableData () {
       return this.forms.filter((form) => {
-        return form.deleted === false
+        const rgx = new RegExp(this.search, 'i')
+        if(form.deleted === false) {
+          if(form.name.search(rgx) !== -1) 
+            return form
+        }
       })
     }
   },
