@@ -157,7 +157,7 @@ export default {
   methods: {
     async deleteModal () {
       await this.$axios.delete('/api/integrations/' + this.data.id)
-      this.$router.push('/apps/integrated-apps')
+      window.location.href = '/apps/integrated-apps'
     }
   }
 }
