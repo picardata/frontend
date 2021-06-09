@@ -50,7 +50,7 @@
                       </div>
                       <input
                         :id="'input-text-search-forms'"
-                        class="form-control app-search"
+                        class="form-control form-search"
                         placeholder="Search created forms"
                         type="text"
                         v-model="search"
@@ -320,6 +320,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.form-search::placeholder {
+  color: #A0A3BD;
+  font-size: 16px;
+}
+
 i {
   margin-right: 15px;
 }
