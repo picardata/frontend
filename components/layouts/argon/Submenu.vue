@@ -19,7 +19,7 @@
           </p>
         </div>
         <div v-else class="col-xl-12">
-          <div id="list-tab" class="list-group" role="tablist">
+          <div :id="generateElementId([form.type, form.name])" class="list-group" role="tablist">
             <a href="#" class="list-item row">
               <div class="col-lg-10">
                 <nuxt-link :to="form.link"><p class="list-text">{{ form.name }}</p></nuxt-link>
@@ -41,6 +41,13 @@ export default {
   props: {
     submenuData: {
       type: Array
+    }
+  },
+  methods: {
+    generateElementId(arr) {
+      return arr.map((a) => {
+        return a.replace(/\s/g, "-")
+      }).join("-").toLowerCase()
     }
   }
 }
