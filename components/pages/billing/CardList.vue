@@ -26,7 +26,10 @@
               <tr v-for="(card, index) in cards" :key="card.id">
                 <td>{{ card.number }}</td>
                 <td> {{ card.expired }} </td>
-                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <img v-if="card.brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
+                  <img v-if="card.brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                </td>
                 <td>
                   <span v-if="card.isDefault" class="card-default">Default card</span>
                   <span v-else class="card-option">
@@ -41,7 +44,10 @@
               <tr v-for="card in this.totalToDisplay" :key="card">
                 <td>{{ cards[card - 1].number }}</td>
                 <td> {{ cards[card - 1].expired }} </td>
-                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <img v-if="cards[card-1].brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
+                  <img v-if="cards[card-1].brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                </td>
                 <td>
                   <span v-if="cards[card - 1].isDefault" class="card-default">Default card</span>
                   <span v-else class="card-option">
@@ -122,11 +128,10 @@ export default {
           id: card.id,
           number: `****${card.last4}`,
           expired: `${card.exp_month}/${card.exp_year}`,
-          isDefault: false        
+          isDefault: false,
+          brand: card.brand
         })
       }
-      // console.log('cards = ')
-      // console.log(newCards)
 
       if(newCards.length > 0) {
         newCards[0].isDefault = true;
@@ -222,5 +227,9 @@ table{
     font-size: 20px;
     margin-left: 12px;
   }
+}
+
+.brand-logo{
+  width: 38px;
 }
 </style>

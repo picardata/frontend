@@ -21,7 +21,7 @@
       <div>
         <div id="card-element"></div>
         <div class="mt-4">
-          <input type="text" class="form-control" v-model="name" placeholder="Labina Kirby">
+          <input type="text" class="form-control" v-model="name" placeholder="Name on card">
         </div>
       </div>
       <template slot="footer">
