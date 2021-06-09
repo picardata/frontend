@@ -85,7 +85,7 @@
                         >
                         <label class="d-inline" for="check-all">Select all forms</label>
                       </div>
-                      <div class="col-6">
+                      <div v-if="indeterminateCheckbox || selectAllCheckbox" class="col-6">
                         <div class="float-right">
                           <div class="btn-card btn-duplicate d-inline">
                             <i class="pd-icon icon-Duplicate" />Duplicate
