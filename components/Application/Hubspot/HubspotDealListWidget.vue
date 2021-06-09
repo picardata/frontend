@@ -179,7 +179,6 @@ export default {
   mounted () {
     this.$axios.get('/api/hubspot/deals')
       .then((data) => {
-        console.log(data.data)
         this.deals = data.data.deals
       })
   },
