@@ -49,8 +49,10 @@
                 <div class="col-sm-2">
                   <div class="dash-item-cover">
                     <div class="dash-item-content">
-                      <div><i class="fa fa-plus"></i></div>
-                      <div class="mt-2">Add new list</div>
+                      <div><i class="fa fa-plus" /></div>
+                      <div class="mt-2">
+                        Add new list
+                      </div>
                     </div>
                   </div>
                 </div>
