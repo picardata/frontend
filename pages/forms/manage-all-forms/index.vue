@@ -354,6 +354,7 @@ i {
   outline: 0;
   line-height: 1;
   vertical-align: middle;
+  margin-right: 8px;
 }
 
 /deep/tr.el-table__row {
