@@ -82,6 +82,7 @@
                           type="checkbox"
                           class="form-checkbox d-inline"
                           @click="selectAllForms()"
+                          style="margin-bottom: 3px"
                         >
                         <label class="d-inline" for="check-all">Select all forms</label>
                       </div>
@@ -106,7 +107,7 @@
                   >
                     <el-table-column
                       label=""
-                      min-width="40px"
+                      min-width="50px"
                     >
                       <template v-slot="{row}">
                         <input v-model="row.checkbox" type="checkbox" class="form-checkbox">
@@ -346,8 +347,8 @@ i {
 }
 
 .form-checkbox {
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   font-size: 16px;
   border-radius: 3px;
   cursor: pointer;
@@ -355,11 +356,16 @@ i {
   line-height: 1;
   vertical-align: middle;
   margin-right: 8px;
+  transform: scale(1.2);
 }
 
 /deep/tr.el-table__row {
   border: 1px solid #E0E0E0!important;
   border-radius: 5px!important;
+
+  .cell {
+    padding: 2px;
+  }
 }
 
 /deep/.thead-light > th {
