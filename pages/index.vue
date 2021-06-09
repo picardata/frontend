@@ -162,58 +162,26 @@
                 </stats-card>
               </div>
               <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Performance"
-                  type="gradient-info"
-                  sub-title="49,65%"
-                  icon="ni ni-chart-bar-32"
-                >
-                  <template slot="footer">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up" /> 54.8%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+                <FacebookFollowerStat />
               </div>
             </div>
             <div class="row">
+              <div class="col-6">
+                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              </div>
               <div class="col-xl-6">
                 <card>
                   <template slot="header">
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Finance
+                          Facebook Page: Total Post Reach
                         </h5>
-                        <h6>
-                          Sales insight
-                        </h6>
-                        <h1>
-                          44.49K$ USD
-                        </h1>
-                      </div>
-                      <div class="col-4 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.firstWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="salesInsight.chartData"
-                    />
+                    <FacebookPostReachChart />
                   </div>
                 </card>
               </div>
@@ -223,159 +191,34 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Finance
+                          Facebook Page: Total Page Likes
                         </h5>
-                        <h6>
-                          Transaction
-                        </h6>
-                        <h1>
-                          14.5K$ USD
-                        </h1>
-                      </div>
-                      <div class="col-4 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.secondWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="transaction.chartData"
-                    />
+                    <FacebookPageLikeChart />
                   </div>
                 </card>
               </div>
 
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <card>
                   <template slot="header">
                     <div class="row">
                       <div class="d-inline col-6">
                         <h5 class="h3 mb-0">
-                          Social Media
+                          Facebook Page: Total Page View &amp; Total Video View
                         </h5>
-                        <h6>
-                          Followers
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.thirdWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <line-chart
-                      :height="350"
-                      :chart-data="socialMedia.chartData"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Human Resources
-                        </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.forthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <bar-chart
-                      :chart-data="humanResources.chartData"
-                      :height="350"
-                    />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-4">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Sales &amp; Marketing
-                        </h5>
-                        <h6>
-                          Registered Users
-                        </h6>
-                      </div>
-                      <div class="col-6 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.fifthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
                       </div>
                     </div>
                   </template>
                   <div class="chart-area">
-                    <bar-chart
-                      :height="350"
-                      :chart-data="salesAndMarketing.chartData"
-                      :extra-options="salesAndMarketing.extraOptions"
-                    />
+                    <FacebookVideoAndPageViewChart />
                   </div>
                 </card>
               </div>
+
               <div class="col-xl-12">
                 <card>
                   <template slot="header">
@@ -417,14 +260,17 @@
 </template>
 <script>
 import { Select, Option } from 'element-ui'
-import LineChart from '~/components/argon-core/Charts/LineChart'
-import BarChart from '~/components/argon-core/Charts/BarChart'
-// import PieChart from '~/components/argon-core/Charts/PieChart'
+import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
+import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
+import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
+import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
+import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
+import hubspotMixin from '~/mixins/hubspot'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -433,17 +279,21 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    LineChart,
-    BarChart,
     StatsCard,
     TotalIntegrationChart,
+    FacebookFollowerStat,
+    FacebookPostReachChart,
+    FacebookPageLikeChart,
+    FacebookVideoAndPageViewChart,
     [Select.name]: Select,
-    [Option.name]: Option
+    [Option.name]: Option,
+    HubspotDealChart
   },
   auth: true,
   layout: 'argon',
   mixins: [
-    loaderMixin
+    loaderMixin,
+    hubspotMixin
   ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
@@ -745,6 +595,9 @@ export default {
           console.log(e)
         }
       )
+
+    // Hubspot get deals chart data
+    this.getHubspotChartDealsData()
   },
   methods: {
     submenuAfterLeave (el) {

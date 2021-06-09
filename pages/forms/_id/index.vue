@@ -13,14 +13,16 @@
       <prev-page />
       <div class="row mt-3">
         <div class="col-6">
-          <h1>{{ name }}</h1>
+          <h1 :id="elementId.title_form">
+            {{ name }}
+          </h1>
           <div class="rox pl-1">
             <p>Last Modified {{ formattedUpdatedAt }}</p>
           </div>
         </div>
         <div class="col-6">
           <span class="align-middle float-right">
-            <nuxt-link to="/forms/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
+            <nuxt-link :id="elementId.add_form" to="/forms/new" class="btn btn-lg  btn-create">Create other blank form</nuxt-link>
           </span>
         </div>
       </div>
@@ -28,17 +30,17 @@
         <div class="col-4">
           <nav class="nav">
             <a class="nav-link disabled" href="#">Questions</a>
-            <nuxt-link class="nav-link" :to="'/forms/result/' + id">
+            <nuxt-link :id="elementId.response_form" class="nav-link" :to="'/forms/result/' + id">
               View Responses
             </nuxt-link>
           </nav>
         </div>
         <div class="col-8">
           <span class="align-middle float-right">
-            <nuxt-link :to="'/forms/preview/' + id" class="btn btn-lg bg-white btn-preview">
+            <nuxt-link :id="elementId.preview_form" :to="'/forms/preview/' + id" class="btn btn-lg bg-white btn-preview">
               <font-awesome-icon :icon="['fas', 'eye']" />
               Preview form</nuxt-link>
-            <button class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
+            <button :id="elementId.share_form" class="btn btn-lg btn-primary btn-share" @click="shareModal">Share form</button>
           </span>
         </div>
       </div>
@@ -51,6 +53,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.title_form"
                   v-model="name"
                   type="text"
                   name="name"
@@ -62,6 +65,7 @@
               </div>
               <div class="form-group">
                 <input
+                  :id="elementId.desc_form"
                   v-model="description"
                   type="text"
                   name="description"
@@ -79,30 +83,21 @@
             :copy_field="copyField"
             :delete_field="deleteField"
             :new_field="newField"
+            :submit_field="submitField"
+            :f-id="id"
           />
         </form>
       </div>
+      <div v-if="this.noField" class="stick-bottom">
+        <button
+          class="btn btn-primary btn-md "
+          type="button"
+          @click="newField"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </button>
+      </div>
     </div>
-    <modal :show.sync="modals.modal0">
-      <div class="modal-header">
-        <h3>Share form {{ name }}</h3>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label for="">Send to</label>
-          <input v-model="formRecipient" type="text" class="form-control">
-          <label for="">Subject</label>
-          <input v-model="subject" type="text" class="form-control">
-          <label for="">Message</label>
-          <input v-model="content" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <base-button tag="button" type="primary" @click="sendForm">
-          Send form
-        </base-button>
-      </div>
-    </modal>
 
     <ModalShare :id="id" :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
   </div>
@@ -215,6 +210,7 @@ export default {
         b.imageDesc = false
 
         if (b.type === 0 || b.type === 1) {
+          b.desc = true
           b.descText = b.fieldTexts[0].description
         } else if (b.type === 5) {
           b.descText = b.fieldUploads[0].description
@@ -233,6 +229,16 @@ export default {
   },
   data () {
     return {
+      noField: false,
+      elementId: {
+        add_form: 'addNewForm',
+        preview_form: 'previewForm',
+        share_form: 'shareForm',
+        desc_form: 'descriptionForm',
+        response_form: 'viewResponseForm',
+        title_form: 'titleForm',
+        back_button: 'backButton'
+      },
       crumbs: [
         {
           name: 'Forms',
@@ -266,6 +272,8 @@ export default {
         name: this.questions[index].name ? this.questions[index].name : 'Question',
         type: this.questions[index].type,
         required: this.questions[index].required,
+        description: this.questions[index].description,
+        image: this.questions[index].image,
         form: formId
       }
       let axios
@@ -309,8 +317,21 @@ export default {
       this.bulkDeleteFieldDates(questionId)
       this.bulkDeleteFieldScales(questionId)
       this.submitField(questionId, this.id).then(() => {
-        if (typeId > 1) {
+        if (typeId > 1 && typeId < 5) {
           this.addChoices(questionId)
+        } else if (typeId === 5) {
+          this.addUploads(questionId)
+        } else if (typeId === 6) {
+          this.addScales(questionId)
+        } else if (typeId === 7 || typeId === 8) {
+          this.addDates(questionId)
+        } else {
+          this.addTexts(questionId)
+        }
+        if (typeId < 2) {
+          this.questions[questionId].desc = true
+        } else {
+          this.questions[questionId].desc = false
         }
       })
     },
@@ -411,6 +432,7 @@ export default {
       ]
     },
     newField (index) {
+      this.noField = false
       this.questions.splice(index + 1, 0, {
         id: undefined,
         name: '',
@@ -611,7 +633,7 @@ export default {
         .fieldUploads
         .map((v) => {
           this.$axios.$post('/api/field-uploads/', {
-            allowSpecificTypes: v.allowSpecificTypes,
+            allowSpecificTypes: v.allow_spec ? 1 : 0,
             checkboxValue: JSON.stringify(v.checkboxValue),
             maxNumber: v.maxNumber,
             maxSize: v.maxSize,
@@ -662,6 +684,9 @@ export default {
     deleteField (index) {
       this.$axios.$delete('/api/fields/' + this.questions[index].id)
       this.questions.splice(index, 1)
+      if (this.questions.length === 0) {
+        this.noField = true
+      }
     },
     submit () {
       this.$axios

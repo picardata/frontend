@@ -32,6 +32,9 @@
         <div class="col-3">
           <HubspotContactCount />
         </div>
+        <div class="col-6">
+          <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+        </div>
         <div class="col-12 ">
           <HubspotContactListWidget />
         </div>
@@ -53,8 +56,10 @@ import HubspotDealListWidget from '@/components/Application/Hubspot/HubspotDealL
 import HubspotUserCount from '@/components/Application/Hubspot/HubspotUserCount'
 import HubspotCompanyCount from '@/components/Application/Hubspot/HubspotCompanyCount'
 import HubspotContactCount from '@/components/Application/Hubspot/HubspotContactCount'
+import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import ApplicationDetail from '~/components/Application/ApplicationDetail'
 import loaderMixin from '~/mixins/loader'
+import hubspotMixin from '~/mixins/hubspot'
 
 export default {
   layout: 'argon',
@@ -65,10 +70,12 @@ export default {
     HubspotCompanyListWidget,
     HubspotContactListWidget,
     ApplicationDetail,
-    HubspotContactCount
+    HubspotContactCount,
+    HubspotDealChart
   },
   mixins: [
-    loaderMixin
+    loaderMixin,
+    hubspotMixin
   ],
   async asyncData (context) {
     return await context.app.$axios.get('/api/integrations/' + context.route.params.id)
@@ -95,6 +102,9 @@ export default {
         }
       ]
     }
+  },
+  mounted () {
+    this.getHubspotChartDealsData()
   }
 }
 </script>
