@@ -31,7 +31,7 @@
           </div>
           <div class="row mt-5">
             <div class="col-12">
-              <WeeklySlideCalendar :swipe-space="1" :choosed-date="choosedDate" :trigger-change="triggerChange" :initFirstSunday="initFirstSunday" />
+              <WeeklySlideCalendar :swipe-space="1" :choosed-date="choosedDate" :trigger-change="triggerChange" :init-first-sunday="initFirstSunday" />
             </div>
           </div>
           <div class="row mt-3">
