@@ -45,7 +45,7 @@
             class="date-item"
             v-for="(day,index) in dateList"
             v-bind:key="index"
-            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat && choosedDay == '{}', 'date-item-weekend': day.isWeekend, 'past-month':day.isPastMonth}"
+            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
         >
           <div>
             <p class="date-item-day">{{day.day}}</p>
@@ -358,8 +358,16 @@ export default {
         timestamp: new Date(date).getTime(),
         day: this.getWeekName(week),
         isWeekend: week == 0 || week == 6,
-        isPastMonth: dateNow.getMonth() < now.getMonth() && dateNow.getFullYear() <= dateNow.getFullYear()
+        isPastDay: this.isPastDate(dateNow,now)
       };
+    },
+
+    isPastDate(firstDate, secondDate) {
+      if (firstDate.setHours(0, 0, 0, 0) < secondDate.setHours(0, 0, 0, 0)) {
+        return true;
+      }
+
+      return false;
     },
 
     getWeekName(day) {
@@ -520,7 +528,7 @@ export default {
   text-align: center;
 }
 
-.horizontal-calendar .date-item.past-month p{
+.horizontal-calendar .date-item.past-date p{
   color:#adadad !important;
 }
 
@@ -580,7 +588,7 @@ export default {
 <style lang="scss">
 .horizontal-calendar{
   .date-item{
-    &.past-month{
+    &.past-date{
       .list-task {
         li {
           input {
