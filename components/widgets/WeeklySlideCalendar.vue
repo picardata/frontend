@@ -45,7 +45,7 @@
             class="date-item"
             v-for="(day,index) in dateList"
             v-bind:key="index"
-            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat, 'date-item-weekend': day.isWeekend, 'past-month':day.isPastMonth}"
+            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat && choosedDay == '{}', 'date-item-weekend': day.isWeekend, 'past-month':day.isPastMonth}"
         >
           <div>
             <p class="date-item-day">{{day.day}}</p>
