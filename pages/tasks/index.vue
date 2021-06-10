@@ -93,8 +93,7 @@ export default {
   methods: {
     goToDate (evt) {
       const value = evt.target.value
-      const dates = new Date(value)
-      this.choosedDate = new Date(dates.setDate(dates.getDate() + 1))
+      this.choosedDate = value
       this.triggerChange = !this.triggerChange
     }
   }
