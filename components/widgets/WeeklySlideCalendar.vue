@@ -147,6 +147,10 @@ export default {
 
     triggerChange: {
       type: Boolean
+    },
+
+    initFirstSunday: {
+      type: Boolean
     }
   },
   data() {
@@ -197,7 +201,12 @@ export default {
       this.today = this.formatOneDay(new Date());
       this.choosedDay = this.formatOneDay(this.choosedDate);
 
-      let firstDay = this.formatOneDay(this.choosedDate);
+      // get sunday in this week
+      var currentDate = new Date();
+      var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())).toUTCString();
+      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday) : this.formatOneDay(this.choosedDate);
+      console.log(this.initFirstSunday)
+
       if (this.choosedDatePos === "center") {
         let ts1 =
             firstDay.timestamp -

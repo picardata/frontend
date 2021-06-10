@@ -31,7 +31,7 @@
           </div>
           <div class="row mt-5">
             <div class="col-12">
-              <WeeklySlideCalendar :swipe-space="1" :choosed-date="choosedDate" :trigger-change="triggerChange" />
+              <WeeklySlideCalendar :swipe-space="1" :choosed-date="choosedDate" :trigger-change="triggerChange" :initFirstSunday="initFirstSunday" />
             </div>
           </div>
           <div class="row mt-3">
@@ -80,6 +80,7 @@ export default {
   data () {
     return {
       triggerChange: false,
+      initFirstSunday: true,
       choosedDate: new Date(),
       crumbs: [
         {
@@ -95,6 +96,7 @@ export default {
       const value = evt.target.value
       this.choosedDate = value
       this.triggerChange = !this.triggerChange
+      this.initFirstSunday = false
     }
   }
 }
