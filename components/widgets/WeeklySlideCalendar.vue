@@ -205,7 +205,6 @@ export default {
       var currentDate = new Date();
       var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())).toUTCString();
       let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday) : this.formatOneDay(this.choosedDate);
-      console.log(this.initFirstSunday)
 
       if (this.choosedDatePos === "center") {
         let ts1 =
