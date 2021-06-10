@@ -149,17 +149,7 @@
                 </stats-card>
               </div>
               <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Sales"
-                  type="gradient-green"
-                  sub-title="924"
-                  icon="ni ni-money-coins"
-                >
-                  <template slot="footer">
-                    <span class="text-danger mr-2"><i class="fa fa-arrow-down" /> 5.72%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+                <HubspotCompanyStat :counter="2000" />
               </div>
               <div class="col-xl-3 col-md-6">
                 <FacebookFollowerStat />
@@ -266,6 +256,7 @@ import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
+import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
 import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
@@ -285,6 +276,7 @@ export default {
     FacebookPostReachChart,
     FacebookPageLikeChart,
     FacebookVideoAndPageViewChart,
+    HubspotCompanyStat,
     [Select.name]: Select,
     [Option.name]: Option,
     HubspotDealChart
