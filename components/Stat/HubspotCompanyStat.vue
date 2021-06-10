@@ -1,6 +1,6 @@
 <template>
   <stats-card
-    title="Sales"
+    title="Total Hubspot Company"
     type="gradient-green"
     :sub-title="this.counter"
     icon="ni ni-money-coins"
