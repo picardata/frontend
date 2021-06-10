@@ -148,7 +148,7 @@
                   </template>
                 </stats-card>
               </div>
-              <div class="col-xl-3 col-md-6" v-if="this.hubspotCompanyStatTotal > 0">
+              <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
               </div>
               <div class="col-xl-3 col-md-6">
@@ -295,7 +295,7 @@ export default {
 
     let hubspotCompanyStatTotal = 0
 
-    if(hubspotCompanyStat.length > 0) {
+    if (hubspotCompanyStat.length > 0) {
       hubspotCompanyStatTotal = hubspotCompanyStat[0].total
     }
     return {
@@ -314,7 +314,6 @@ export default {
         location: data.data.userProfile.address
       }
     }
-      // })
   },
   data () {
     return {
