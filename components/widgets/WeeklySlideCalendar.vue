@@ -61,6 +61,7 @@
                   <base-input
                       :id="'input-text'+n"
                       :type="'text'"
+                      :disabled="day.isPastDay"
                   />
                 </li>
               </ul>
@@ -592,7 +593,7 @@ export default {
       .list-task {
         li {
           input {
-            border-color: #adadad;
+            border-color: #E0E0E0;
           }
         }
       }
@@ -606,11 +607,14 @@ export default {
           border-radius: 0;
           width: 90%;
           margin: 0 auto;
-          border-color: #E0E0E0;
+          border-color: #adadad;
 
           &:hover,
           &:focus {
             box-shadow: none;
+          }
+          &:disabled{
+            background: transparent;
           }
         }
       }
