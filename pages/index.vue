@@ -148,8 +148,8 @@
                   </template>
                 </stats-card>
               </div>
-              <div class="col-xl-3 col-md-6">
-                <HubspotCompanyStat :counter="2000" />
+              <div class="col-xl-3 col-md-6" v-if="this.hubspotCompanyStatTotal > 0">
+                <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
               </div>
               <div class="col-xl-3 col-md-6">
                 <FacebookFollowerStat />
@@ -288,25 +288,33 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
-      .then((data) => {
-        return {
-          employee: {
-            role: data.data.role,
-            occupation: String(data.data.occupation),
-            organization: data.data.company.name,
-            workLocation: data.data.company.location
-          },
-          profile: {
-            firstname: data.data.userProfile.firstname,
-            lastname: data.data.userProfile.lastname,
-            email: data.data.userProfile.email,
-            phone: data.data.userProfile.phone,
-            location: data.data.userProfile.address
+    const hubspotCompanyStatRaw = await context.app.$axios.get('/api/hubspot/companies/stats')
+    const hubspotCompanyStat = hubspotCompanyStatRaw.data
 
-          }
-        }
-      })
+    const data = await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+
+    let hubspotCompanyStatTotal = 0
+
+    if(hubspotCompanyStat.length > 0) {
+      hubspotCompanyStatTotal = hubspotCompanyStat[0].total
+    }
+    return {
+      hubspotCompanyStatTotal,
+      employee: {
+        role: data.data.role,
+        occupation: String(data.data.occupation),
+        organization: data.data.company.name,
+        workLocation: data.data.company.location
+      },
+      profile: {
+        firstname: data.data.userProfile.firstname,
+        lastname: data.data.userProfile.lastname,
+        email: data.data.userProfile.email,
+        phone: data.data.userProfile.phone,
+        location: data.data.userProfile.address
+      }
+    }
+      // })
   },
   data () {
     return {
