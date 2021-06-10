@@ -22,33 +22,35 @@ export default {
   components: {
     PieChart
   },
-  async fetch () {
-    const totalIntegrationResult = await this.$axios.$get('/api/integrations/total-users/stats')
-    console.log('total integration result = ')
-    console.log(totalIntegrationResult)
+  fetch () {
+    this.$axios.$get('/api/integrations/total-users/stats')
+      .then((res) => {
+        const totalIntegrationResult = res
 
-    const labels = []
-    const data = []
-    const backgroundColor = []
+        const labels = []
+        const data = []
+        const backgroundColor = []
 
-    for (let i = 0; i < totalIntegrationResult.length; i++) {
-      const totalIntegration = totalIntegrationResult[i]
+        for (let i = 0; i < totalIntegrationResult.length; i++) {
+          const totalIntegration = totalIntegrationResult[i]
 
-      labels.push(totalIntegration.name)
-      data.push(totalIntegration.totalIntegration)
-      backgroundColor.push(getRandomColor())
-    }
+          labels.push(totalIntegration.name)
+          data.push(totalIntegration.totalIntegration)
+          backgroundColor.push(getRandomColor())
+        }
 
-    this.chartData = {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor,
-        label: 'Total user this year'
-      }]
-    }
-
-    console.log(this.chartData)
+        this.chartData = {
+          labels,
+          datasets: [{
+            data,
+            backgroundColor,
+            label: 'Total user this year'
+          }]
+        }
+      })
+      .finally(() => {
+        this.$store.commit('loader/loading', false)
+      })
   },
   data () {
     return {
