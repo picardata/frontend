@@ -288,10 +288,11 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    const hubspotCompanyStatRaw = await context.app.$axios.get('/api/hubspot/companies/stats')
+    const responses = await Promise.all([context.app.$axios.get('/api/hubspot/companies/stats'), context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')])
+    const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
 
-    const data = await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+    const data = responses[1]
 
     let hubspotCompanyStatTotal = 0
 
