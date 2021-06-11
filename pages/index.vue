@@ -146,8 +146,8 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
-                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
+                <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
               </div>
               <div class="col-xl-6">
                 <card>
@@ -589,6 +589,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    hubspotDataExist () {
+      return this.dealsChart.datasets[0].data.length
     }
   },
   mounted () {
