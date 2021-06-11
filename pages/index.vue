@@ -135,7 +135,7 @@
                   </template>
                 </stats-card>
               </div>
-              <div v-if="this.hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
+              <div v-if="hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
               </div>
               <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
@@ -247,7 +247,7 @@ import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
-import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
+
 import HubspotTotalContactStat from '~/components/Stat/HubspotTotalContactStat'
 import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
