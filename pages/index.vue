@@ -231,7 +231,6 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
-import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
