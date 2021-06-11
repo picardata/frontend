@@ -50,7 +50,8 @@
                       </div>
                       <input
                         :id="'input-text-search-forms'"
-                        class="form-control app-search"
+                        v-model="search"
+                        class="form-control form-search"
                         placeholder="Search created forms"
                         type="text"
                       >
@@ -73,26 +74,31 @@
                 <div v-if="totalForms > 0" class="card">
                   <div class="card-header">
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-6" style="margin-left:-10px">
                         <input
                           id="check-all"
                           v-model="selectAllCheckbox"
                           :indeterminate.prop="indeterminateCheckbox"
                           type="checkbox"
-                          class="form-checkbox d-inline"
+                          style="margin-bottom: 2px;"
                           @click="selectAllForms()"
                         >
-                        <label class="d-inline" for="check-all">Select all forms</label>
+                        <label class="checkmark" style="margin-left:9px;margin-bottom: -9px" for="check-all" />
+                        <div class="d-inline" style="margin-left: 10px; color: #313131;">
+                          Select all forms
+                        </div>
                       </div>
-                      <div class="col-6">
+                      <div v-if="indeterminateCheckbox || selectAllCheckbox" class="col-6">
                         <div class="float-right">
-                          <div class="btn-card btn-duplicate d-inline">
-                            <i class="pd-icon icon-Duplicate" />Duplicate
-                          </div>
-                          <span style="opacity: 0.4">|</span>
-                          <div class="btn-card btn-remove d-inline" @click="removeSelectedForms()">
-                            <i class="pd-icon icon-Delete" />Remove
-                          </div>
+                          <base-button icon type="primary btn-duplicate">
+                            <span class="btn-inner--icon"><i class="pd-icon icon-Duplicate" /></span>
+                            <span class="btn-inner--text">Duplicate</span>
+                          </base-button>
+                          <span style="opacity:0.5">|</span>
+                          <base-button icon type="primary btn-remove" @click="removeSelectedForms()">
+                            <span class="btn-inner--icon"><i class="pd-icon icon-Delete" /></span>
+                            <span class="btn-inner--text">Remove</span>
+                          </base-button>
                         </div>
                       </div>
                     </div>
@@ -105,10 +111,11 @@
                   >
                     <el-table-column
                       label=""
-                      min-width="40px"
+                      min-width="50px"
                     >
                       <template v-slot="{row}">
-                        <input v-model="row.checkbox" type="checkbox" class="form-checkbox">
+                        <input :id="'checbox-form-'+row.id" v-model="row.checkbox" type="checkbox">
+                        <label :for="'checbox-form-'+row.id" class="checkmark" />
                       </template>
                     </el-table-column>
 
@@ -161,7 +168,7 @@
                       label="Actions"
                     >
                       <template v-slot="{row}">
-                        <nuxt-link :id="'button-edit-forms-'+row.id" class="font-weight-bold" :to="'/forms/' + row.id">
+                        <nuxt-link :id="'button-edit-forms-'+row.id" class="font-weight-bold edit-form" :to="'/forms/' + row.id">
                           Edit Form
                         </nuxt-link>
                       </template>
@@ -197,6 +204,7 @@ export default {
   data () {
     return {
       allFormsSelected: false,
+      search: '',
       forms: [],
       crumbs: [
         {
@@ -264,7 +272,10 @@ export default {
     },
     tableData () {
       return this.forms.filter((form) => {
-        return form.deleted === false
+        const rgx = new RegExp(this.search, 'i')
+        if (form.deleted === false) {
+          if (form.name.search(rgx) !== -1) { return form }
+        }
       })
     }
   },
@@ -313,25 +324,109 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.float-right {
+  margin-top: -10px;
+  margin-bottom: -10px
+}
+
+.pd-icon {
+  font-size: 24px;
+}
+
+.col-6 {
+  padding-top: 15.5px;
+}
+
+.checkmark {
+  display:inline-block;
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 30px;
+  height:30px;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] { display: none; }
+
+.checkmark:before {
+  content: '';
+  position: absolute;
+  background-color:transparent;
+  left:31px;
+  top:17px;
+}
+
+input[type="checkbox"]:checked + .checkmark:before,
+input[type="checkbox"]:checked + .checkmark:after {
+  width:10px;
+  height:18px;
+  background-color:transparent;
+  border-right: 2px solid #2534B6;
+  border-bottom: 2px solid #2534B6;
+  left:34px;
+  top:19px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:indeterminate + .checkmark:before,
+input[type="checkbox"]:indeterminate + .checkmark:after {
+  width:20px;
+  height:2px;
+  background-color:transparent;
+  border-bottom: 2px solid #2534B6;
+  left:28.5px;
+  top:30px;
+}
+
+b {
+  font-size: 16px;
+}
+
+.edit-form {
+  text-decoration: underline;
+  font-size: 16px;
+  color: #2534B6;
+}
+
+.form-search::placeholder {
+  color: #A0A3BD;
+  font-size: 16px;
+}
+
 i {
   margin-right: 15px;
+}
+
+.btn-inner--icon {
+  margin-right: -20px;
+  margin-left: -10px;
 }
 
 .btn-card {
   font-size: 16px;
   font-weight: 600;
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-right: 14px;
+  margin-left: 14px;
+  display: inline-block;
 }
 
 .btn-duplicate {
   color: #2534B6;
-  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin-right: -5px;
 }
 
 .btn-remove {
   color: #8B8B8D;
-  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin-right: -5px;
 }
 
 .card, .card-header {
@@ -339,24 +434,15 @@ i {
   box-shadow: none!important;
 }
 
-.form-checkbox {
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
-  outline: 0;
-  line-height: 1;
-  vertical-align: middle;
-}
-
 /deep/tr.el-table__row {
   border: 1px solid #E0E0E0!important;
   border-radius: 5px!important;
+
 }
 
 /deep/.thead-light > th {
-  color: #8B8B8D;
+  color: #313131;
+  opacity: 0.4;
   font-style: Poppins;
   font-weight: 600;
   font-size: 16px;

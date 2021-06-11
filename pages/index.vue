@@ -135,18 +135,8 @@
                   </template>
                 </stats-card>
               </div>
-              <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Total traffic"
-                  type="gradient-orange"
-                  sub-title="2,356"
-                  icon="ni ni-chart-pie-35"
-                >
-                  <template slot="footer">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up" /> 12.18%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+              <div v-if="hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
+                <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
               </div>
               <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
@@ -156,8 +146,8 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
-                <HubspotDealChart v-if="dealsChart.loaded === true" :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
+                <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
               </div>
               <div class="col-xl-6">
                 <card>
@@ -257,6 +247,8 @@ import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPagePostEngagementChart from '~/components/Chart/FacebookPagePostEngagementChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
+
+import HubspotTotalContactStat from '~/components/Stat/HubspotTotalContactStat'
 import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
@@ -279,7 +271,8 @@ export default {
     HubspotCompanyStat,
     [Select.name]: Select,
     [Option.name]: Option,
-    HubspotDealChart
+    HubspotDealChart,
+    HubspotTotalContactStat
   },
   auth: true,
   layout: 'argon',
@@ -288,19 +281,34 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    const responses = await Promise.all([context.app.$axios.get('/api/hubspot/companies/stats'), context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')])
+    const responses = await Promise.all([
+      context.app.$axios.get('/api/hubspot/companies/stats'),
+      context.app.$axios.get('/api/hubspot/contacts/stats'),
+      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+    ])
+
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
 
-    const data = responses[1]
+    const hubspotContactStatRaw = responses[1]
+    const hubspotContactStat = hubspotContactStatRaw.data
 
     let hubspotCompanyStatTotal = 0
 
     if (hubspotCompanyStat.length > 0) {
       hubspotCompanyStatTotal = hubspotCompanyStat[0].total
     }
+
+    let hubspotContactStatTotal = 0
+    if (hubspotContactStat.length > 0) {
+      hubspotContactStatTotal = hubspotContactStat[0].total
+    }
+
+    const data = responses[2]
+
     return {
       hubspotCompanyStatTotal,
+      hubspotContactStatTotal,
       employee: {
         role: data.data.role,
         occupation: String(data.data.occupation),
@@ -581,6 +589,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    hubspotDataExist () {
+      return this.dealsChart.datasets[0].data.length
     }
   },
   mounted () {
