@@ -50,10 +50,10 @@
                       </div>
                       <input
                         :id="'input-text-search-forms'"
+                        v-model="search"
                         class="form-control form-search"
                         placeholder="Search created forms"
                         type="text"
-                        v-model="search"
                       >
                     </div>
                   </div>
@@ -74,26 +74,32 @@
                 <div v-if="totalForms > 0" class="card">
                   <div class="card-header">
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-6" style="margin-left:-10px">
                         <input
                           id="check-all"
                           v-model="selectAllCheckbox"
                           :indeterminate.prop="indeterminateCheckbox"
                           type="checkbox"
-                          class="form-checkbox d-inline"
+                          style="margin-bottom: 2px;"
                           @click="selectAllForms()"
-                          style="margin-bottom: 2px"
                         >
-                        <label class="d-inline" for="check-all">Select all forms</label>
+                        <label class="checkmark" style="margin-left:9px;margin-bottom: -9px" for="check-all" />
+                        <div class="d-inline" style="margin-left: 10px; color: #313131">
+                          Select all forms
+                        </div>
                       </div>
                       <div v-if="indeterminateCheckbox || selectAllCheckbox" class="col-6">
                         <div class="float-right">
                           <div class="btn-card btn-duplicate d-inline">
-                            <i class="pd-icon icon-Duplicate" />Duplicate
+                            <i class="pd-icon icon-Duplicate d-inline" /><div class="d-inline">
+                              Duplicate
+                            </div>
                           </div>
                           <span style="opacity: 0.4">|</span>
                           <div class="btn-card btn-remove d-inline" @click="removeSelectedForms()">
-                            <i class="pd-icon icon-Delete" />Remove
+                            <i class="pd-icon icon-Delete d-inline" /><div class="d-inline">
+                              Remove
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -110,7 +116,8 @@
                       min-width="50px"
                     >
                       <template v-slot="{row}">
-                        <input v-model="row.checkbox" type="checkbox" class="form-checkbox">
+                        <input :id="'checbox-form-'+row.id" v-model="row.checkbox" type="checkbox">
+                        <label :for="'checbox-form-'+row.id" class="checkmark" />
                       </template>
                     </el-table-column>
 
@@ -268,9 +275,8 @@ export default {
     tableData () {
       return this.forms.filter((form) => {
         const rgx = new RegExp(this.search, 'i')
-        if(form.deleted === false) {
-          if(form.name.search(rgx) !== -1) 
-            return form
+        if (form.deleted === false) {
+          if (form.name.search(rgx) !== -1) { return form }
         }
       })
     }
@@ -320,6 +326,58 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.pd-icon {
+  font-size: 24px;
+}
+
+.col-6 {
+  padding-top: 15.5px;
+}
+
+.checkmark {
+  display:inline-block;
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 30px;
+  height:30px;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] { display: none; }
+
+.checkmark:before {
+  content: '';
+  position: absolute;
+  background-color:transparent;
+  left:31px;
+  top:17px;
+}
+
+input[type="checkbox"]:checked + .checkmark:before,
+input[type="checkbox"]:checked + .checkmark:after {
+  width:10px;
+  height:18px;
+  background-color:transparent;
+  border-right: 2px solid #2534B6;
+  border-bottom: 2px solid #2534B6;
+  left:34px;
+  top:19px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:indeterminate + .checkmark:before,
+input[type="checkbox"]:indeterminate + .checkmark:after {
+  width:20px;
+  height:2px;
+  background-color:transparent;
+  border-bottom: 2px solid #2534B6;
+  left:28.5px;
+  top:30px;
+}
+
 b {
   font-size: 16px;
 }
@@ -342,8 +400,8 @@ i {
 .btn-card {
   font-size: 16px;
   font-weight: 600;
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-right: 14px;
+  margin-left: 14px;
 }
 
 .btn-duplicate {
@@ -361,27 +419,10 @@ i {
   box-shadow: none!important;
 }
 
-.form-checkbox {
-  width: 18px;
-  height: 18px;
-  font-size: 16px;
-  border: 2px solid;
-  border-radius: 3px;
-  cursor: pointer;
-  outline: 0;
-  line-height: 1;
-  vertical-align: middle;
-  margin-right: 8px;
-  transform: scale(1.2);
-}
-
 /deep/tr.el-table__row {
   border: 1px solid #E0E0E0!important;
   border-radius: 5px!important;
 
-  .cell {
-    padding: 2px;
-  }
 }
 
 /deep/.thead-light > th {
