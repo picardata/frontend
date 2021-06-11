@@ -244,7 +244,7 @@ import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-import SlackTeamStat from "~/components/Stat/SlackTeamStat";
+import SlackTeamStat from '~/components/Stat/SlackTeamStat'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
