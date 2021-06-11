@@ -253,7 +253,6 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    StatsCard,
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
