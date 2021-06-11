@@ -325,8 +325,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .float-right {
-  margin-top: -10px;
-  margin-bottom: -10px
+  margin-top: -0.625em;
+  margin-bottom: -0.625em
 }
 
 .pd-icon {
@@ -334,7 +334,7 @@ export default {
 }
 
 .col-6 {
-  padding-top: 15.5px;
+  padding-top: 0.9375em;
 }
 
 .checkmark {
