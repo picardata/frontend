@@ -99,7 +99,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup">
       <template slot="first-title">
         Deal
       </template>
