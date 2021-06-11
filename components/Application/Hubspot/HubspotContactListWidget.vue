@@ -78,7 +78,7 @@
       </el-table>
     </div>
 
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup" :disableButton="disabledButtonSave">
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup" :disable-button="disabledButtonSave">
       <template slot="first-title">
         Contact
       </template>
