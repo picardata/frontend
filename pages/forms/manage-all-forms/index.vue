@@ -70,8 +70,8 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12">
-                <div v-if="totalForms > 0" class="card">
+              <div class="col-12">                
+                <div class="card">
                   <div class="card-header">
                     <div class="row">
                       <div class="col-6" style="margin-left:-10px">
@@ -249,7 +249,7 @@ export default {
       return this.tableData.length
     },
     selectAllCheckbox () {
-      const totalChecked = this.forms.filter((form) => {
+      const totalChecked = this.tableData.filter((form) => {
         return !!form.checkbox && !form.deleted
       }).length
 
@@ -260,7 +260,7 @@ export default {
       }
     },
     indeterminateCheckbox () {
-      const totalChecked = this.forms.filter((form) => {
+      const totalChecked = this.tableData.filter((form) => {
         return !!form.checkbox && !form.deleted
       }).length
 
