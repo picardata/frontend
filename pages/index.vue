@@ -135,31 +135,11 @@
                   </template>
                 </stats-card>
               </div>
-              <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Total traffic"
-                  type="gradient-orange"
-                  sub-title="2,356"
-                  icon="ni ni-chart-pie-35"
-                >
-                  <template slot="footer">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up" /> 12.18%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+              <div v-if="this.hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
+                <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
               </div>
-              <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Sales"
-                  type="gradient-green"
-                  sub-title="924"
-                  icon="ni ni-money-coins"
-                >
-                  <template slot="footer">
-                    <span class="text-danger mr-2"><i class="fa fa-arrow-down" /> 5.72%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+              <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
+                <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
               </div>
               <div class="col-xl-3 col-md-6">
                 <FacebookFollowerStat />
@@ -266,6 +246,8 @@ import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
+import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
+import HubspotTotalContactStat from '~/components/Stat/HubspotTotalContactStat'
 import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
@@ -285,9 +267,11 @@ export default {
     FacebookPostReachChart,
     FacebookPageLikeChart,
     FacebookVideoAndPageViewChart,
+    HubspotCompanyStat,
     [Select.name]: Select,
     [Option.name]: Option,
-    HubspotDealChart
+    HubspotDealChart,
+    HubspotTotalContactStat
   },
   auth: true,
   layout: 'argon',
@@ -296,25 +280,48 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    return await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
-      .then((data) => {
-        return {
-          employee: {
-            role: data.data.role,
-            occupation: String(data.data.occupation),
-            organization: data.data.company.name,
-            workLocation: data.data.company.location
-          },
-          profile: {
-            firstname: data.data.userProfile.firstname,
-            lastname: data.data.userProfile.lastname,
-            email: data.data.userProfile.email,
-            phone: data.data.userProfile.phone,
-            location: data.data.userProfile.address
+    const responses = await Promise.all([
+      context.app.$axios.get('/api/hubspot/companies/stats'),
+      context.app.$axios.get('/api/hubspot/contacts/stats'),
+      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+    ])
 
-          }
-        }
-      })
+    const hubspotCompanyStatRaw = responses[0]
+    const hubspotCompanyStat = hubspotCompanyStatRaw.data
+
+    const hubspotContactStatRaw = responses[1]
+    const hubspotContactStat = hubspotContactStatRaw.data
+
+    let hubspotCompanyStatTotal = 0
+
+    if (hubspotCompanyStat.length > 0) {
+      hubspotCompanyStatTotal = hubspotCompanyStat[0].total
+    }
+
+    let hubspotContactStatTotal = 0
+    if (hubspotContactStat.length > 0) {
+      hubspotContactStatTotal = hubspotContactStat[0].total
+    }
+
+    const data = responses[2]
+
+    return {
+      hubspotCompanyStatTotal,
+      hubspotContactStatTotal,
+      employee: {
+        role: data.data.role,
+        occupation: String(data.data.occupation),
+        organization: data.data.company.name,
+        workLocation: data.data.company.location
+      },
+      profile: {
+        firstname: data.data.userProfile.firstname,
+        lastname: data.data.userProfile.lastname,
+        email: data.data.userProfile.email,
+        phone: data.data.userProfile.phone,
+        location: data.data.userProfile.address
+      }
+    }
   },
   data () {
     return {
