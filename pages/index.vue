@@ -260,6 +260,26 @@ function randomScalingFactor () {
   return Math.round(Math.random() * 100)
 }
 
+function processFacebookEngagement(response) {
+  const pagePostEngagement = response.data
+
+  let facebookPagePostEngagementData;
+  if (pagePostEngagement.length > 0) {
+    const pagePostEngagementData = pagePostEngagement[0]
+    const values = pagePostEngagementData.values
+
+    const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
+    const data = values.map(value => value.value)
+
+    facebookPagePostEngagementData = {
+      labels,
+      data
+    }
+  }
+
+  return facebookPagePostEngagementData
+}
+
 export default {
   components: {
     Submenu,
@@ -289,10 +309,6 @@ export default {
       context.app.$axios.get('/api/facebook/post-engagements')
     ])
 
-
-
-    let facebookPagePostEngagementData;
-
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
 
@@ -312,20 +328,7 @@ export default {
 
     const data = responses[2]
 
-    const pagePostEngagement = responses[3].data
-
-    if (pagePostEngagement.length > 0) {
-      const pagePostEngagementData = pagePostEngagement[0]
-      const values = pagePostEngagementData.values
-
-      const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
-      const data = values.map(value => value.value)
-
-      facebookPagePostEngagementData = {
-        labels,
-        data
-      }
-    }
+    const facebookPagePostEngagementData = processFacebookEngagement(responses[3])
 
     return {
       facebookPagePostEngagementData,
