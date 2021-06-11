@@ -177,7 +177,7 @@
                     </div>
                   </template>
                   <div class="chart">
-                    <FacebookPagePostEngagementChart />
+                    <FacebookPagePostEngagementChart :values="this.facebookPagePostEngagementData"/>
                   </div>
                 </card>
               </div>
@@ -254,6 +254,7 @@ import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
+import moment from 'moment'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -284,8 +285,13 @@ export default {
     const responses = await Promise.all([
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
-      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
+      context.app.$axios.get('/api/facebook/post-engagements')
     ])
+
+
+
+    let facebookPagePostEngagementData;
 
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
@@ -306,7 +312,23 @@ export default {
 
     const data = responses[2]
 
+    const pagePostEngagement = responses[3].data
+
+    if (pagePostEngagement.length > 0) {
+      const pagePostEngagementData = pagePostEngagement[0]
+      const values = pagePostEngagementData.values
+
+      const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
+      const data = values.map(value => value.value)
+
+      facebookPagePostEngagementData = {
+        labels,
+        data
+      }
+    }
+
     return {
+      facebookPagePostEngagementData,
       hubspotCompanyStatTotal,
       hubspotContactStatTotal,
       employee: {
