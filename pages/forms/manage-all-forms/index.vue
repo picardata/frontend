@@ -325,7 +325,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .float-right {
-  margin-top: -10px; 
+  margin-top: -10px;
   margin-bottom: -10px
 }
 
