@@ -15,11 +15,11 @@ export default {
     LineChart
   },
   async fetch () {
-    const pageLike = await this.$axios.$get('/api/facebook/page-likes')
+    const pagePostEngagement = await this.$axios.$get('/api/facebook/post-engagements')
 
-    if (pageLike.length > 0) {
-      const pageLikeData = pageLike[0]
-      const values = pageLikeData.values
+    if (pagePostEngagement.length > 0) {
+      const pagePostEngagementData = pagePostEngagement[0]
+      const values = pagePostEngagementData.values
 
       const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
       const data = values.map(value => value.value)
@@ -27,7 +27,7 @@ export default {
       this.chartData = {
         labels,
         datasets: [{
-          label: 'Page Like',
+          label: 'Page Post Engagement',
           data,
           borderColor: Charts.colors.theme.warning
         }]

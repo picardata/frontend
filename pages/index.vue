@@ -181,13 +181,13 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Facebook Page: Total Page Likes
+                          Facebook Page: Total Page Post Engagement
                         </h5>
                       </div>
                     </div>
                   </template>
                   <div class="chart">
-                    <FacebookPageLikeChart />
+                    <FacebookPagePostEngagementChart />
                   </div>
                 </card>
               </div>
@@ -254,7 +254,7 @@ import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
-import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
+import FacebookPagePostEngagementChart from '~/components/Chart/FacebookPagePostEngagementChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
 import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
@@ -274,7 +274,7 @@ export default {
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
-    FacebookPageLikeChart,
+    FacebookPagePostEngagementChart,
     FacebookVideoAndPageViewChart,
     HubspotCompanyStat,
     [Select.name]: Select,
