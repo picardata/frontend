@@ -264,7 +264,7 @@ function processFacebookEngagement (response) {
   const pagePostEngagement = response.data
 
   let facebookPagePostEngagementData
-  if (pagePostEngagement.length > 0) {
+  if (pagePostEngagement && pagePostEngagement.length > 0) {
     const pagePostEngagementData = pagePostEngagement[0]
     const values = pagePostEngagementData.values
 
@@ -302,12 +302,15 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    const responses = await Promise.all([
+    const promises = [
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
       context.app.$axios.get('/api/facebook/post-engagements')
-    ])
+    ]
+
+    const results = await Promise.all(promises.map(p => p.catch(e => e)));
+    const responses = results.filter(result => !(result instanceof Error));
 
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
