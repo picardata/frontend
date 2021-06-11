@@ -84,23 +84,21 @@
                           @click="selectAllForms()"
                         >
                         <label class="checkmark" style="margin-left:9px;margin-bottom: -9px" for="check-all" />
-                        <div class="d-inline" style="margin-left: 10px; color: #313131">
+                        <div class="d-inline" style="margin-left: 10px; color: #313131;">
                           Select all forms
                         </div>
                       </div>
                       <div v-if="indeterminateCheckbox || selectAllCheckbox" class="col-6">
                         <div class="float-right">
-                          <div class="btn-card btn-duplicate d-inline">
-                            <i class="pd-icon icon-Duplicate d-inline" /><div class="d-inline">
-                              Duplicate
-                            </div>
-                          </div>
-                          <span style="opacity: 0.4">|</span>
-                          <div class="btn-card btn-remove d-inline" @click="removeSelectedForms()">
-                            <i class="pd-icon icon-Delete d-inline" /><div class="d-inline">
-                              Remove
-                            </div>
-                          </div>
+                          <base-button icon type="primary btn-duplicate">
+                            <span class="btn-inner--icon"><i class="pd-icon icon-Duplicate" /></span>
+                            <span class="btn-inner--text">Duplicate</span>
+                          </base-button>
+                          <span style="opacity:0.5">|</span>
+                          <base-button icon type="primary btn-remove" @click="removeSelectedForms()">
+                            <span class="btn-inner--icon"><i class="pd-icon icon-Delete" /></span>
+                            <span class="btn-inner--text">Remove</span>
+                          </base-button>
                         </div>
                       </div>
                     </div>
@@ -397,21 +395,33 @@ i {
   margin-right: 15px;
 }
 
+.btn-inner--icon {
+  margin-right: -20px;
+  margin-left: -10px;
+}
+
 .btn-card {
   font-size: 16px;
   font-weight: 600;
   margin-right: 14px;
   margin-left: 14px;
+  display: inline-block;
 }
 
 .btn-duplicate {
   color: #2534B6;
-  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin-right: -5px;
 }
 
 .btn-remove {
   color: #8B8B8D;
-  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin-right: -5px;
 }
 
 .card, .card-header {
