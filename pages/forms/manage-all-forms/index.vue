@@ -253,7 +253,7 @@ export default {
         return !!form.checkbox && !form.deleted
       }).length
 
-      if (totalChecked === this.totalForms) {
+      if (totalChecked === this.totalForms && this.totalForms !== 0) {
         return true
       } else {
         return false
