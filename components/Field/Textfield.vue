@@ -1,31 +1,8 @@
 <template>
   <div class="col-8">
     <div v-for="(text, index) in question.fieldTexts" :key="index">
-      <textarea
-        v-model="text.description"
-        name="text-desc"
-        class="form-control pcd mt-3"
-        placeholder="Description"
-        @blur="submitText(text, question.id)"
-        @keyup="submitText(text, question.id)"
-      />
-      <div v-if="!question.imageDesc && question.desc" class="clearfix mt-3">
-        <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="question.imageDesc = !question.imageDesc">
-          <font-awesome-icon :icon="['fas', 'image']" />
-          <span>Add image</span>
-        </button>
-      </div>
-      <div v-if="question.imageDesc && question.desc" class="clearfix mt-3">
-        <div class="col-sm-8 mt-3">
-          <dropzone-file-upload v-model="fileSingle" />
-
-          <button type="button" class="btn btn-lg bg-white text-primary btn-trash-field" @click="q.imageDesc = !q.imageDesc">
-            <font-awesome-icon :icon="['fas', 'times']" />
-            <span>Cancel</span>
-          </button>
-        </div>
-      </div>
       <input
+        :id="elementId.short_answer + '-' + q_key"
         v-model="text.shortAnswer"
         type="text"
         name="input-answer"
@@ -51,8 +28,12 @@ export default {
   },
   data () {
     return {
+      elementId: {
+        short_answer: 'shortAnswerInput'
+      },
       fileSingle: [],
-      type_id: 0
+      type_id: 0,
+      firstTrigger: true
     }
   },
   methods: {
@@ -75,7 +56,8 @@ export default {
 
       if (text.id) {
         axios = this.$axios.$put('/api/field-texts/' + text.id, toSave)
-      } else {
+      } else if (this.firstTrigger) {
+        this.firstTrigger = false
         axios = this.$axios.$post('/api/field-texts/', toSave)
       }
 

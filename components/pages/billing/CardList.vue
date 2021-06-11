@@ -5,7 +5,7 @@
         <h1>Manage Cards</h1>
       </div>
       <div class="col-6">
-        <button class="btn btn-lg btn-primary btn-round float-right">
+        <button class="btn btn-lg btn-primary btn-round float-right" @click="modals.add = true">
           Add New Card
         </button>
       </div>
@@ -26,7 +26,10 @@
               <tr v-for="(card, index) in cards" :key="card.id">
                 <td>{{ card.number }}</td>
                 <td> {{ card.expired }} </td>
-                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <img v-if="card.brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
+                  <img v-if="card.brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                </td>
                 <td>
                   <span v-if="card.isDefault" class="card-default">Default card</span>
                   <span v-else class="card-option">
@@ -41,7 +44,10 @@
               <tr v-for="card in this.totalToDisplay" :key="card">
                 <td>{{ cards[card - 1].number }}</td>
                 <td> {{ cards[card - 1].expired }} </td>
-                <td><img src="~/assets/visa_logo.svg" alt="Visa-Logo"></td>
+                <td>
+                  <img v-if="cards[card-1].brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
+                  <img v-if="cards[card-1].brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                </td>
                 <td>
                   <span v-if="cards[card - 1].isDefault" class="card-default">Default card</span>
                   <span v-else class="card-option">
@@ -61,21 +67,31 @@
     </div>
 
     <CardDelete :modals="modals" :cardId="selectedCard" @onDelete="deleteCreditCard"/>
+
+    <CardAdd :modals="modals" @onAdd="addCreditCard"/>
   </div>
 </template>
 
 <script>
+import CardDelete from "@/components/pages/billing/CardDelete"
+import CardAdd from "@/components/pages/billing/CardAdd"
+
 export default {
   name: "InvoiceList",
   async fetch () {
     await this.updateData();
+  },
+  components: {
+    CardDelete,
+    CardAdd
   },
   data () {
     return {
       cards: [],
       totalToDisplay: 0,
       modals: {
-        delete: false
+        delete: false,
+        add: false
       },
       showAll: false,
       selectedCard: 0
@@ -86,10 +102,12 @@ export default {
       await this.updateData();
       this.$notifySuccess('Card successfully deleted');
     },
+    async addCreditCard() {
+      await this.updateData();
+      this.$notifySuccess('Card successfully added');
+    },
     showModalDelete (id) {
       this.modals.delete = true
-      console.log('id = ')
-      console.log(id)
       this.selectedCard = id
     },
     deleteUser () {
@@ -106,24 +124,18 @@ export default {
       for(let i=0;i<cards.length;i++) {
         const card = cards[i]
 
-        console.log('card = ')
-        console.log(card)
         newCards.push({
           id: card.id,
           number: `****${card.last4}`,
           expired: `${card.exp_month}/${card.exp_year}`,
-          isDefault: false        
+          isDefault: false,
+          brand: card.brand
         })
       }
-      // console.log('cards = ')
-      // console.log(newCards)
 
       if(newCards.length > 0) {
         newCards[0].isDefault = true;
       }
-
-      console.log('new cards =')
-      console.log(newCards)
 
       this.cards = newCards
       if (newCards.length <= 3) {
@@ -131,7 +143,7 @@ export default {
       } else if(newCards.length > 3) {
         this.totalToDisplay = 3;
       }
-    }
+    },
   }
 }
 </script>
@@ -215,5 +227,9 @@ table{
     font-size: 20px;
     margin-left: 12px;
   }
+}
+
+.brand-logo{
+  width: 38px;
 }
 </style>

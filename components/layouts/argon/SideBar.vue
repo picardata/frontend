@@ -12,6 +12,7 @@
             :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
           >
             <nuxt-link
+              v-if="item.name !== 'logout'"
               :to="item.link"
               :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
             >
@@ -20,10 +21,35 @@
                 {{ item.displayName }}
               </div>
             </nuxt-link>
+
+            <a
+              v-else
+              @click.prevent="modals.logout = true"
+              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+            >
+              <i :class="[`pd-icon ${item.icon}`]" />
+              <div class="nav-link-text">
+                {{ item.displayName }}
+              </div>
+            </a>
           </li>
         </ul>
       </div>
     </div>
+
+    <modal :show.sync="modals.logout">
+      <template slot="header">
+        <h5 id="exampleModalLabel" class="modal-title"> Are you sure want to logout ouf picardata?</h5>
+      </template>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.logout = false">
+          Cancel
+        </base-button>
+        <base-button type="primary" @click.prevent="onLogout">
+          Logout
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
@@ -49,6 +75,12 @@ export default {
           displayName: 'Forms',
           icon: 'pdicon-Forms',
           link: '/forms'
+        },
+        {
+          name: 'tasks',
+          displayName: 'Tasks',
+          icon: 'icon-Tasks',
+          link: '/tasks'
         },
         {
           name: 'billing',
@@ -80,7 +112,10 @@ export default {
           icon: 'pdicon-Logout',
           link: '/logout'
         }
-      ]
+      ],
+      modals: {
+        logout: false
+      }
     }
   },
   methods: {
@@ -92,6 +127,9 @@ export default {
         }
       }
       return false
+    },
+    onLogout () {
+      this.$router.push('/logout')
     }
   }
 }

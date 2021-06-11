@@ -45,6 +45,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
                 placeholder="Password"
                 autocomplete="off"
+                maxlength="50"
                 @change="validatePassword"
                 @keyup="validateForRegisterButton"
               >
@@ -70,6 +71,7 @@
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
                 placeholder="Password again"
                 autocomplete="off"
+                maxlength="50"
                 @change="validatePasswordAgain"
                 @keyup="validateForRegisterButton"
               >
@@ -260,11 +262,16 @@ export default {
         return false
       }
 
+      if (!this.isAcceptedCharacterPassword(password)) {
+        this.errors.password = 'Accepted special character for password only !@#$%^&*!'
+        return false
+      }
+
       // const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/
       // const test = re.test(password)
 
       if (!this.isPasswordFormatValid(password)) {
-        this.errors.password = 'Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters.'
+        this.errors.password = 'Please choose more secure and unique password. Must be at least 8 to maximum 50 characters long with at least one upper case letter, number, and special character'
         return false
       }
 
@@ -284,27 +291,35 @@ export default {
       this.errors.passwordAgain = ''
       return true
     },
+    isAcceptedCharacterPassword (password) {
+      const re = /^[a-zA-Z0-9!@#$%^&*]+$/i
+      const test = re.test(password)
+
+      return test
+    },
     validatePasswordAgain () {
       const password = this.passwordAgain
-
-      console.log('password again = ')
-      console.log(password)
-
-      if (!this.isPasswordLengthValid(password)) {
-        this.errors.passwordAgain = 'Minimum password length 8 chars'
-        return false
-      }
-
-      if (!this.isPasswordFormatValid(password)) {
-        this.errors.passwordAgain = 'Please choose more secure and unique password. Please try the following: add uppercase letters, add numbers, add special characters, add more characters.'
-        return false
-      }
 
       const originalPassword = this.password
 
       if (!this.isPasswordMatched(originalPassword, password)) {
         this.errors.passwordAgain = "Password isn't matched"
         this.errors.password = this.errors.passwordAgain
+        return false
+      }
+
+      if (!this.isPasswordLengthValid(password)) {
+        this.errors.passwordAgain = 'Minimum password length 8 chars'
+        return false
+      }
+
+      if (!this.isAcceptedCharacterPassword(password)) {
+        this.errors.passwordAgain = 'Accepted special character for password only !@#$%^&*!'
+        return false
+      }
+
+      if (!this.isPasswordFormatValid(password)) {
+        this.errors.passwordAgain = 'Please choose more secure and unique password. Must be at least 8 to maximum 50 characters long with at least one upper case letter, number, and special character.'
         return false
       }
 

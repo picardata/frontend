@@ -22,28 +22,32 @@
     </div>
     <div class="card-body">
       <div class="list-group list-group-flush">
-        <a
+        <div
           v-for="(meeting, index) in meetings"
           :key="index"
-          target="_blank"
-          :href="'https://zoom.us/meeting/' + meeting.id"
-          class="list-group-item list-group-item-action"
         >
-          <div class="row align-items-center">
-            <div class="col ml--2">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h4 class="mb-0 text-sm">{{ meeting.topic }} <span v-if="meeting.upcoming === true" style="color:red;">*</span></h4>
+          <a
+            v-if="meeting.upcoming === true"
+            target="_blank"
+            :href="'https://zoom.us/meeting/' + meeting.id"
+            class="list-group-item list-group-item-action"
+          >
+            <div class="row align-items-center">
+              <div class="col ml--2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="mb-0 text-sm">{{ meeting.topic }} <span v-if="meeting.upcoming === true" style="color:red;">*</span></h4>
+                  </div>
+                  <div class="text-right text-muted">
+                    <a :href="meeting.joinUrl" target="_blank" class="btn btn-sm btn-secondary">Join</a>
+                    <a :href="'https://zoom.us/meeting/' + meeting.id" target="_blank" class="btn btn-sm btn-secondary">View</a>
+                  </div>
                 </div>
-                <div class="text-right text-muted">
-                  <a :href="meeting.joinUrl" target="_blank" class="btn btn-sm btn-secondary">Join</a>
-                  <a :href="'https://zoom.us/meeting/' + meeting.id" target="_blank" class="btn btn-sm btn-secondary">View</a>
-                </div>
+                <p class="text-sm mb-0">{{ $moment(meeting.startTime).calendar() }}</p>
               </div>
-              <p class="text-sm mb-0">{{ $moment(meeting.startTime).calendar() }}</p>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>

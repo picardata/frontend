@@ -176,11 +176,9 @@ export default {
     }
   },
   methods: {
-    deleteModal () {
-      this.$axios.delete('/api/integrations/' + this.data.id)
-        .then(res => console.log(res))
-        .catch(e => console.log(e))
-      this.$router.push('/apps/integrated-apps')
+    async deleteModal () {
+      await this.$axios.delete('/api/integrations/' + this.data.id)
+      window.location.href = '/apps/integrated-apps'
     },
     async syncGoogleUsers () {
       await this.$axios.$post('/api/integration-users/google-integration-users')

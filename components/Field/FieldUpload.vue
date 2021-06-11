@@ -7,6 +7,7 @@
         </div>
         <div class="col-sm-1 text-right pr-0">
           <b-form-checkbox
+            :id="elementId.allow_specInput + '-' + q_key"
             v-model="uploads.allow_spec"
             name="check-button"
             class="d-inline text-primary font-weight-600 pr-0"
@@ -24,14 +25,14 @@
               <li v-for="type in types" :key="type.id">
                 <div v-if="type.id <= 4" class="custom-control custom-checkbox mb-3">
                   <input
-                    :id="question.id + '-id-' + type.id"
+                    :id="elementId.option_name + '-' + q_key + '-' + type.id"
                     v-model="uploads.checkboxValue"
                     :value="type.id"
                     type="checkbox"
                     class="custom-control-input"
                     @change="submitUpload(uploads, question.id)"
                   >
-                  <label :for="question.id + '-id-' + type.id" class="custom-control-label">
+                  <label :for="elementId.option_name + '-' + q_key + '-' + type.id" class="custom-control-label">
                     {{ type.name }}
                   </label>
                 </div>
@@ -43,14 +44,14 @@
               <li v-for="type in types" :key="type.id">
                 <div v-if="type.id > 4" class="custom-control custom-checkbox mb-3">
                   <input
-                    :id="question.id + '-id-' + type.id"
+                    :id="elementId.option_name + '-' + q_key + '-' + type.id"
                     v-model="uploads.checkboxValue"
                     :value="type.id"
                     type="checkbox"
                     class="custom-control-input"
                     @change="submitUpload(uploads, question.id)"
                   >
-                  <label :for="question.id + '-id-' + type.id" class="custom-control-label">
+                  <label :for="elementId.option_name + '-' + q_key + '-' + type.id" class="custom-control-label">
                     {{ type.name }}
                   </label>
                 </div>
@@ -61,6 +62,7 @@
       </div>
       <div class="row mt-3 type-dropdown">
         <button
+          :id="elementId.max_numberToggle + '-' + q_key"
           class="btn btn-default btn-lg text-left dropdown-toggle"
           type="button"
           data-toggle="dropdown"
@@ -73,17 +75,19 @@
         </button>
         <div class="dropdown-menu">
           <a
-            v-for="nums in list_number"
-            :key="nums.id"
+            v-for="(n,n_key) in 20"
+            :id="elementId.max_numberSelect+'-'+q_key+'-'+n"
+            :key="n_key"
             class="dropdown-item"
-            @click="change_number(uploads, nums.id)"
+            @click="change_number(uploads, n)"
           >
-            {{ nums.id }}
+            {{ n }}
           </a>
         </div>
       </div>
       <div class="row mt-3 type-dropdown">
         <button
+          :id="elementId.max_sizeToggle + '-' + q_key"
           class="btn btn-default btn-lg text-left dropdown-toggle"
           type="button"
           data-toggle="dropdown"
@@ -96,12 +100,13 @@
         </button>
         <div class="dropdown-menu">
           <a
-            v-for="nums in list_number"
-            :key="nums.id"
+            v-for="(n,n_key) in 20"
+            :id="elementId.max_sizeSelect+'-'+q_key+'-'+n"
+            :key="n_key"
             class="dropdown-item"
-            @click="change_size(uploads, nums.id)"
+            @click="change_size(uploads, n)"
           >
-            {{ nums.id }} MB
+            {{ n }} MB
           </a>
         </div>
       </div>
@@ -122,28 +127,14 @@ export default {
   },
   data () {
     return {
-      list_number: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-        { id: 6 },
-        { id: 7 },
-        { id: 8 },
-        { id: 9 },
-        { id: 10 },
-        { id: 11 },
-        { id: 12 },
-        { id: 13 },
-        { id: 14 },
-        { id: 15 },
-        { id: 16 },
-        { id: 17 },
-        { id: 18 },
-        { id: 19 },
-        { id: 20 }
-      ],
+      elementId: {
+        allow_specInput: 'allowSpecInput',
+        option_name: 'optionName',
+        max_numberToggle: 'maxNumberDropdownToggle',
+        max_numberSelect: 'maxNumberDropdownSelect',
+        max_sizeToggle: 'maxSizeDropdownToggle',
+        max_sizeSelect: 'maxSizeDropdownSelect'
+      },
       types: [
         {
           name: 'Document',

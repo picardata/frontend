@@ -216,7 +216,6 @@ export default {
           this.clearForm()
         }
       } catch (e) {
-        console.log('Failed')
       }
     },
     clearForm () {

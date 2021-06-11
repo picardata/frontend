@@ -79,7 +79,7 @@
                 <div class="col-sm-12 mt-3">
                   <div class="d-flex">
                     <div class="ml-2 mr-4">
-                      <img src="~/assets/visa_logo.svg" alt="Visa-Logo">
+                      <img src="img/billing/visa_logo.svg" alt="Visa-Logo">
                     </div>
                     <div class="cards-info">
                       <span>&bullet;&bullet;&bullet;&bullet;</span>

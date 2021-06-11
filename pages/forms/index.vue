@@ -29,7 +29,7 @@
           </base-header>
           <div class="container-fluid mt--6">
             <div class="row">
-              <a id="app" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
+              <a :id="elementId.back_button" class="col-sm-12 pd-icon pdicon-Back-Arrow picardata-arrow" href="/" />
             </div>
             <div class="row mt-3" style="margin-bottom: 4%">
               <div class="col-4">
@@ -37,7 +37,7 @@
               </div>
               <div class="col-8">
                 <span class="align-middle float-right">
-                  <nuxt-link to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
+                  <nuxt-link :id="elementId.add_form" to="/forms/new" class="btn btn-lg btn-primary btn-add">Add blank form</nuxt-link>
                 </span>
               </div>
             </div>
@@ -54,6 +54,7 @@
                       /></span>
                   </div>
                   <input
+                    :id="elementId.search_input"
                     v-model="qSearch"
                     type="text"
                     class="form-control search-box border-0"
@@ -72,6 +73,7 @@
                 <div class="dropdown col-3 fa-pull-right">
                   <button
                     v-if="sort === 0"
+                    :id="elementId.last_updated"
                     class="btn dropdown-toggle text-primary"
                     type="button"
                     data-toggle="dropdown"
@@ -134,7 +136,7 @@
               <div v-for="(form) in integrations" :key="form.id" class="col-md-4 col-sm-12">
                 <div class="card pb-4" @dblclick="$router.push(openLink(form.id))">
                   <div class="card-body" style="margin: auto">
-                    <h5 class="card-title">
+                    <h5 :id="elementId.title_form + '-' + form.id" class="card-title">
                       {{ form.name }}
                     </h5>
                     <div class="row">
@@ -155,13 +157,13 @@
                     </div>
                     <div class="row mt-2">
                       <div class="col-md-6 col-sm-12">
-                        <button class="btn btn-gray-light" @click="shareModal(form)">
+                        <button :id="elementId.share_form + '-' + form.id" class="btn btn-gray-light" @click="shareModal(form)">
                           <span class="share-open">Share</span>
                         </button>
                       </div>
                       <div class="col-md-6 col-sm-12">
                         <div class="divider d-inline" />
-                        <nuxt-link class="btn btn-gray-light" :to="openLink(form.id)">
+                        <nuxt-link :id="elementId.open_form + '-' + form.id" class="btn btn-gray-light" :to="openLink(form.id)">
                           <span class="share-open">Open</span>
                         </nuxt-link>
                       </div>
@@ -236,6 +238,15 @@ export default {
   },
   data () {
     return {
+      elementId: {
+        add_form: 'addNewForm',
+        open_form: 'openForm',
+        share_form: 'shareForm',
+        title_form: 'titleForm',
+        back_button: 'backButton',
+        last_updated: 'lastUpdated',
+        search_input: 'searchInput'
+      },
       crumbs: [
         {
           name: 'Forms',
