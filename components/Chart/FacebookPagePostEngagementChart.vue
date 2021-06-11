@@ -13,22 +13,22 @@ export default {
   components: {
     LineChart
   },
-  mounted () {
-    if(this.values) {
-      this.chartData = {
-          labels: this.values.labels,
-          datasets: [{
-            label: 'Page Post Engagement',
-            data: this.values.data,
-            borderColor: Charts.colors.theme.warning
-          }]
-      }
-    }
-  },
-  props: ["values"],
+  props: ['values'],
   data () {
     return {
       chartData: null
+    }
+  },
+  mounted () {
+    if (this.values) {
+      this.chartData = {
+        labels: this.values.labels,
+        datasets: [{
+          label: 'Page Post Engagement',
+          data: this.values.data,
+          borderColor: Charts.colors.theme.warning
+        }]
+      }
     }
   }
 }

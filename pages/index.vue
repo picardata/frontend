@@ -177,7 +177,7 @@
                     </div>
                   </template>
                   <div class="chart">
-                    <FacebookPagePostEngagementChart :values="this.facebookPagePostEngagementData"/>
+                    <FacebookPagePostEngagementChart :values="this.facebookPagePostEngagementData" />
                   </div>
                 </card>
               </div>
@@ -241,6 +241,7 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
+import moment from 'moment'
 import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
@@ -254,16 +255,15 @@ import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-import moment from 'moment'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
 }
 
-function processFacebookEngagement(response) {
+function processFacebookEngagement (response) {
   const pagePostEngagement = response.data
 
-  let facebookPagePostEngagementData;
+  let facebookPagePostEngagementData
   if (pagePostEngagement.length > 0) {
     const pagePostEngagementData = pagePostEngagement[0]
     const values = pagePostEngagementData.values
