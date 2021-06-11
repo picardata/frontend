@@ -45,7 +45,7 @@
             class="date-item"
             v-for="(day,index) in dateList"
             v-bind:key="index"
-            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat && choosedDay == '{}', 'date-item-weekend': day.isWeekend, 'past-month':day.isPastMonth}"
+            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
         >
           <div>
             <p class="date-item-day">{{day.day}}</p>
@@ -61,6 +61,7 @@
                   <base-input
                       :id="'input-text'+n"
                       :type="'text'"
+                      :disabled="day.isPastDay"
                   />
                 </li>
               </ul>
@@ -147,6 +148,10 @@ export default {
 
     triggerChange: {
       type: Boolean
+    },
+
+    initFirstSunday: {
+      type: Boolean
     }
   },
   data() {
@@ -197,7 +202,11 @@ export default {
       this.today = this.formatOneDay(new Date());
       this.choosedDay = this.formatOneDay(this.choosedDate);
 
-      let firstDay = this.formatOneDay(this.choosedDate);
+      // get sunday in this week
+      var currentDate = new Date();
+      var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())).toUTCString();
+      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday) : this.formatOneDay(this.choosedDate);
+
       if (this.choosedDatePos === "center") {
         let ts1 =
             firstDay.timestamp -
@@ -350,8 +359,16 @@ export default {
         timestamp: new Date(date).getTime(),
         day: this.getWeekName(week),
         isWeekend: week == 0 || week == 6,
-        isPastMonth: dateNow.getMonth() < now.getMonth() && dateNow.getFullYear() <= dateNow.getFullYear()
+        isPastDay: this.isPastDate(dateNow,now)
       };
+    },
+
+    isPastDate(firstDate, secondDate) {
+      if (firstDate.setHours(0, 0, 0, 0) < secondDate.setHours(0, 0, 0, 0)) {
+        return true;
+      }
+
+      return false;
     },
 
     getWeekName(day) {
@@ -512,7 +529,7 @@ export default {
   text-align: center;
 }
 
-.horizontal-calendar .date-item.past-month p{
+.horizontal-calendar .date-item.past-date p{
   color:#adadad !important;
 }
 
@@ -572,11 +589,11 @@ export default {
 <style lang="scss">
 .horizontal-calendar{
   .date-item{
-    &.past-month{
+    &.past-date{
       .list-task {
         li {
           input {
-            border-color: #adadad;
+            border-color: #E0E0E0;
           }
         }
       }
@@ -590,11 +607,14 @@ export default {
           border-radius: 0;
           width: 90%;
           margin: 0 auto;
-          border-color: #E0E0E0;
+          border-color: #adadad;
 
           &:hover,
           &:focus {
             box-shadow: none;
+          }
+          &:disabled{
+            background: transparent;
           }
         }
       }
