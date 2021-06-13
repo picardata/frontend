@@ -55,18 +55,41 @@
             <p>{{day.month}}</p>
           </div>
           <div class="mt-4">
-            <div class="form-group">
-              <ul class="list-task">
-                <li v-for="(n,n_key) in 10" :key="n_key">
-                  <base-input
-                      v-model="day.inputs[n_key]"
-                      :id="'input-text-'+index+'-'+n_key"
-                      :type="'text'"
-                      :disabled="day.isPastDay"
-                      @blur="submitTask(day)"
-                  />
-                </li>
-              </ul>
+            <div v-if="isAnyTask(day.date_format_ori)">
+              <div v-for="task in showTask(day.date_format_ori)" :key="task.id" class="form-group">
+                <ul class="list-task">
+                  <li v-for="(list,l_key) in task.task_list" :key="task.id+'-'+l_key">
+                    <base-input
+                        v-model="day.inputs[l_key]"
+                        :id="'input-text-'+index+'-'+task.id+'-'+l_key"
+                        :type="'text'"
+                        @keyup="submitTask(day)"
+                    />
+                  </li>
+                  <li v-for="n in showNumber(task.task_list.length)" :key="n">
+                    <base-input
+                        v-model="day.inputs[n]"
+                        :id="'input-text-'+index+'-'+n"
+                        :type="'text'"
+                        @keyup="submitTask(day)"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div v-else>
+              <div class="form-group">
+                <ul class="list-task">
+                  <li v-for="(n,n_key) in 10 " :key="n_key">
+                    <base-input
+                        v-model="day.inputs[n_key]"
+                        :id="'input-text-'+index+'-'+n_key"
+                        :type="'text'"
+                        @keyup="submitTask(day)"
+                    />
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -80,6 +103,12 @@
 export default {
   name: "WeeklySlideCalendar",
   props: {
+    tasks: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
     choosedDate: {
       type: [String, Date],
       required: false,
@@ -158,6 +187,7 @@ export default {
   },
   data() {
     return {
+      orderInput: [1,2,3,4,5,6,7,8,9,10],
       firstDay: {},
       visibleDay: "",
       changeCount: Number(this.swipeSpace),
@@ -237,6 +267,9 @@ export default {
       this.creatList();
 
       this.$emit("firstDayChange", this.firstDay);
+      setTimeout(() => {
+        this.getTask
+      }, 500);
     },
     creatList() {
       let list = [];
@@ -252,7 +285,6 @@ export default {
       this.swipeLeftMore = true;
       this.swipeRightMore = true;
     },
-
     dateFlip(type, swipingDay) {
       let beforeChangeX = this.translateX;
       let beforeChangeLen = this.dateList.length;
@@ -361,15 +393,13 @@ export default {
 
       this.$emit("swipeClick", type===1?'right':'left');
     },
-
     formatOneDay(day) {
       let timestamp = new Date(day).getTime();
       let date_format = this.formatDate(timestamp);
       let date = this.formatDateTime(timestamp);
       let dateArray = date.split("/");
-      let dateNow = new Date(day);
-      let now = new Date();
-      now.setHours(0,0,0,0);
+      let dateNow = new Date(day).setHours(0,0,0,0);
+      let now = new Date().setHours(0,0,0,0);
 
       for (const key in dateArray) {
         if (dateArray[key].indexOf("0") == 0) {
@@ -377,9 +407,13 @@ export default {
         }
       }
       let week = new Date(timestamp).getDay();
+
+
       return {
+        id:null,
         dateFormat: date,
         date_format: date_format,
+        date_format_ori: dateNow,
         year: dateArray[0],
         month: dateArray[1],
         date: dateArray[2],
@@ -390,15 +424,13 @@ export default {
         inputs: []
       };
     },
-
     isPastDate(firstDate, secondDate) {
-      if (firstDate.setHours(0, 0, 0, 0) < secondDate.setHours(0, 0, 0, 0)) {
+      if (firstDate < secondDate) {
         return true;
       }
 
       return false;
     },
-
     getWeekName(day) {
       const dirt_en = {
         0: "Sunday",
@@ -431,7 +463,6 @@ export default {
       month = month < 10 ? month.replace(0,"") : month
       return monthNames[month]
     },
-
     formatDateTime(timestamp) {
       if (!timestamp) return "";
       timestamp = parseInt(timestamp);
@@ -458,7 +489,6 @@ export default {
       arr.unshift(fdt.getFullYear());
       return arr[0] + "-" + arr[1] + "-" + arr[2];
     },
-
     async submitTask (obj) {
       const toSave = {
         task: JSON.stringify(obj.inputs),
@@ -466,7 +496,7 @@ export default {
       }
       let axios
 
-      axios = this.$axios.$post('/api/tasks/', toSave)
+      axios = obj.id != null ? this.$axios.$put('/api/tasks/' + obj.id, toSave) : this.$axios.$post('/api/tasks/', toSave)
       await axios.then((res) => {
       })
         .catch((e) => {
@@ -479,9 +509,48 @@ export default {
           }
           return false
         })
+    },
+    showTask(date) {
+      return this.tasks.filter(function(x) {
+        return x.dateFormat == date
+      })
+    },
+    isAnyTask(date) {
+      const listDate = this.tasks.map(x => x.date)
+      for(const obj of listDate){
+        let taskDate = new Date(obj).setHours(0, 0, 0, 0)
+        if(taskDate == date){
+          return true
+        }
+      }
+
+      return false
+    },
+    showNumber(min) {
+      return this.orderInput.filter(function(x) {
+        return x > (min-1) && x < 10
+      })
+    }
+  },
+  filters: {
+    reverse: function (array) {
+      return array.slice().reverse()
     }
   },
   computed: {
+    getTask() {
+      for(const date of this.dateList){
+        let dateNow = date.date_format_ori
+        const listDate = this.tasks.map(x => x.date)
+        for(const [index, obj] of listDate.entries()){
+          let taskDate = new Date(obj).setHours(0, 0, 0, 0)
+          if(taskDate == dateNow){
+            date.id = this.tasks[index].id
+            date.inputs = this.tasks[index].task_list
+          }
+        }
+      }
+    },
     minDateTimestamp() {
       if (this.minDate) {
         let day = this.formatOneDay(this.minDate);
@@ -489,7 +558,6 @@ export default {
       }
       return null;
     },
-
     maxDateTimestamp() {
       if (this.maxDate) {
         let day = this.formatOneDay(this.maxDate);
