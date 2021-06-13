@@ -59,9 +59,11 @@
               <ul class="list-task">
                 <li v-for="(n,n_key) in 10" :key="n_key">
                   <base-input
-                      :id="'input-text'+n"
+                      v-model="day.inputs[n_key]"
+                      :id="'input-text-'+index+'-'+n_key"
                       :type="'text'"
                       :disabled="day.isPastDay"
+                      @blur="submitTask(day)"
                   />
                 </li>
               </ul>
@@ -166,7 +168,10 @@ export default {
       transitionDuration: "300ms",
       domWidth: 0,
       swipeLeftMore: true,
-      swipeRightMore: true
+      swipeRightMore: true,
+      startWeek: null,
+      endWeek: null,
+      column: {}
     };
   },
   mounted() {
@@ -202,10 +207,19 @@ export default {
       this.today = this.formatOneDay(new Date());
       this.choosedDay = this.formatOneDay(this.choosedDate);
 
-      // get sunday in this week
-      var currentDate = new Date();
-      var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())).toUTCString();
-      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday) : this.formatOneDay(this.choosedDate);
+      // init sunday in this week
+      var currentDate = new Date(this.choosedDate);
+      if(this.initFirstSunday) {
+        var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+        var nextSunday = new Date(currentDate.setDate(currentDate.getDate() + 6));
+      }else{
+        var thisSunday = new Date(currentDate.setDate(currentDate.getDate()));
+        var nextSunday = new Date(currentDate.setDate(currentDate.getDate() + 6));
+      }
+      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday.toUTCString()) : this.formatOneDay(this.choosedDate);
+      this.$emit('initWeek', thisSunday,nextSunday)
+      this.startWeek = thisSunday
+      this.endWeek = nextSunday
 
       if (this.choosedDatePos === "center") {
         let ts1 =
@@ -243,6 +257,12 @@ export default {
       let beforeChangeX = this.translateX;
       let beforeChangeLen = this.dateList.length;
       if (type === -1) {
+        var startWeekParent = new Date(this.startWeek.setDate(this.startWeek.getDate() - swipingDay))
+        var endWeekParent = new Date(this.endWeek.setDate(this.endWeek.getDate() - swipingDay))
+        this.$emit('initWeek', startWeekParent,endWeekParent)
+        this.startWeek = startWeekParent
+        this.endWeek = endWeekParent
+
         if (this.translateX <= -165 * swipingDay) {
           this.translateX = this.translateX + 165 * swipingDay;
 
@@ -273,6 +293,11 @@ export default {
           }, 1);
         }
       } else if (type === 1) {
+        var startWeekParent = new Date(this.startWeek.setDate(this.startWeek.getDate() + swipingDay))
+        var endWeekParent = new Date(this.endWeek.setDate(this.endWeek.getDate() + swipingDay))
+        this.$emit('initWeek', startWeekParent,endWeekParent)
+        this.startWeek = startWeekParent
+        this.endWeek = endWeekParent
         // let hasSpace =
         //     this.dateList.length * 165 - this.domWidth + this.translateX;
 
@@ -339,6 +364,7 @@ export default {
 
     formatOneDay(day) {
       let timestamp = new Date(day).getTime();
+      let date_format = this.formatDate(timestamp);
       let date = this.formatDateTime(timestamp);
       let dateArray = date.split("/");
       let dateNow = new Date(day);
@@ -353,13 +379,15 @@ export default {
       let week = new Date(timestamp).getDay();
       return {
         dateFormat: date,
+        date_format: date_format,
         year: dateArray[0],
         month: dateArray[1],
         date: dateArray[2],
         timestamp: new Date(date).getTime(),
         day: this.getWeekName(week),
         isWeekend: week == 0 || week == 6,
-        isPastDay: this.isPastDate(dateNow,now)
+        isPastDay: this.isPastDate(dateNow,now),
+        inputs: []
       };
     },
 
@@ -416,10 +444,44 @@ export default {
       }
       arr.unshift(fdt.getFullYear());
       return this.getMonthName(arr[1]) + " " + arr[2] + ", " + arr[0];
+    },
+    formatDate(timestamp) {
+      if (!timestamp) return "";
+      timestamp = parseInt(timestamp);
+      let fdt = new Date(timestamp);
+      let arr = [fdt.getMonth() + 1, fdt.getDate()];
+      for (let key in arr) {
+        if (arr[key] < 10) {
+          arr[key] = "0" + arr[key];
+        }
+      }
+      arr.unshift(fdt.getFullYear());
+      return arr[0] + "-" + arr[1] + "-" + arr[2];
+    },
+
+    async submitTask (obj) {
+      const toSave = {
+        task: JSON.stringify(obj.inputs),
+        date: obj.date_format
+      }
+      let axios
+
+      axios = this.$axios.$post('/api/tasks/', toSave)
+      await axios.then((res) => {
+      })
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
+            }
+          }
+          return false
+        })
     }
   },
   computed: {
-
     minDateTimestamp() {
       if (this.minDate) {
         let day = this.formatOneDay(this.minDate);
