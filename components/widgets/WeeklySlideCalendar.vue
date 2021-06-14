@@ -63,7 +63,7 @@
                         v-model="day.inputs[l_key]"
                         :id="'input-text-'+index+'-'+task.id+'-'+l_key"
                         :type="'text'"
-                        @keyup="submitTask(day)"
+                        @blur="submitTask(day)"
                     />
                   </li>
                   <li v-for="n in showNumber(task.task_list.length)" :key="n">
@@ -71,7 +71,7 @@
                         v-model="day.inputs[n]"
                         :id="'input-text-'+index+'-'+n"
                         :type="'text'"
-                        @keyup="submitTask(day)"
+                        @blur="submitTask(day)"
                     />
                   </li>
                 </ul>
@@ -85,7 +85,7 @@
                         v-model="day.inputs[n_key]"
                         :id="'input-text-'+index+'-'+n_key"
                         :type="'text'"
-                        @keyup="submitTask(day)"
+                        @blur="submitTask(day)"
                     />
                   </li>
                 </ul>
@@ -411,6 +411,7 @@ export default {
 
       return {
         id:null,
+        first_add: true,
         dateFormat: date,
         date_format: date_format,
         date_format_ori: dateNow,
@@ -496,8 +497,9 @@ export default {
       }
       let axios
 
-      axios = obj.id != null ? this.$axios.$put('/api/tasks/' + obj.id, toSave) : this.$axios.$post('/api/tasks/', toSave)
+      axios = obj.id == null && obj.first_add ? this.$axios.$post('/api/tasks/', toSave) : this.$axios.$put('/api/tasks/' + obj.id, toSave)
       await axios.then((res) => {
+        obj.first_add = false
         obj.id = res.id
       })
         .catch((e) => {
@@ -548,6 +550,7 @@ export default {
           if(taskDate == dateNow){
             date.id = this.tasks[index].id
             date.inputs = this.tasks[index].task_list
+            date.first_add = false
           }
         }
       }
