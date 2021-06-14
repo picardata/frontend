@@ -297,12 +297,11 @@ export default {
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/facebook/post-engagements'),
-      context.app.$axios.get('/api/slack/teams/stats')
+      context.app.$axios.get('/api/slack/teams/stats'),
+      context.app.$axios.get('/api/facebook/post-engagements')
     ]
 
-    const results = await Promise.all(promises.map(p => p.catch(e => e)))
-    const responses = results.filter(result => !(result instanceof Error))
+    const responses = await Promise.all(promises.map(p => p.catch(e => e)))
 
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
@@ -310,7 +309,7 @@ export default {
     const hubspotContactStatRaw = responses[1]
     const hubspotContactStat = hubspotContactStatRaw.data
 
-    const slackTeamStatRaw = responses[4]
+    const slackTeamStatRaw = responses[3]
     const slackTeamStat = slackTeamStatRaw.data
 
     let hubspotCompanyStatTotal = 0
@@ -331,7 +330,7 @@ export default {
 
     const data = responses[2]
 
-    const facebookPagePostEngagementData = processFacebookEngagement(responses[3])
+    const facebookPagePostEngagementData = processFacebookEngagement(responses[4])
 
     return {
       facebookPagePostEngagementData,
