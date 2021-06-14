@@ -99,7 +99,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup">
       <template slot="first-title">
         Deal
       </template>
@@ -179,8 +179,7 @@ export default {
   mounted () {
     this.$axios.get('/api/hubspot/deals')
       .then((data) => {
-        console.log(data.data)
-        this.deals = data.data
+        this.deals = data.data.deals
       })
   },
   methods: {
@@ -197,8 +196,6 @@ export default {
     },
     async saveGroup () {
       try {
-        console.log('close date = ')
-        console.log(new Date(this.group.closedate))
         if (this.group.closedate && this.group.amount && this.group.dealname) {
           const newCloseDate = new Date(this.group.closedate).toISOString()
           const data = await this.$axios.$post('/api/hubspot/deals', {

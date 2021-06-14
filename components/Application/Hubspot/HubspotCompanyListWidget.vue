@@ -91,33 +91,43 @@
         </el-table-column>
       </el-table>
     </div>
-    <AddModal :modals="modals" :close-form="closeForm" :form="form" :href="href" :save-group="saveGroup">
+    <AddModal :modals="modals" :close-form="closeForm" :form="form" :save-group="saveGroup" :disable-button="disabledButtonSave">
       <template slot="first-title">
         Company
       </template>
       <template slot="content">
-        <div class="form-group">
-          <input
-            id="name"
-            v-model="group.name"
-            type="text"
-            name="name"
-            class="form-control"
-            placeholder="Company Name"
-            required="required"
-          >
-        </div>
-        <div class="form-group">
-          <input
-            id="domain"
-            v-model="group.domain"
-            type="url"
-            name="domain"
-            class="form-control"
-            placeholder="Domain, ex: test.com"
-            required="required"
-          >
-        </div>
+        <ValidationObserver ref="observer" @keyup="onFormChange">
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required" name="name">
+            <div class="form-group">
+              <input
+                id="name"
+                v-model="group.name"
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Company Name"
+                required="required"
+              >
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="lazy" rules="required" name="domain">
+            <div class="form-group">
+              <div class="form-group">
+                <input
+                  id="domain"
+                  v-model="group.domain"
+                  type="url"
+                  name="domain"
+                  class="form-control"
+                  placeholder="Domain, ex: test.com"
+                  required="required"
+                >
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </div>
+          </ValidationProvider>
+        </ValidationObserver>
       </template>
     </AddModal>
   </div>
@@ -125,18 +135,19 @@
 
 <script>
 import { Table, TableColumn } from 'element-ui'
-// import AddModal from "../../Custom/AddModal";
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
   name: 'HubspotCompanyListWidget',
   components: {
     [Table.name]: Table,
-    [TableColumn.name]: TableColumn
+    [TableColumn.name]: TableColumn,
+    ValidationObserver,
+    ValidationProvider
   },
   data () {
     return {
       companies: [],
-      groups: [],
       modals: {
         createGroup: false,
         addUser: false
@@ -150,13 +161,12 @@ export default {
         name: '',
         domain: ''
       },
-      href: '/apps/integrated-apps'
+      disabledButtonSave: true
     }
   },
   mounted () {
     this.$axios.get('/api/hubspot/companies')
       .then((data) => {
-        console.log(data.data.companies)
         this.companies = data.data.companies
         // this.modals.createGroup = false;
       })
@@ -170,7 +180,7 @@ export default {
         })
 
         this.modals.createGroup = false
-        this.groups.push(
+        this.companies.push(
           {
             name: data.name,
             domain: data.domain
@@ -198,6 +208,25 @@ export default {
       this.form.new = false
       // this.clearForm()
       this.modals.createGroup = false
+    },
+    async onFormChange () {
+      let isComplete = true
+      for (const name in this.group) {
+        if (!this.group[name] && name !== 'index') {
+          isComplete = false
+        }
+      }
+
+      if (!isComplete) {
+        return
+      }
+
+      const valid = await this.$refs.observer.validate()
+      if (valid) {
+        this.disabledButtonSave = false
+      } else {
+        this.disabledButtonSave = true
+      }
     }
   }
 }
