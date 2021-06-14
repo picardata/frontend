@@ -45,26 +45,51 @@
             class="date-item"
             v-for="(day,index) in dateList"
             v-bind:key="index"
-            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
+            v-bind:class="{'choosed-day': day.datePost == choosedDay.datePost,'today':day.datePost == today.datePost, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
         >
           <div>
             <p class="date-item-day">{{day.day}}</p>
-            <p class="date-item-date">{{day.dateFormat}}</p>
+            <p class="date-item-date">{{day.dateTitle}}</p>
           </div>
           <div class="first-day" v-if="day.date == 1">
             <p>{{day.month}}</p>
           </div>
           <div class="mt-4">
-            <div class="form-group">
-              <ul class="list-task">
-                <li v-for="(n,n_key) in 10" :key="n_key">
-                  <base-input
-                      :id="'input-text'+n"
-                      :type="'text'"
-                      :disabled="day.isPastDay"
-                  />
-                </li>
-              </ul>
+            <div v-if="isAnyTask(day.thisDate)">
+              <div v-for="task in showTask(day.thisDate)" :key="task.id" class="form-group">
+                <ul class="list-task">
+                  <li v-for="(list,l_key) in task.task_list" :key="task.id+'-'+l_key">
+                    <base-input
+                        v-model="day.inputs[l_key]"
+                        :id="'input-text-'+index+'-'+task.id+'-'+l_key"
+                        :type="'text'"
+                        @blur="submitTask(day)"
+                    />
+                  </li>
+                  <li v-for="n in showNumber(task.task_list.length)" :key="n">
+                    <base-input
+                        v-model="day.inputs[n]"
+                        :id="'input-text-'+index+'-'+n"
+                        :type="'text'"
+                        @blur="submitTask(day)"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div v-else>
+              <div class="form-group">
+                <ul class="list-task">
+                  <li v-for="(n,n_key) in 10 " :key="n_key">
+                    <base-input
+                        v-model="day.inputs[n_key]"
+                        :id="'input-text-'+index+'-'+n_key"
+                        :type="'text'"
+                        @blur="submitTask(day)"
+                    />
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -78,6 +103,12 @@
 export default {
   name: "WeeklySlideCalendar",
   props: {
+    tasks: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
     choosedDate: {
       type: [String, Date],
       required: false,
@@ -156,6 +187,7 @@ export default {
   },
   data() {
     return {
+      orderInput: [1,2,3,4,5,6,7,8,9,10],
       firstDay: {},
       visibleDay: "",
       changeCount: Number(this.swipeSpace),
@@ -166,7 +198,10 @@ export default {
       transitionDuration: "300ms",
       domWidth: 0,
       swipeLeftMore: true,
-      swipeRightMore: true
+      swipeRightMore: true,
+      startWeek: null,
+      endWeek: null,
+      column: {}
     };
   },
   mounted() {
@@ -202,10 +237,19 @@ export default {
       this.today = this.formatOneDay(new Date());
       this.choosedDay = this.formatOneDay(this.choosedDate);
 
-      // get sunday in this week
-      var currentDate = new Date();
-      var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())).toUTCString();
-      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday) : this.formatOneDay(this.choosedDate);
+      // init sunday in this week
+      var currentDate = new Date(this.choosedDate);
+      if(this.initFirstSunday) {
+        var thisSunday = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+        var nextSunday = new Date(currentDate.setDate(currentDate.getDate() + 6));
+      }else{
+        var thisSunday = new Date(currentDate.setDate(currentDate.getDate()));
+        var nextSunday = new Date(currentDate.setDate(currentDate.getDate() + 6));
+      }
+      let firstDay = this.initFirstSunday ? this.formatOneDay(thisSunday.toUTCString()) : this.formatOneDay(this.choosedDate);
+      this.$emit('initWeek', thisSunday,nextSunday)
+      this.startWeek = thisSunday
+      this.endWeek = nextSunday
 
       if (this.choosedDatePos === "center") {
         let ts1 =
@@ -223,6 +267,9 @@ export default {
       this.creatList();
 
       this.$emit("firstDayChange", this.firstDay);
+      setTimeout(() => {
+        this.getTask
+      }, 500);
     },
     creatList() {
       let list = [];
@@ -238,11 +285,16 @@ export default {
       this.swipeLeftMore = true;
       this.swipeRightMore = true;
     },
-
     dateFlip(type, swipingDay) {
       let beforeChangeX = this.translateX;
       let beforeChangeLen = this.dateList.length;
       if (type === -1) {
+        var startWeekParent = new Date(this.startWeek.setDate(this.startWeek.getDate() - swipingDay))
+        var endWeekParent = new Date(this.endWeek.setDate(this.endWeek.getDate() - swipingDay))
+        this.$emit('initWeek', startWeekParent,endWeekParent)
+        this.startWeek = startWeekParent
+        this.endWeek = endWeekParent
+
         if (this.translateX <= -165 * swipingDay) {
           this.translateX = this.translateX + 165 * swipingDay;
 
@@ -273,6 +325,11 @@ export default {
           }, 1);
         }
       } else if (type === 1) {
+        var startWeekParent = new Date(this.startWeek.setDate(this.startWeek.getDate() + swipingDay))
+        var endWeekParent = new Date(this.endWeek.setDate(this.endWeek.getDate() + swipingDay))
+        this.$emit('initWeek', startWeekParent,endWeekParent)
+        this.startWeek = startWeekParent
+        this.endWeek = endWeekParent
         // let hasSpace =
         //     this.dateList.length * 165 - this.domWidth + this.translateX;
 
@@ -336,41 +393,61 @@ export default {
 
       this.$emit("swipeClick", type===1?'right':'left');
     },
-
     formatOneDay(day) {
       let timestamp = new Date(day).getTime();
-      let date = this.formatDateTime(timestamp);
-      let dateArray = date.split("/");
-      let dateNow = new Date(day);
-      let now = new Date();
-      now.setHours(0,0,0,0);
+      let date_for_post = this.formatDate(timestamp);
+      let date_for_title = this.formatDateTime(timestamp);
+      let dateArray = date_for_post.split("/");
+      let thisDate = new Date(day).setHours(0,0,0,0);
+      let currentDate = new Date().setHours(0,0,0,0);
 
       for (const key in dateArray) {
         if (dateArray[key].indexOf("0") == 0) {
           dateArray[key] = dateArray[key].substr(1, 1);
         }
       }
-      let week = new Date(timestamp).getDay();
+      let week = new Date(timestamp).getDay()
+      let day_name = this.getWeekName(week);
+
       return {
-        dateFormat: date,
+        id:null,
+        first_add: true,
+        dateTitle: date_for_title,
+        datePost: date_for_post,
+        thisDate: thisDate,
         year: dateArray[0],
         month: dateArray[1],
         date: dateArray[2],
-        timestamp: new Date(date).getTime(),
-        day: this.getWeekName(week),
+        timestamp: timestamp,
+        day: day_name,
         isWeekend: week == 0 || week == 6,
-        isPastDay: this.isPastDate(dateNow,now)
+        isPastDay: this.isPastDate(thisDate,currentDate),
+        inputs: []
       };
     },
+    showTask(date) {
+      return this.tasks.filter(function(x) {
+        return x.dateFormat == date
+      })
+    },
+    isAnyTask(date) {
+      const listDate = this.tasks.map(x => x.date)
+      for(const obj of listDate){
+        let taskDate = new Date(obj).setHours(0, 0, 0, 0)
+        if(taskDate == date){
+          return true
+        }
+      }
 
+      return false
+    },
     isPastDate(firstDate, secondDate) {
-      if (firstDate.setHours(0, 0, 0, 0) < secondDate.setHours(0, 0, 0, 0)) {
+      if (firstDate < secondDate) {
         return true;
       }
 
       return false;
     },
-
     getWeekName(day) {
       const dirt_en = {
         0: "Sunday",
@@ -403,7 +480,6 @@ export default {
       month = month < 10 ? month.replace(0,"") : month
       return monthNames[month]
     },
-
     formatDateTime(timestamp) {
       if (!timestamp) return "";
       timestamp = parseInt(timestamp);
@@ -416,10 +492,69 @@ export default {
       }
       arr.unshift(fdt.getFullYear());
       return this.getMonthName(arr[1]) + " " + arr[2] + ", " + arr[0];
+    },
+    formatDate(timestamp) {
+      if (!timestamp) return "";
+      timestamp = parseInt(timestamp);
+      let fdt = new Date(timestamp);
+      let arr = [fdt.getMonth() + 1, fdt.getDate()];
+      for (let key in arr) {
+        if (arr[key] < 10) {
+          arr[key] = "0" + arr[key];
+        }
+      }
+      arr.unshift(fdt.getFullYear());
+      return arr[0] + "-" + arr[1] + "-" + arr[2];
+    },
+    async submitTask (obj) {
+      const toSave = {
+        task: JSON.stringify(obj.inputs),
+        date: obj.datePost
+      }
+      let axios
+
+      axios = obj.id == null && obj.first_add ? this.$axios.$post('/api/tasks/', toSave) : this.$axios.$put('/api/tasks/' + obj.id, toSave)
+      await axios.then((res) => {
+        obj.first_add = false
+        obj.id = res.id
+      })
+        .catch((e) => {
+          this.errors = []
+          for (const field of ['username', 'password']) {
+            const errors = e.response.data.errors[field]
+            if (errors !== undefined) {
+              this.errors = this.errors.concat(errors)
+            }
+          }
+          return false
+        })
+    },
+    showNumber(min) {
+      return this.orderInput.filter(function(x) {
+        return x > (min-1) && x < 10
+      })
+    }
+  },
+  filters: {
+    reverse: function (array) {
+      return array.slice().reverse()
     }
   },
   computed: {
-
+    getTask() {
+      for(const date of this.dateList){
+        let dateNow = date.thisDate
+        const listDate = this.tasks.map(x => x.date)
+        for(const [index, obj] of listDate.entries()){
+          let taskDate = new Date(obj).setHours(0, 0, 0, 0)
+          if(taskDate == dateNow){
+            date.id = this.tasks[index].id
+            date.inputs = this.tasks[index].task_list
+            date.first_add = false
+          }
+        }
+      }
+    },
     minDateTimestamp() {
       if (this.minDate) {
         let day = this.formatOneDay(this.minDate);
@@ -427,7 +562,6 @@ export default {
       }
       return null;
     },
-
     maxDateTimestamp() {
       if (this.maxDate) {
         let day = this.formatOneDay(this.maxDate);
