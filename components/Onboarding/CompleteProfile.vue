@@ -1,6 +1,6 @@
 <template>
   <div class="onboarding-complete-profile pb-5">
-    <div class="row mt-5">
+    <div class="row mt-80">
       <div class="col-12">
         <div class="title">
           <img src="~/assets/nav_logo_dark.png" alt="Picardata">
@@ -25,7 +25,7 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|email" vid="profile.email" name="email">
-                <input v-model="profile.email" type="text" class="login-credential-input form-control" placeholder="Email">
+                <input v-model="profile.email" type="text" class="login-credential-input form-control" placeholder="Email" disabled="">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.phone" name="phone">
@@ -247,5 +247,9 @@ select.login-credential-input{
 
 .text-danger{
   position: absolute;
+}
+
+.mt-80{
+  margin-top: 80px;
 }
 </style>

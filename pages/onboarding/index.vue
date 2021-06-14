@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center pt-80">
     <div v-if="step === 1" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
@@ -54,9 +54,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
         </div>
       </div>
-      <div class="row mt-5">
-        <HowPicardataWorks />
-      </div>
+      <HowPicardataWorks />
     </div>
     <div v-if="step === 3" class="col-9">
       <div class="row text-center">
@@ -114,16 +112,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-5" style="padding-left:40px;padding-right:40px">
-        <AppLibrary />
-      </div>
-    </div>
-    <div v-if="step === 4" class="row mt-5 justify-content-end btn-bottom">
-      <div class="pl-2">
-        <nuxt-link to="/" class="btn btn-lg btn-primary btn-add">
-          Finish
-        </nuxt-link>
-      </div>
+      <AppLibrary />
     </div>
     <div v-else class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">
@@ -214,8 +203,8 @@ export default {
 
       this.step = this.step + 1
     },
-    async skip () {
-      await this.$axios.$post('/api/employees/', {
+    skip () {
+      this.$axios.$post('/api/employees/', {
         userProfile: {
           firstname: '',
           lastname: '',
@@ -232,10 +221,8 @@ export default {
         }
       }).then((data) => {
         this.$auth.setUser(data)
-        this.$router.push('/apps/app-library')
+        this.step = 4
         return true
-      }).catch((e) => {
-        console.log(e)
       })
     },
     changeFormComplete (complete) {
@@ -269,5 +256,9 @@ export default {
     right: 0px;
     padding-right: 50px;
     padding-bottom: 25px;
+  }
+
+  .pt-80{
+    padding-top: 80px;
   }
 </style>

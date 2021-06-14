@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="row mt-5">
+    <div class="row mt-80">
       <div class="col-12 main-title">
-        <img src="~/assets/nav_logo_dark.png" alt="Picardata"> How Picardata works?
+        <img src="~/assets/nav_logo_dark.png" alt="Picardata" class="mr-4"> How Picardata works?
       </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-4">
       <div class="card-deck">
         <div class="card">
           <div class="card-body p-4">
@@ -58,5 +58,9 @@ export default {
    font-weight: 700;
    color: #14142B;
    line-height: 50px;
+}
+
+.mt-80{
+  margin-top: 80px;
 }
 </style>
