@@ -19,9 +19,11 @@ export default {
     StatsCard
   },
   async fetch () {
-    const pageFollowerResponse = await this.$axios.$get('/api/facebook/page-followers')
+    try {
+      const pageFollowerResponse = await this.$axios.$get('/api/facebook/page-followers')
 
-    this.facebookFollowerCount = pageFollowerResponse.followers_count
+      this.facebookFollowerCount = pageFollowerResponse.followers_count
+    } catch (_) {}
   },
   data () {
     return {

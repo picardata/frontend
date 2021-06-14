@@ -331,7 +331,7 @@ export default {
     const data = responses[2]
 
     let facebookPagePostEngagementData
-    if(responses[4]) {
+    if (responses[4]) {
       facebookPagePostEngagementData = processFacebookEngagement(responses[4])
     }
 
