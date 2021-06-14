@@ -100,7 +100,90 @@ export default {
           name: 'Hubspot',
           path: '/apps/integrated-apps'
         }
+      ],
+      closedWon: {
+        dealStage: 'closedwon',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      appointmentScheduled: {
+        dealStage: 'appointmentscheduled',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      qualifiedToBuy: {
+        dealStage: 'qualifiedtobuy',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      presentationScheduled: {
+        dealStage: 'presentationscheduled',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      decisionMakerBoughtIn: {
+        dealStage: 'decisionmakerboughtin',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      contractSent: {
+        dealStage: 'contractsent',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+      closedLost: {
+        dealStage: 'closedlost',
+        loaded: false,
+        labels: [],
+        datasets: [{data: []}]
+      },
+    }
+  },
+  mounted() {
+    this.getDealsData()
+  },
+  methods: {
+    async getDealsData() {
+      const stages = [
+        this.appointmentScheduled,
+        this.qualifiedToBuy,
+        this.presentationScheduled,
+        this.decisionMakerBoughtIn,
+        this.contractSent,
+        this.closedWon,
+        this.closedLost,
       ]
+
+      await this.$axios.get('/api/hubspot/deals/stats', {
+        'params': {
+          'month': this.$moment().format('M'),
+          'year': this.$moment().format('Y')
+        }
+      })
+      .then((data) => {
+        data.data.map((deal) => {
+          stages.map((stage) => {
+            if(deal.dealStage === stage.dealStage) {
+              stage.labels.push(
+                deal.day + '/' + deal.month
+              )
+              stage.datasets[0].data.push(
+                deal.total
+              )
+            }
+          })
+        })
+
+        stages.map((stage) => {
+          stage.loaded = true
+        })
+      })
     }
   },
   mounted () {
