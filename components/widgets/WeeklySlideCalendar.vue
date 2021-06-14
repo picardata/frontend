@@ -45,18 +45,18 @@
             class="date-item"
             v-for="(day,index) in dateList"
             v-bind:key="index"
-            v-bind:class="{'choosed-day': day.dateFormat == choosedDay.dateFormat,'today':day.dateFormat == today.dateFormat, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
+            v-bind:class="{'choosed-day': day.datePost == choosedDay.datePost,'today':day.datePost == today.datePost, 'date-item-weekend': day.isWeekend, 'past-date':day.isPastDay}"
         >
           <div>
             <p class="date-item-day">{{day.day}}</p>
-            <p class="date-item-date">{{day.dateFormat}}</p>
+            <p class="date-item-date">{{day.dateTitle}}</p>
           </div>
           <div class="first-day" v-if="day.date == 1">
             <p>{{day.month}}</p>
           </div>
           <div class="mt-4">
-            <div v-if="isAnyTask(day.date_format_ori)">
-              <div v-for="task in showTask(day.date_format_ori)" :key="task.id" class="form-group">
+            <div v-if="isAnyTask(day.thisDate)">
+              <div v-for="task in showTask(day.thisDate)" :key="task.id" class="form-group">
                 <ul class="list-task">
                   <li v-for="(list,l_key) in task.task_list" :key="task.id+'-'+l_key">
                     <base-input
@@ -395,35 +395,51 @@ export default {
     },
     formatOneDay(day) {
       let timestamp = new Date(day).getTime();
-      let date_format = this.formatDate(timestamp);
-      let date = this.formatDateTime(timestamp);
-      let dateArray = date.split("/");
-      let dateNow = new Date(day).setHours(0,0,0,0);
-      let now = new Date().setHours(0,0,0,0);
+      let date_for_post = this.formatDate(timestamp);
+      let date_for_title = this.formatDateTime(timestamp);
+      let dateArray = date_for_post.split("/");
+      let thisDate = new Date(day).setHours(0,0,0,0);
+      let currentDate = new Date().setHours(0,0,0,0);
 
       for (const key in dateArray) {
         if (dateArray[key].indexOf("0") == 0) {
           dateArray[key] = dateArray[key].substr(1, 1);
         }
       }
-      let week = new Date(timestamp).getDay();
-
+      let week = new Date(timestamp).getDay()
+      let day_name = this.getWeekName(week);
 
       return {
         id:null,
         first_add: true,
-        dateFormat: date,
-        date_format: date_format,
-        date_format_ori: dateNow,
+        dateTitle: date_for_title,
+        datePost: date_for_post,
+        thisDate: thisDate,
         year: dateArray[0],
         month: dateArray[1],
         date: dateArray[2],
-        timestamp: new Date(date).getTime(),
-        day: this.getWeekName(week),
+        timestamp: timestamp,
+        day: day_name,
         isWeekend: week == 0 || week == 6,
-        isPastDay: this.isPastDate(dateNow,now),
+        isPastDay: this.isPastDate(thisDate,currentDate),
         inputs: []
       };
+    },
+    showTask(date) {
+      return this.tasks.filter(function(x) {
+        return x.dateFormat == date
+      })
+    },
+    isAnyTask(date) {
+      const listDate = this.tasks.map(x => x.date)
+      for(const obj of listDate){
+        let taskDate = new Date(obj).setHours(0, 0, 0, 0)
+        if(taskDate == date){
+          return true
+        }
+      }
+
+      return false
     },
     isPastDate(firstDate, secondDate) {
       if (firstDate < secondDate) {
@@ -493,7 +509,7 @@ export default {
     async submitTask (obj) {
       const toSave = {
         task: JSON.stringify(obj.inputs),
-        date: obj.date_format
+        date: obj.datePost
       }
       let axios
 
@@ -513,22 +529,6 @@ export default {
           return false
         })
     },
-    showTask(date) {
-      return this.tasks.filter(function(x) {
-        return x.dateFormat == date
-      })
-    },
-    isAnyTask(date) {
-      const listDate = this.tasks.map(x => x.date)
-      for(const obj of listDate){
-        let taskDate = new Date(obj).setHours(0, 0, 0, 0)
-        if(taskDate == date){
-          return true
-        }
-      }
-
-      return false
-    },
     showNumber(min) {
       return this.orderInput.filter(function(x) {
         return x > (min-1) && x < 10
@@ -543,7 +543,7 @@ export default {
   computed: {
     getTask() {
       for(const date of this.dateList){
-        let dateNow = date.date_format_ori
+        let dateNow = date.thisDate
         const listDate = this.tasks.map(x => x.date)
         for(const [index, obj] of listDate.entries()){
           let taskDate = new Date(obj).setHours(0, 0, 0, 0)
