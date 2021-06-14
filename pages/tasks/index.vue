@@ -31,7 +31,14 @@
           </div>
           <div class="row mt-5">
             <div class="col-12">
-              <WeeklySlideCalendar :swipe-space="1" :choosed-date="choosedDate" :trigger-change="triggerChange" :init-first-sunday="initFirstSunday" />
+              <WeeklySlideCalendar
+                :swipe-space="1"
+                :choosed-date="choosedDate"
+                :trigger-change="triggerChange"
+                :init-first-sunday="initFirstSunday"
+                :tasks="tasks"
+                @initWeek="setWeek"
+              />
             </div>
           </div>
           <div class="row mt-3">
@@ -77,6 +84,19 @@ export default {
   mixins: [
     loaderMixin
   ],
+  async fetch () {
+    await this.$axios.get('/api/tasks/').then((data) => {
+      this.tasks = data.data.filter((x) => {
+        const dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
+        const start = new Date(this.getStartWeek).setHours(0, 0, 0, 0)
+        const end = new Date(this.getEndWeek).setHours(0, 0, 0, 0)
+        x.dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
+        x.task_list = JSON.parse(x.task.toString())
+
+        return dateFormat >= start && dateFormat < end
+      })
+    })
+  },
   data () {
     return {
       triggerChange: false,
@@ -88,7 +108,18 @@ export default {
           path: '/tasks'
         }
       ],
-      submenu: true
+      submenu: true,
+      startWeek: null,
+      endWeek: null,
+      tasks: []
+    }
+  },
+  computed: {
+    getStartWeek () {
+      return this.startWeek
+    },
+    getEndWeek () {
+      return this.endWeek
     }
   },
   methods: {
@@ -97,6 +128,11 @@ export default {
       this.choosedDate = value
       this.triggerChange = !this.triggerChange
       this.initFirstSunday = false
+    },
+    setWeek (start, end) {
+      this.startWeek = start
+      this.endWeek = end
+      this.$fetch()
     }
   }
 }

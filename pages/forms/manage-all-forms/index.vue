@@ -71,7 +71,7 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <div v-if="totalForms > 0" class="card">
+                <div class="card">
                   <div class="card-header">
                     <div class="row">
                       <div class="col-6" style="margin-left:-10px">
@@ -249,18 +249,18 @@ export default {
       return this.tableData.length
     },
     selectAllCheckbox () {
-      const totalChecked = this.forms.filter((form) => {
+      const totalChecked = this.tableData.filter((form) => {
         return !!form.checkbox && !form.deleted
       }).length
 
-      if (totalChecked === this.totalForms) {
+      if (totalChecked === this.totalForms && this.totalForms !== 0) {
         return true
       } else {
         return false
       }
     },
     indeterminateCheckbox () {
-      const totalChecked = this.forms.filter((form) => {
+      const totalChecked = this.tableData.filter((form) => {
         return !!form.checkbox && !form.deleted
       }).length
 
@@ -325,8 +325,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .float-right {
-  margin-top: -10px;
-  margin-bottom: -10px
+  margin-top: -0.625em;
+  margin-bottom: -0.625em
 }
 
 .pd-icon {
@@ -334,7 +334,7 @@ export default {
 }
 
 .col-6 {
-  padding-top: 15.5px;
+  padding-top: 0.9375em;
 }
 
 .checkmark {
