@@ -161,13 +161,13 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Facebook Page: Total Page Likes
+                          Facebook Page: Total Page Post Engagement
                         </h5>
                       </div>
                     </div>
                   </template>
                   <div class="chart">
-                    <FacebookPageLikeChart />
+                    <FacebookPagePostEngagementChart :values="this.facebookPagePostEngagementData" />
                   </div>
                 </card>
               </div>
@@ -231,9 +231,11 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
+import moment from 'moment'
+// import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
-import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
+import FacebookPagePostEngagementChart from '~/components/Chart/FacebookPagePostEngagementChart'
 import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
 import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
 
@@ -249,13 +251,33 @@ function randomScalingFactor () {
   return Math.round(Math.random() * 100)
 }
 
+function processFacebookEngagement (response) {
+  const pagePostEngagement = response.data
+
+  let facebookPagePostEngagementData
+  if (pagePostEngagement && pagePostEngagement.length > 0) {
+    const pagePostEngagementData = pagePostEngagement[0]
+    const values = pagePostEngagementData.values
+
+    const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
+    const data = values.map(value => value.value)
+
+    facebookPagePostEngagementData = {
+      labels,
+      data
+    }
+  }
+
+  return facebookPagePostEngagementData
+}
+
 export default {
   components: {
     Submenu,
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
-    FacebookPageLikeChart,
+    FacebookPagePostEngagementChart,
     FacebookVideoAndPageViewChart,
     HubspotCompanyStat,
     [Select.name]: Select,
@@ -271,12 +293,15 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    const responses = await Promise.all([
+    const promises = [
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/slack/teams/stats')
-    ])
+      context.app.$axios.get('/api/slack/teams/stats'),
+      context.app.$axios.get('/api/facebook/post-engagements')
+    ]
+
+    const responses = await Promise.all(promises.map(p => p.catch(e => e)))
 
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
@@ -305,7 +330,10 @@ export default {
 
     const data = responses[2]
 
+    const facebookPagePostEngagementData = processFacebookEngagement(responses[4])
+
     return {
+      facebookPagePostEngagementData,
       hubspotCompanyStatTotal,
       hubspotContactStatTotal,
       slackTeamStatTotal,
