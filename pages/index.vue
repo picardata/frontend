@@ -122,18 +122,8 @@
               </div>
             </div>
             <div class="row" style="margin-top: 2em">
-              <div class="col-xl-3 col-md-6">
-                <stats-card
-                  title="Total traffic"
-                  type="gradient-red"
-                  sub-title="350,897"
-                  icon="ni ni-active-40"
-                >
-                  <template slot="footer">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up" /> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </template>
-                </stats-card>
+              <div v-if="slackTeamStatTotal > 0" class="col-xl-3 col-md-6">
+                <SlackTeamStat :counter="slackTeamStatTotal" />
               </div>
               <div v-if="hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
@@ -241,7 +231,6 @@
 <script>
 import { Select, Option } from 'element-ui'
 import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
-import StatsCard from '~/components/argon-core/Cards/StatsCard'
 import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
 import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
 import FacebookPageLikeChart from '~/components/Chart/FacebookPageLikeChart'
@@ -254,6 +243,7 @@ import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
+import SlackTeamStat from '~/components/Stat/SlackTeamStat'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -262,7 +252,6 @@ function randomScalingFactor () {
 export default {
   components: {
     Submenu,
-    StatsCard,
     TotalIntegrationChart,
     FacebookFollowerStat,
     FacebookPostReachChart,
@@ -272,7 +261,8 @@ export default {
     [Select.name]: Select,
     [Option.name]: Option,
     HubspotDealChart,
-    HubspotTotalContactStat
+    HubspotTotalContactStat,
+    SlackTeamStat
   },
   auth: true,
   layout: 'argon',
@@ -284,7 +274,8 @@ export default {
     const responses = await Promise.all([
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
-      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
+      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
+      context.app.$axios.get('/api/slack/teams/stats')
     ])
 
     const hubspotCompanyStatRaw = responses[0]
@@ -292,6 +283,9 @@ export default {
 
     const hubspotContactStatRaw = responses[1]
     const hubspotContactStat = hubspotContactStatRaw.data
+
+    const slackTeamStatRaw = responses[3]
+    const slackTeamStat = slackTeamStatRaw.data
 
     let hubspotCompanyStatTotal = 0
 
@@ -304,11 +298,17 @@ export default {
       hubspotContactStatTotal = hubspotContactStat[0].total
     }
 
+    let slackTeamStatTotal = 0
+    if (slackTeamStat.length > 0) {
+      slackTeamStatTotal = slackTeamStat[0].total
+    }
+
     const data = responses[2]
 
     return {
       hubspotCompanyStatTotal,
       hubspotContactStatTotal,
+      slackTeamStatTotal,
       employee: {
         role: data.data.role,
         occupation: String(data.data.occupation),
