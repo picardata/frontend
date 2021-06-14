@@ -84,6 +84,19 @@ export default {
   mixins: [
     loaderMixin
   ],
+  async fetch () {
+    await this.$axios.get('/api/tasks/').then((data) => {
+      this.tasks = data.data.filter((x) => {
+        const dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
+        const start = new Date(this.getStartWeek).setHours(0, 0, 0, 0)
+        const end = new Date(this.getEndWeek).setHours(0, 0, 0, 0)
+        x.dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
+        x.task_list = JSON.parse(x.task.toString())
+
+        return dateFormat >= start && dateFormat < end
+      })
+    })
+  },
   data () {
     return {
       triggerChange: false,
@@ -100,19 +113,6 @@ export default {
       endWeek: null,
       tasks: []
     }
-  },
-  async fetch () {
-    await this.$axios.get('/api/tasks/').then((data) => {
-      this.tasks = data.data.filter((x) => {
-        const dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
-        const start = new Date(this.getStartWeek).setHours(0, 0, 0, 0)
-        const end = new Date(this.getEndWeek).setHours(0, 0, 0, 0)
-        x.dateFormat = new Date(x.date).setHours(0, 0, 0, 0)
-        x.task_list = JSON.parse(x.task.toString())
-
-        return dateFormat >= start && dateFormat < end
-      })
-    })
   },
   computed: {
     getStartWeek () {

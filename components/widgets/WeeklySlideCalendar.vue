@@ -498,6 +498,7 @@ export default {
 
       axios = obj.id != null ? this.$axios.$put('/api/tasks/' + obj.id, toSave) : this.$axios.$post('/api/tasks/', toSave)
       await axios.then((res) => {
+        obj.id = res.id
       })
         .catch((e) => {
           this.errors = []
