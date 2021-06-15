@@ -303,32 +303,47 @@ export default {
 
     const responses = await Promise.all(promises.map(p => p.catch(_ => null)))
 
-    const hubspotCompanyStatRaw = responses[0]
-    const hubspotCompanyStat = hubspotCompanyStatRaw.data
+    let hubspotCompanyStatRaw
+    let hubspotCompanyStat
+    if (responses[0]) {
+      hubspotCompanyStatRaw = responses[0]
+      hubspotCompanyStat = hubspotCompanyStatRaw.data
+    }
 
-    const hubspotContactStatRaw = responses[1]
-    const hubspotContactStat = hubspotContactStatRaw.data
+    let hubspotContactStatRaw
+    let hubspotContactStat
+    if (responses[1]) {
+      hubspotContactStatRaw = responses[1]
+      hubspotContactStat = hubspotContactStatRaw.data
+    }
 
-    const slackTeamStatRaw = responses[3]
-    const slackTeamStat = slackTeamStatRaw.data
+    let slackTeamStatRaw
+    let slackTeamStat
+    if (responses[3]) {
+      slackTeamStatRaw = responses[3]
+      slackTeamStat = slackTeamStatRaw.data
+    }
 
     let hubspotCompanyStatTotal = 0
 
-    if (hubspotCompanyStat.length > 0) {
+    if (hubspotCompanyStat && hubspotCompanyStat.length > 0) {
       hubspotCompanyStatTotal = hubspotCompanyStat[0].total
     }
 
     let hubspotContactStatTotal = 0
-    if (hubspotContactStat.length > 0) {
+    if (hubspotContactStat && hubspotContactStat.length > 0) {
       hubspotContactStatTotal = hubspotContactStat[0].total
     }
 
     let slackTeamStatTotal = 0
-    if (slackTeamStat.length > 0) {
+    if (slackTeamStat && slackTeamStat.length > 0) {
       slackTeamStatTotal = slackTeamStat[0].total
     }
 
-    const data = responses[2]
+    let data
+    if (responses[2]) {
+      data = responses[2]
+    }
 
     let facebookPagePostEngagementData
     if (responses[4]) {
@@ -341,17 +356,17 @@ export default {
       hubspotContactStatTotal,
       slackTeamStatTotal,
       employee: {
-        role: data.data.role,
-        occupation: String(data.data.occupation),
-        organization: data.data.company.name,
-        workLocation: data.data.company.location
+        role: data ? data.data.role : '',
+        occupation: data ? String(data.data.occupation) : '',
+        organization: data ? data.data.company.name : '',
+        workLocation: data ? data.data.company.location : ''
       },
       profile: {
-        firstname: data.data.userProfile.firstname,
-        lastname: data.data.userProfile.lastname,
-        email: data.data.userProfile.email,
-        phone: data.data.userProfile.phone,
-        location: data.data.userProfile.address
+        firstname: data ? data.data.userProfile.firstname : '',
+        lastname: data ? data.data.userProfile.lastname : '',
+        email: data ? data.data.userProfile.email : '',
+        phone: data ? data.data.userProfile.phone : '',
+        location: data ? data.data.userProfile.address : ''
       }
     }
   },
