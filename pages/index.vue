@@ -301,7 +301,7 @@ export default {
       context.app.$axios.get('/api/facebook/post-engagements')
     ]
 
-    const responses = await Promise.all(promises.map(p => p.catch(e => e)))
+    const responses = await Promise.all(promises.map(p => p.catch(_ => null)))
 
     const hubspotCompanyStatRaw = responses[0]
     const hubspotCompanyStat = hubspotCompanyStatRaw.data
@@ -330,7 +330,10 @@ export default {
 
     const data = responses[2]
 
-    const facebookPagePostEngagementData = processFacebookEngagement(responses[4])
+    let facebookPagePostEngagementData
+    if (responses[4]) {
+      facebookPagePostEngagementData = processFacebookEngagement(responses[4])
+    }
 
     return {
       facebookPagePostEngagementData,
