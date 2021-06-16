@@ -202,22 +202,22 @@ export default {
         data.form.shortField = []
         data.form.fields = data.form.fields.filter((field) => {
           field.errors = []
-          field.fieldChoices = field.fieldChoices.filter((choice) => {
+          field.fieldChoices = field.fieldChoices ? field.fieldChoices.filter((choice) => {
             return choice.status === 1
-          })
-          field.fieldTexts = field.fieldTexts.filter((y) => {
+          }) : []
+          field.fieldTexts = field.fieldTexts ? field.fieldTexts.filter((y) => {
             return y.status === 1
-          })
-          field.fieldUploads = field.fieldUploads.filter((y) => {
+          }) : []
+          field.fieldUploads = field.fieldUploads ? field.fieldUploads.filter((y) => {
             y.checkboxValue = JSON.parse(y.checkboxValue)
             return y.status === 1
-          })
-          field.fieldLinearScales = field.fieldLinearScales.filter((y) => {
+          }) : []
+          field.fieldLinearScales = field.fieldLinearScales ? field.fieldLinearScales.filter((y) => {
             return y.status === 1
-          })
-          field.fieldDates = field.fieldDates.filter((y) => {
+          }) : []
+          field.fieldDates = field.fieldDates ? field.fieldDates.filter((y) => {
             return y.status === 1
-          })
+          }) : []
           return field.status === 1
         })
 
@@ -234,8 +234,8 @@ export default {
               time: ''
             })
             data.form.shortField.push({
-              description: field.fieldTexts[0].description,
-              image: field.fieldTexts[0].image
+              description: null,
+              image: null
             })
           } else if (field.type === 3) {
             data.form.answers.push({
