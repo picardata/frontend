@@ -137,10 +137,10 @@ export default {
           alert: ''
         })
 
-        x.fieldTexts = x.fieldTexts.filter((y) => {
+        x.fieldTexts = x.fieldTexts ? x.fieldTexts.filter((y) => {
           y.first_trigger = false
           return y.status === 1
-        })
+        }) : []
 
         if (!x.fieldTexts.length > 0) {
           x.fieldTexts.push({
@@ -152,11 +152,11 @@ export default {
           })
         }
 
-        x.fieldUploads = x.fieldUploads.filter((y) => {
+        x.fieldUploads = x.fieldUploads ? x.fieldUploads.filter((y) => {
           y.allow_spec = y.allowSpecificTypes === 1
           y.checkboxValue = JSON.parse(y.checkboxValue)
           return y.status === 1
-        })
+        }) : []
 
         if (!x.fieldUploads.length > 0) {
           x.fieldUploads.push({
@@ -170,10 +170,10 @@ export default {
           })
         }
 
-        x.fieldLinearScales = x.fieldLinearScales.filter((y) => {
+        x.fieldLinearScales = x.fieldLinearScales ? x.fieldLinearScales.filter((y) => {
           y.allow_spec = y.allowSpecificTypes === 1
           return y.status === 1
-        })
+        }) : []
 
         if (!x.fieldLinearScales.length > 0) {
           x.fieldLinearScales.push({
@@ -188,9 +188,9 @@ export default {
           })
         }
 
-        x.fieldDates = x.fieldDates.filter((y) => {
+        x.fieldDates = x.fieldDates ? x.fieldDates.filter((y) => {
           return y.status === 1
-        })
+        }) : []
 
         if (!x.fieldDates.length > 0) {
           x.fieldDates.push({
@@ -223,7 +223,6 @@ export default {
         }
       })
 
-      console.log(data.data.questions)
       return data.data
     })
   },
