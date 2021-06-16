@@ -231,7 +231,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .btn-add {
     width: 150px;
     border-radius: 40px;
@@ -260,5 +260,9 @@ export default {
 
   .pt-80{
     padding-top: 80px;
+  }
+
+  .modal-open{
+    overflow: auto !important;
   }
 </style>
