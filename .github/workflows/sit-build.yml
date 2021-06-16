@@ -80,6 +80,7 @@ jobs:
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:sit.${{ github.run_number }} \
               && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
               --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.dev.picardata.com" \
+              --env STRIPE_PUBLISHABLE_KEY="pk_test_51IuaxHGpyuP14g89LB1U1V4CNGsz8JteNvEoqSohLLffRo32zjrH2qYbKsxRAq2Z0LXth3JZY5lUyA6bvkI2RfoQ002aFkcfVb" \
               -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:sit.${{ github.run_number }} yarn start
       - name: Notify Discord On Failure
         if: ${{ failure() }}
