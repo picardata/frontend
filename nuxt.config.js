@@ -97,7 +97,7 @@ export default {
       browserBaseURL: process.env.BASE_URL || 'http://api.local.picardata.com'
     },
     stripe: {
-      publishableKey: 'pk_test_51IuaxHGpyuP14g89LB1U1V4CNGsz8JteNvEoqSohLLffRo32zjrH2qYbKsxRAq2Z0LXth3JZY5lUyA6bvkI2RfoQ002aFkcfVb'
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_51IuaxHGpyuP14g89LB1U1V4CNGsz8JteNvEoqSohLLffRo32zjrH2qYbKsxRAq2Z0LXth3JZY5lUyA6bvkI2RfoQ002aFkcfVb'
     }
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
