@@ -220,22 +220,22 @@ export default {
         data.shortField = []
         data.fields = data.fields.filter((field) => {
           field.errors = []
-          field.fieldChoices = field.fieldChoices.filter((choice) => {
+          field.fieldChoices = field.fieldChoices ? field.fieldChoices.filter((choice) => {
             return choice.status === 1
-          })
-          field.fieldTexts = field.fieldTexts.filter((y) => {
+          }) : []
+          field.fieldTexts = field.fieldTexts ? field.fieldTexts.filter((y) => {
             return y.status === 1
-          })
-          field.fieldUploads = field.fieldUploads.filter((y) => {
+          }) : []
+          field.fieldUploads = field.fieldUploads ? field.fieldUploads.filter((y) => {
             y.checkboxValue = JSON.parse(y.checkboxValue)
             return y.status === 1
-          })
-          field.fieldLinearScales = field.fieldLinearScales.filter((y) => {
+          }) : []
+          field.fieldLinearScales = field.fieldLinearScales ? field.fieldLinearScales.filter((y) => {
             return y.status === 1
-          })
-          field.fieldDates = field.fieldDates.filter((y) => {
+          }) : []
+          field.fieldDates = field.fieldDates ? field.fieldDates.filter((y) => {
             return y.status === 1
-          })
+          }) : []
           return field.status === 1
         })
 
@@ -252,8 +252,8 @@ export default {
               time: ''
             })
             data.shortField.push({
-              description: field.fieldTexts[0].description,
-              image: field.fieldTexts[0].image
+              description: null,
+              image: null
             })
           } else if (field.type === 3) {
             data.answers.push({
@@ -404,7 +404,7 @@ export default {
   },
   computed: {
     answeredQuestion () {
-      return this.answers.filter((v) => {
+      return this.answers ? this.answers.filter((v) => {
         if (v.type < 5) {
           if (typeof v.name === 'object') {
             return !!v.name.map(x => x).length
@@ -412,7 +412,7 @@ export default {
             return !!v.name
           }
         } else if (v.type === 5) { return !!v.files } else if (v.type === 6) { return !!v.scale } else if (v.type === 7) { return !!v.date } else if (v.type === 8) { return !!v.time }
-      }).length
+      }).length : 0
     },
     label () {
       const fileNames = []
