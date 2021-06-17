@@ -242,21 +242,14 @@ export default {
     setStep (onboardingStep) {
       if (onboardingStep <= 3) {
         this.step = onboardingStep
-        return
-      }
-
-      switch (onboardingStep) {
-        case 11:
-          this.step = 4
-          return
-        default:
-          this.step = 1
+      } else if (onboardingStep === 11) {
+        this.step = 4
       }
     }
   }
 }
 </script>
-<style>
+<style scoped>
   .btn-add {
     width: 150px;
     border-radius: 40px;
@@ -285,5 +278,9 @@ export default {
 
   .pt-80{
     padding-top: 80px;
+  }
+
+  .modal-open{
+    overflow: auto !important;
   }
 </style>
