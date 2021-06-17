@@ -192,16 +192,15 @@ export default {
     }
   },
   methods: {
-    next () {
+    async next () {
       if (this.step === 3) {
-        this.$refs.completeProfile.post()
-          .then(() => {
-            this.step = this.step + 1
-          })
-        return
+        const result = await this.$refs.completeProfile.post()
+        if (result) {
+          this.step++
+        }
+      } else {
+        this.step++
       }
-
-      this.step = this.step + 1
     },
     skip () {
       this.$axios.$post('/api/employees/', {
