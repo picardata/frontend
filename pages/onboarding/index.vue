@@ -210,7 +210,7 @@ export default {
           this.step++
         }
       } else {
-        this.$axios.$post('/api/users/onboarding/next')
+        await this.$axios.$post('/api/users/onboarding/next')
         this.step++
       }
     },
@@ -242,15 +242,8 @@ export default {
     setStep (onboardingStep) {
       if (onboardingStep <= 3) {
         this.step = onboardingStep
-        return
-      }
-
-      switch (onboardingStep) {
-        case 11:
-          this.step = 4
-          return
-        default:
-          this.step = 1
+      } else if (onboardingStep === 11) {
+        this.step = 4
       }
     }
   }
