@@ -231,6 +231,9 @@ export default {
         await this.$axios.$post('/api/users/onboarding/next')
         this.step++
       }
+
+      this.$axios.$post('/api/users/onboarding/next')
+      this.step = this.step + 1
     },
     skip () {
       this.$axios.$post('/api/employees/', {
