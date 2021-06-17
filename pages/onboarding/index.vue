@@ -147,6 +147,14 @@ export default {
   mixins: [
     loaderMixin
   ],
+  async asyncData (context) {
+    const userMe = await context.app.$axios.get('/api/users/me')
+    const user = userMe.data.user
+
+    return {
+      user
+    }
+  },
   data () {
     return {
       step: 1,
@@ -177,6 +185,9 @@ export default {
       isIntegratedGoogle: false
     }
   },
+  created () {
+    this.setStep(this.user.onboardingStatus)
+  },
   computed: {
     getStepWelcome () {
       return this.step === 1
@@ -199,6 +210,7 @@ export default {
           this.step++
         }
       } else {
+        await this.$axios.$post('/api/users/onboarding/next')
         this.step++
       }
     },
@@ -226,6 +238,20 @@ export default {
     },
     changeFormComplete (complete) {
       this.isProfileCompleted = complete
+    },
+    setStep (onboardingStep) {
+      if (onboardingStep <= 3) {
+        this.step = onboardingStep
+        return
+      }
+
+      switch (onboardingStep) {
+        case 11:
+          this.step = 4
+          return
+        default:
+          this.step = 1
+      }
     }
   }
 }
