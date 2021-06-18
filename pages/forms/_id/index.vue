@@ -121,110 +121,112 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    return await context.app.$axios.get('/api/forms/' + context.route.params.id).then((data) => {
-      data.data.questions = data.data.fields.filter((x) => {
-        x.fieldChoices = x.fieldChoices.filter((y) => {
-          y.edit = false
-          y.alert = ''
-          return y.status === 1
-        }).sort((a, b) => a.choiceOrder - b.choiceOrder)
+    const data = await context.app.$axios.get('/api/forms/' + context.route.params.id)
+    data.data.questions = data.data.fields.filter((x) => {
+      x.fieldChoices = x.fieldChoices.filter((y) => {
+        y.edit = false
+        y.alert = ''
+        return y.status === 1
+      }).sort((a, b) => a.choiceOrder - b.choiceOrder)
 
-        x.fieldChoices.push({
+      x.fieldChoices.push({
+        id: undefined,
+        type: 1,
+        name: 'Add option',
+        edit: false,
+        alert: ''
+      })
+
+      x.fieldTexts = x.fieldTexts ? x.fieldTexts.filter((y) => {
+        y.first_trigger = false
+        return y.status === 1
+      }) : []
+
+      if (!x.fieldTexts.length > 0) {
+        x.fieldTexts.push({
           id: undefined,
-          type: 1,
-          name: 'Add option',
-          edit: false,
-          alert: ''
+          description: null,
+          shortAnswer: null,
+          image: null,
+          first_trigger: true
         })
+      }
 
-        x.fieldTexts = x.fieldTexts ? x.fieldTexts.filter((y) => {
-          y.first_trigger = false
-          return y.status === 1
-        }) : []
+      x.fieldUploads = x.fieldUploads ? x.fieldUploads.filter((y) => {
+        y.allow_spec = y.allowSpecificTypes === 1
+        y.checkboxValue = JSON.parse(y.checkboxValue)
+        return y.status === 1
+      }) : []
 
-        if (!x.fieldTexts.length > 0) {
-          x.fieldTexts.push({
-            id: undefined,
-            description: null,
-            shortAnswer: null,
-            image: null,
-            first_trigger: true
-          })
-        }
+      if (!x.fieldUploads.length > 0) {
+        x.fieldUploads.push({
+          id: undefined,
+          allowSpecificTypes: null,
+          checkboxValue: [],
+          maxNumber: 0,
+          maxSize: 0,
+          description: null,
+          image: null
+        })
+      }
 
-        x.fieldUploads = x.fieldUploads ? x.fieldUploads.filter((y) => {
-          y.allow_spec = y.allowSpecificTypes === 1
-          y.checkboxValue = JSON.parse(y.checkboxValue)
-          return y.status === 1
-        }) : []
+      x.fieldLinearScales = x.fieldLinearScales ? x.fieldLinearScales.filter((y) => {
+        y.allow_spec = y.allowSpecificTypes === 1
+        return y.status === 1
+      }) : []
 
-        if (!x.fieldUploads.length > 0) {
-          x.fieldUploads.push({
-            id: undefined,
-            allowSpecificTypes: null,
-            checkboxValue: [],
-            maxNumber: 0,
-            maxSize: 0,
-            description: null,
-            image: null
-          })
-        }
+      if (!x.fieldLinearScales.length > 0) {
+        x.fieldLinearScales.push({
+          id: undefined,
+          allowSpecificTypes: null,
+          fromValue: 1,
+          toValue: 5,
+          label1: null,
+          label2: null,
+          description: null,
+          image: null
+        })
+      }
 
-        x.fieldLinearScales = x.fieldLinearScales ? x.fieldLinearScales.filter((y) => {
-          y.allow_spec = y.allowSpecificTypes === 1
-          return y.status === 1
-        }) : []
+      x.fieldDates = x.fieldDates ? x.fieldDates.filter((y) => {
+        return y.status === 1
+      }) : []
 
-        if (!x.fieldLinearScales.length > 0) {
-          x.fieldLinearScales.push({
-            id: undefined,
-            allowSpecificTypes: null,
-            fromValue: 1,
-            toValue: 5,
-            label1: null,
-            label2: null,
-            description: null,
-            image: null
-          })
-        }
+      if (!x.fieldDates.length > 0) {
+        x.fieldDates.push({
+          id: undefined,
+          dateValue: null,
+          timeValue: null,
+          description: null,
+          image: null
+        })
+      }
 
-        x.fieldDates = x.fieldDates ? x.fieldDates.filter((y) => {
-          return y.status === 1
-        }) : []
-
-        if (!x.fieldDates.length > 0) {
-          x.fieldDates.push({
-            id: undefined,
-            dateValue: null,
-            timeValue: null,
-            description: null,
-            image: null
-          })
-        }
-
-        return x.status === 1
-      })
-
-      data.data.questions.filter((b) => {
-        b.desc = false
-        b.imageDesc = false
-
-        if (b.type === 0 || b.type === 1) {
-          b.desc = true
-          b.descText = b.fieldTexts[0].description
-        } else if (b.type === 5) {
-          b.descText = b.fieldUploads[0].description
-        } else if (b.type === 6) {
-          b.descText = b.fieldLinearScales[0].description
-        } else if (b.type > 6) {
-          b.descText = b.fieldDates[0].description
-        } else {
-          b.descText = null
-        }
-      })
-
-      return data.data
+      return x.status === 1
     })
+
+    data.data.questions.filter((b) => {
+      b.desc = false
+      b.imageDesc = false
+
+      if (b.type === 0 || b.type === 1) {
+        b.desc = true
+        b.descText = b.fieldTexts[0].description
+      } else if (b.type === 5) {
+        b.descText = b.fieldUploads[0].description
+      } else if (b.type === 6) {
+        b.descText = b.fieldLinearScales[0].description
+      } else if (b.type > 6) {
+        b.descText = b.fieldDates[0].description
+      } else {
+        b.descText = null
+      }
+    })
+
+    const questions = data.data.questions
+
+    const noField = questions.length === 0
+    return { ...data.data, noField }
   },
   data () {
     return {
