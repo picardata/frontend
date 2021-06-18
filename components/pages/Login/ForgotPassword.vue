@@ -207,7 +207,7 @@ export default {
     validatePassword (passwordName) {
       const password = this[passwordName]
       if (password.length < 8) {
-        this.errors[passwordName] = 'Minimum password length 8 chars'
+        this.errors[passwordName] = 'Minimum password length 8 characters'
         return false
       }
 

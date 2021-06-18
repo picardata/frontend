@@ -258,7 +258,7 @@ export default {
       const password = this.password
 
       if (!this.isPasswordLengthValid(password)) {
-        this.errors.password = 'Minimum password length 8 chars'
+        this.errors.password = 'Minimum password length 8 characters'
         return false
       }
 
@@ -309,7 +309,7 @@ export default {
       }
 
       if (!this.isPasswordLengthValid(password)) {
-        this.errors.passwordAgain = 'Minimum password length 8 chars'
+        this.errors.passwordAgain = 'Minimum password length 8 characters'
         return false
       }
 
