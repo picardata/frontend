@@ -291,6 +291,10 @@ export default {
     appClass: {
       type: String,
       default: 'col-5'
+    },
+    filterApp: {
+      type: Number,
+      default: null
     }
   },
   data () {
@@ -337,6 +341,10 @@ export default {
         // this.totalPage = 5;
         this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
         this.setCurrentPage(1)
+
+        if (this.filterApp !== null) {
+          this.filterCategory(this.filterApp)
+        }
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {

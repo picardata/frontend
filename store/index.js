@@ -107,6 +107,22 @@ const createStore = () => {
             }
           }
         }
+      },
+      googleIntegration: {
+        namespaced: true,
+        state: () => ({
+          isIntegrated: false
+        }),
+        getters: {
+          getIsIntegrated: (state) => {
+            return state.isIntegrated
+          }
+        },
+        mutations: {
+          changeState(state, newState) {
+            state.isIntegrated = newState
+          }
+        }
       }
     }
   })
