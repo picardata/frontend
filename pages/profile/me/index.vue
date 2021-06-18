@@ -52,64 +52,45 @@
                       General Information
                     </h3>
                   </div>
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-first-name'"-->
-                  <!--                v-model="profile.firstname"-->
-                  <!--                placeholder="Your Firstname"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="First Name"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-last-name'"-->
-                  <!--                v-model="profile.lastname"-->
-                  <!--                placeholder="Your Lastname"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Last Name"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-email'"-->
-                  <!--                v-model="profile.email"-->
-                  <!--                placeholder="Email"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Email"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-phone-number'"-->
-                  <!--                v-model="profile.phone"-->
-                  <!--                placeholder="Phone number"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Phone number"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-location'"-->
-                  <!--                v-model="generalLocation"-->
-                  <!--                placeholder="Location"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Location"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <ValidationProvider v-slot="{ errors }" rules="required" vid="profile.firstname" name="firstname">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.firstname" name="firstname">
                     <div class="form-group">
                       <label class="label">First Name</label>
-                      <input v-model="profile.firstname" type="text" class="login-credential-input form-control" placeholder="Firstname" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-first-name"
+                        v-model="profile.firstname"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Firstname"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider v-slot="{ errors }" rules="required" vid="profile.lastname" name="lastname">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.lastname" name="lastname">
                     <div class="form-group">
                       <label class="label">Last Name</label>
-                      <input v-model="profile.lastname" type="text" class="login-credential-input form-control" placeholder="Lastname" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-last-name"
+                        v-model="profile.lastname"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Lastname"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|email" vid="profile.email" name="email">
                     <div class="form-group">
                       <label class="label">Email</label>
-                      <input v-model="profile.email" type="text" class="login-credential-input form-control" placeholder="Email" disabled="">
+                      <input
+                        id="input-text-email"
+                        v-model="profile.email"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Email"
+                        disabled=""
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
@@ -117,6 +98,7 @@
                     <div class="form-group">
                       <label class="label">Phone number</label>
                       <VuePhoneNumberInput
+                        id="input-text-phone-number"
                         v-model="profile.phone"
                         placeholder="Phone Number"
                         class="form-group phonenumber-custom"
@@ -131,7 +113,14 @@
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profile.address" name="location">
                     <div class="form-group">
                       <label class="label">Location</label>
-                      <input v-model="profile.location" type="text" class="login-credential-input form-control" placeholder="Location" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-location"
+                        v-model="profile.location"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Location"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
@@ -149,56 +138,54 @@
                   <ValidationProvider v-slot="{ errors }" rules="oneOf:1,2,3,4" vid="occupation" name="occupation">
                     <div class="form-group">
                       <label class="label">Occupation</label>
-                      <select id="input-select-occupation" v-model="workOccupation" class="form-control radius-input" :disabled="isInViewMode()">
+                      <select id="input-select-occupation" v-model="workOccupation" class="form-control login-credential-input" :disabled="isInViewMode()">
                         <option v-for="(choice, key) in choices" :key="choice + key" :value="choice.id">
                           {{ choice.name }}
                         </option>
                       </select>
+                      <span><i class="fa fa-angle-down" /></span>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-role'"-->
-                  <!--                v-model="employee.role"-->
-                  <!--                placeholder="Role"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Role"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-company'"-->
-                  <!--                v-model="employee.organization"-->
-                  <!--                placeholder="Company"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="Company"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
-                  <!--              <RoundedInput-->
-                  <!--                :id="'input-text-city'"-->
-                  <!--                v-model="employee.workLocation"-->
-                  <!--                placeholder="City"-->
-                  <!--                :disabled="isInViewMode()"-->
-                  <!--                label="City"-->
-                  <!--                @input="valueChanged()"-->
-                  <!--              />-->
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="role" name="role">
                     <div class="form-group">
                       <label class="label">Role</label>
-                      <input v-model="profile.role" type="text" class="login-credential-input form-control" placeholder="Role" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-role"
+                        v-model="employee.role"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Role"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.name" name="Organization">
                     <div class="form-group">
                       <label class="label">Organization</label>
-                      <input v-model="profile.organization" type="text" class="login-credential-input form-control" placeholder="Organization" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-company"
+                        v-model="employee.organization"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Organization"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.location" name="City">
                     <div class="form-group">
                       <label class="label">City</label>
-                      <input v-model="profile.workLocation" type="text" class="login-credential-input form-control" placeholder="Work Location" :disabled="isInViewMode()">
+                      <input
+                        id="input-text-city"
+                        v-model="employee.workLocation"
+                        type="text"
+                        class="login-credential-input form-control"
+                        placeholder="Work Location"
+                        :disabled="isInViewMode()"
+                      >
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
@@ -206,7 +193,14 @@
               </div>
               <div v-if="buttonStatus !== 'LOADING'" class="row button-radius">
                 <div v-if="buttonStatus != 'VIEW'" class="col-sm-4 col-xs-12 text-left cancel-button" style="margin: auto">
-                  <span id="button-cancel-edit-profle" @click="cancel">Cancel</span>
+                  <button
+                    id="button-cancel-edit-profle"
+                    type="button"
+                    class="btn btn-outline-primary btn-lg"
+                    @click="cancel"
+                  >
+                    Cancel
+                  </button>
                 </div>
                 <div v-if="buttonStatus === 'VIEW'" class="col-sm-8 col-xs-12 text-right">
                   <button
@@ -265,13 +259,6 @@ export default {
         })[0].code
       }
     }
-
-    // const phoneNoCode = (phone) => {
-    //   if (phone) {
-    //     const i = phone.indexOf(' ')
-    //     return phone.substr(i, phone.length)
-    //   }
-    // }
 
     const userProfile = await context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
     const resultData = {
@@ -343,28 +330,6 @@ export default {
     }
   },
   methods: {
-    submitGeneral () {
-      this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
-        firstname: this.profile.firstname,
-        lastname: this.profile.lastname,
-        address: this.profile.location,
-        phone: this.profile.formattedPhone ? this.profile.formattedPhone : '',
-        email: this.profile.email
-      }).then(() => {
-        this.$router.push('/profile/me')
-      }).catch((e) => {
-        const errors = {}
-
-        if (e.response.data.errors !== undefined) {
-          Object.entries(e.response.data.errors).forEach(function (value) {
-            const key = 'profile.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-        this.$refs.form.setErrors(errors)
-        return false
-      })
-    },
     async save () {
       if (this.buttonStatus === 'VIEW') {
         this.buttonStatus = 'EDIT'
@@ -380,7 +345,7 @@ export default {
             firstname: this.profile.firstname,
             lastname: this.profile.lastname,
             address: this.generalLocation,
-            phone: this.profile.phone,
+            phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
             email: this.profile.email
           })
 
@@ -461,6 +426,11 @@ option, .form-control:focus {
   // align-items: center;
   text-align: center;
   letter-spacing: 0.75px;
+
+  &.btn-outline-primary{
+    background: #FFFFFF;
+    color: #313131;
+  }
 }
 .text-link{
   font-size: 16px;
