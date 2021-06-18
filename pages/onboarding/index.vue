@@ -112,7 +112,8 @@
           </div>
         </div>
       </div>
-      <AppLibrary />
+      <AppLibrary :filterApp="1" />
+      <button @click="filterApp()">Filter</button>
     </div>
     <div v-else class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">
