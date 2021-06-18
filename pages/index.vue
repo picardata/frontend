@@ -63,10 +63,13 @@
                     <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
                   </div>
                   <div>
-                    <div class="name">
+                    <div class="name" v-if="profile.firstname">
                       {{ profile.firstname }} {{ profile.lastname }}
                     </div>
-                    <div class="role">
+                    <div class="name" v-else>
+                      {{ profile.email }}
+                    </div>
+                    <div class="role" v-if="employee.role && employee.organization">
                       {{ employee.role }} @ {{ employee.organization }}
                     </div>
                   </div>
