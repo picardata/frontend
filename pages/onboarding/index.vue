@@ -112,7 +112,7 @@
           </div>
         </div>
       </div>
-      <AppLibrary @hook:mounted="mountAppLibrary = true" :filterApp="1"/>
+      <AppLibrary :filter-app="1" @hook:mounted="mountAppLibrary = true" />
     </div>
     <div v-else class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">
@@ -187,15 +187,6 @@ export default {
       isIntegrateGoogle: false
     }
   },
-  created () {
-    this.setStep(this.user.onboardingStatus)
-    var self = this
-    this.googleTimer = setInterval(function() {
-      if(self.mountAppLibrary === true) {
-        self.getGoogleIntegrationState()
-      }
-    }, 1500)
-  },
   computed: {
     getStepWelcome () {
       return this.step === 1
@@ -210,12 +201,21 @@ export default {
       return this.step === 4
     }
   },
+  created () {
+    this.setStep(this.user.onboardingStatus)
+    const self = this
+    this.googleTimer = setInterval(function () {
+      if (self.mountAppLibrary === true) {
+        self.getGoogleIntegrationState()
+      }
+    }, 1500)
+  },
   methods: {
-    getGoogleIntegrationState() {
-      const vuex = JSON.parse(localStorage.getItem("vuex"))
-      if(this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
+    getGoogleIntegrationState () {
+      const vuex = JSON.parse(localStorage.getItem('vuex'))
+      if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
         this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
-        if(this.isIntegrateGoogle === true) {
+        if (this.isIntegrateGoogle === true) {
           clearInterval(this.googleTimer)
           this.$router.push('/apps/integrated-apps')
         }

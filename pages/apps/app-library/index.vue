@@ -342,7 +342,7 @@ export default {
         this.totalPage = Math.ceil(this.totalIntegrations.length / 5)
         this.setCurrentPage(1)
 
-        if(this.filterApp !== null) {
+        if (this.filterApp !== null) {
           this.filterCategory(this.filterApp)
         }
       }).catch(
