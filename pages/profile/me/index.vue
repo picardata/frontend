@@ -115,7 +115,7 @@
                       <label class="label">Location</label>
                       <input
                         id="input-text-location"
-                        v-model="profile.location"
+                        v-model="generalLocation"
                         type="text"
                         class="login-credential-input form-control"
                         placeholder="Location"
