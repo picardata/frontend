@@ -192,7 +192,7 @@
                 </card>
               </div>
 
-              <div class="col-xl-12">
+              <div class="col-xl-12" style="display: none;">
                 <card>
                   <template slot="header">
                     <div class="row">
