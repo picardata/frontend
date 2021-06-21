@@ -49,6 +49,7 @@ export default {
   computed: {
     ...mapState('loader', ['isLoading', 'refCount'])
   },
+  middleware: 'onboarding',
   methods: {
     initScrollbar () {
       const isWindows = navigator.platform.startsWith('Win')
