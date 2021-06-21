@@ -14,21 +14,7 @@ export default {
   components: {
     BarChart
   },
-  props: ['viewValues', 'videoViewValues'],
-  mount () {
-    this.chartData = {
-      labels: this.viewValues.labels,
-      datasets: [{
-        label: 'Page View',
-        backgroundColor: Charts.colors.theme.danger,
-        data: this.viewValues.data
-      }, {
-        label: 'Page Video View',
-        backgroundColor: Charts.colors.theme.primary,
-        data: this.videoViewValues.data
-      }]
-    }
-  },
+  props: ['values'],
   data () {
     return {
       chartData: null,
@@ -46,6 +32,24 @@ export default {
             stacked: true
           }]
         }
+      }
+    }
+  },
+  mounted () {
+    if (this.values) {
+      const pageView = this.values.pageView
+      const pageVideoView = this.values.pageVideoView
+      this.chartData = {
+        labels: pageView.labels,
+        datasets: [{
+          label: 'Page View',
+          backgroundColor: Charts.colors.theme.danger,
+          data: pageView.data
+        }, {
+          label: 'Page Video View',
+          backgroundColor: Charts.colors.theme.primary,
+          data: pageVideoView.data
+        }]
       }
     }
   }
