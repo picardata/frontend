@@ -245,26 +245,29 @@ export default {
     }
   },
   computed: {
+    isNotDeletedForms () {
+      return this.forms.filter(form => form.deleted === false).length
+    },
     totalForms () {
       return this.tableData.length
     },
     selectAllCheckbox () {
-      const totalChecked = this.tableData.filter((form) => {
-        return !!form.checkbox && !form.deleted
+      const totalChecked = this.forms.filter((form) => {
+        if (form.deleted === false) { return !!form.checkbox && !form.deleted }
       }).length
 
-      if (totalChecked === this.totalForms && this.totalForms !== 0) {
+      if (totalChecked === this.isNotDeletedForms && this.isNotDeletedForms !== 0) {
         return true
       } else {
         return false
       }
     },
     indeterminateCheckbox () {
-      const totalChecked = this.tableData.filter((form) => {
-        return !!form.checkbox && !form.deleted
+      const totalChecked = this.forms.filter((form) => {
+        if (form.deleted === false) { return !!form.checkbox && !form.deleted }
       }).length
 
-      if (totalChecked > 0 && totalChecked < this.totalForms) {
+      if (totalChecked > 0 && totalChecked < this.isNotDeletedForms) {
         return true
       } else {
         return false
