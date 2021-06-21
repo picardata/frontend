@@ -193,7 +193,7 @@
                     </div>
                   </template>
                   <div class="chart-area">
-                    <FacebookVideoAndPageViewChart :view-values="this.facebookPageViewData" :video-view-values="this.facebookPageVideoViewData" />
+                    <FacebookVideoAndPageViewChart :values="this.facebookPageViewAndVideoViewData" />
                   </div>
                 </card>
               </div>
@@ -399,10 +399,15 @@ export default {
 
     const isAnyFacebookPagePostEngagementExist = isContainNonZero(facebookPagePostEngagementData)
 
+    const facebookPageViewAndVideoViewData = {
+      pageView: facebookPageViewData,
+      pageVideoView: facebookPageVideoViewData
+    }
     return {
       isAnyFacebookPagePostEngagementExist,
       isAnyFacebookPagePostReachExist,
       isAnyFacebookPageViewOrVideoViewExist,
+      facebookPageViewAndVideoViewData,
       facebookPageViewData,
       facebookPageVideoViewData,
       facebookFollowerCount,
