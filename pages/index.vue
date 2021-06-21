@@ -131,15 +131,18 @@
               <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
               </div>
-              <div class="col-xl-3 col-md-6">
-                <FacebookFollowerStat />
+              <div v-if="this.facebookFollowerCount > 0" class="col-xl-3 col-md-6">
+                <FacebookFollowerStat :counter="facebookFollowerCount" />
               </div>
             </div>
             <div class="row">
               <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
                 <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
               </div>
-              <div class="col-xl-6">
+              <div
+                v-if="this.isAnyFacebookPagePostReachExist"
+                class="col-xl-6"
+              >
                 <card>
                   <template slot="header">
                     <div class="row">
@@ -151,11 +154,11 @@
                     </div>
                   </template>
                   <div class="chart">
-                    <FacebookPostReachChart />
+                    <FacebookPostReachChart :values="this.facebookPagePostReachData" />
                   </div>
                 </card>
               </div>
-              <div class="col-xl-6">
+              <div v-if="this.isAnyFacebookPagePostEngagementExist" class="col-xl-6">
                 <card>
                   <template slot="header">
                     <div class="row">
@@ -172,7 +175,10 @@
                 </card>
               </div>
 
-              <div class="col-xl-6">
+              <div
+                v-if="this.isAnyFacebookPageViewOrVideoViewExist"
+                class="col-xl-6"
+              >
                 <card>
                   <template slot="header">
                     <div class="row">
@@ -184,7 +190,7 @@
                     </div>
                   </template>
                   <div class="chart-area">
-                    <FacebookVideoAndPageViewChart />
+                    <FacebookVideoAndPageViewChart :values="this.facebookPageViewAndVideoViewData" />
                   </div>
                 </card>
               </div>
@@ -251,7 +257,16 @@ function randomScalingFactor () {
   return Math.round(Math.random() * 100)
 }
 
-function processFacebookEngagement (response) {
+function isContainNonZero (data) {
+  if (data) {
+    const innerData = data.data
+    return innerData.some(x => x > 0)
+  }
+
+  return false
+}
+
+function processFacebookRespone (response) {
   const pagePostEngagement = response.data
 
   let facebookPagePostEngagementData
@@ -298,7 +313,11 @@ export default {
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
       context.app.$axios.get('/api/slack/teams/stats'),
-      context.app.$axios.get('/api/facebook/post-engagements')
+      context.app.$axios.get('/api/facebook/post-engagements'),
+      context.app.$axios.get('/api/facebook/page-followers'),
+      context.app.$axios.get('/api/facebook/post-reach'),
+      context.app.$axios.get('/api/facebook/page-views'),
+      context.app.$axios.get('/api/facebook/videos-views')
     ]
 
     const responses = await Promise.all(promises.map(p => p.catch(_ => null)))
@@ -347,10 +366,49 @@ export default {
 
     let facebookPagePostEngagementData
     if (responses[4]) {
-      facebookPagePostEngagementData = processFacebookEngagement(responses[4])
+      facebookPagePostEngagementData = processFacebookRespone(responses[4])
     }
 
+    let facebookFollowerCount
+    if (responses[5]) {
+      const data = responses[5].data
+      facebookFollowerCount = data.followers_count
+    }
+
+    let facebookPagePostReachData
+    if (responses[6]) {
+      facebookPagePostReachData = processFacebookRespone(responses[6])
+    }
+
+    let facebookPageViewData
+    if (responses[7]) {
+      facebookPageViewData = processFacebookRespone(responses[7])
+    }
+
+    let facebookPageVideoViewData
+    if (responses[8]) {
+      facebookPageVideoViewData = processFacebookRespone(responses[8])
+    }
+
+    const isAnyFacebookPageViewOrVideoViewExist = isContainNonZero(facebookPageViewData) || isContainNonZero(facebookPageVideoViewData)
+
+    const isAnyFacebookPagePostReachExist = isContainNonZero(facebookPagePostReachData)
+
+    const isAnyFacebookPagePostEngagementExist = isContainNonZero(facebookPagePostEngagementData)
+
+    const facebookPageViewAndVideoViewData = {
+      pageView: facebookPageViewData,
+      pageVideoView: facebookPageVideoViewData
+    }
     return {
+      isAnyFacebookPagePostEngagementExist,
+      isAnyFacebookPagePostReachExist,
+      isAnyFacebookPageViewOrVideoViewExist,
+      facebookPageViewAndVideoViewData,
+      facebookPageViewData,
+      facebookPageVideoViewData,
+      facebookFollowerCount,
+      facebookPagePostReachData,
       facebookPagePostEngagementData,
       hubspotCompanyStatTotal,
       hubspotContactStatTotal,
