@@ -10,7 +10,7 @@
       </div>
     </base-header>
     <div class="container-fluid mt--6">
-      <prev-page />
+      <prev-page destination="/forms" />
       <div class="row mt-3">
         <div class="col-6">
           <h1 :id="elementId.title_form">
