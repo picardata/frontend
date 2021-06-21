@@ -151,6 +151,10 @@ export default {
     const userMe = await context.app.$axios.get('/api/users/me')
     const user = userMe.data.user
 
+    if (user.onboardingStatus >= 21) {
+      return context.redirect('/apps/integrated-apps')
+    }
+
     return {
       user
     }
