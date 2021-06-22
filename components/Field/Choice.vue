@@ -51,8 +51,7 @@
                 </div>
                 <div
                   v-if="question.type !== 4 &&
-                    index === lastIndex &&
-                    !otherInChoice"
+                    index === lastIndex"
                   class="ml-1"
                 >
                   <span>or <a :id="elementId.add_other + '-' + index + '-' + question.id" class="btn-add-other text-primary cursor-pointer" @click="addChoice(lastIndex, 2)">Add "Other"</a></span>
@@ -233,12 +232,14 @@ export default {
         }
 
         if (type === 2) {
-          this.question.fieldChoices[index] = {
-            id: undefined,
-            type: 2,
-            name: 'Other',
-            edit: false,
-            alert: ''
+          if (index === 1) {
+            this.question.fieldChoices[index] = {
+              id: undefined,
+              type: 2,
+              name: 'Other',
+              edit: false,
+              alert: ''
+            }
           }
         }
         await this.submitChoice(this.question.fieldChoices[index], index, this.question.id)
