@@ -315,7 +315,7 @@ export default {
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/slack/users/stats'),
+      context.app.$axios.get('/api/slack/teams/stats'),
       context.app.$axios.get('/api/facebook/post-engagements'),
       context.app.$axios.get('/api/facebook/page-followers'),
       context.app.$axios.get('/api/facebook/post-reach'),
