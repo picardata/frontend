@@ -115,6 +115,7 @@
             class="form-control"
             placeholder="Deal Amount"
             required="required"
+            @keypress="validateAllowOnlyNumber(event)"
           >
         </div>
         <div class="form-group">
@@ -183,6 +184,24 @@ export default {
       })
   },
   methods: {
+    validateAllowOnlyNumber (evt) {
+      const theEvent = evt || window.event
+
+      let key
+      // Handle paste
+      if (theEvent.type === 'paste') {
+        key = event.clipboardData.getData('text/plain')
+      } else {
+      // Handle key press
+        key = theEvent.keyCode || theEvent.which
+        key = String.fromCharCode(key)
+      }
+      const regex = /[0-9]|\./
+      if (!regex.test(key)) {
+        theEvent.returnValue = false
+        if (theEvent.preventDefault) { theEvent.preventDefault() }
+      }
+    },
     createOwnerName (owner) {
       if (owner.ownerName && owner.ownerEmail) {
         return `${owner.ownerName} ( ${owner.ownerEmail} )`
