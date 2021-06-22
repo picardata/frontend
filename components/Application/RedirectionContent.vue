@@ -30,10 +30,6 @@ export default {
     } else {
       this.message = 'We are processing your request. Please wait. You will be redirected soon.'
     }
-
-    setTimeout(() => {
-      window.location = '/apps/integrated-apps'
-    }, 3000)
   }
 }
 </script>

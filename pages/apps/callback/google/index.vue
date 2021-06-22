@@ -16,8 +16,20 @@ export default {
         const test = JSON.parse(localStorage.getItem('vuex'))
         this.$store.commit('googleIntegration/changeState', !test.googleIntegration.isIntegrated)
       }).catch(
-      // eslint-disable-next-line no-console
-        (e) => { console.log(e) }
+        (e) => {
+          let message = ''
+          if (e.response.status === 500) {
+            message = 'Error while integrating apps'
+          } else {
+            message = e.response.data.errors[0]
+          }
+
+          this.$notify({ type: 'danger', message })
+
+          setTimeout(() => {
+            window.location = '/apps/app-library'
+          }, 1000)
+        }
       )
   }
 }
