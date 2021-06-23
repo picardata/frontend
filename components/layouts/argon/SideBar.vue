@@ -129,6 +129,7 @@ export default {
       return false
     },
     onLogout () {
+      this.modals.logout = false
       this.$router.push('/logout')
     }
   }
