@@ -164,7 +164,7 @@ export default {
   name: 'GoogleGroupList',
   async fetch () {
     const data = await this.$axios.get('/api/integration-groups/')
-    
+
     this.groups = data.data.map((group) => {
       group.id = group.groupId
       delete group.groupId
