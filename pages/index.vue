@@ -139,8 +139,21 @@
               </div>
             </div>
             <div class="row">
-              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
-                <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-xl-6">
+                  <card>
+                    <template slot="header">
+                      <div class="row">
+                        <div class="d-inline col-8">
+                          <h5 class="h3 mb-0">
+                            Deals: All Stages
+                          </h5>
+                        </div>
+                      </div>
+                    </template>
+                    <div class="chart">
+                      <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+                    </div>
+                  </card>
               </div>
               <div
                 v-if="this.isAnyFacebookPagePostReachExist"
