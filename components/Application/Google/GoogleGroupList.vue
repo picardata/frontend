@@ -163,35 +163,28 @@
 export default {
   name: 'GoogleGroupList',
   async fetch () {
-    await this.$axios.get('/api/integration-groups/')
-      .then((data) => {
-        // eslint-disable-next-line no-console
-        this.groups = data.data.map((group) => {
-          group.id = group.groupId
-          delete group.groupId
-          group.members = group.integrationGroupMembers.map((member) => {
-            member.id = member.integrationUser.userId
-            member.email = member.integrationUser.email
-            member.name = {
-              familyName: member.integrationUser.familyName,
-              fullName: member.integrationUser.fullName,
-              givenName: member.integrationUser.givenName
-            }
-            member.role = member.role ? member.role : 'MEMBER'
-            member.isAMember = true
-            delete member.integrationUser
-            delete member.integrationGroup
-            return member
-          })
-          delete group.integrationGroupMembers
-          return group
-        })
-      }).catch(
-        (e) => {
-        // eslint-disable-next-line no-console
-          console.log(e)
+    const data = await this.$axios.get('/api/integration-groups/')
+    
+    this.groups = data.data.map((group) => {
+      group.id = group.groupId
+      delete group.groupId
+      group.members = group.integrationGroupMembers.map((member) => {
+        member.id = member.integrationUser.userId
+        member.email = member.integrationUser.email
+        member.name = {
+          familyName: member.integrationUser.familyName,
+          fullName: member.integrationUser.fullName,
+          givenName: member.integrationUser.givenName
         }
-      )
+        member.role = member.role ? member.role : 'MEMBER'
+        member.isAMember = true
+        delete member.integrationUser
+        delete member.integrationGroup
+        return member
+      })
+      delete group.integrationGroupMembers
+      return group
+    })
   },
   data () {
     return {
