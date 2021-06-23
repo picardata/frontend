@@ -92,7 +92,7 @@
               <div
                 class="progress-bar bg-blue"
                 role="progressbar"
-                :style="isIntegratedGoogle ? 'width: 100%' : 'width: 82%'"
+                :style="isIntegrateGoogle ? 'width: 100%' : 'width: 82%'"
                 aria-valuenow="99"
                 aria-valuemin="0"
                 aria-valuemax="100"
@@ -112,7 +112,7 @@
           </div>
         </div>
       </div>
-      <AppLibrary />
+      <AppLibrary :filter-app="1" @hook:mounted="mountAppLibrary = true" />
     </div>
     <div v-else class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">
@@ -161,6 +161,8 @@ export default {
   },
   data () {
     return {
+      mountAppLibrary: false,
+      googleTimer: null,
       step: 1,
       country: '',
       choices: [
@@ -186,11 +188,8 @@ export default {
         }
       ],
       isProfileCompleted: false,
-      isIntegratedGoogle: false
+      isIntegrateGoogle: false
     }
-  },
-  created () {
-    this.setStep(this.user.onboardingStatus)
   },
   computed: {
     getStepWelcome () {
@@ -206,7 +205,26 @@ export default {
       return this.step === 4
     }
   },
+  created () {
+    this.setStep(this.user.onboardingStatus)
+    const self = this
+    this.googleTimer = setInterval(function () {
+      if (self.mountAppLibrary === true) {
+        self.getGoogleIntegrationState()
+      }
+    }, 1500)
+  },
   methods: {
+    getGoogleIntegrationState () {
+      const vuex = JSON.parse(localStorage.getItem('vuex'))
+      if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
+        this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
+        if (this.isIntegrateGoogle === true) {
+          clearInterval(this.googleTimer)
+          this.$router.push('/apps/integrated-apps')
+        }
+      }
+    },
     async next () {
       if (this.step === 3) {
         const result = await this.$refs.completeProfile.post()
