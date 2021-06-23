@@ -49,7 +49,6 @@ export default {
     '~plugins/vue-js-modal.js',
     '~plugins/truncate.js',
     '~/plugins/dashboard/dashboard-plugin',
-    { src: '~/plugins/vuex-persist', ssr: false },
     { src: '~/plugins/dashboard/full-calendar', ssr: false },
     { src: '~/plugins/dashboard/world-map', ssr: false }
   ],
