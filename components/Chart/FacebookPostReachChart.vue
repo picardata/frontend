@@ -1,12 +1,11 @@
 <template>
   <line-chart
     :height="350"
-    :chart-data="chartData"
+    :chart-data="this.chartData"
   />
 </template>
 
 <script>
-import moment from 'moment'
 import LineChart from '~/components/argon-core/Charts/LineChart'
 import { Charts } from '~/components/argon-core/Charts/config'
 
@@ -14,31 +13,24 @@ export default {
   components: {
     LineChart
   },
-  async fetch () {
-    try {
-      const postReachsResponse = await this.$axios.$get('/api/facebook/post-reach')
-
-      if (postReachsResponse.length > 0) {
-        const postReachData = postReachsResponse[0]
-        const values = postReachData.values
-
-        const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
-        const data = values.map(value => value.value)
-
-        this.chartData = {
-          labels,
-          datasets: [{
-            label: 'Post Reach',
-            data,
-            borderColor: Charts.colors.theme.primary
-          }]
-        }
-      }
-    } catch (_) {}
-  },
+  props: ['values'],
   data () {
     return {
       chartData: null
+    }
+  },
+  mounted () {
+    if (this.values) {
+      const labels = this.values.labels
+      const data = this.values.data
+      this.chartData = {
+        labels,
+        datasets: [{
+          label: 'Post Reach',
+          data,
+          borderColor: Charts.colors.theme.primary
+        }]
+      }
     }
   }
 }

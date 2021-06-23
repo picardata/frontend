@@ -2,7 +2,7 @@
   <stats-card
     title="Total Facebook Page Follower"
     type="gradient-info"
-    :sub-title="this.facebookFollowerCount"
+    :sub-title="this.counter"
     icon="ni ni-chart-bar-32"
   >
     <template slot="footer">
@@ -18,17 +18,6 @@ export default {
   components: {
     StatsCard
   },
-  async fetch () {
-    try {
-      const pageFollowerResponse = await this.$axios.$get('/api/facebook/page-followers')
-
-      this.facebookFollowerCount = pageFollowerResponse.followers_count
-    } catch (_) {}
-  },
-  data () {
-    return {
-      facebookFollowerCount: 0
-    }
-  }
+  props: ['counter']
 }
 </script>
