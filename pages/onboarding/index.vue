@@ -191,9 +191,6 @@ export default {
       isIntegrateGoogle: false
     }
   },
-  created () {
-    this.setStep(this.user.onboardingStatus)
-  },
   computed: {
     getStepWelcome () {
       return this.step === 1
