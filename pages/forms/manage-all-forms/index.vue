@@ -84,7 +84,7 @@
                           @click="selectAllForms()"
                         >
                         <label class="checkmark" style="margin-left:9px;margin-bottom: -9px" for="check-all" />
-                        <div class="d-inline" style="margin-left: 10px; color: #313131;">
+                        <div class="d-inline" style="margin-left: 20px; color: #313131;">
                           Select all forms
                         </div>
                       </div>
@@ -111,7 +111,7 @@
                   >
                     <el-table-column
                       label=""
-                      min-width="50px"
+                      min-width="60px"
                     >
                       <template v-slot="{row}">
                         <input :id="'checbox-form-'+row.id" v-model="row.checkbox" type="checkbox">
