@@ -96,6 +96,11 @@ export default {
     async addCard() {
       let token = await this.$stripe.createToken(stripe.card)
 
+      if (!token.hasOwnProperty('token')) {
+        this.$notify({type: 'danger', message: 'This credit card type is not supported yet, try another credit card', timeout: 50000})
+        return
+      }
+
       this.handleClose()
 
       await this.$axios.post('/api/billings/cards', {
