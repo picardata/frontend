@@ -24,11 +24,13 @@
           <tbody>
             <template v-if="showAll">
               <tr v-for="(card, index) in cards" :key="card.id">
-                <td>{{ card.number }}</td>
+                <td>{{ card.brand }}</td>
                 <td> {{ card.expired }} </td>
                 <td>
                   <img v-if="card.brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
                   <img v-if="card.brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                  <img v-if="card.brand === 'American Express' " src="img/billing/amex.png" alt="American-Express-Logo" class="brand-logo">
+                  <img v-if="card.brand === 'UnionPay' " src="img/billing/unionpay.png" alt="Unionpay-Logo" class="brand-logo">
                 </td>
                 <td>
                   <span v-if="card.isDefault" class="card-default">Default card</span>
@@ -42,11 +44,13 @@
             </template>
             <template v-else>
               <tr v-for="card in this.totalToDisplay" :key="card">
-                <td>{{ cards[card - 1].number }}</td>
+                <td>{{ cards[card - 1].brand }}</td>
                 <td> {{ cards[card - 1].expired }} </td>
                 <td>
                   <img v-if="cards[card-1].brand === 'MasterCard' " src="img/billing/mastercard.png" alt="Mastercard-Logo" class="brand-logo">
                   <img v-if="cards[card-1].brand === 'Visa' " src="img/billing/visa_logo.svg" alt="Visa-Logo" class="brand-logo">
+                  <img v-if="cards[card-1].brand === 'American Express' " src="img/billing/amex.png" alt="American-Express-Logo" class="brand-logo">
+                  <img v-if="cards[card-1].brand === 'UnionPay' " src="img/billing/unionpay.png" alt="Unionpay-Logo" class="brand-logo">
                 </td>
                 <td>
                   <span v-if="cards[card - 1].isDefault" class="card-default">Default card</span>
