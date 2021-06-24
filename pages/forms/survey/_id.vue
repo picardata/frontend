@@ -33,6 +33,7 @@
                   type="text"
                   class="form-control"
                   :maxlength="1000"
+                  @change="handleInputChange(field)"
                 >
               </div>
               <div v-if="field.type === 1" class="form-group">
@@ -41,6 +42,7 @@
                   type="text"
                   class="form-control"
                   :maxlength="5000"
+                  @change="handleInputChange(field)"
                 >
               </div>
               <div v-if="field.type === 2" class="form-group">
@@ -52,6 +54,7 @@
                     type="radio"
                     :name="formName(field.name)"
                     :value="choice.name"
+                    @change="handleInputChange(field)"
                   >
                   <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
                   <input
@@ -60,6 +63,7 @@
                     class="form-control"
                     type="text"
                     @focus="answers[index].name = 'Other'"
+                    @change="handleInputChange(field)"
                   >
                 </div>
               </div>
@@ -72,6 +76,7 @@
                     type="checkbox"
                     :name="formName(field.name)"
                     :value="choice.name"
+                    @change="handleInputChange(field)"
                   >
                   <label :for="choice.id" class="form-check-label">{{ choice.name }}</label><br><br>
                   <input
@@ -80,13 +85,14 @@
                     class="form-control"
                     type="text"
                     @focus="answers[index].name.push('Other')"
+                    @change="handleInputChange(field)"
                   >
                 </div>
               </div>
               <div v-if="field.type === 4" class="form-group">
                 <div>
                   <br>
-                  <select v-model="answers[index].name" class="form-control form-select" :name="formName(field.name)">
+                  <select v-model="answers[index].name" class="form-control form-select" :name="formName(field.name)" @change="handleInputChange(field)">
                     <option v-for="choice in field.fieldChoices" :key="choice.id" :value="choice.name">
                       {{ choice.name }}
                     </option>
@@ -128,6 +134,7 @@
                         v-model="answers[index].scale"
                         :name="n"
                         class="mb-3 d-inline"
+                        @change="handleInputChange(field)"
                       >
                         {{ n }}
                       </base-radio>
@@ -146,6 +153,7 @@
                     v-model="answers[index].date"
                     type="date"
                     placeholder="Day, month, year"
+                    @change="handleInputChange(field)"
                   />
                 </div>
               </div>
@@ -156,6 +164,7 @@
                     id="example-time-input"
                     v-model="answers[index].time"
                     type="time"
+                    @change="handleInputChange(field)"
                   />
                 </div>
               </div>
@@ -432,7 +441,10 @@ export default {
       let warning = 0
       for (const i in this.fields) {
         if (this.whichField(this.fields[i].type, i) && this.fields[i].required) {
-          this.fields[i].errors.push('This form is required')
+          if (this.fields[i].errors < 1) {
+            this.fields[i].errors.push('This form is required')
+          }
+
           warning++
         }
       }
@@ -458,6 +470,11 @@ export default {
     setFiles (index) {
       this.files = event.target.files
       this.answers[index].files = this.files
+    },
+    handleInputChange (field) {
+      if (field.errors.length > 0) {
+        field.errors = []
+      }
     }
   }
 }
