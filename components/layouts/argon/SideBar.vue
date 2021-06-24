@@ -39,7 +39,7 @@
 
     <modal :show.sync="modals.logout">
       <template slot="header">
-        <h5 id="exampleModalLabel" class="modal-title"> Are you sure want to logout ouf picardata?</h5>
+        <h5 id="exampleModalLabel" class="modal-title">Are you sure want to log out from Picardata?</h5>
       </template>
       <template slot="footer">
         <base-button type="secondary" @click="modals.logout = false">
@@ -135,6 +135,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .modal-title {
+      font-size: 1.025rem;
+  }
+</style>
 
 <style lang="scss">
 .navbar-nav{
