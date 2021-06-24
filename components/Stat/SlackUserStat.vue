@@ -1,6 +1,6 @@
 <template>
   <stats-card
-    title="Total Slack Team"
+    title="Total Slack User"
     type="gradient-red"
     :sub-title="counter"
     icon="ni ni-active-40"

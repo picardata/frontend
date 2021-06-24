@@ -125,8 +125,8 @@
               </div>
             </div>
             <div class="row" style="margin-top: 2em">
-              <div v-if="slackTeamStatTotal > 0" class="col-xl-3 col-md-6">
-                <SlackTeamStat :counter="slackTeamStatTotal" />
+              <div v-if="slackUserStatTotal > 0" class="col-xl-3 col-md-6">
+                <SlackUserStat :counter="slackUserStatTotal" />
               </div>
               <div v-if="hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
                 <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
@@ -254,7 +254,7 @@ import { Charts } from '~/components/argon-core/Charts/config'
 import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-import SlackTeamStat from '~/components/Stat/SlackTeamStat'
+import SlackUserStat from '~/components/Stat/SlackUserStat'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -302,7 +302,7 @@ export default {
     [Option.name]: Option,
     HubspotDealChart,
     HubspotTotalContactStat,
-    SlackTeamStat
+    SlackUserStat
   },
   auth: true,
   layout: 'argon',
@@ -315,7 +315,7 @@ export default {
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/slack/teams/stats'),
+      context.app.$axios.get('/api/slack/users/stats'),
       context.app.$axios.get('/api/facebook/post-engagements'),
       context.app.$axios.get('/api/facebook/page-followers'),
       context.app.$axios.get('/api/facebook/post-reach'),
@@ -339,11 +339,11 @@ export default {
       hubspotContactStat = hubspotContactStatRaw.data
     }
 
-    let slackTeamStatRaw
-    let slackTeamStat
+    let slackUserStatRaw
+    let slackUserStat
     if (responses[3]) {
-      slackTeamStatRaw = responses[3]
-      slackTeamStat = slackTeamStatRaw.data
+      slackUserStatRaw = responses[3]
+      slackUserStat = slackUserStatRaw.data
     }
 
     let hubspotCompanyStatTotal = 0
@@ -357,9 +357,9 @@ export default {
       hubspotContactStatTotal = hubspotContactStat[0].total
     }
 
-    let slackTeamStatTotal = 0
-    if (slackTeamStat && slackTeamStat.length > 0) {
-      slackTeamStatTotal = slackTeamStat[0].total
+    let slackUserStatTotal = 0
+    if (slackUserStat && slackUserStat.length > 0) {
+      slackUserStatTotal = slackUserStat[0].total
     }
 
     let data
@@ -415,7 +415,7 @@ export default {
       facebookPagePostEngagementData,
       hubspotCompanyStatTotal,
       hubspotContactStatTotal,
-      slackTeamStatTotal,
+      slackUserStatTotal,
       employee: {
         role: data ? data.data.role : '',
         occupation: data ? String(data.data.occupation) : '',
