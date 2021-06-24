@@ -285,14 +285,6 @@ export default {
   mixins: [
     loaderMixin
   ],
-  async asyncData (context) {
-    const stateUser = await context.app.$auth.state.user
-    if (stateUser.onboardingStatus < 21) {
-      const userMe = await context.app.$axios.get('/api/users/me')
-      const user = userMe.data.user
-      context.app.$auth.setUser(user)
-    }
-  },
   // components: { ItegratedAppsList },
   data () {
     return {
