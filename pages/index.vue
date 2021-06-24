@@ -63,13 +63,13 @@
                     <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
                   </div>
                   <div>
-                    <div class="name" v-if="profile.firstname">
+                    <div v-if="profile.firstname" class="name">
                       {{ profile.firstname }} {{ profile.lastname }}
                     </div>
-                    <div class="name" v-else>
+                    <div v-else class="name">
                       {{ profile.email }}
                     </div>
-                    <div class="role" v-if="employee.role && employee.organization">
+                    <div v-if="employee.role && employee.organization" class="role">
                       {{ employee.role }} @ {{ employee.organization }}
                     </div>
                   </div>
@@ -139,21 +139,8 @@
               </div>
             </div>
             <div class="row">
-              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-xl-6">
-                  <card>
-                    <template slot="header">
-                      <div class="row">
-                        <div class="d-inline col-8">
-                          <h5 class="h3 mb-0">
-                            Deals: All Stages
-                          </h5>
-                        </div>
-                      </div>
-                    </template>
-                    <div class="chart">
-                      <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
-                    </div>
-                  </card>
+              <div v-if="dealsChart.hubspotIntegeration && dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
+                <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
               </div>
               <div
                 v-if="this.isAnyFacebookPagePostReachExist"
@@ -328,7 +315,7 @@ export default {
       context.app.$axios.get('/api/hubspot/companies/stats'),
       context.app.$axios.get('/api/hubspot/contacts/stats'),
       context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/slack/users/stats'),
+      context.app.$axios.get('/api/slack/teams/stats'),
       context.app.$axios.get('/api/facebook/post-engagements'),
       context.app.$axios.get('/api/facebook/page-followers'),
       context.app.$axios.get('/api/facebook/post-reach'),
@@ -722,6 +709,7 @@ export default {
       .then((data) => {
         this.mostAccessedApps = data.data.filter(x => x.status === 1)
         this.totalIntegrations = data.data.filter(x => x.status === 1).length
+        this.dealsChart.hubspotIntegeration = this.mostAccessedApps.filter(x => x.application.name === 'Hubspot').length
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
