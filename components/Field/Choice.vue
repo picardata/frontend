@@ -30,8 +30,7 @@
                     @blur="doneEdit(choice, index, question.id)"
                   >
                   <span
-                    v-if="index === lastIndex &&
-                      !otherInChoice"
+                    v-if="index === lastIndex"
                     v-show="choice.edit === false"
                     :id="elementId.option_add + '-' + index + '-' + question.id"
                     :class="{'last-choice' : index == lastIndex}"
