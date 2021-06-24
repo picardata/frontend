@@ -63,13 +63,13 @@
                     <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
                   </div>
                   <div>
-                    <div class="name" v-if="profile.firstname">
+                    <div v-if="profile.firstname" class="name">
                       {{ profile.firstname }} {{ profile.lastname }}
                     </div>
-                    <div class="name" v-else>
+                    <div v-else class="name">
                       {{ profile.email }}
                     </div>
-                    <div class="role" v-if="employee.role && employee.organization">
+                    <div v-if="employee.role && employee.organization" class="role">
                       {{ employee.role }} @ {{ employee.organization }}
                     </div>
                   </div>
@@ -139,7 +139,7 @@
               </div>
             </div>
             <div class="row">
-              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-xl-6">
+              <div v-if="dealsChart.hubspotIntegeration && dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
                   <card>
                     <template slot="header">
                       <div class="row">
@@ -722,6 +722,7 @@ export default {
       .then((data) => {
         this.mostAccessedApps = data.data.filter(x => x.status === 1)
         this.totalIntegrations = data.data.filter(x => x.status === 1).length
+        this.dealsChart.hubspotIntegeration = this.mostAccessedApps.filter(x => x.application.name === 'Hubspot').length
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
