@@ -222,9 +222,6 @@ import Submenu from '~/components/layouts/argon/Submenu'
 import Paging from '~/components/Custom/Paging'
 import loaderMixin from '~/mixins/loader'
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
-
 export default {
   name: 'IndexVue',
   layout: 'argon',
@@ -327,8 +324,9 @@ export default {
       return '/forms/' + id
     },
     formatDate (date) {
+      const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
       const dateTime = new Date(date)
-      return days[dateTime.getDay()] + ', ' + dateTime.getDate() + ' ' + months[dateTime.getMonth()] + ' ' + dateTime.getFullYear()
+      return dateTime.toLocaleDateString('en-US', options)
     },
     async toggleSort () {
       if (this.sort === 0) {
