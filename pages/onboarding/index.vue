@@ -147,6 +147,18 @@ export default {
   mixins: [
     loaderMixin
   ],
+  async asyncData (context) {
+    const userMe = await context.app.$axios.get('/api/users/me')
+    const user = userMe.data.user
+
+    if (user.onboardingStatus >= 21) {
+      return context.redirect('/apps/integrated-apps')
+    }
+
+    return {
+      user
+    }
+  },
   data () {
     return {
       mountAppLibrary: false,
@@ -220,6 +232,7 @@ export default {
           this.step++
         }
       } else {
+        await this.$axios.$post('/api/users/onboarding/next')
         this.step++
       }
     },
@@ -247,11 +260,18 @@ export default {
     },
     changeFormComplete (complete) {
       this.isProfileCompleted = complete
+    },
+    setStep (onboardingStep) {
+      if (onboardingStep <= 3) {
+        this.step = onboardingStep
+      } else if (onboardingStep === 11) {
+        this.step = 4
+      }
     }
   }
 }
 </script>
-<style>
+<style scoped>
   .btn-add {
     width: 150px;
     border-radius: 40px;
@@ -280,5 +300,9 @@ export default {
 
   .pt-80{
     padding-top: 80px;
+  }
+
+  .modal-open{
+    overflow: auto !important;
   }
 </style>
