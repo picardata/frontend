@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <ModalShare :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
+    <ModalShare :id="this.id" :share-form="modals.shareForm" :title="name" @closeShareForm="modals.shareForm = false" />
   </div>
 </template>
 
