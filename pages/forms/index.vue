@@ -303,6 +303,7 @@ export default {
         params['order[updatedAt]'] = 'desc'
       }
       params.q = this.qSearch
+      params.items_per_page = 999
       return params
     }
   },
@@ -338,13 +339,8 @@ export default {
         params: this.sortParams
       })
 
-      console.log('data = ')
-      console.log(data)
-      // .then((data) => {
-      console.log(data)
       this.data = data.data
       this.loadData(data.data)
-      // })
     },
     async search () {
       const data = await this.$axios.get('/api/forms/', {
