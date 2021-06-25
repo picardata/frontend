@@ -1,26 +1,8 @@
 <template>
-  <div>
-    <card class="pcd">
-      <div class="row">
-        <div class="col-sm-8">
-          <h2>Deals</h2>
-        </div>
-      </div>
-      <div class="row">
-        <span class="col-sm-12">{{ dealStageFormat(dealStage) }}</span>
-      </div>
-      <div class="row mt-4">
-        <div class="col-sm-12">
-          <div class="chart">
-            <bar-chart
-              :height="300"
-              :chart-data="barChartData"
-            />
-          </div>
-        </div>
-      </div>
-    </card>
-  </div>
+  <bar-chart
+    :height="350"
+    :chart-data="barChartData"
+  />
 </template>
 
 <script>
