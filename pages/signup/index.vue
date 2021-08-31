@@ -7,7 +7,7 @@
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
               <h2 class="register-to-picardata">
-                Register to Picardata
+                Register to Globelise
               </h2>
             </div>
 
@@ -534,7 +534,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .btn-primary{
-  background: #2534B6;
+  background: #2E4823;
   &.rounded{
     border-radius: 40px !important;
   }

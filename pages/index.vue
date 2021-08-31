@@ -217,7 +217,7 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Total picardata users (company) in a year
+                          Total Globelise users (company) in a year
                         </h5>
                       </div>
                       <!-- <div class="col-4 d-inline float-right">
@@ -780,7 +780,7 @@ export default {
     margin: 0.625em 0.625em 0.625em 0.625em;
     width: 10.625em;
     height: 20em;
-    background-color: #3E4EDD;
+    background-color: #2E4823;
     border-radius: 1.0625em;
   }
 

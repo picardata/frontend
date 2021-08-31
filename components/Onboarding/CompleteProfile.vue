@@ -213,7 +213,7 @@ export default {
 }
 .text-link{
   font-size: 16px;
-  color: #3E4EDD;
+  color: #2E4823;
   font-weight: 600;
   display: block;
   text-decoration: underline;

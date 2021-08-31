@@ -6,7 +6,7 @@
           <div class="col-md-5">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="">
-              <h2>Login to Picardata</h2>
+              <h2>Login to Globelise</h2>
             </div>
 
             <div class="form-group mt-4">
@@ -291,7 +291,7 @@ export default {
 }
 
 .btn-primary{
-  background: #2534B6;
+  background: #2E4823;
   &.rounded{
     border-radius: 40px !important;
   }
@@ -300,7 +300,7 @@ export default {
     transform: translateY(0);
   }
   &.disabled{
-    background: #3E4EDD;
+    background: #2E4823;
   }
 }
 
@@ -349,7 +349,7 @@ export default {
 
 .text-link{
   font-size: 14px;
-  color: #3E4EDD;
+  color: #2E4823;
 
   &:hover{
     background-color: #FFFFFF;

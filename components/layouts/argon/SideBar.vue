@@ -65,47 +65,54 @@ export default {
           link: '/'
         },
         {
-          name: 'apps',
-          displayName: 'Apps',
-          icon: 'pdicon-Apps',
-          link: '/apps/integrated-apps'
-        },
-        {
-          name: 'forms',
-          displayName: 'Forms',
+          name: 'contracts',
+          displayName: 'Contracts',
           icon: 'pdicon-Forms',
           link: '/forms'
         },
-        {
-          name: 'tasks',
-          displayName: 'Tasks',
-          icon: 'icon-Tasks',
-          link: '/tasks'
-        },
-        {
-          name: 'billing',
-          displayName: 'Billing',
-          icon: 'icon-Billing',
-          link: '/billing'
-        },
+
+        // {
+        //   name: 'apps',
+        //   displayName: 'Apps',
+        //   icon: 'pdicon-Apps',
+        //   link: '/apps/integrated-apps'
+        // },
+        // {
+        //   name: 'forms',
+        //   displayName: 'Forms',
+        //   icon: 'pdicon-Forms',
+        //   link: '/forms'
+        // },
+        // {
+        //   name: 'tasks',
+        //   displayName: 'Tasks',
+        //   icon: 'icon-Tasks',
+        //   link: '/tasks'
+        // },
+        // {
+        //   name: 'billing',
+        //   displayName: 'Billing',
+        //   icon: 'icon-Billing',
+        //   link: '/billing'
+        // },
         {
           name: 'profile',
           displayName: 'Profile',
           icon: 'pdicon-Profile',
           link: '/profile/me'
         },
-        {
-          name: 'setting',
-          displayName: 'Setting',
-          icon: 'pdicon-Settings',
-          link: '#'
-        },
-        {
-          name: 'support',
-          displayName: 'Support',
-          icon: 'pdicon-Alert-info',
-          link: '#'
-        },
+        // {
+        //   name: 'setting',
+        //   displayName: 'Setting',
+        //   icon: 'pdicon-Settings',
+        //   link: '#'
+        // },
+        // {
+        //   name: 'support',
+        //   displayName: 'Support',
+        //   icon: 'pdicon-Alert-info',
+        //   link: '#'
+        // },
         {
           name: 'logout',
           displayName: 'Logout',

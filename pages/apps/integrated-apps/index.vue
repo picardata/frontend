@@ -216,7 +216,7 @@
                       </div>
                       <div class="card-footer p-0">
                         <base-button outline class="w-100 p-3 " type="primary" @click="appClick(index)">
-                          View Picardata
+                          View Globelise
                         </base-button>
                       </div>
                     </div>

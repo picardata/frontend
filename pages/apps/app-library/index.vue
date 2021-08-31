@@ -146,7 +146,7 @@
                 </div> -->
                 <div v-if="application.integrations.length === 0" :class="{'pt-3 pb-2': application.integrations.length !== 0}">
                   <base-button class="w-100" outline type="primary" @click="appClick2(application)">
-                    Add to Picardata
+                    Add to Globelise
                   </base-button>
                 </div>
                 <div v-else :class="{'pt-2 pb-2': application.integrations.length !== 0}">
@@ -209,10 +209,10 @@
                 alt="Card image cap"
               >
               <p class="mt-3 notify-text font-weight-bolder title-text">
-                Picardata wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
+                Globelise wants to access your <span class="text-primary">{{ selectedApp.name }}</span> account
               </p>
               <p class="content-text">
-                This will allow Picardata to:
+                This will allow Globelise to:
               </p>
               <ul class="content-text">
                 <li>View and access your data <i class="pd-icon pdicon-Alert-info" /></li>

@@ -4,7 +4,7 @@
       <h6 id="modal-title-default" slot="header" class="modal-title" />
       <h2>Forget Password</h2>
       <p class="pt-3 py-0">
-        Enter your Picardata registered email
+        Enter your Globelise registered email
       </p>
 
       <div class="form-group mt-4">
@@ -328,7 +328,7 @@ export default {
 }
 
 .btn-primary{
-  background: #2534B6;
+  background: #2E4823;
   min-width: 200px;
   &.rounded{
     border-radius: 40px !important;
@@ -345,7 +345,7 @@ export default {
 
 ::v-deep .text-link{
   font-size: 14px;
-  color: #3E4EDD;
+  color: #2E4823;
   text-decoration: underline;
 }
 
