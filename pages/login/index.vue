@@ -3,9 +3,9 @@
     <div class="wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-12">
             <div class="icon-picardata text-center">
-              <img class="mb-2" src="~/assets/logo.png" alt="">
+              <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
               <h2>Login to Globelise</h2>
             </div>
 
@@ -55,8 +55,8 @@
             </div>
 
             <div class="form-check  mt-4">
-              <input id="checkbox-remember-me" type="checkbox" class="form-check-input">
-              <label class="form-check-label ml-2" for="checkbox-remember-me">Remember me</label>
+              <input id="checkbox-remember-me" style="margin-left: -14px;" type="checkbox" class="form-check-input">
+              <label class="form-check-label ml-3" for="checkbox-remember-me">Remember me</label>
             </div>
 
             <button
@@ -67,22 +67,19 @@
               Login
             </button>
 
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center mb-2">
               <nuxt-link to="#" class="text-link" @click.native="openModal('forgotPassword')">
                 Forgot password
               </nuxt-link>
             </div>
-          </div>
-          <div class="col-md-1" />
-          <div class="col-md-6">
-            <div class="img-banner text-center">
-              <img src="~/assets/register-now.png" alt="">
 
+            <div class="col-md-12 text-center">
               <nuxt-link to="/signup" class="btn btn-outline-primary text-link">
                 Not registered yet? Register now
               </nuxt-link>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -250,16 +247,16 @@ export default {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #181C3B;
+  background-color: #e9ecef;
   padding: 3em 16em;
 }
 
 .wrapper{
   background: #FFFFFF;
-  width: 100%;
+  /*width: 100%;*/
   height: auto;
-  border-radius: 16px;
-  padding: 3rem 4rem 3rem;
+  /*border-radius: 16px;*/
+  padding: 3rem 2rem 3rem;
 }
 
 .icon-picardata{

@@ -3,9 +3,10 @@
     <div class="wrapper">
       <div class="container picardata-container">
         <div class="row">
-          <div class="col-md-5">
+
+          <div class="col-md-12">
             <div class="icon-picardata text-center">
-              <img class="mb-2" src="~/assets/logo.png" alt="">
+              <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
               <h2 class="register-to-picardata">
                 Register to Globelise
               </h2>
@@ -111,18 +112,11 @@
             >
               Register
             </button>
-          </div>
-          <div class="col-md-1" />
-          <div class="col-md-6">
-            <div class="img-banner">
-              <div class="d-flex justify-content-center">
-                <img src="~/assets/register-now-red.png" alt="">
-              </div>
-              <div class="d-flex justify-content-center">
-                <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
-                  <span class="already-had-account-text">Already had an account? Sign in</span>
-                </nuxt-link>
-              </div>
+
+            <div class="d-flex justify-content-center">
+              <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
+                <span class="already-had-account-text">Already had an account? Sign in</span>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -403,7 +397,7 @@ $placeholder-font-size: 16px;
 }
 
 .btn-register:disabled {
-  background: #3E4EDD;
+  background: #2E4823;
   font-size: 16px;
 }
 
@@ -467,7 +461,7 @@ input:focus:-ms-input-placeholder {
 
   /* Main Blue */
 
-  color: #3E4EDD;
+  color: #2E4823;
 
   opacity: 0.8;
 }
@@ -502,16 +496,16 @@ input:focus:-ms-input-placeholder {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #181C3B;
+  background-color: #e9ecef;
   padding: 3em 16em;
 }
 
 .wrapper{
   background: #FFFFFF;
-  width: 100%;
+  width: 50%;
   height: auto;
-  border-radius: 16px;
-  padding: 3rem 4rem 3rem;
+  /*border-radius: 16px;*/
+  padding: 3rem 2rem 3rem;
 }
 
 .icon-picardata{
