@@ -39,7 +39,7 @@ jobs:
               --password-stdin 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com \
               && docker pull 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ github.event.inputs.version }} \
               && docker rm -f frontend && docker run --name=frontend --network=picardata_vpcbr --ip="10.5.5.21" \
-              --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.picardata.com" \
+              --env NUXT_HOST=0.0.0.0 --env BASE_URL="https://api.globelise.com" \
               --env STRIPE_PUBLISHABLE_KEY="pk_test_51IkfxbGD7jj9JSZZ83O2ikY0mjP9htqr6JyNg28P4WVwGZYJaFJqY6uElGMHIRA98188LbJLbgXIAnVoOWH0PPUQ00Q9eSoXW0" \
               -d -i 612314046177.dkr.ecr.ap-southeast-1.amazonaws.com/picardata/frontend:${{ github.event.inputs.version }} yarn start
       - name: Notify Discord On Failure
