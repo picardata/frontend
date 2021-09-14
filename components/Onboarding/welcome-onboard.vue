@@ -3,38 +3,75 @@
     <div class="row mt-80">
       <div class="col-12">
         <div class="welcome">
-          <img src="~/assets/nav_logo_dark.png" alt="Picardta" class="mr-4"> Welcome to Picardata!
+          Welcome to Globelise!
         </div>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-12">
-        <p class="paragraph">
-          Welcome to your Picardata! Here in Picardata you will see a bunch of benefits to view, check and maintenance your integrated app. Picardata is a tool that can help you managing your applications; either it’s to add any access to your applications or maybe other things!
+    <div class="row mt-24">
+      <div class="col-12" style="text-align: center">
+        <p class="contractor-type paragraph" >
+          What kind of contractor are you?
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-4 user-type">
+      <div class="col-5">
+        <p class="paragraph" >
+          <b>I am an entity </b>
+          <br/> Your entity information will be used on invoices and tax documentation
+        </p>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        <p class="paragraph" >
+          <b>I am an individual </b>
+          <br/> Your full information will be used on invoices and tax documentation
         </p>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {
-  name: 'WelcomeOnboard'
-}
+
+  export default {
+    name: 'WelcomeOnboard',
+
+  }
+
+
 </script>
-<style scoped>
-.welcome {
-   font-size: 24px;
-   font-weight: 700;
-   color: #14142B;
-   line-height: 50px;
-}
+<style lang="scss" scoped>
+  .welcome {
+    font-size: 18px;
+    font-weight: 700;
+    color: #14142B;
+    line-height: 50px;
+    text-align: center;
+  }
 
-.paragraph {
-  color: #313131;
-  font-size: 16px;
-}
+  .paragraph {
+    color: #313131;
+    font-size: 16px;
+  }
 
-.mt-80{
-  margin-top: 80px;
-}
+  .contractor-type {
+    font-size: 24px;
+  }
+
+  .user-type {
+    p {
+      color: gray;
+
+      b {
+        color: black;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .mt-80{
+    margin-top: 80px;
+  }
 </style>

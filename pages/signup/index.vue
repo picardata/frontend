@@ -14,6 +14,24 @@
 
             <div class="form-group mt-4">
               <label
+                      :class="[`form-control-label`, {'d-none': !errors.firstname}]"
+              >
+                Full Name
+              </label>
+              <input
+                      v-model="firstname"
+                      :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
+                      placeholder="Full Name"
+              >
+              <span v-if="this.firstname.length > 0 && errors.firstname" class="form-icon" @click="emptyInput('firstname')"><i class="fa fa-times" /></span>
+              <span
+                      :class="['form-control-error', {'d-none': !errors.firstname}]"
+              >
+                {{ errors.firstname }}
+              </span>
+            </div>
+            <div class="form-group mt-4">
+              <label
                 :class="[`form-control-label`, {'d-none': !errors.username}]"
               >
                 Email
@@ -64,13 +82,13 @@
               <label
                 :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
               >
-                Password again
+                Confirm Password
               </label>
               <input
                 v-model="passwordAgain"
                 :type="showPasswordAgain ? 'text' : 'password'"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
-                placeholder="Password again"
+                placeholder="Confirm Password"
                 autocomplete="off"
                 maxlength="50"
                 @change="validatePasswordAgain"
@@ -140,7 +158,8 @@ export default {
       errors: {
         username: '',
         password: '',
-        passwordAgain: ''
+        passwordAgain: '',
+        firstname: ''
       },
       showPassword: false,
       showPasswordAgain: false,
@@ -149,6 +168,7 @@ export default {
       username: '',
       password: '',
       passwordAgain: '',
+      firstname: '',
       termAndPrivacy: false
     }
   },
@@ -171,13 +191,16 @@ export default {
           result = await this.$axios
             .$post('/api/users/', {
               username: this.username,
-              password: this.password
+              password: this.password,
+              userProfile: {
+                firstname: this.firstname,
+                email: this.username,
+              }
             })
         } catch (e) {
           this.errors = []
           for (const field of ['username', 'password']) {
             const errors = e.response.data.errors[field]
-            console.log('ini errorsnya = ')
             console.log(errors)
             if (errors !== undefined) {
               this.errors[field] = errors.join(', ')
@@ -195,7 +218,11 @@ export default {
         await this.$auth.loginWith('local', {
           data: {
             username: this.username,
-            password: this.password
+            password: this.password,
+            userProfile: {
+              firstname: this.firstname,
+              email: this.username,
+            }
           }
         })
         if (!this.isLogin) {

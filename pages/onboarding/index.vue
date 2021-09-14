@@ -5,12 +5,12 @@
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-blue"
-              role="progressbar"
-              style="width: 16.5%"
-              aria-valuenow="16.5"
-              aria-valuemin="0"
-              aria-valuemax="100"
+                    class="progress-bar bg-green"
+                    role="progressbar"
+                    style="width: 16.5%"
+                    aria-valuenow="16.5"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
             />
           </div>
         </div>
@@ -20,25 +20,40 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
         <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Entity Details
         </div>
         <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
       <WelcomeOnboard />
+
+      <div class="row mt-4 user-type">
+        <div class="col-5">
+          <button type="button" class="btn btn-user-type btn-primary" @click.prevent="goToEntityDetails">
+            Next
+          </button>
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-5">
+          <button type="button" class="btn btn-user-type btn-primary" @click.prevent="goToIndividualDetails">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
     <div v-if="step === 2" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-blue"
-              role="progressbar"
-              style="width: 33%"
-              aria-valuenow="33"
-              aria-valuemin="0"
-              aria-valuemax="100"
+                    class="progress-bar bg-green"
+                    role="progressbar"
+                    style="width: 66%"
+                    aria-valuenow="66"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
             />
           </div>
         </div>
@@ -48,233 +63,255 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
         <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Entity Details
         </div>
         <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <HowPicardataWorks />
+      <EntityDetails ref="entityDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+
     </div>
     <div v-if="step === 3" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-              class="progress-bar bg-blue"
-              role="progressbar"
-              :style="isProfileCompleted ? 'width: 66%' : 'width: 38%'"
-              aria-valuenow="66"
-              aria-valuemin="0"
-              aria-valuemax="100"
+                    class="progress-bar bg-green"
+                    role="progressbar"
+                    style="width: 100%"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
             />
           </div>
         </div>
       </div>
       <div class="row mt-3">
-        <div class="col-4">
+        <div class="col-4 font-weight-bold">
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
-        <div class="col-4 font-weight-bold">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
+        <div class="col-4">
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Entity Details
         </div>
         <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
+          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <CompleteProfile ref="completeProfile" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+      <IndividualDetails ref="individualDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+
     </div>
-    <div v-if="step === 4" class="col-12">
-      <div class="col-9" style="margin-left: auto;margin-right: auto;">
-        <div class="row text-center">
-          <div class="mt-4 col-12">
-            <div class="progress" style="height: 5px;">
-              <div
-                class="progress-bar bg-blue"
-                role="progressbar"
-                :style="isIntegrateGoogle ? 'width: 100%' : 'width: 82%'"
-                aria-valuenow="99"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-4">
-            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
-          </div>
-          <div class="col-4">
-            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Complete Profile
-          </div>
-          <div class="col-4 font-weight-bold">
-            <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Start Integrating
-          </div>
-        </div>
-      </div>
-      <AppLibrary :filter-app="1" @hook:mounted="mountAppLibrary = true" />
-    </div>
-    <div v-else class="row mt-5 justify-content-end btn-bottom">
+    <div class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">
-        <button type="button" class="btn btn-link btn-link-dark-gray btn-lg btn-skip" @click="skip">
-          Skip for now
+        <button v-if="step === 2" type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+          Save Details
         </button>
         <button v-if="step === 3" type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
-          Save Profile
-        </button>
-        <button v-else type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
-          Next
+          Save Details
         </button>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-import CompleteProfile from '@/components/Onboarding/CompleteProfile'
-import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
-import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
-import AppLibrary from '~/pages/apps/app-library/index.vue'
-import loaderMixin from '~/mixins/loader'
+  import CompleteProfile from '@/components/Onboarding/CompleteProfile'
+  import EntityDetails from '@/components/Onboarding/EntityDetails'
+  import IndividualDetails from "../../components/Onboarding/IndividualDetails";
+  import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
+  import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
+  import AppLibrary from '~/pages/apps/app-library/index.vue'
+  import loaderMixin from '~/mixins/loader'
 
-export default {
-  components: {
-    HowPicardataWorks,
-    WelcomeOnboard,
-    CompleteProfile,
-    AppLibrary
-  },
-  auth: true,
-  mixins: [
-    loaderMixin
-  ],
-  async asyncData (context) {
-    const userMe = await context.app.$axios.get('/api/users/me')
-    const user = userMe.data.user
+  export default {
+    components: {
+      HowPicardataWorks,
+      WelcomeOnboard,
+      CompleteProfile,
+      EntityDetails,
+      IndividualDetails,
+      AppLibrary
+    },
+    auth: true,
+    mixins: [
+      loaderMixin
+    ],
+    async asyncData (context) {
+      console.log('asyncData');
 
-    if (user.onboardingStatus >= 21) {
-      return context.redirect('/apps/integrated-apps')
-    }
+      const userMe = await context.app.$axios.get('/api/users/me')
+      const user = userMe.data.user
 
-    return {
-      user
-    }
-  },
-  data () {
-    return {
-      mountAppLibrary: false,
-      googleTimer: null,
-      step: 1,
-      country: '',
-      choices: [
-        {
-          name: 'Occupation',
-          id: 0
-        },
-        {
-          name: 'Artist',
-          id: 1
-        },
-        {
-          name: 'Designer',
-          id: 2
-        },
-        {
-          name: 'Software Developer',
-          id: 3
-        },
-        {
-          name: 'Sales & Marketing',
-          id: 4
-        }
-      ],
-      isProfileCompleted: false,
-      isIntegrateGoogle: false
-    }
-  },
-  computed: {
-    getStepWelcome () {
-      return this.step === 1
-    },
-    getStepPicardataIntro () {
-      return this.step === 2
-    },
-    getStepProfile () {
-      return this.step === 3
-    },
-    getStepIntegrations () {
-      return this.step === 4
-    }
-  },
-  created () {
-    this.setStep(this.user.onboardingStatus)
-    const self = this
-    this.googleTimer = setInterval(function () {
-      if (self.mountAppLibrary === true) {
-        self.getGoogleIntegrationState()
+      if (user.onboardingStatus >= 21) {
+        return context.redirect('/apps/integrated-apps')
       }
-    }, 1500)
-  },
-  methods: {
-    getGoogleIntegrationState () {
-      const vuex = JSON.parse(localStorage.getItem('vuex'))
-      if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
-        this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
-        if (this.isIntegrateGoogle === true) {
-          clearInterval(this.googleTimer)
-          this.$router.push('/apps/integrated-apps')
-        }
+
+      return {
+        user
       }
     },
-    async next () {
-      if (this.step === 3) {
-        const result = await this.$refs.completeProfile.post()
-        if (result) {
+    data () {
+      console.log('data');
+
+      return {
+        mountAppLibrary: false,
+        googleTimer: null,
+        step: 1,
+        country: '',
+        choices: [
+          {
+            name: 'Occupation',
+            id: 0
+          },
+          {
+            name: 'Artist',
+            id: 1
+          },
+          {
+            name: 'Designer',
+            id: 2
+          },
+          {
+            name: 'Software Developer',
+            id: 3
+          },
+          {
+            name: 'Sales & Marketing',
+            id: 4
+          }
+        ],
+        isProfileCompleted: false,
+        isIntegrateGoogle: false
+      }
+    },
+    computed: {
+
+      getStepWelcome () {
+        return this.step === 1
+      },
+      getStepPicardataIntro () {
+        return this.step === 2
+      },
+      getStepProfile () {
+        return this.step === 3
+      },
+      getStepIntegrations () {
+        return this.step === 4
+      }
+    },
+    created () {
+      console.log('created');
+      console.log(this.user);
+
+      this.setStep(this.user.onboardingStatus)
+      const self = this
+      this.googleTimer = setInterval(function () {
+        if (self.mountAppLibrary === true) {
+          self.getGoogleIntegrationState()
+        }
+      }, 1500)
+    },
+    methods: {
+      getGoogleIntegrationState () {
+        const vuex = JSON.parse(localStorage.getItem('vuex'))
+        if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
+          this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
+          if (this.isIntegrateGoogle === true) {
+            clearInterval(this.googleTimer)
+            this.$router.push('/apps/integrated-apps')
+          }
+        }
+      },
+      async next () {
+        if (this.step === 2) {
+          const result = await this.$refs.entityDetails.post()
+          if (result) {
+            await this.$axios.$post('/api/users/onboarding/next', {
+              step:  2
+            })
+
+            this.step = 3;
+          }
+        } else if (this.step === 3) {
+          const result = await this.$refs.individualDetails.post()
+          if (result) {
+            this.step++
+            this.$router.push('/apps/integrated-apps')
+          }
+        } else {
+          await this.$axios.$post('/api/users/onboarding/next')
           this.step++
         }
-      } else {
-        await this.$axios.$post('/api/users/onboarding/next')
-        this.step++
-      }
-    },
-    skip () {
-      this.$axios.$post('/api/employees/', {
-        userProfile: {
-          firstname: '',
-          lastname: '',
-          address: '',
-          phone: '',
-          email: this.$auth.user.username,
-          user: this.$auth.user.id
-        },
-        role: '',
-        occupation: '',
-        company: {
-          name: '',
-          location: ''
+      },
+      async goToEntityDetails () {
+        await this.$axios.$post('/api/users/onboarding/next', {
+          step:  1
+        })
+
+        this.step = 2;
+      },
+      async goToIndividualDetails () {
+
+        await this.$axios.$post('/api/employees/', {
+          userProfile: this.$auth.user.userProfile.id,
+          role: '',
+          occupation: '',
+          company: {
+            name: '',
+            location: ''
+          }
+        })
+
+        await this.$axios.$post('/api/users/onboarding/next', {
+          step:  2
+        })
+
+        this.step = 3;
+      },
+      skip () {
+        this.$axios.$post('/api/employees/', {
+          userProfile: {
+            firstname: this.$auth.user.userProfile.firstname,
+            lastname: '',
+            address: '',
+            phone: '',
+            email: this.$auth.user.username,
+            user: this.$auth.user.id
+          },
+          role: '',
+          occupation: '',
+          company: {
+            name: '',
+            location: ''
+          }
+        }).then((data) => {
+          this.$auth.setUser(data)
+          this.step = 4
+          return true
+        })
+      },
+      changeFormComplete (complete) {
+        this.isProfileCompleted = complete
+      },
+      setStep (onboardingStep) {
+        if (onboardingStep <= 3) {
+          this.step = onboardingStep
+        } else if (onboardingStep === 11) {
+          this.step = 4
         }
-      }).then((data) => {
-        this.$auth.setUser(data)
-        this.step = 4
-        return true
-      })
-    },
-    changeFormComplete (complete) {
-      this.isProfileCompleted = complete
-    },
-    setStep (onboardingStep) {
-      if (onboardingStep <= 3) {
-        this.step = onboardingStep
-      } else if (onboardingStep === 11) {
-        this.step = 4
       }
     }
   }
-}
 </script>
 <style scoped>
   .btn-add {
     width: 150px;
     border-radius: 40px;
+  }
+
+  .btn-user-type {
+    width: 100px;
+    border-radius: 20px;
   }
 
   .progress-font {
@@ -283,7 +320,7 @@ export default {
   }
 
   .progress-numbering {
-    color: #3E4EDD;
+    color: #2E4823;
   }
 
   .btn-skip {
@@ -304,5 +341,9 @@ export default {
 
   .modal-open{
     overflow: auto !important;
+  }
+
+  .bg-green{
+    background-color: #2E4823 !important;
   }
 </style>
