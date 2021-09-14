@@ -68,7 +68,6 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import VuePhoneNumberInput from 'vue-phone-number-input'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import VueCountryInput from 'vue-country-region-select'
 
@@ -76,9 +75,7 @@ export default {
   name: 'EntityDetails',
   components: {
     ValidationObserver,
-    ValidationProvider,
-    VuePhoneNumberInput,
-    VueCountryInput
+    ValidationProvider
   },
   data () {
     return {

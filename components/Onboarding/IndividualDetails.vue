@@ -87,8 +87,7 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    VuePhoneNumberInput,
-    VueCountryInput
+    VuePhoneNumberInput
   },
   data () {
     return {
