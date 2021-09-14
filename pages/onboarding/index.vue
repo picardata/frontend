@@ -143,7 +143,7 @@
       const user = userMe.data.user
 
       if (user.onboardingStatus >= 21) {
-        return context.redirect('/apps/integrated-apps')
+        return context.redirect('/')
       }
 
       return {
@@ -218,7 +218,7 @@
           this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
           if (this.isIntegrateGoogle === true) {
             clearInterval(this.googleTimer)
-            this.$router.push('/apps/integrated-apps')
+            this.$router.push('/')
           }
         }
       },
@@ -236,7 +236,7 @@
           const result = await this.$refs.individualDetails.post()
           if (result) {
             this.step++
-            this.$router.push('/apps/integrated-apps')
+            this.$router.push('/')
           }
         } else {
           await this.$axios.$post('/api/users/onboarding/next')
