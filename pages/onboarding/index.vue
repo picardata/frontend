@@ -124,7 +124,7 @@ export default {
   components: {
     WelcomeOnboard,
     EntityDetails,
-    IndividualDetails,
+    IndividualDetails
   },
   auth: true,
   mixins: [
@@ -215,7 +215,7 @@ export default {
         const result = await this.$refs.entityDetails.post()
         if (result) {
           await this.$axios.$post('/api/users/onboarding/next', {
-            step:  2
+            step: 2
           })
 
           this.step = 3
@@ -233,13 +233,12 @@ export default {
     },
     async goToEntityDetails () {
       await this.$axios.$post('/api/users/onboarding/next', {
-        step:  1
+        step: 1
       })
 
       this.step = 2
     },
     async goToIndividualDetails () {
-
       await this.$axios.$post('/api/employees/', {
         userProfile: this.$auth.user.userProfile.id,
         role: '',
@@ -251,10 +250,10 @@ export default {
       })
 
       await this.$axios.$post('/api/users/onboarding/next', {
-        step:  2
+        step: 2
       })
 
-      this.step = 3;
+      this.step = 3
     },
     skip () {
       this.$axios.$post('/api/employees/', {
