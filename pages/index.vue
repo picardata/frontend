@@ -41,7 +41,7 @@
                 >
               </div>
             </div>
-            <div class="row" style="margin">
+            <div class="row">
               <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
                 <nuxt-link to="/apps/app-library">
                   <h5 class="box-text">
@@ -64,7 +64,7 @@
                   </div>
                   <div>
                     <div v-if="profile.firstname" class="name">
-                      {{ profile.firstname }} {{ profile.lastname }}
+                      Welcome, {{ profile.firstname }} {{ profile.lastname }}
                     </div>
                     <div v-else class="name">
                       {{ profile.email }}
@@ -98,31 +98,50 @@
 
             <div class="row">
               <div class="col-lg-12" style="margin: 2em 0em 2em 0em">
-                <h4 class="d-inline stat-menu-title">
-                  Overall Statistics
-                </h4>
-                <base-button type="primary" class="d-inline float-right">
-                  <i :class="['pd-icon pdicon-Configure']" @click="submenu = true" />
-                  Customize chart
-                </base-button>
+<!--                <base-button type="primary" class="d-inline float-right">-->
+<!--                  <i :class="['pd-icon pdicon-Configure']" @click="submenu = true" />-->
+<!--                  Customize chart-->
+<!--                </base-button>-->
               </div>
               <div class="col-lg-12 stat-menu">
-                <base-button type="primary">
-                  All
-                </base-button>
-                <base-button outline type="primary">
-                  Collaboration
-                </base-button>
-                <base-button outline type="primary">
-                  Design
-                </base-button>
-                <base-button outline type="primary">
-                  Financial
-                </base-button>
-                <base-button outline type="primary">
-                  Human Resource
+<!--                <base-button type="primary">-->
+<!--                  All-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Collaboration-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Design-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Financial-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Human Resource-->
+<!--                </base-button>-->
+              </div>
+
+              <div class="col-lg-6 stat-menu card-body" style="background-color:white;">
+                <h2>No payments due</h2>
+
+                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/office-with-storage.svg" alt="Globelise Logo">
+
+                <base-button type="primary" class="d-inline float-right">
+                  View my contracts
                 </base-button>
               </div>
+
+              <div class="col-lg-1 stat-menu"></div>
+
+              <div class="col-lg-5 stat-menu card-body" style="background-color:white;">
+                <h2>Paid this month</h2>
+
+                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/document storage.svg" alt="Globelise Logo">
+                <base-button type="primary" class="d-inline float-right">
+                  Submit Payment
+                </base-button>
+              </div>
+
             </div>
             <div class="row" style="margin-top: 2em">
               <div v-if="slackUserStatTotal > 0" class="col-xl-3 col-md-6">
@@ -808,13 +827,15 @@ export default {
   .profile{
     display: flex;
     align-items: center;
+    margin-top: 20px;
+
     .image{
       margin-right: 24px;
     }
     .name{
-      font-weight: 600;
-      font-size: 20px;
-      color: #14142B;
+      font-weight: bolder;
+      font-size: 24px;
+      color: #2E4823;
     }
     .role{
       font-weight: 500;

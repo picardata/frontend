@@ -60,6 +60,7 @@ export default {
     margin-left: -0.9375em;
     margin-top: -0.9375em;
     margin-bottom: 0.9375em;
+      display: none;
   }
 
   div.card {

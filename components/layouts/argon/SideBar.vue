@@ -2,7 +2,7 @@
   <div class="navbar navbar-vertical fixed-left navbar-light bg-white sidebar-picardata">
     <div class="scrollbar-inner">
       <div class="sidenav-header d-flex align-items-center">
-        <a class="navbar-brand text-white" href="/"><img src="~/assets/logo.png" alt="Picardata Logo"></a>
+        <a class="navbar-brand text-white" href="/"><img src="~/assets/text_logo.png" alt="Globelise Logo"></a>
       </div>
       <div class="navbar-inner">
         <ul class="navbar-nav mt-5">
@@ -60,15 +60,69 @@ export default {
       menus: [
         {
           name: 'index',
-          displayName: 'Dashboard',
+          displayName: 'Home',
           icon: 'pdicon-Home',
           link: '/'
+        },
+        {
+          name: 'create-contract',
+          displayName: 'Create a Contract',
+          icon: 'pdicon-Alert-info',
+          link: '#'
         },
         {
           name: 'contracts',
           displayName: 'Contracts',
           icon: 'pdicon-Forms',
-          link: '/forms'
+          link: '#'
+        },
+        {
+          name: 'reports',
+          displayName: 'Reports',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'compliance-documents',
+          displayName: 'Compliance Documents',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'invoices-receipts',
+          displayName: 'Invoices & Receipts',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'taxes',
+          displayName: 'Taxes',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'team-settings',
+          displayName: 'Team Settings',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'benefits',
+          displayName: 'Benefits',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'user-settings',
+          displayName: 'User Settings',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'payments',
+          displayName: 'Payments',
+          icon: 'pdicon-Alert-info',
+          link: '#'
         },
 
         // {
@@ -99,7 +153,7 @@ export default {
           name: 'profile',
           displayName: 'Profile',
           icon: 'pdicon-Profile',
-          link: '/profile/me'
+          link: '#'
         },
         // {
         //   name: 'setting',
@@ -151,10 +205,10 @@ export default {
 
 <style lang="scss">
 .navbar-nav{
-  margin-top: 3rem !important;;
+  margin-top: 0 !important;;
   li{
     &:first-child{
-      margin-top: 1.5rem !important;
+      margin-top: 0 !important;
     }
   }
 }
