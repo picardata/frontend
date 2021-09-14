@@ -34,13 +34,9 @@
   </div>
 </template>
 <script>
-
-  export default {
-    name: 'WelcomeOnboard',
-
-  }
-
-
+export default {
+  name: 'WelcomeOnboard'
+}
 </script>
 <style lang="scss" scoped>
   .welcome {

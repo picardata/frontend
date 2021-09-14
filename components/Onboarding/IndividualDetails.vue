@@ -7,8 +7,6 @@
           <p>To get started please provide your personal information accurately.
             <br/> It will be used for all your document on Globelise.</p>
         </div>
-
-
       </div>
     </div>
     <div>
@@ -58,8 +56,6 @@
                         type="tel"
                         @update="profile.formattedPhone = $event.e164"
                 />
-
-
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -81,148 +77,135 @@
 </template>
 
 <script>
-  import { ValidationObserver, ValidationProvider } from 'vee-validate'
-  import VuePhoneNumberInput from 'vue-phone-number-input'
-  import 'vue-phone-number-input/dist/vue-phone-number-input.css'
-  import VueCountryInput from 'vue-country-region-select'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import VuePhoneNumberInput from 'vue-phone-number-input'
+import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import VueCountryInput from 'vue-country-region-select'
 
-  export default {
-    name: 'EntityDetails',
-    components: {
-      ValidationObserver,
-      ValidationProvider,
-      VuePhoneNumberInput,
-      VueCountryInput
-    },
-    data () {
-      console.log(this.$auth.user);
-      return {
-        country: '',
-        choices: [
-          {
-            name: 'Artist',
-            id: 1
-          },
-          {
-            name: 'Designer',
-            id: 2
-          },
-          {
-            name: 'Software Developer',
-            id: 3
-          },
-          {
-            name: 'Sales & Marketing',
-            id: 4
-          }
-        ],
-        profile: {
-          name: this.$auth.user.userProfile.firstname,
-          email: this.$auth.user.username,
-          phone: '',
-          formattedPhone: '',
-          location: '',
-          taxID: '',
-          dateOfBirth: '',
-          nationality: '',
-          countryOfTaxResidence: '',
-          timezone: '',
-          street: '',
-          city: '',
-          postalCode: '',
-          occupation: 0,
-          role: '',
-          organization: '',
-          workLocation: '',
-          workStreet: '',
-          workCity: '',
-          workPostalCode: '',
-          workEntityType: '',
-          workVatID: '',
-          workRegistrationNumber: '',
-          workCountry: ''
+export default {
+  name: 'EntityDetails',
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+    VuePhoneNumberInput,
+    VueCountryInput
+  },
+  data () {
+    return {
+      country: '',
+      choices: [
+        {
+          name: 'Artist',
+          id: 1
+        },
+        {
+          name: 'Designer',
+          id: 2
+        },
+        {
+          name: 'Software Developer',
+          id: 3
+        },
+        {
+          name: 'Sales & Marketing',
+          id: 4
         }
-      }
-    },
-    mounted () {
-      this.stylingInputPhone()
-    },
-    methods: {
-      stylingInputPhone () {
-        const inputTel = document.getElementsByClassName('input-tel__input')[0]
-        inputTel.style.borderTopRightRadius = '16px'
-        inputTel.style.borderBottomRightRadius = '16px'
-
-        const countryInput = document.getElementsByClassName('country-selector__input')[0]
-        countryInput.style.borderTopLeftRadius = '16px'
-        countryInput.style.borderBottomLeftRadius = '16px'
-      },
-      async post () {
-        const isValid = await this.$refs.form.validate()
-        if (!isValid) {
-          return false
-        }
-
-        const result = this.$axios.$post('/api/employees/', {
-          userProfile: this.$auth.user.userProfile.id,
-          role: '',
-          occupation: '',
-          taxID: this.profile.taxID,
-          nationality: this.profile.nationality,
-          countryOfTaxResidence: this.profile.countryOfTaxResidence,
-          timezone: this.profile.timezone,
-          street: this.profile.street,
-          city: this.profile.city,
-          postalCode: this.profile.postalCode,
-
-          // company: {
-          //   name: this.profile.organization,
-          //   location: this.profile.workLocation,
-          //   street: this.profile.workStreet,
-          //   city: this.profile.workCity,
-          //   postalCode: this.profile.workPostalCode,
-          //   entityType: this.profile.workEntityType,
-          //   vatID: this.profile.workVatID,
-          //   registrationNumber: this.profile.workRegistrationNumber,
-          //   country: this.profile.workCountry
-          // }
-        }).then((data) => {
-          this.$auth.setUser(data)
-          return true
-        }).catch((e) => {
-          const errors = {}
-
-          if (e.response.data.errors.userProfile !== undefined) {
-            Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-              const key = 'profile.' + value[0]
-              errors[key] = value[1]
-            })
-          }
-          if (e.response.data.errors.company !== undefined) {
-            Object.entries(e.response.data.errors.company).forEach(function (value) {
-              const key = 'company.' + value[0]
-              errors[key] = value[1]
-            })
-          }
-
-          this.$refs.form.setErrors(errors)
-          return false
-        })
-
-        return result
-      },
-      onFormChange () {
-        let isComplete = true
-        for (const name in this.profile) {
-          if (!this.profile[name]) {
-            isComplete = false
-          }
-        }
-
-        this.$emit('formProfileChange', isComplete)
+      ],
+      profile: {
+        name: this.$auth.user.userProfile.firstname,
+        email: this.$auth.user.username,
+        phone: '',
+        formattedPhone: '',
+        location: '',
+        taxID: '',
+        dateOfBirth: '',
+        nationality: '',
+        countryOfTaxResidence: '',
+        timezone: '',
+        street: '',
+        city: '',
+        postalCode: '',
+        occupation: 0,
+        role: '',
+        organization: '',
+        workLocation: '',
+        workStreet: '',
+        workCity: '',
+        workPostalCode: '',
+        workEntityType: '',
+        workVatID: '',
+        workRegistrationNumber: '',
+        workCountry: ''
       }
     }
+  },
+  mounted () {
+    this.stylingInputPhone()
+  },
+  methods: {
+    stylingInputPhone () {
+      const inputTel = document.getElementsByClassName('input-tel__input')[0]
+      inputTel.style.borderTopRightRadius = '16px'
+      inputTel.style.borderBottomRightRadius = '16px'
+
+      const countryInput = document.getElementsByClassName('country-selector__input')[0]
+      countryInput.style.borderTopLeftRadius = '16px'
+      countryInput.style.borderBottomLeftRadius = '16px'
+    },
+    async post () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      const result = this.$axios.$post('/api/employees/', {
+        userProfile: this.$auth.user.userProfile.id,
+        role: '',
+        occupation: '',
+        taxID: this.profile.taxID,
+        nationality: this.profile.nationality,
+        countryOfTaxResidence: this.profile.countryOfTaxResidence,
+        timezone: this.profile.timezone,
+        street: this.profile.street,
+        city: this.profile.city,
+        postalCode: this.profile.postalCode
+      }).then((data) => {
+        this.$auth.setUser(data)
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        if (e.response.data.errors.userProfile !== undefined) {
+          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
+            const key = 'profile.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+        if (e.response.data.errors.company !== undefined) {
+          Object.entries(e.response.data.errors.company).forEach(function (value) {
+            const key = 'company.' + value[0]
+            errors[key] = value[1]
+          })
+        }
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+
+      return result
+    },
+    onFormChange () {
+      let isComplete = true
+      for (const name in this.profile) {
+        if (!this.profile[name]) {
+          isComplete = false
+        }
+      }
+
+      this.$emit('formProfileChange', isComplete)
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

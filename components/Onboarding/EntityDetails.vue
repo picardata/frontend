@@ -7,8 +7,6 @@
           <p>To get started please provide your company information accurately.
             <br/> It will be used for all your document on Globelise.</p>
         </div>
-
-
       </div>
     </div>
     <div>
@@ -72,9 +70,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import VuePhoneNumberInput from 'vue-phone-number-input'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
-
 import VueCountryInput from 'vue-country-region-select'
-
 
 export default {
   name: 'EntityDetails',
@@ -107,7 +103,7 @@ export default {
         {
           name: 'Others',
           id: 5
-        },
+        }
       ],
       profile: {
         name: this.$auth.user.userProfile.firstname,

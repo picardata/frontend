@@ -194,7 +194,7 @@ export default {
               password: this.password,
               userProfile: {
                 firstname: this.firstname,
-                email: this.username,
+                email: this.username
               }
             })
         } catch (e) {
@@ -221,7 +221,7 @@ export default {
             password: this.password,
             userProfile: {
               firstname: this.firstname,
-              email: this.username,
+              email: this.username
             }
           }
         })

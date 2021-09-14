@@ -115,193 +115,181 @@
 </template>
 
 <script>
-  import CompleteProfile from '@/components/Onboarding/CompleteProfile'
-  import EntityDetails from '@/components/Onboarding/EntityDetails'
-  import IndividualDetails from "../../components/Onboarding/IndividualDetails";
-  import HowPicardataWorks from '~/components/Onboarding/how-picardata-works'
-  import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
-  import AppLibrary from '~/pages/apps/app-library/index.vue'
-  import loaderMixin from '~/mixins/loader'
+import EntityDetails from '@/components/Onboarding/EntityDetails'
+import IndividualDetails from '../../components/Onboarding/IndividualDetails'
+import WelcomeOnboard from '~/components/Onboarding/welcome-onboard'
+import loaderMixin from '~/mixins/loader'
 
-  export default {
-    components: {
-      HowPicardataWorks,
-      WelcomeOnboard,
-      CompleteProfile,
-      EntityDetails,
-      IndividualDetails,
-      AppLibrary
-    },
-    auth: true,
-    mixins: [
-      loaderMixin
-    ],
-    async asyncData (context) {
-      console.log('asyncData');
+export default {
+  components: {
+    WelcomeOnboard,
+    EntityDetails,
+    IndividualDetails,
+  },
+  auth: true,
+  mixins: [
+    loaderMixin
+  ],
+  async asyncData (context) {
+    console.log('asyncData')
+    const userMe = await context.app.$axios.get('/api/users/me')
+    const user = userMe.data.user
 
-      const userMe = await context.app.$axios.get('/api/users/me')
-      const user = userMe.data.user
+    if (user.onboardingStatus >= 21) {
+      return context.redirect('/')
+    }
 
-      if (user.onboardingStatus >= 21) {
-        return context.redirect('/')
-      }
-
-      return {
-        user
-      }
-    },
-    data () {
-      console.log('data');
-
-      return {
-        mountAppLibrary: false,
-        googleTimer: null,
-        step: 1,
-        country: '',
-        choices: [
-          {
-            name: 'Occupation',
-            id: 0
-          },
-          {
-            name: 'Artist',
-            id: 1
-          },
-          {
-            name: 'Designer',
-            id: 2
-          },
-          {
-            name: 'Software Developer',
-            id: 3
-          },
-          {
-            name: 'Sales & Marketing',
-            id: 4
-          }
-        ],
-        isProfileCompleted: false,
-        isIntegrateGoogle: false
-      }
-    },
-    computed: {
-
-      getStepWelcome () {
-        return this.step === 1
-      },
-      getStepPicardataIntro () {
-        return this.step === 2
-      },
-      getStepProfile () {
-        return this.step === 3
-      },
-      getStepIntegrations () {
-        return this.step === 4
-      }
-    },
-    created () {
-      console.log('created');
-      console.log(this.user);
-
-      this.setStep(this.user.onboardingStatus)
-      const self = this
-      this.googleTimer = setInterval(function () {
-        if (self.mountAppLibrary === true) {
-          self.getGoogleIntegrationState()
+    return {
+      user
+    }
+  },
+  data () {
+    return {
+      mountAppLibrary: false,
+      googleTimer: null,
+      step: 1,
+      country: '',
+      choices: [
+        {
+          name: 'Occupation',
+          id: 0
+        },
+        {
+          name: 'Artist',
+          id: 1
+        },
+        {
+          name: 'Designer',
+          id: 2
+        },
+        {
+          name: 'Software Developer',
+          id: 3
+        },
+        {
+          name: 'Sales & Marketing',
+          id: 4
         }
-      }, 1500)
-    },
-    methods: {
-      getGoogleIntegrationState () {
-        const vuex = JSON.parse(localStorage.getItem('vuex'))
-        if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
-          this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
-          if (this.isIntegrateGoogle === true) {
-            clearInterval(this.googleTimer)
-            this.$router.push('/')
-          }
-        }
-      },
-      async next () {
-        if (this.step === 2) {
-          const result = await this.$refs.entityDetails.post()
-          if (result) {
-            await this.$axios.$post('/api/users/onboarding/next', {
-              step:  2
-            })
+      ],
+      isProfileCompleted: false,
+      isIntegrateGoogle: false
+    }
+  },
+  computed: {
 
-            this.step = 3;
-          }
-        } else if (this.step === 3) {
-          const result = await this.$refs.individualDetails.post()
-          if (result) {
-            this.step++
-            this.$router.push('/')
-          }
-        } else {
-          await this.$axios.$post('/api/users/onboarding/next')
+    getStepWelcome () {
+      return this.step === 1
+    },
+    getStepPicardataIntro () {
+      return this.step === 2
+    },
+    getStepProfile () {
+      return this.step === 3
+    },
+    getStepIntegrations () {
+      return this.step === 4
+    }
+  },
+  created () {
+    this.setStep(this.user.onboardingStatus)
+    const self = this
+    this.googleTimer = setInterval(function () {
+      if (self.mountAppLibrary === true) {
+        self.getGoogleIntegrationState()
+      }
+    }, 1500)
+  },
+  methods: {
+    getGoogleIntegrationState () {
+      const vuex = JSON.parse(localStorage.getItem('vuex'))
+      if (this.isIntegrateGoogle !== vuex.googleIntegration.isIntegrated) {
+        this.isIntegrateGoogle = vuex.googleIntegration.isIntegrated
+        if (this.isIntegrateGoogle === true) {
+          clearInterval(this.googleTimer)
+          this.$router.push('/')
+        }
+      }
+    },
+    async next () {
+      if (this.step === 2) {
+        const result = await this.$refs.entityDetails.post()
+        if (result) {
+          await this.$axios.$post('/api/users/onboarding/next', {
+            step:  2
+          })
+
+          this.step = 3
+        }
+      } else if (this.step === 3) {
+        const result = await this.$refs.individualDetails.post()
+        if (result) {
           this.step++
+          this.$router.push('/')
         }
-      },
-      async goToEntityDetails () {
-        await this.$axios.$post('/api/users/onboarding/next', {
-          step:  1
-        })
+      } else {
+        await this.$axios.$post('/api/users/onboarding/next')
+        this.step++
+      }
+    },
+    async goToEntityDetails () {
+      await this.$axios.$post('/api/users/onboarding/next', {
+        step:  1
+      })
 
-        this.step = 2;
-      },
-      async goToIndividualDetails () {
+      this.step = 2
+    },
+    async goToIndividualDetails () {
 
-        await this.$axios.$post('/api/employees/', {
-          userProfile: this.$auth.user.userProfile.id,
-          role: '',
-          occupation: '',
-          company: {
-            name: '',
-            location: ''
-          }
-        })
-
-        await this.$axios.$post('/api/users/onboarding/next', {
-          step:  2
-        })
-
-        this.step = 3;
-      },
-      skip () {
-        this.$axios.$post('/api/employees/', {
-          userProfile: {
-            firstname: this.$auth.user.userProfile.firstname,
-            lastname: '',
-            address: '',
-            phone: '',
-            email: this.$auth.user.username,
-            user: this.$auth.user.id
-          },
-          role: '',
-          occupation: '',
-          company: {
-            name: '',
-            location: ''
-          }
-        }).then((data) => {
-          this.$auth.setUser(data)
-          this.step = 4
-          return true
-        })
-      },
-      changeFormComplete (complete) {
-        this.isProfileCompleted = complete
-      },
-      setStep (onboardingStep) {
-        if (onboardingStep <= 3) {
-          this.step = onboardingStep
-        } else if (onboardingStep === 11) {
-          this.step = 4
+      await this.$axios.$post('/api/employees/', {
+        userProfile: this.$auth.user.userProfile.id,
+        role: '',
+        occupation: '',
+        company: {
+          name: '',
+          location: ''
         }
+      })
+
+      await this.$axios.$post('/api/users/onboarding/next', {
+        step:  2
+      })
+
+      this.step = 3;
+    },
+    skip () {
+      this.$axios.$post('/api/employees/', {
+        userProfile: {
+          firstname: this.$auth.user.userProfile.firstname,
+          lastname: '',
+          address: '',
+          phone: '',
+          email: this.$auth.user.username,
+          user: this.$auth.user.id
+        },
+        role: '',
+        occupation: '',
+        company: {
+          name: '',
+          location: ''
+        }
+      }).then((data) => {
+        this.$auth.setUser(data)
+        this.step = 4
+        return true
+      })
+    },
+    changeFormComplete (complete) {
+      this.isProfileCompleted = complete
+    },
+    setStep (onboardingStep) {
+      if (onboardingStep <= 3) {
+        this.step = onboardingStep
+      } else if (onboardingStep === 11) {
+        this.step = 4
       }
     }
   }
+}
 </script>
 <style scoped>
   .btn-add {
