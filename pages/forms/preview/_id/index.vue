@@ -185,7 +185,7 @@
         </div>
       </div>
       <div class="col-lg-12 text-center">
-        <h3>This form is created using <span class="blue-color">Picardata.</span></h3>
+        <h3>This form is created using <span class="blue-color">Globelise.</span></h3>
       </div>
       <br><br><br>
     </div>

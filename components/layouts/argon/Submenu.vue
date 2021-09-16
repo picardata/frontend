@@ -54,12 +54,13 @@ export default {
 </script>
 <style scoped>
   .slide-element {
-    background-color: #F4F9FF;
+    background-color: #5fa03f14;
     width: 15.625em;
     height: 100%;
     margin-left: -0.9375em;
     margin-top: -0.9375em;
     margin-bottom: 0.9375em;
+      display: none;
   }
 
   div.card {
@@ -82,7 +83,7 @@ export default {
   }
 
   .list-text {
-    color: #2534B6;
+    color: #2E4823;
     font-weight: bold;
     font-size: 1em;
   }

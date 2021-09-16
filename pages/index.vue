@@ -41,7 +41,7 @@
                 >
               </div>
             </div>
-            <div class="row" style="margin">
+            <div class="row">
               <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
                 <nuxt-link to="/apps/app-library">
                   <h5 class="box-text">
@@ -64,7 +64,7 @@
                   </div>
                   <div>
                     <div v-if="profile.firstname" class="name">
-                      {{ profile.firstname }} {{ profile.lastname }}
+                      Welcome, {{ profile.firstname }} {{ profile.lastname }}
                     </div>
                     <div v-else class="name">
                       {{ profile.email }}
@@ -98,31 +98,50 @@
 
             <div class="row">
               <div class="col-lg-12" style="margin: 2em 0em 2em 0em">
-                <h4 class="d-inline stat-menu-title">
-                  Overall Statistics
-                </h4>
-                <base-button type="primary" class="d-inline float-right">
-                  <i :class="['pd-icon pdicon-Configure']" @click="submenu = true" />
-                  Customize chart
-                </base-button>
+<!--                <base-button type="primary" class="d-inline float-right">-->
+<!--                  <i :class="['pd-icon pdicon-Configure']" @click="submenu = true" />-->
+<!--                  Customize chart-->
+<!--                </base-button>-->
               </div>
               <div class="col-lg-12 stat-menu">
-                <base-button type="primary">
-                  All
-                </base-button>
-                <base-button outline type="primary">
-                  Collaboration
-                </base-button>
-                <base-button outline type="primary">
-                  Design
-                </base-button>
-                <base-button outline type="primary">
-                  Financial
-                </base-button>
-                <base-button outline type="primary">
-                  Human Resource
+<!--                <base-button type="primary">-->
+<!--                  All-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Collaboration-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Design-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Financial-->
+<!--                </base-button>-->
+<!--                <base-button outline type="primary">-->
+<!--                  Human Resource-->
+<!--                </base-button>-->
+              </div>
+
+              <div class="col-lg-6 stat-menu card-body" style="background-color:white;">
+                <h2>No payments due</h2>
+
+                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/office-with-storage.svg" alt="Globelise Logo">
+
+                <base-button type="primary" class="d-inline float-right">
+                  View my contracts
                 </base-button>
               </div>
+
+              <div class="col-lg-1 stat-menu"></div>
+
+              <div class="col-lg-5 stat-menu card-body" style="background-color:white;">
+                <h2>Paid this month</h2>
+
+                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/document storage.svg" alt="Globelise Logo">
+                <base-button type="primary" class="d-inline float-right">
+                  Submit Payment
+                </base-button>
+              </div>
+
             </div>
             <div class="row" style="margin-top: 2em">
               <div v-if="slackUserStatTotal > 0" class="col-xl-3 col-md-6">
@@ -139,21 +158,21 @@
               </div>
             </div>
             <div class="row">
-              <div v-if="dealsChart.hubspotIntegeration && dealsChart.loaded === true && hubspotDataExist > 0" class="col-6">
-                  <card>
-                    <template slot="header">
-                      <div class="row">
-                        <div class="d-inline col-8">
-                          <h5 class="h3 mb-0">
-                            Deals: All Stages
-                          </h5>
-                        </div>
+              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-xl-6">
+                <card>
+                  <template slot="header">
+                    <div class="row">
+                      <div class="d-inline col-8">
+                        <h5 class="h3 mb-0">
+                          Deals: All Stages
+                        </h5>
                       </div>
-                    </template>
-                    <div class="chart">
-                      <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
                     </div>
-                  </card>
+                  </template>
+                  <div class="chart">
+                    <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
+                  </div>
+                </card>
               </div>
               <div
                 v-if="this.isAnyFacebookPagePostReachExist"
@@ -217,7 +236,7 @@
                     <div class="row">
                       <div class="d-inline col-8">
                         <h5 class="h3 mb-0">
-                          Total picardata users (company) in a year
+                          Total Globelise users (company) in a year
                         </h5>
                       </div>
                       <!-- <div class="col-4 d-inline float-right">
@@ -722,7 +741,6 @@ export default {
       .then((data) => {
         this.mostAccessedApps = data.data.filter(x => x.status === 1)
         this.totalIntegrations = data.data.filter(x => x.status === 1).length
-        this.dealsChart.hubspotIntegeration = this.mostAccessedApps.filter(x => x.application.name === 'Hubspot').length
       }).catch(
       // eslint-disable-next-line no-console
         (e) => {
@@ -781,7 +799,7 @@ export default {
     margin: 0.625em 0.625em 0.625em 0.625em;
     width: 10.625em;
     height: 20em;
-    background-color: #3E4EDD;
+    background-color: #2E4823;
     border-radius: 1.0625em;
   }
 
@@ -809,13 +827,15 @@ export default {
   .profile{
     display: flex;
     align-items: center;
+    margin-top: 20px;
+
     .image{
       margin-right: 24px;
     }
     .name{
-      font-weight: 600;
-      font-size: 20px;
-      color: #14142B;
+      font-weight: bolder;
+      font-size: 24px;
+      color: #2E4823;
     }
     .role{
       font-weight: 500;

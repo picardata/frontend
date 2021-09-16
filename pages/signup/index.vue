@@ -3,14 +3,33 @@
     <div class="wrapper">
       <div class="container picardata-container">
         <div class="row">
-          <div class="col-md-5">
+
+          <div class="col-md-12">
             <div class="icon-picardata text-center">
-              <img class="mb-2" src="~/assets/logo.png" alt="">
+              <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
               <h2 class="register-to-picardata">
-                Register to Picardata
+                Register to Globelise
               </h2>
             </div>
 
+            <div class="form-group mt-4">
+              <label
+                      :class="[`form-control-label`, {'d-none': !errors.firstname}]"
+              >
+                Full Name
+              </label>
+              <input
+                      v-model="firstname"
+                      :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
+                      placeholder="Full Name"
+              >
+              <span v-if="this.firstname.length > 0 && errors.firstname" class="form-icon" @click="emptyInput('firstname')"><i class="fa fa-times" /></span>
+              <span
+                      :class="['form-control-error', {'d-none': !errors.firstname}]"
+              >
+                {{ errors.firstname }}
+              </span>
+            </div>
             <div class="form-group mt-4">
               <label
                 :class="[`form-control-label`, {'d-none': !errors.username}]"
@@ -63,13 +82,13 @@
               <label
                 :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
               >
-                Password again
+                Confirm Password
               </label>
               <input
                 v-model="passwordAgain"
                 :type="showPasswordAgain ? 'text' : 'password'"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
-                placeholder="Password again"
+                placeholder="Confirm Password"
                 autocomplete="off"
                 maxlength="50"
                 @change="validatePasswordAgain"
@@ -111,18 +130,11 @@
             >
               Register
             </button>
-          </div>
-          <div class="col-md-1" />
-          <div class="col-md-6">
-            <div class="img-banner">
-              <div class="d-flex justify-content-center">
-                <img src="~/assets/register-now-red.png" alt="">
-              </div>
-              <div class="d-flex justify-content-center">
-                <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
-                  <span class="already-had-account-text">Already had an account? Sign in</span>
-                </nuxt-link>
-              </div>
+
+            <div class="d-flex justify-content-center">
+              <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
+                <span class="already-had-account-text">Already had an account? Sign in</span>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -146,7 +158,8 @@ export default {
       errors: {
         username: '',
         password: '',
-        passwordAgain: ''
+        passwordAgain: '',
+        firstname: ''
       },
       showPassword: false,
       showPasswordAgain: false,
@@ -155,6 +168,7 @@ export default {
       username: '',
       password: '',
       passwordAgain: '',
+      firstname: '',
       termAndPrivacy: false
     }
   },
@@ -177,13 +191,16 @@ export default {
           result = await this.$axios
             .$post('/api/users/', {
               username: this.username,
-              password: this.password
+              password: this.password,
+              userProfile: {
+                firstname: this.firstname,
+                email: this.username
+              }
             })
         } catch (e) {
           this.errors = []
           for (const field of ['username', 'password']) {
             const errors = e.response.data.errors[field]
-            console.log('ini errorsnya = ')
             console.log(errors)
             if (errors !== undefined) {
               this.errors[field] = errors.join(', ')
@@ -201,7 +218,11 @@ export default {
         await this.$auth.loginWith('local', {
           data: {
             username: this.username,
-            password: this.password
+            password: this.password,
+            userProfile: {
+              firstname: this.firstname,
+              email: this.username
+            }
           }
         })
         if (!this.isLogin) {
@@ -403,7 +424,7 @@ $placeholder-font-size: 16px;
 }
 
 .btn-register:disabled {
-  background: #3E4EDD;
+  background: #2E4823;
   font-size: 16px;
 }
 
@@ -467,7 +488,7 @@ input:focus:-ms-input-placeholder {
 
   /* Main Blue */
 
-  color: #3E4EDD;
+  color: #2E4823;
 
   opacity: 0.8;
 }
@@ -502,16 +523,16 @@ input:focus:-ms-input-placeholder {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #181C3B;
+  background-color: #e9ecef;
   padding: 3em 16em;
 }
 
 .wrapper{
   background: #FFFFFF;
-  width: 100%;
+  width: 50%;
   height: auto;
-  border-radius: 16px;
-  padding: 3rem 4rem 3rem;
+  /*border-radius: 16px;*/
+  padding: 3rem 2rem 3rem;
 }
 
 .icon-picardata{
@@ -534,7 +555,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .btn-primary{
-  background: #2534B6;
+  background: #2E4823;
   &.rounded{
     border-radius: 40px !important;
   }

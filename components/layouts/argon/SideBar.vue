@@ -2,7 +2,7 @@
   <div class="navbar navbar-vertical fixed-left navbar-light bg-white sidebar-picardata">
     <div class="scrollbar-inner">
       <div class="sidenav-header d-flex align-items-center">
-        <a class="navbar-brand text-white" href="/"><img src="~/assets/logo.png" alt="Picardata Logo"></a>
+        <a class="navbar-brand text-white" href="/"><img src="~/assets/text_logo.png" alt="Globelise Logo"></a>
       </div>
       <div class="navbar-inner">
         <ul class="navbar-nav mt-5">
@@ -60,52 +60,113 @@ export default {
       menus: [
         {
           name: 'index',
-          displayName: 'Dashboard',
+          displayName: 'Home',
           icon: 'pdicon-Home',
           link: '/'
         },
         {
-          name: 'apps',
-          displayName: 'Apps',
-          icon: 'pdicon-Apps',
-          link: '/apps/integrated-apps'
+          name: 'create-contract',
+          displayName: 'Create a Contract',
+          icon: 'pdicon-Alert-info',
+          link: '#'
         },
         {
-          name: 'forms',
-          displayName: 'Forms',
+          name: 'contracts',
+          displayName: 'Contracts',
           icon: 'pdicon-Forms',
-          link: '/forms'
+          link: '#'
         },
         {
-          name: 'tasks',
-          displayName: 'Tasks',
-          icon: 'icon-Tasks',
-          link: '/tasks'
+          name: 'reports',
+          displayName: 'Reports',
+          icon: 'pdicon-Alert-info',
+          link: '#'
         },
         {
-          name: 'billing',
-          displayName: 'Billing',
-          icon: 'icon-Billing',
-          link: '/billing'
+          name: 'compliance-documents',
+          displayName: 'Compliance Documents',
+          icon: 'pdicon-Alert-info',
+          link: '#'
         },
+        {
+          name: 'invoices-receipts',
+          displayName: 'Invoices & Receipts',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'taxes',
+          displayName: 'Taxes',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'team-settings',
+          displayName: 'Team Settings',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'benefits',
+          displayName: 'Benefits',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'user-settings',
+          displayName: 'User Settings',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+        {
+          name: 'payments',
+          displayName: 'Payments',
+          icon: 'pdicon-Alert-info',
+          link: '#'
+        },
+
+        // {
+        //   name: 'apps',
+        //   displayName: 'Apps',
+        //   icon: 'pdicon-Apps',
+        //   link: '/apps/integrated-apps'
+        // },
+        // {
+        //   name: 'forms',
+        //   displayName: 'Forms',
+        //   icon: 'pdicon-Forms',
+        //   link: '/forms'
+        // },
+        // {
+        //   name: 'tasks',
+        //   displayName: 'Tasks',
+        //   icon: 'icon-Tasks',
+        //   link: '/tasks'
+        // },
+        // {
+        //   name: 'billing',
+        //   displayName: 'Billing',
+        //   icon: 'icon-Billing',
+        //   link: '/billing'
+        // },
         {
           name: 'profile',
           displayName: 'Profile',
           icon: 'pdicon-Profile',
-          link: '/profile/me'
-        },
-        {
-          name: 'setting',
-          displayName: 'Setting',
-          icon: 'pdicon-Settings',
           link: '#'
         },
-        {
-          name: 'support',
-          displayName: 'Support',
-          icon: 'pdicon-Alert-info',
-          link: '#'
-        },
+        // {
+        //   name: 'setting',
+        //   displayName: 'Setting',
+        //   icon: 'pdicon-Settings',
+        //   link: '#'
+        // },
+        // {
+        //   name: 'support',
+        //   displayName: 'Support',
+        //   icon: 'pdicon-Alert-info',
+        //   link: '#'
+        // },
         {
           name: 'logout',
           displayName: 'Logout',
@@ -144,10 +205,10 @@ export default {
 
 <style lang="scss">
 .navbar-nav{
-  margin-top: 3rem !important;;
+  margin-top: 0 !important;;
   li{
     &:first-child{
-      margin-top: 1.5rem !important;
+      margin-top: 0 !important;
     }
   }
 }

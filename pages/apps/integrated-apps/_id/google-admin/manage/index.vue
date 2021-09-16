@@ -74,7 +74,7 @@
               <div class="row">
                 <div class="col-12">
                   <h4>Uninstall App</h4>
-                  <p>Remove <span class="font-weight-bolder">{{ data.application.name }}</span> from Picardata and prevent members from using it.</p>
+                  <p>Remove <span class="font-weight-bolder">{{ data.application.name }}</span> from Globelise and prevent members from using it.</p>
                   <base-button type="primary" @click="modals.uninstall = true">
                     Uninstall {{ data.application.name }}
                   </base-button>

@@ -413,7 +413,7 @@ option, .form-control:focus {
 }
 
 .button-radius button {
-  background: #2534B6;
+  background: #2E4823;
   border-radius: 40px;
   color: #F7F7FC;
   font-style: normal;
@@ -434,7 +434,7 @@ option, .form-control:focus {
 }
 .text-link{
   font-size: 16px;
-  color: #3E4EDD;
+  color: #2E4823;
   font-weight: 600;
   display: block;
   text-decoration: underline;
