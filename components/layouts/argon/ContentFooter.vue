@@ -4,7 +4,7 @@
       <div class="col-lg-6">
         <div class="copyright text-center text-lg-left text-muted">
           © {{ year }} <a
-            href="https://www.picardata.com"
+            href="https://www.globelise.com"
             class="font-weight-bold ml-1"
             target="_blank"
             rel="noopener"
@@ -20,17 +20,17 @@
       <div class="col-lg-6">
         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
           <li class="nav-item">
-            <a href="https://www.picardata.com" class="nav-link" target="_blank" rel="noopener">Picardata</a>
+            <a href="https://www.globelise.com" class="nav-link" target="_blank" rel="noopener">Picardata</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.picardata.com/presentation" class="nav-link" target="_blank" rel="noopener">About
+            <a href="https://www.globelise.com/presentation" class="nav-link" target="_blank" rel="noopener">About
               Us</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.picardata.com" class="nav-link" target="_blank" rel="noopener">Blog</a>
+            <a href="https://www.globelise.com" class="nav-link" target="_blank" rel="noopener">Blog</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.picardata.com/license" class="nav-link" target="_blank" rel="noopener">License</a>
+            <a href="https://www.globelise.com/license" class="nav-link" target="_blank" rel="noopener">License</a>
           </li>
         </ul>
       </div>

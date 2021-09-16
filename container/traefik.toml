@@ -8,7 +8,7 @@ logLevel = "INFO"
   address = ":8080"
 
 [docker]
-  domain = "local.picardata.com"
+  domain = "local.globelise.com"
   endpoint = "unix:///var/run/docker.sock"
   watch = true
 
@@ -29,7 +29,7 @@ logLevel = "INFO"
   passHostHeader = true
     [frontends.papi.routes]
       [frontends.papi.routes.papi]
-      rule = "Host:api.local.picardata.com"
+      rule = "Host:api.local.globelise.com"
 
   [frontends.pfrontend]
   priority = 19
@@ -37,7 +37,7 @@ logLevel = "INFO"
   passHostHeader = true
     [frontends.pfrontend.routes]
       [frontends.pfrontend.routes.pfrontend]
-      rule = "Host:local.picardata.com"
+      rule = "Host:local.globelise.com"
 
 [backends]
   [backends.papi_server]
