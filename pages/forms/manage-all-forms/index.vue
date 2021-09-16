@@ -84,7 +84,7 @@
                           @click="selectAllForms()"
                         >
                         <label class="checkmark" style="margin-left:9px;margin-bottom: -9px" for="check-all" />
-                        <div class="d-inline" style="margin-left: 10px; color: #313131;">
+                        <div class="d-inline" style="margin-left: 20px; color: #313131;">
                           Select all forms
                         </div>
                       </div>
@@ -111,7 +111,7 @@
                   >
                     <el-table-column
                       label=""
-                      min-width="50px"
+                      min-width="60px"
                     >
                       <template v-slot="{row}">
                         <input :id="'checbox-form-'+row.id" v-model="row.checkbox" type="checkbox">
@@ -245,26 +245,29 @@ export default {
     }
   },
   computed: {
+    isNotDeletedForms () {
+      return this.forms.filter(form => form.deleted === false).length
+    },
     totalForms () {
       return this.tableData.length
     },
     selectAllCheckbox () {
-      const totalChecked = this.tableData.filter((form) => {
-        return !!form.checkbox && !form.deleted
+      const totalChecked = this.forms.filter((form) => {
+        if (form.deleted === false) { return !!form.checkbox && !form.deleted }
       }).length
 
-      if (totalChecked === this.totalForms && this.totalForms !== 0) {
+      if (totalChecked === this.isNotDeletedForms && this.isNotDeletedForms !== 0) {
         return true
       } else {
         return false
       }
     },
     indeterminateCheckbox () {
-      const totalChecked = this.tableData.filter((form) => {
-        return !!form.checkbox && !form.deleted
+      const totalChecked = this.forms.filter((form) => {
+        if (form.deleted === false) { return !!form.checkbox && !form.deleted }
       }).length
 
-      if (totalChecked > 0 && totalChecked < this.totalForms) {
+      if (totalChecked > 0 && totalChecked < this.isNotDeletedForms) {
         return true
       } else {
         return false

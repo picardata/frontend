@@ -168,6 +168,11 @@
                   />
                 </div>
               </div>
+              <div v-if="field.required == 0 && isFieldMultipleChoices(field) && isFieldAnswered(index)" class="float-right">
+                <button class="mr-3 btn btn-lg btn-primary btn-clear-selection" @click="clearFieldAnswer(field,index)">
+                  Clear selection
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -475,11 +480,38 @@ export default {
       if (field.errors.length > 0) {
         field.errors = []
       }
+    },
+    isFieldMultipleChoices (field) {
+      const multipleChoices = [2, 3]
+      if (multipleChoices.includes(field.type)) { return true } else { return false }
+    },
+    isFieldAnswered (index) {
+      if (this.answers[index].name.length > 0 || !!this.answers[index].other) { return true } else { return false }
+    },
+    clearFieldAnswer (field, index) {
+      if (field.type === 2) {
+        this.answers[index].name = ''
+        this.answers[index].other = ''
+      } else if (field.type === 3) {
+        this.answers[index].name = []
+        this.answers[index].other = ''
+      }
     }
   }
 }
 </script>
 <style scoped>
+.btn-clear-selection {
+  background-color: transparent;
+  color: #525f7f;;
+  border: none;
+  box-shadow: none;
+}
+
+.btn-clear-selection:hover {
+  background-color: rgb(238, 237, 237);
+}
+
 input.form-control {
   border-width: 0 0 2px 0;
   border-radius: 0;

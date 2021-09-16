@@ -10,13 +10,24 @@ export default {
   layout: 'argon',
   components: { RedirectionContent },
   mounted () {
-    console.log(this.$route.query.state)
     this.$axios.get('/api/integrations/facebook/oauth2/callback?code=' + this.$route.query.code + '&state=' + encodeURI(this.$route.query.state))
       .then(() => {
         this.$router.push('/apps/integrated-apps')
       }).catch(
-      // eslint-disable-next-line no-console
-        (e) => { console.log(e) }
+        (e) => {
+          let message = ''
+          if (e.response.status === 500) {
+            message = 'Error while integrating apps'
+          } else {
+            message = e.response.data.errors[0]
+          }
+
+          this.$notify({ type: 'danger', message })
+
+          setTimeout(() => {
+            window.location = '/apps/app-library'
+          }, 1000)
+        }
       )
   }
 }

@@ -222,9 +222,6 @@ import Submenu from '~/components/layouts/argon/Submenu'
 import Paging from '~/components/Custom/Paging'
 import loaderMixin from '~/mixins/loader'
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const days = ['Mon', 'Tue', 'Thu', 'Fri', 'Sat', 'Sun']
-
 export default {
   name: 'IndexVue',
   layout: 'argon',
@@ -306,6 +303,7 @@ export default {
         params['order[updatedAt]'] = 'desc'
       }
       params.q = this.qSearch
+      params.items_per_page = 999
       return params
     }
   },
@@ -327,8 +325,9 @@ export default {
       return '/forms/' + id
     },
     formatDate (date) {
+      const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
       const dateTime = new Date(date)
-      return days[dateTime.getDay()] + ', ' + dateTime.getDate() + ' ' + months[dateTime.getMonth()] + ' ' + dateTime.getFullYear()
+      return dateTime.toLocaleDateString('en-US', options)
     },
     async toggleSort () {
       if (this.sort === 0) {
@@ -340,13 +339,8 @@ export default {
         params: this.sortParams
       })
 
-      console.log('data = ')
-      console.log(data)
-      // .then((data) => {
-      console.log(data)
       this.data = data.data
       this.loadData(data.data)
-      // })
     },
     async search () {
       const data = await this.$axios.get('/api/forms/', {
