@@ -40,16 +40,20 @@
       &.active{
         color: white;
       }
+
+      img {
+        height: 25px;
+      }
     }
 
     .nav-item{
-      padding: 10px 0;
+      padding: 8px 0;
       &.active{
         color: white;
-        background: $primary;
+        background: $secondary;
       }
       &:hover{
-        background-color: $primary;
+        background-color: $secondary;
         transition: all 0.175s ease-in-out;
 
         a.sidebar-menu-item{
@@ -69,6 +73,7 @@
         display: block;
         text-align: left;
         font-weight: bolder;
+        line-height: 25px;
       }
     }
   }

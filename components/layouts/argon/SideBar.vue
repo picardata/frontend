@@ -16,7 +16,7 @@
               :to="item.link"
               :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
             >
-              <i :class="[`pd-icon ${item.icon}`]" />
+              <img  :src="require(`/assets/menu_icons/${item.icon}`)">
               <div class="nav-link-text">
                 {{ item.displayName }}
               </div>
@@ -27,7 +27,7 @@
               @click.prevent="modals.logout = true"
               :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
             >
-              <i :class="[`pd-icon ${item.icon}`]" />
+              <img  :src="require(`/assets/menu_icons/${item.icon}`)">
               <div class="nav-link-text">
                 {{ item.displayName }}
               </div>
@@ -61,116 +61,79 @@ export default {
         {
           name: 'index',
           displayName: 'Home',
-          icon: 'pdicon-Home',
+          icon: 'Home.png',
           link: '/'
         },
         {
           name: 'create-contract',
           displayName: 'Create a Contract',
-          icon: 'pdicon-Alert-info',
+          icon: 'Create_contract.png',
           link: '/contracts/create-contract'
         },
         {
           name: 'contracts',
           displayName: 'Contracts',
-          icon: 'pdicon-Forms',
+          icon: 'Contracts.png',
           link: '/contracts'
         },
         {
           name: 'reports',
           displayName: 'Reports',
-          icon: 'pdicon-Alert-info',
+          icon: 'Reports.png',
           link: '#'
         },
         {
           name: 'compliance-documents',
           displayName: 'Compliance Documents',
-          icon: 'pdicon-Alert-info',
+          icon: 'Compliance_document.png',
           link: '#'
         },
         {
           name: 'invoices-receipts',
           displayName: 'Invoices & Receipts',
-          icon: 'pdicon-Alert-info',
+          icon: 'Invoices_Receipts.png',
           link: '#'
         },
         {
           name: 'taxes',
           displayName: 'Taxes',
-          icon: 'pdicon-Alert-info',
+          icon: 'Taxes.png',
           link: '#'
         },
         {
           name: 'team-settings',
           displayName: 'Team Settings',
-          icon: 'pdicon-Alert-info',
+          icon: 'Team_setting.png',
           link: '#'
         },
         {
           name: 'benefits',
           displayName: 'Benefits',
-          icon: 'pdicon-Alert-info',
+          icon: 'Perks.png',
           link: '#'
         },
         {
           name: 'user-settings',
           displayName: 'User Settings',
-          icon: 'pdicon-Alert-info',
+          icon: 'User_setting.png',
           link: '#'
         },
         {
           name: 'payments',
           displayName: 'Payments',
-          icon: 'pdicon-Alert-info',
+          icon: 'Payment_methods.png',
           link: '#'
         },
-
-        // {
-        //   name: 'apps',
-        //   displayName: 'Apps',
-        //   icon: 'pdicon-Apps',
-        //   link: '/apps/integrated-apps'
-        // },
-        // {
-        //   name: 'forms',
-        //   displayName: 'Forms',
-        //   icon: 'pdicon-Forms',
-        //   link: '/forms'
-        // },
-        // {
-        //   name: 'tasks',
-        //   displayName: 'Tasks',
-        //   icon: 'icon-Tasks',
-        //   link: '/tasks'
-        // },
-        // {
-        //   name: 'billing',
-        //   displayName: 'Billing',
-        //   icon: 'icon-Billing',
-        //   link: '/billing'
-        // },
         {
           name: 'profile',
           displayName: 'Profile',
-          icon: 'pdicon-Profile',
+          icon: 'User.png',
           link: '#'
         },
-        // {
-        //   name: 'setting',
-        //   displayName: 'Setting',
-        //   icon: 'pdicon-Settings',
-        //   link: '#'
-        // },
-        // {
-        //   name: 'support',
-        //   displayName: 'Support',
-        //   icon: 'pdicon-Alert-info',
-        //   link: '#'
-        // },
         {
           name: 'logout',
           displayName: 'Logout',
-          icon: 'pdicon-Logout',
+          icon: 'Log_out.png',
           link: '/logout'
         }
       ],
