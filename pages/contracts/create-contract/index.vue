@@ -27,7 +27,7 @@
                                         <div class="mr-3">
                                             <div class="all-form-title bold-text">
                                                 <div>
-                                                    <img style="" src="~/assets/contract/fixed_Rate_contract.svg" alt="Fixed rate contract">
+                                                    <img style="" src="~/assets/contract/fixed_rate_contract.svg" alt="Fixed rate contract">
                                                     <h3>
                                                         Fixed Rate
                                                     </h3>
