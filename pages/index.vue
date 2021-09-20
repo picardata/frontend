@@ -67,22 +67,10 @@
 </template>
 <script>
 import { Select, Option } from 'element-ui'
-import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import moment from 'moment'
-// import StatsCard from '~/components/argon-core/Cards/StatsCard'
-import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
-import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
-import FacebookPagePostEngagementChart from '~/components/Chart/FacebookPagePostEngagementChart'
-import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
-import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
-
-import HubspotTotalContactStat from '~/components/Stat/HubspotTotalContactStat'
-import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
-import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-import SlackUserStat from '~/components/Stat/SlackUserStat'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -119,18 +107,8 @@ function processFacebookRespone (response) {
 
 export default {
   components: {
-    Submenu,
-    TotalIntegrationChart,
-    FacebookFollowerStat,
-    FacebookPostReachChart,
-    FacebookPagePostEngagementChart,
-    FacebookVideoAndPageViewChart,
-    HubspotCompanyStat,
     [Select.name]: Select,
-    [Option.name]: Option,
-    HubspotDealChart,
-    HubspotTotalContactStat,
-    SlackUserStat
+    [Option.name]: Option
   },
   auth: true,
   layout: 'argon',
