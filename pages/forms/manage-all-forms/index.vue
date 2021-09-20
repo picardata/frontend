@@ -446,7 +446,7 @@ i {
 /deep/.thead-light > th {
   color: #313131;
   opacity: 0.4;
-  font-style: Poppins;
+  font-style: 'Roboto Condensed';
   font-weight: 600;
   font-size: 16px;
   background-color: white;
@@ -484,7 +484,7 @@ i {
 }
 
 .manual-crumb {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 24px;

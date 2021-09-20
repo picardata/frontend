@@ -461,7 +461,7 @@ export default {
 <style scoped>
 
 .integrated-app {
-  font-family: 'Poppins'
+  font-family: 'Roboto Condensed'
 }
 .nav-last {
   opacity: 0.3;
@@ -496,7 +496,7 @@ div.search-button {
   /* font-family: Poppins !important; */
   margin: auto;
   /* Neutral / N-800 Tundora */
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-size: 20px;
   font-style: normal;
   font-weight: 600;

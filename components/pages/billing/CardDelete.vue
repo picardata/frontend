@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 .first-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -62,7 +62,7 @@ export default {
 }
 
 .description {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -77,7 +77,7 @@ export default {
 
 button {
   width: 200px;
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

@@ -1,292 +1,76 @@
 <template>
-  <div>
-    <div class="row">
-      <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <submenu v-show="submenu" class="col-xl-2" :submenu-data="menus">
-          <template v-slot:breadcrumb>
-            <div class="manual-crumb">
-              Dashboard
+  <div class="row picardata-form-index">
+
+    <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
+      <div>
+        <div class="container-fluid">
+          <div class="row profile mt-6">
+            <div class="image">
+              <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
             </div>
-          </template>
-          <template v-if="submenu" v-slot:collapse>
-            <i :class="['pd-icon pdicon-Collapse']" @click="submenu = false" />
-          </template>
-          <template v-else v-slot:expand>
-            <i :class="['pd-icon pdicon-Expand']" @click="submenu = true" />
-          </template>
-          <template v-slot:content>
-            <div class="row">
-              <div class="col-lg-4" style="padding-top: 2.5em; padding-left: 2.5em">
-                <div class="box row">
-                  <div class="col-lg-3" style="margin-top:2.5em; margin-bottom:-1.5em">
-                    <h3 class="box-text">
-                      Your Integrated Apps
-                    </h3>
-                  </div>
-                  <div class="col-lg-12" style="margin-bottom:-5.625em">
-                    <p class="box-text box-number">
-                      {{ totalIntegrations }}
-                    </p>
-                  </div>
-                  <div class="col-lg-12">
-                    <hr class="text-left pull-left float-left">
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-8">
-                <img
-                  slot="image"
-                  class="card-img-top"
-                  src="/img/integrated-apps.png"
-                >
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12" style="margin-top: -3.42em; margin-left: 3.5em">
-                <nuxt-link to="/apps/app-library">
-                  <h5 class="box-text">
-                    + Add Application
-                  </h5>
-                </nuxt-link>
-              </div>
-            </div>
-          </template>
-        </submenu>
-      </transition>
-      <transition name="slide" @after-leave="submenuAfterLeave" @after-enter="submenuAfterEnter">
-        <div v-show="submenu" class="col-10">
-          <div class="right-content">
-            <div class="row">
-              <div class="col-12">
-                <div class="profile">
-                  <div class="image">
-                    <img src="~/assets/dashboard-img/ic_no_image_placeholder.png" alt="">
-                  </div>
-                  <div>
-                    <div v-if="profile.firstname" class="name">
-                      Welcome, {{ profile.firstname }} {{ profile.lastname }}
-                    </div>
-                    <div v-else class="name">
-                      {{ profile.email }}
-                    </div>
-                    <div v-if="employee.role && employee.organization" class="role">
-                      {{ employee.role }} @ {{ employee.organization }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="mostAccessedApps.length >= 1" class="row">
-              <div class="col-12">
-                <div class="most-apps">
-                  <h4>Most Accessed Apps</h4>
-                  <div class="list-apps">
-                    <div
-                      v-for="(app, index) in mostAccessedApps"
-                      :key="app.application.name + index"
-                      class="app shadow cursor-pointer"
-                      @click="appClick(index)"
-                    >
-                      <img class="img-apps" :src="app.application.logo" alt="">
-                      <h1>{{ app.application.name }}</h1>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-12" style="margin: 2em 0em 2em 0em">
-<!--                <base-button type="primary" class="d-inline float-right">-->
-<!--                  <i :class="['pd-icon pdicon-Configure']" @click="submenu = true" />-->
-<!--                  Customize chart-->
-<!--                </base-button>-->
-              </div>
-              <div class="col-lg-12 stat-menu">
-<!--                <base-button type="primary">-->
-<!--                  All-->
-<!--                </base-button>-->
-<!--                <base-button outline type="primary">-->
-<!--                  Collaboration-->
-<!--                </base-button>-->
-<!--                <base-button outline type="primary">-->
-<!--                  Design-->
-<!--                </base-button>-->
-<!--                <base-button outline type="primary">-->
-<!--                  Financial-->
-<!--                </base-button>-->
-<!--                <base-button outline type="primary">-->
-<!--                  Human Resource-->
-<!--                </base-button>-->
-              </div>
-
-              <div class="col-lg-6 stat-menu card-body" style="background-color:white;">
-                <h2>No payments due</h2>
-
-                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/office-with-storage.svg" alt="Globelise Logo">
-
-                <base-button type="primary" class="d-inline float-right">
-                  View my contracts
-                </base-button>
-              </div>
-
-              <div class="col-lg-1 stat-menu"></div>
-
-              <div class="col-lg-5 stat-menu card-body" style="background-color:white;">
-                <h2>Paid this month</h2>
-
-                <img style="display: block; width:100%; height: 120px; margin-bottom: 40px; margin-top:10px;" src="~/assets/document storage.svg" alt="Globelise Logo">
-                <base-button type="primary" class="d-inline float-right">
-                  Submit Payment
-                </base-button>
-              </div>
-
-            </div>
-            <div class="row" style="margin-top: 2em">
-              <div v-if="slackUserStatTotal > 0" class="col-xl-3 col-md-6">
-                <SlackUserStat :counter="slackUserStatTotal" />
-              </div>
-              <div v-if="hubspotContactStatTotal > 0" class="col-xl-3 col-md-6">
-                <HubspotTotalContactStat :counter="hubspotContactStatTotal" />
-              </div>
-              <div v-if="this.hubspotCompanyStatTotal > 0" class="col-xl-3 col-md-6">
-                <HubspotCompanyStat :counter="this.hubspotCompanyStatTotal" />
-              </div>
-              <div v-if="this.facebookFollowerCount > 0" class="col-xl-3 col-md-6">
-                <FacebookFollowerStat :counter="facebookFollowerCount" />
-              </div>
-            </div>
-            <div class="row">
-              <div v-if="dealsChart.loaded === true && hubspotDataExist > 0" class="col-xl-6">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-8">
-                        <h5 class="h3 mb-0">
-                          Deals: All Stages
-                        </h5>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <HubspotDealChart :chart-data="dealsChart" :deal-stage="dealsChart.dealStage" />
-                  </div>
-                </card>
-              </div>
-              <div
-                v-if="this.isAnyFacebookPagePostReachExist"
-                class="col-xl-6"
-              >
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-8">
-                        <h5 class="h3 mb-0">
-                          Facebook Page: Total Post Reach
-                        </h5>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <FacebookPostReachChart :values="this.facebookPagePostReachData" />
-                  </div>
-                </card>
-              </div>
-              <div v-if="this.isAnyFacebookPagePostEngagementExist" class="col-xl-6">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-8">
-                        <h5 class="h3 mb-0">
-                          Facebook Page: Total Page Post Engagement
-                        </h5>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <FacebookPagePostEngagementChart :values="this.facebookPagePostEngagementData" />
-                  </div>
-                </card>
-              </div>
-
-              <div
-                v-if="this.isAnyFacebookPageViewOrVideoViewExist"
-                class="col-xl-6"
-              >
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-6">
-                        <h5 class="h3 mb-0">
-                          Facebook Page: Total Page View &amp; Total Video View
-                        </h5>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="chart-area">
-                    <FacebookVideoAndPageViewChart :values="this.facebookPageViewAndVideoViewData" />
-                  </div>
-                </card>
-              </div>
-
-              <div class="col-xl-12" style="display: none;">
-                <card>
-                  <template slot="header">
-                    <div class="row">
-                      <div class="d-inline col-8">
-                        <h5 class="h3 mb-0">
-                          Total Globelise users (company) in a year
-                        </h5>
-                      </div>
-                      <!-- <div class="col-4 d-inline float-right">
-                        <base-input>
-                          <el-select
-                            v-model="selects.sixthWidget"
-                            filterable
-                            placeholder="Timeframe"
-                          >
-                            <el-option
-                              v-for="time in timeframes"
-                              :key="time.value"
-                              :label="time.label"
-                              :value="time.value"
-                            />
-                          </el-select>
-                        </base-input>
-                      </div> -->
-                    </div>
-                  </template>
-                  <div class="chart">
-                    <TotalIntegrationChart />
-                  </div>
-                </card>
+            <div>
+              <div class="name">
+                Welcome, {{ profile.firstname }} {{ profile.lastname }}
               </div>
             </div>
           </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <ul class="list-packages">
+                <li>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="card border p-4">
+                        <div class="mr-3">
+                          <div class="all-form-title bold-text row">
+                            <div class="col-6">
+                              <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
+                                No payments due
+                              </h3>
+                            </div>
+                            <div class="col-6">
+                              <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
+                                Create Contract
+                              </nuxt-link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="card border p-4">
+                        <div class="mr-3">
+                          <div class="all-form-title bold-text">
+                            <div>
+                              <h2 style="text-align: left;">
+                                Payment history
+                              </h2>
+                              <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.svg" alt="Fixed rate contract">
+
+                            </div>
+                            <div class="mt-3">
+                              You’ll see beautiful graphs after your first payment!
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { Select, Option } from 'element-ui'
-import HubspotDealChart from '@/components/Application/Hubspot/HubspotDealChart'
 import moment from 'moment'
-// import StatsCard from '~/components/argon-core/Cards/StatsCard'
-import TotalIntegrationChart from '~/components/Chart/TotalIntegrationChart'
-import FacebookPostReachChart from '~/components/Chart/FacebookPostReachChart'
-import FacebookPagePostEngagementChart from '~/components/Chart/FacebookPagePostEngagementChart'
-import FacebookFollowerStat from '~/components/Stat/FacebookFollowerStat'
-import HubspotCompanyStat from '~/components/Stat/HubspotCompanyStat'
-
-import HubspotTotalContactStat from '~/components/Stat/HubspotTotalContactStat'
-import FacebookVideoAndPageViewChart from '~/components/Chart/FacebookVideoAndPageViewChart'
 import { Charts } from '~/components/argon-core/Charts/config'
-import Submenu from '~/components/layouts/argon/Submenu'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-import SlackUserStat from '~/components/Stat/SlackUserStat'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
@@ -323,18 +107,8 @@ function processFacebookRespone (response) {
 
 export default {
   components: {
-    Submenu,
-    TotalIntegrationChart,
-    FacebookFollowerStat,
-    FacebookPostReachChart,
-    FacebookPagePostEngagementChart,
-    FacebookVideoAndPageViewChart,
-    HubspotCompanyStat,
     [Select.name]: Select,
-    [Option.name]: Option,
-    HubspotDealChart,
-    HubspotTotalContactStat,
-    SlackUserStat
+    [Option.name]: Option
   },
   auth: true,
   layout: 'argon',
@@ -770,10 +544,24 @@ export default {
 <style scoped lang="scss">
   /deep/.el-input__inner {
     border: 0px;
-    font-style: Poppins;
+    font-style: 'Roboto Condensed';
     font-size: 12px;
     font-weight: 500;
     color: #2534B6;
+  }
+
+  .all-form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    color: #313131;
+    text-align: center;
+    h3 {
+      font-size: 18px;
+    }
+    span {
+      font-size: 14px;
+      font-weight: normal !important;
+    }
   }
 
   .slide-enter-active {
@@ -821,7 +609,7 @@ export default {
   }
 
   .right-content{
-    padding: 80px 40px;
+    padding: 80px 40px 40px 0;
   }
 
   .profile{
