@@ -68,13 +68,13 @@ export default {
           name: 'create-contract',
           displayName: 'Create a Contract',
           icon: 'pdicon-Alert-info',
-          link: '#'
+          link: '/contracts/create-contract'
         },
         {
           name: 'contracts',
           displayName: 'Contracts',
           icon: 'pdicon-Forms',
-          link: '#'
+          link: '/contracts'
         },
         {
           name: 'reports',

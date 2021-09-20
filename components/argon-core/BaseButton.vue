@@ -74,7 +74,7 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40px;
+  border-radius: 5px;
   /deep/ i {
     padding: 0 3px;
   }

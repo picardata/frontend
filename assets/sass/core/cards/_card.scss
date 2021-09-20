@@ -4,7 +4,7 @@
 
 .card {
     margin-bottom: $grid-gutter-width;
-    border-radius: 16px;
+    border-radius: 5px;
 
     @if $enable-shadows {
         box-shadow: $card-box-shadow;
