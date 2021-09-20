@@ -34,8 +34,8 @@
                 </select>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" mode="passive" vid="company.street" name="Street">
-                <input v-model="profile.workStreet" type="text" class="login-credential-input form-control" placeholder="Street">
+              <ValidationProvider v-slot="{ errors }" mode="passive" vid="company.street" name="Address">
+                <input v-model="profile.workStreet" type="text" class="login-credential-input form-control" placeholder="Address">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -82,24 +82,84 @@ export default {
       country: '',
       entityTypes: [
         {
-          name: 'Private Limited',
+          name: 'Branch of a foreign company',
           id: 1
         },
         {
-          name: 'Public Limited',
+          name: 'Company limited by guarantee',
           id: 2
         },
         {
-          name: 'Partnership',
+          name: 'Incorporation',
           id: 3
         },
         {
-          name: 'Sole Proprietorship',
+          name: 'General partnership',
           id: 4
         },
         {
-          name: 'Others',
+          name: 'Joint stock companies',
           id: 5
+        },
+        {
+          name: 'Limited liability company (LLC)',
+          id: 6
+        },
+        {
+          name: 'Limited liability partnership',
+          id: 7
+        },
+        {
+          name: 'Limited partnership',
+          id: 8
+        },
+        {
+          name: 'Non profit corporation',
+          id: 9
+        },
+        {
+          name: 'Private company limited by shares',
+          id: 10
+        },
+        {
+          name: 'Private liability company (LTD)',
+          id: 11
+        },
+        {
+          name: 'Public company limited by shares',
+          id: 12
+        },
+        {
+          name: 'Public liability company',
+          id: 13
+        },
+        {
+          name: 'Sole proprietor/sole trader',
+          id: 14
+        },
+        {
+          name: 'Trusts',
+          id: 15
+        },
+        {
+          name: 'Unlimited company',
+          id: 16
+        },
+        {
+          name: 'Registered individual',
+          id: 17
+        },
+        {
+          name: 'Unregisterad individual',
+          id: 18
+        },
+        {
+          name: 'Sole Trader',
+          id: 19
+        },
+        {
+          name: 'Other',
+          id: 20
         }
       ],
       profile: {
