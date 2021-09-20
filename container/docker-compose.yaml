@@ -38,7 +38,7 @@ services:
       - mysql
       - redis
     extra_hosts:
-      - "api.local.globelise.com:10.5.1.21"
+      - "api.local.picardata.com:10.5.1.21"
 
     networks:
       vpcbr:
@@ -67,10 +67,10 @@ services:
       vpcbr:
         ipv4_address: 10.5.5.21
     extra_hosts:
-      - "api.local.globelise.com:10.5.1.21"
+      - "api.local.picardata.com:10.5.1.21"
     environment:
-      - NUXT_ENV_AXIOS_BASE_URL=http://api.local.globelise.com
-      - BASE_URL=http://api.local.globelise.com
+      - NUXT_ENV_AXIOS_BASE_URL=http://api.local.picardata.com
+      - BASE_URL=http://api.local.picardata.com
   mailcatcher:
     container_name: mailcatcher
     restart: always
