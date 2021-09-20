@@ -132,8 +132,6 @@
                                 <div class="col-sm-5 text-right"></div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -142,34 +140,35 @@
 </template>
 
 <script>
-    import loaderMixin from '~/mixins/loader'
-    import ContractList from '~/components/pages/contracts/ContractList'
+import loaderMixin from '~/mixins/loader'
 
-    export default {
-        name: 'IndexVue',
-        layout: 'argon',
-        auth: true,
-        components: {
-            ContractList,
-        },
-        mixins: [
-            loaderMixin
-        ],
-        data () {
-            return {
-                crumbs: [
-                    {
-                        name: 'Create Contract',
-                        path: '/contracts'
-                    }
-                ],
-                submenu: true
-            }
+export default {
+  name: 'IndexVue',
+  layout: 'argon',
+  auth: true,
+  components: {},
+  mixins: [
+    loaderMixin
+  ],
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Create Contract',
+          path: '/contracts'
         }
+      ],
+      submenu: true
     }
+  }
+}
 </script>
 
 <style scoped>
+    .card {
+        height: 380px;
+    }
+
     h1 {
         font-size: 36px;
         font-weight: bolder;
@@ -209,13 +208,9 @@
         font-size: 16px;
         line-height: 24px;
         letter-spacing: 0.75px;
-
         /* Body Text */
-
         color: #000000;
     }
-
-
 
     .form-title {
         font-family: Poppins;
@@ -224,14 +219,10 @@
         font-size: 28px;
         line-height: 54px;
         /* identical to box height */
-
         letter-spacing: 0.75px;
-
         /* Body Text */
-
         color: #313131;
     }
-
 
     .bold-text{
         font-weight:700 !important;
@@ -249,10 +240,6 @@
 </style>
 
 <style lang="scss">
-    .card {
-        height: 380px;
-    }
-
     .form-title-wrapper {
         text-align: center;
         span {
@@ -289,9 +276,7 @@
             font-size: 16px;
             line-height: 28px;
             letter-spacing: 0.75px;
-
             /* Body Text */
-
             color: #000;
         }
     }

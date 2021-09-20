@@ -160,7 +160,7 @@ export default {
         {
           name: 'Other',
           id: 20
-        },
+        }
       ],
       profile: {
         name: this.$auth.user.userProfile.firstname,

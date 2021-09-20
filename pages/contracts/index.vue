@@ -57,31 +57,31 @@
 </template>
 
 <script>
-    import loaderMixin from '~/mixins/loader'
-    import ContractList from '~/components/pages/contracts/ContractList'
+import loaderMixin from '~/mixins/loader'
+import ContractList from '~/components/pages/contracts/ContractList'
 
-    export default {
-        name: 'IndexVue',
-        layout: 'argon',
-        auth: true,
-        components: {
-            ContractList,
-        },
-        mixins: [
-            loaderMixin
-        ],
-        data () {
-            return {
-                crumbs: [
-                    {
-                        name: 'Contract List',
-                        path: '/contracts'
-                    }
-                ],
-                submenu: true
-            }
+export default {
+  name: 'IndexVue',
+  layout: 'argon',
+  auth: true,
+  components: {
+    ContractList
+  },
+  mixins: [
+    loaderMixin
+  ],
+  data () {
+    return {
+      crumbs: [
+        {
+          name: 'Contract List',
+          path: '/contracts'
         }
+      ],
+      submenu: true
     }
+  }
+}
 </script>
 
 <style scoped>
