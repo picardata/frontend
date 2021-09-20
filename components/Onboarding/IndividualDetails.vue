@@ -30,19 +30,19 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
-              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="street" name="Street">
-                <input v-model="profile.street" type="text" class="login-credential-input form-control" placeholder="Street">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="street" name="Address">
+                <input v-model="profile.street" type="text" class="login-credential-input form-control" placeholder="Address">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
 
             <div class="col-6 pl-5">
-              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="street" name="Country of Tax Residence">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="countryOfTaxResidence" name="Country of Tax Residence">
                 <country-select v-model="profile.countryOfTaxResidence" :country="country" topCountry="SG"  placeholder="Country of Tax Residence" class="form-control login-credential-input"/>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
-              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="street" name="Tax ID">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="taxID" name="Tax ID">
                 <input v-model="profile.taxID" type="text" class="login-credential-input form-control" placeholder="Tax ID (optional)">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -59,12 +59,12 @@
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
-              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="street" name="City">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="city" name="City">
                 <input v-model="profile.city" type="text" class="login-credential-input form-control" placeholder="City">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
-              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="street" name="Postal Code">
+              <ValidationProvider v-slot="{ errors }" mode="passive"  vid="postalCode" name="Postal Code">
                 <input v-model="profile.postalCode" type="text" class="login-credential-input form-control" placeholder="Postal Code">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>

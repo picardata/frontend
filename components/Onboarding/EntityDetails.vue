@@ -34,8 +34,8 @@
                 </select>
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" mode="passive" vid="company.street" name="Street">
-                <input v-model="profile.workStreet" type="text" class="login-credential-input form-control" placeholder="Street">
+              <ValidationProvider v-slot="{ errors }" mode="passive" vid="company.street" name="Address">
+                <input v-model="profile.workStreet" type="text" class="login-credential-input form-control" placeholder="Address">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
 
