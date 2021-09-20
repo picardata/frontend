@@ -178,7 +178,7 @@ export default {
         font-size: 200%;
     }
     .span-desc{
-        font-family: Poppins;
+        font-family: 'Roboto Condensed';
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
@@ -190,7 +190,7 @@ export default {
         color: #313131;
     }
     .card-title {
-        font-family: Poppins;
+        font-family: 'Roboto Condensed';
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -202,7 +202,7 @@ export default {
         color: #313131;
     }
     .card-text {
-        font-family: Poppins;
+        font-family: 'Roboto Condensed';
         font-style: normal;
         font-weight: normal;
         font-size: 16px;
@@ -213,7 +213,7 @@ export default {
     }
 
     .form-title {
-        font-family: Poppins;
+        font-family: 'Roboto Condensed';
         font-style: normal;
         font-weight: bold;
         font-size: 28px;
@@ -248,7 +248,7 @@ export default {
     }
 
     .all-form-title {
-        font-family: Poppins;
+        font-family: 'Roboto Condensed';
         font-style: normal;
         color: #313131;
         h3 {
@@ -270,7 +270,7 @@ export default {
     .list-item-packages{
         li{
             list-style: inside;
-            font-family: Poppins;
+            font-family: 'Roboto Condensed';
             font-style: normal;
             font-weight: 400;
             font-size: 16px;

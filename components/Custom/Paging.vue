@@ -81,7 +81,7 @@ export default {
 
 .picardata-nav {
   margin: auto;
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-size: 20px;
   font-style: normal;
   font-weight: 600;

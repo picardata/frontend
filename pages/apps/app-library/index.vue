@@ -485,7 +485,7 @@ export default {
 <style scoped>
 
 .picardata-page-app-library {
-  font-family: 'Poppins'
+  font-family: 'Roboto Condensed'
 }
 
 p.notify-text {
@@ -547,7 +547,7 @@ div.search-button {
   /* font-family: Poppins !important; */
   margin: auto;
   /* Neutral / N-800 Tundora */
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -697,7 +697,7 @@ color: #313131;
 }
 
 .see-marketing {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 18px;

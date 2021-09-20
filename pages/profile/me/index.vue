@@ -378,7 +378,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .profile-arrow-text {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
 font-style: normal;
 font-weight: bold;
 font-size: 24px;

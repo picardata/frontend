@@ -1,6 +1,6 @@
 body {
   background-color: white !important;
-  font-family: 'Poppins';
+  font-family: 'Roboto Condensed';
 }
 
 .picardata-input-rounded {
@@ -69,7 +69,7 @@ select.picardata-input-rounded {
 // }
 
 .manage-app-add-button {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -128,7 +128,7 @@ select.picardata-input-rounded {
   .alert-text {
     margin: auto;
     color: #FCFCFC;
-    font-family: Poppins;
+    font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
@@ -552,7 +552,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     &::placeholder{
       color: #A0A3BD !important;
       font-size: 16px;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Roboto Condensed', sans-serif;
     }
   }
   .country-selector__country-flag{
@@ -572,7 +572,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .picardata-std-modal {
   .form-control {
-    font-family: Poppins;
+    font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;

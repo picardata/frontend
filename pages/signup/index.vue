@@ -477,7 +477,7 @@ input:focus:-ms-input-placeholder {
   color: #FFFF;
 }
 .already-had-account-text {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -505,7 +505,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .register-to-picardata {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;

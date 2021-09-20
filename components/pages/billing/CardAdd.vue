@@ -132,7 +132,7 @@ export default {
 
 button {
   width: 200px;
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

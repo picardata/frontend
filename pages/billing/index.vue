@@ -152,7 +152,7 @@ h1 {
   font-size: 200%;
 }
 .span-desc{
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -164,7 +164,7 @@ h1 {
   color: #313131;
 }
 .card-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -176,7 +176,7 @@ h1 {
   color: #313131;
 }
 .card-text {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -189,7 +189,7 @@ h1 {
 }
 
 .form-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
@@ -204,7 +204,7 @@ h1 {
 }
 
 .all-form-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -240,7 +240,7 @@ h1 {
 .list-item-packages{
   li{
     list-style: inside;
-    font-family: Poppins;
+    font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

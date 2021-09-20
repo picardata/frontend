@@ -149,7 +149,7 @@ h1 {
 }
 
 .form-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
@@ -175,7 +175,7 @@ h1 {
 .list-item-packages{
   li{
     list-style: inside;
-    font-family: Poppins;
+    font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

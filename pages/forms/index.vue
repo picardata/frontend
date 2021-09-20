@@ -507,7 +507,7 @@ div.vl {
 }
 
 .manual-crumb {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -521,7 +521,7 @@ div.vl {
 }
 
 .share-open {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
 font-style: normal;
 font-weight: 600;
 font-size: 16px;
@@ -539,7 +539,7 @@ color: #2534B6;
 }
 
 .card-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
 font-style: normal;
 font-weight: 600;
 font-size: 16px;
@@ -552,7 +552,7 @@ color: #313131;
 }
 
 .form-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
 font-style: normal;
 font-weight: bold;
 font-size: 36px;
@@ -567,7 +567,7 @@ color: #313131;
 }
 
 .all-form-title {
-  font-family: Poppins;
+  font-family: 'Roboto Condensed';
 font-style: normal;
 font-weight: 600;
 font-size: 20px;
@@ -589,7 +589,7 @@ color: #313131;
   }
 
   .no-form-created-yet {
-    font-family: Poppins;
+    font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
