@@ -220,7 +220,6 @@ export default {
         street: '',
         city: '',
         postalCode: '',
-
         company: {
           name: this.profile.organization,
           location: this.profile.workLocation,

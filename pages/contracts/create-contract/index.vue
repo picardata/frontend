@@ -37,7 +37,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="mt-5 float-right">
-                                                    <nuxt-link to="/billing" class="btn btn-lg btn-primary btn-round">
+                                                    <nuxt-link to="/contracts/create-contract/fixed-rate" class="btn btn-lg btn-primary btn-round">
                                                         Create Contract
                                                     </nuxt-link>
                                                 </div>
