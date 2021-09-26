@@ -2,34 +2,34 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.legalEntity" name="Entity Name">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.legalEntity" name="Entity Name">
           <div class="all-form-title bold-text form-field">
             <span class="text-label">Legal Entity Name</span>
-            <input v-model="contract.legalEntity" type="text" class="form-input form-control" placeholder="">
+            <input v-model="contractStep1.legalEntity" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.contractName" name="Contract Name">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.contractName" name="Contract Name">
           <div class="all-form-title bold-text form-field">
             <span class="text-label">Contract Name</span>
-            <input v-model="contract.contractName" type="text" class="form-input form-control" placeholder="">
+            <input v-model="contractStep1.contractName" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.jobTitle" name="Job Title">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.jobTitle" name="Job Title">
           <div class="all-form-title bold-text form-field">
             <span class="text-label">Job Title</span>
-            <input v-model="contract.jobTitle" type="text" class="form-input form-control" placeholder="">
+            <input v-model="contractStep1.jobTitle" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.seniorityLevel" name="Seniority Level">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.seniorityLevel" name="Seniority Level">
           <div class="all-form-title bold-text form-field">
             <span class="text-label">Seniority Level</span>
-            <select v-model="contract.seniorityLevel" class="form-control form-input">
+            <select v-model="contractStep1.seniorityLevel" class="form-control form-input">
               <option value="0" selected>
                 Choose Seniority Level
               </option>
@@ -41,15 +41,15 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.scopeOfWork" name="Scope of Work">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
           <div class="all-form-title bold-text form-field">
             <span class="text-label">Scope of Work</span>
-            <textarea v-model="contract.scopeOfWork" type="text" class="form-input form-control" placeholder="Describe the project scope here..."></textarea>
+            <textarea v-model="contractStep1.scopeOfWork" type="text" class="form-input form-control" placeholder="Describe the project scope here..."></textarea>
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contract.startDate" name="Contractor's Start Date">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep1.startDate" name="Start Date">
           <div class="all-form-title bold-text form-field">
             <base-input class="text-label" label="Contractor's Start Date">
               <flat-picker
@@ -58,7 +58,7 @@
                 @on-close="blur"
                 :config="startDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contract.startDate">
+                v-model="contractStep1.startDate">
               </flat-picker>
             </base-input>
 
@@ -71,133 +71,109 @@
 </template>
 
 <script>
-  import { ValidationObserver, ValidationProvider } from 'vee-validate'
-  import 'vue-phone-number-input/dist/vue-phone-number-input.css'
-  import 'vue-country-region-select'
-  import flatPicker from 'vue-flatpickr-component'
-  import 'flatpickr/dist/flatpickr.css'
-  import BaseSlider from '@/components/argon-core/BaseSlider'
-  import loaderMixin from '~/mixins/loader'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import 'vue-phone-number-input/dist/vue-phone-number-input.css'
+import 'vue-country-region-select'
+import flatPicker from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
-  export default {
-    name: 'step1',
-    auth: true,
-    components: {
-      ValidationObserver,
-      ValidationProvider,
-      flatPicker,
-      BaseSlider
-    },
-    mixins: [
-      loaderMixin
-    ],
-    data () {
-      return {
-        contract: {
-          legalEntity: '',
-          contractName: '',
-          jobTitle: '',
-          seniorityLevel: '',
-          scopeOfWork: '',
-          startDate: null,
-          salaryAmount: '',
-          salaryCurrency: '',
-          salaryFrequency: '',
-          isInvoiceSettingsCustomisable: '',
-          invoiceCycleEnds: '',
-          invoicePaymentDue: '',
-          isInvoicePaymentPayAheadOfTheWeekend: '',
-          firstPaymentDate: '',
-          firstPaymentType: '',
-          firstPaymentAmount: '',
-          terminationDate: '',
-          noticePeriod: '',
-          specialClause: '',
-        },
-
-        startDateconfig: {
-          allowInput: true,
-          altFormat: 'j F Y',
-          altInput: true
-        },
-        crumbs: [
-          {
-            name: 'Create Contract',
-            path: '/contracts'
-          }
-        ],
-        seniorityLevels: [
-          {
-            name: 'Not applicable',
-            id: 1
-          },
-          {
-            name: 'Junior',
-            id: 2
-          },
-          {
-            name: 'Mid',
-            id: 3
-          },
-          {
-            name: 'Senior',
-            id: 4
-          },
-          {
-            name: 'Lead',
-            id: 5
-          },
-          {
-            name: 'Principal / Staff',
-            id: 6
-          },
-          {
-            name: 'Director',
-            id: 7
-          },
-          {
-            name: 'Head of Department',
-            id: 8
-          },
-          {
-            name: 'Vice President',
-            id: 9
-          },
-          {
-            name: 'Senior Vice President',
-            id: 10
-          },
-          {
-            name: 'C-level Executive',
-            id: 11
-          }
-        ],
-        submenu: true
-      }
-    },
-    methods: {
-      onFormChange () {
-        console.log('onFormChange');
-        debugger;
-        let isComplete = true
-        for (const name in this.contract) {
-          if (!this.contract[name]) {
-            isComplete = false
-          }
-        }
-
-        this.$emit('formProfileChange', isComplete)
+export default {
+  name: 'stepOne',
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+    flatPicker
+  },
+  props: [
+    'contract'
+  ],
+  data () {
+    return {
+      contractStep1: {
+        legalEntity: this.contract.legalEntity,
+        contractName: this.contract.contractName,
+        jobTitle: this.contract.jobTitle,
+        seniorityLevel: this.contract.seniorityLevel,
+        scopeOfWork: this.contract.scopeOfWork,
+        startDate: this.contract.startDate
       },
-      async post () {
-        console.log('post');
-        debugger;
-        const isValid = await this.$refs.form.validate()
-        if (!isValid) {
-          return false
+      startDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      crumbs: [
+        {
+          name: 'Create Contract',
+          path: '/contracts'
         }
+      ],
+      seniorityLevels: [
+        {
+          name: 'Not applicable',
+          id: 1
+        },
+        {
+          name: 'Junior',
+          id: 2
+        },
+        {
+          name: 'Mid',
+          id: 3
+        },
+        {
+          name: 'Senior',
+          id: 4
+        },
+        {
+          name: 'Lead',
+          id: 5
+        },
+        {
+          name: 'Principal / Staff',
+          id: 6
+        },
+        {
+          name: 'Director',
+          id: 7
+        },
+        {
+          name: 'Head of Department',
+          id: 8
+        },
+        {
+          name: 'Vice President',
+          id: 9
+        },
+        {
+          name: 'Senior Vice President',
+          id: 10
+        },
+        {
+          name: 'C-level Executive',
+          id: 11
+        }
+      ],
+      submenu: true
+    }
+  },
+  methods: {
+    async post () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
       }
+      this.contract.legalEntity = this.contractStep1.legalEntity
+      this.contract.contractName = this.contractStep1.contractName
+      this.contract.jobTitle = this.contractStep1.jobTitle
+      this.contract.seniorityLevel = this.contractStep1.seniorityLevel
+      this.contract.scopeOfWork = this.contractStep1.scopeOfWork
+      this.contract.startDate = this.contractStep1.startDate
+
+      return isValid
+    },
+    onFormChange () {
     }
   }
+}
 </script>
-
-

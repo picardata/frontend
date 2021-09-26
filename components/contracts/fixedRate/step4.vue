@@ -2,20 +2,17 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <div class="all-form-title bold-text form-field field-group">
-          <span class="text-label">Define dates of contract</span>
-        </div>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.firstPaymentDate" name="First payment date">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
           <div class="all-form-title bold-text form-field">
-            <base-input class="text-label" label="First payment date">
+            <span class="text-label"> Termination date</span><br/>
+            <base-input class="text-label-desc" label="The client will pay the contractor until the contract has been terminated.">
               <flat-picker
                 slot-scope="{focus, blur}"
                 @on-open="focus"
                 @on-close="blur"
-                :config="firstPaymentDateconfig"
+                :config="terminationDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep3.firstPaymentDate">
+                v-model="contractStep4.terminationDate">
               </flat-picker>
             </base-input>
 
@@ -23,22 +20,21 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.firstPaymentType" name="Payment Type">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep4.noticePeriod" name="Notice period">
           <div class="all-form-title bold-text form-field">
-            <span class="text-label">First payment type</span>
-            <select v-model="contractStep3.firstPaymentType" class="form-control form-input">
-              <option v-for="(firstPaymentTypeOption, key) in firstPaymentTypeOptions" :key="firstPaymentTypeOption + key" :value="firstPaymentTypeOption.id">
-                {{ firstPaymentTypeOption.name }}
-              </option>
-            </select>
+            <span class="text-label">Notice period</span><br/>
+            <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
+            <input v-model="contractStep4.noticePeriod" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.firstPaymentAmount" name="Payment Amount">
-          <div class="all-form-title bold-text form-field two-colls first-coll">
-            <span class="text-label"> Amount</span>
-            <input v-model="contractStep3.firstPaymentAmount" type="text" class="form-input form-control" placeholder="">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep4.specialClause" name="Special Clause">
+          <div class="all-form-title bold-text form-field">
+            <span class="text-label">Special Clause</span><br/>
+            <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
+
+            <textarea v-model="contractStep4.specialClause" type="text" class="form-input form-control" placeholder=""></textarea>
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -56,7 +52,7 @@ import flatPicker from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
-  name: 'step1',
+  name: 'step4',
   auth: true,
   components: {
     ValidationObserver,
@@ -68,10 +64,10 @@ export default {
   ],
   data () {
     return {
-      contractStep3: {
-        firstPaymentDate: this.contract.firstPaymentDate,
-        firstPaymentType: this.contract.firstPaymentType,
-        firstPaymentAmount: this.contract.firstPaymentAmount
+      contractStep4: {
+        terminationDate: this.contract.terminationDate,
+        noticePeriod: this.contract.noticePeriod,
+        specialClause: this.contract.specialClause
       },
       startDateconfig: {
         allowInput: true,
@@ -79,6 +75,11 @@ export default {
         altInput: true
       },
       firstPaymentDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      terminationDateconfig: {
         allowInput: true,
         altFormat: 'j F Y',
         altInput: true
@@ -157,9 +158,9 @@ export default {
         return false
       }
 
-      this.contract.firstPaymentDate = this.contractStep3.firstPaymentDate
-      this.contract.firstPaymentType = this.contractStep3.firstPaymentType
-      this.contract.firstPaymentAmount = this.contractStep3.firstPaymentAmount
+      this.contract.terminationDate = this.contractStep4.terminationDate
+      this.contract.noticePeriod = this.contractStep4.noticePeriod
+      this.contract.specialClause = this.contractStep4.specialClause
       return isValid
     }
   }
