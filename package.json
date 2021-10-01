@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NUXT_HOST=0.0.0.0 NUXT_ENV_AXIOS_BASE_URL=http://api.local.picardata.com nuxt-ts",
+    "dev": "NUXT_HOST=0.0.0.0 NUXT_ENV_AXIOS_BASE_URL=http://api.local.globelise.com nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "nuxt-ts generate",
