@@ -254,6 +254,7 @@ export default {
 .wrapper{
   background: #FFFFFF;
   /*width: 100%;*/
+  width: 468px;
   height: auto;
   /*border-radius: 16px;*/
   padding: 3rem 2rem 3rem;
