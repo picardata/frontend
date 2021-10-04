@@ -36,10 +36,6 @@
                     <step4 :contract = "contract" ref="step4" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
-                  <div v-if="step === 5">
-                    <step5 :contract = "contract" ref="step5"/>
-                  </div>
-
                   <div class="contract-type-actions-wrapper">
                     <button v-if="step < 5" type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="next">
                       Next
@@ -53,6 +49,9 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div v-if="step === 5">
+            <step5 :contract = "contract" ref="step5"/>
           </div>
         </div>
       </div>
@@ -85,6 +84,8 @@ export default {
       contract: {
         legalEntity: '',
         contractName: '',
+        contractorName: '',
+        contractorEmailAddress: '',
         jobTitle: '',
         seniorityLevel: '',
         scopeOfWork: '',
@@ -104,68 +105,17 @@ export default {
         specialClause: '',
         contractStatus: 1
       },
-      contractorStartDateconfig: {
-        allowInput: true,
-        altFormat: 'j F Y',
-        altInput: true
-      },
+      contractId: '',
       crumbs: [
         {
           name: 'Create Contract',
           path: '/contracts'
         }
       ],
-      seniorityLevels: [
-        {
-          name: 'Not applicable',
-          id: 1
-        },
-        {
-          name: 'Junior',
-          id: 2
-        },
-        {
-          name: 'Mid',
-          id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
-        }
-      ],
       submenu: true
     }
   },
   methods: {
-    onFormChange () {},
     changeFormComplete (complete) {
       this.isProfileCompleted = complete
     },
@@ -197,9 +147,11 @@ export default {
 
         const userMe = await this.$axios.get('/api/users/me')
 
-        const result = this.$axios.$post('/api/fixed/rate/contract/', {
+        this.$axios.$post('/api/fixed/rate/contract/', {
           legalEntity: this.contract.legalEntity,
           contractName: this.contract.contractName,
+          contractorName: this.contract.contractorName,
+          contractorEmailAddress: this.contract.contractorEmailAddress,
           jobTitle: this.contract.jobTitle,
           seniorityLevel: this.contract.seniorityLevel,
           scopeOfWork: this.contract.scopeOfWork,
@@ -219,7 +171,9 @@ export default {
           specialClause: this.contract.specialClause,
           contractStatus: this.contract.contractStatus,
           company: userMe.data.employees[0].company.id
-        }).then(() => {
+        }).then((data) => {
+          this.contractId = data
+          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.id)
           return true
         }).catch((e) => {
           const errors = {}
@@ -232,10 +186,6 @@ export default {
           this.$refs.form.setErrors(errors)
           return false
         })
-
-        if (result) {
-          this.step++
-        }
       }
     },
     back () {
@@ -283,6 +233,28 @@ export default {
     }
   }
 
+  .full-contract-details {
+    .form-field {
+      color: #6a6969;
+
+      .contract-main-title {
+        text-align: center;
+      }
+
+      .sub-point {
+        margin-left: 25px;
+      }
+
+      .sub-sub-point {
+        margin-left: 50px;
+      }
+
+      b {
+        color: black;
+        font-weight: 900;
+      }
+    }
+  }
   .contract-type-actions-wrapper {
     margin-bottom: 20px;
 
@@ -313,6 +285,11 @@ export default {
     }
   }
 
+  .signature-wrapper {
+    .form-field {
+      width: 40%;
+    }
+  }
   .all-form-title {
     font-family: 'Roboto Condensed';
     font-style: normal;
@@ -384,6 +361,14 @@ export default {
       font-size: 16px;
       line-height: 24px;
       color: var(--black);
+    }
+
+    .form-signature {
+      border: none;
+      border-bottom: 1px solid #eee;
+      font-family: 'Birthstone', cursive;
+      color: black;
+      font-size: 24px;
     }
 
     .contract-review-field-wrapper {

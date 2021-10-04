@@ -3,7 +3,7 @@
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label"> Termination date</span><br/>
             <base-input class="text-label-desc" label="The client will pay the contractor until the contract has been terminated.">
               <flat-picker
@@ -21,7 +21,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep4.noticePeriod" name="Notice period">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Notice period</span><br/>
             <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
             <input v-model="contractStep4.noticePeriod" type="text" class="form-input form-control" placeholder="">
@@ -30,7 +30,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep4.specialClause" name="Special Clause">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Special Clause</span><br/>
             <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
 

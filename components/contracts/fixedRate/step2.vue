@@ -6,7 +6,7 @@
           <span class="text-label">Define the rate</span>
         </div>
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryAmount" name="Payment Amount">
-          <div class="all-form-title bold-text form-field two-colls first-coll">
+          <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
             <span class="text-label">How much?</span>
             <input v-model="contractStep2.salaryAmount" type="text" class="form-input form-control" placeholder="0">
             <span class="text-danger">{{ errors[0] }}</span>
@@ -14,7 +14,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
-          <div class="all-form-title bold-text form-field two-colls">
+          <div class="all-form-title bold-text form-field two-colls mb-4">
             <span class="text-label">Currency</span>
             <select v-model="contractStep2.salaryCurrency" class="form-control form-input">
               <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
@@ -26,7 +26,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryFrequency" name="Payment Frequency">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Per</span>
             <select v-model="contractStep2.salaryFrequency" class="form-control form-input">
               <option v-for="(salaryFrequency, key) in salaryFrequencies" :key="salaryFrequency + key" :value="salaryFrequency.id">
@@ -42,7 +42,7 @@
         </div>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.salaryAmount" name="Salary Amount">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Customize invoice settings?</span>
             <span class="text-label-desc">Toggle on to change from default values.</span>
 
@@ -52,7 +52,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoiceCycleEnds" name="">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Invoice cycle ends</span>
             <select v-model="contractStep2.invoiceCycleEnds" class="form-control form-input">
               <option v-for="(invoiceCycleEndsOption, key) in invoiceCycleEndsOptions" :key="invoiceCycleEndsOption + key" :value="invoiceCycleEndsOption.id">
@@ -64,7 +64,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoicePaymentDue" name="">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Payment due</span>
             <select v-model="contractStep2.invoicePaymentDue" class="form-control form-input">
               <option v-for="(invoicePaymentDueOption, key) in invoicePaymentDueOptions" :key="invoicePaymentDueOption + key" :value="invoicePaymentDueOption.id">
@@ -76,7 +76,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.isInvoicePaymentPayAheadOfTheWeekend" name="">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Pay ahead of the weekend</span>
             <span class="text-label-desc">If the payment due is on a weekend, pay on Friday</span>
 

@@ -27,7 +27,7 @@
                                         <div class="">
                                             <div class="all-form-title bold-text">
                                                 <div class="text-area">
-                                                    <img style="" src="~/assets/contract/fixed_rate_contract.svg" alt="Fixed rate contract">
+                                                    <img style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
                                                     <h3>
                                                         Fixed Rate
                                                     </h3>
@@ -36,7 +36,7 @@
                                                         For contracts that have a fixed rate on every payment cycle
                                                     </span>
                                                 </div>
-                                                <div class="mt-4">
+                                                <div class="mt-5">
                                                     <nuxt-link to="/contracts/create-contract/fixed-rate" class="btn btn-lg btn-primary btn-round">
                                                         Create Contract
                                                     </nuxt-link>
@@ -55,7 +55,7 @@
                                         <div class="">
                                             <div class="all-form-title bold-text">
                                                 <div class="text-area">
-                                                    <img style="" src="~/assets/contract/pay_as_you_go_contract.svg" alt="Pay as you go contract">
+                                                    <img style="" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
                                                     <h3>
                                                         Pay As You Go
                                                     </h3>
@@ -64,7 +64,7 @@
                                                         For contracts with time sheets or submitted work every payment cycle
                                                     </span>
                                                 </div>
-                                                <div class="mt-4">
+                                                <div class="mt-5">
                                                     <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
                                                         Create Contract
                                                     </nuxt-link>
@@ -83,7 +83,7 @@
                                         <div class="">
                                             <div class="all-form-title bold-text">
                                                 <div class="text-area">
-                                                    <img style="" src="~/assets/contract/milestone_contract.svg" alt="Milestone contract">
+                                                    <img style="" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
                                                     <h3>
                                                         Milestone
                                                     </h3>
@@ -92,7 +92,7 @@
                                                         For contracts with milestones that are paid as they get completed
                                                     </span>
                                                 </div>
-                                                <div class="mt-4">
+                                                <div class="mt-5">
                                                     <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
                                                         Create Contract
                                                     </nuxt-link>
@@ -111,7 +111,7 @@
                                         <div class="">
                                             <div class="all-form-title bold-text">
                                                 <div class="text-area">
-                                                    <img style="" src="~/assets/contract/full_time_employee_contract.svg" alt="Full-time employee contract">
+                                                    <img style="" src="~/assets/contract/full_time_employee_contract.png" alt="Full-time employee contract">
                                                     <h3>
                                                         Full-time Employee
                                                     </h3>
@@ -120,7 +120,7 @@
                                                         Employ as full-time employee compliantly anywhere in the world
                                                     </span>
                                                 </div>
-                                                <div class="mt-4">
+                                                <div class="mt-5">
                                                     <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
                                                         Create Contract
                                                     </nuxt-link>
@@ -166,7 +166,7 @@ export default {
 
 <style scoped>
     .card {
-        height: 380px;
+        height: 390px;
     }
 
     h1 {

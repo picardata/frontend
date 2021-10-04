@@ -3,7 +3,7 @@
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.legalEntity" name="Entity Name">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Legal Entity Name</span>
             <input v-model="contractStep1.legalEntity" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
@@ -11,15 +11,31 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.contractName" name="Contract Name">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Contract Name</span>
             <input v-model="contractStep1.contractName" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
 
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.contractorName" name="Contractor Name">
+          <div class="all-form-title bold-text form-field mb-4">
+            <span class="text-label">Contractor Name</span>
+            <input v-model="contractStep1.contractorName" type="text" class="form-input form-control" placeholder="">
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </ValidationProvider>
+
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|email" vid="contractStep1.contractorEmailAddress" name="Contractor Email Address">
+          <div class="all-form-title bold-text form-field mb-4">
+            <span class="text-label">Contractor Email Address</span>
+            <input v-model="contractStep1.contractorEmailAddress" type="text" class="form-input form-control" placeholder="">
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </ValidationProvider>
+
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.jobTitle" name="Job Title">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Job Title</span>
             <input v-model="contractStep1.jobTitle" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
@@ -27,7 +43,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.seniorityLevel" name="Seniority Level">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Seniority Level</span>
             <select v-model="contractStep1.seniorityLevel" class="form-control form-input">
               <option value="0" selected>
@@ -37,12 +53,12 @@
                 {{ seniorityLevel.name }}
               </option>
             </select>
-            <span class="text-danger">{{ errors[0] }}</span>
+            <span class="text-danger">{{ errors.email }}</span>
           </div>
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Scope of Work</span>
             <textarea v-model="contractStep1.scopeOfWork" type="text" class="form-input form-control" placeholder="Describe the project scope here..."></textarea>
             <span class="text-danger">{{ errors[0] }}</span>
@@ -50,7 +66,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep1.startDate" name="Start Date">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <base-input class="text-label" label="Contractor's Start Date">
               <flat-picker
                 slot-scope="{focus, blur}"
@@ -92,6 +108,8 @@ export default {
       contractStep1: {
         legalEntity: this.contract.legalEntity,
         contractName: this.contract.contractName,
+        contractorName: this.contract.contractorName,
+        contractorEmailAddress: this.contract.contractorEmailAddress,
         jobTitle: this.contract.jobTitle,
         seniorityLevel: this.contract.seniorityLevel,
         scopeOfWork: this.contract.scopeOfWork,
@@ -165,6 +183,8 @@ export default {
       }
       this.contract.legalEntity = this.contractStep1.legalEntity
       this.contract.contractName = this.contractStep1.contractName
+      this.contract.contractorName = this.contractStep1.contractorName
+      this.contract.contractorEmailAddress = this.contractStep1.contractorEmailAddress
       this.contract.jobTitle = this.contractStep1.jobTitle
       this.contract.seniorityLevel = this.contractStep1.seniorityLevel
       this.contract.scopeOfWork = this.contractStep1.scopeOfWork
