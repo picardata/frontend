@@ -7,7 +7,7 @@
         </div>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.firstPaymentDate" name="First payment date">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <base-input class="text-label" label="First payment date">
               <flat-picker
                 slot-scope="{focus, blur}"
@@ -24,7 +24,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.firstPaymentType" name="Payment Type">
-          <div class="all-form-title bold-text form-field">
+          <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">First payment type</span>
             <select v-model="contractStep3.firstPaymentType" class="form-control form-input">
               <option v-for="(firstPaymentTypeOption, key) in firstPaymentTypeOptions" :key="firstPaymentTypeOption + key" :value="firstPaymentTypeOption.id">
@@ -36,7 +36,7 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.firstPaymentAmount" name="Payment Amount">
-          <div class="all-form-title bold-text form-field two-colls first-coll">
+          <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
             <span class="text-label"> Amount</span>
             <input v-model="contractStep3.firstPaymentAmount" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>

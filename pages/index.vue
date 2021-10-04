@@ -45,7 +45,7 @@
                               <h2 style="text-align: left;">
                                 Payment history
                               </h2>
-                              <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.svg" alt="Fixed rate contract">
+                              <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
 
                             </div>
                             <div class="mt-3">
