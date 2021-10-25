@@ -5,10 +5,10 @@
         <div class="all-form-title bold-text form-field field-group">
           <span class="text-label">Define the rate</span>
         </div>
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryAmount" name="Payment Amount">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep2.salaryAmounts" name="Salary Amount">
           <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
             <span class="text-label">How much?</span>
-            <input v-model="contractStep2.salaryAmount" type="text" class="form-input form-control" placeholder="0">
+            <input v-model="contractStep2.salaryAmounts" type="text" class="form-input form-control" placeholder="0.00">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -54,7 +54,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoiceCycleEnds" name="">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Invoice cycle ends</span>
-            <select v-model="contractStep2.invoiceCycleEnds" class="form-control form-input">
+            <select v-model="contractStep2.invoiceCycleEnds" class="form-control form-input" :disabled="isDisabled">
               <option v-for="(invoiceCycleEndsOption, key) in invoiceCycleEndsOptions" :key="invoiceCycleEndsOption + key" :value="invoiceCycleEndsOption.id">
                 {{ invoiceCycleEndsOption.name }}
               </option>
@@ -66,7 +66,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoicePaymentDue" name="">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Payment due</span>
-            <select v-model="contractStep2.invoicePaymentDue" class="form-control form-input">
+            <select v-model="contractStep2.invoicePaymentDue" class="form-control form-input" :disabled="isDisabled">
               <option v-for="(invoicePaymentDueOption, key) in invoicePaymentDueOptions" :key="invoicePaymentDueOption + key" :value="invoicePaymentDueOption.id">
                 {{ invoicePaymentDueOption.name }}
               </option>
@@ -80,7 +80,7 @@
             <span class="text-label">Pay ahead of the weekend</span>
             <span class="text-label-desc">If the payment due is on a weekend, pay on Friday</span>
 
-            <base-switch class="mr-1 form-checkbox" on-text="Yes" off-text="No" v-model="contractStep2.isInvoicePaymentPayAheadOfTheWeekend"></base-switch>
+            <base-switch class="mr-1 form-checkbox" on-text="Yes" off-text="No" v-model="contractStep2.isInvoicePaymentPayAheadOfTheWeekend" :disabled="isDisabled"></base-switch>
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -90,7 +90,8 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationObserver } from 'vee-validate'
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
 
@@ -104,10 +105,15 @@ export default {
   props: [
     'contract'
   ],
+  computed: {
+    isDisabled () {
+      return !this.contractStep2.isInvoiceSettingsCustomisable
+    }
+  },
   data () {
     return {
       contractStep2: {
-        salaryAmount: this.contract.salaryAmount,
+        salaryAmounts: this.contract.salaryAmount,
         salaryCurrency: this.contract.salaryCurrency,
         salaryFrequency: this.contract.salaryFrequency,
         isInvoiceSettingsCustomisable: this.contract.isInvoiceSettingsCustomisable,
@@ -283,6 +289,7 @@ export default {
         }
       ],
       salaryCurrencies: [
+        { name: 'SGD - Singapore Dollar', id: 'SGD' },
         { name: 'AED - United Emirate Arabs Dirham', id: 'AED' },
         { name: 'ALL - Albanian Lek', id: 'ALL' },
         { name: 'AMD - Armenian Dram', id: 'AMD' },
@@ -386,7 +393,6 @@ export default {
         { name: 'RWF - Rwandan Franc', id: 'RWF' },
         { name: 'SAR - Saudi Riyal ', id: 'SAR' },
         { name: 'SEK - Swedish Krona', id: 'SEK' },
-        { name: 'SGD - Singaporan Dollar', id: 'SGD' },
         { name: 'SLL - Sierra Leonean Leone', id: 'SLL' },
         { name: 'SRD - Surinamese Dollar', id: 'SRD' },
         { name: 'SVC - Salvadoran Colon', id: 'SVC' },
@@ -470,7 +476,10 @@ export default {
           id: 11
         }
       ],
-      submenu: true
+      submenu: true,
+      conditionalDisabled: {
+        invoicing: 1
+      }
     }
   },
   methods: {
@@ -482,7 +491,7 @@ export default {
         return false
       }
 
-      this.contract.salaryAmount = this.contractStep2.salaryAmount
+      this.contract.salaryAmount = this.contractStep2.salaryAmounts
       this.contract.salaryCurrency = this.contractStep2.salaryCurrency
       this.contract.salaryFrequency = this.contractStep2.salaryFrequency
       this.contract.isInvoiceSettingsCustomisable = this.contractStep2.isInvoiceSettingsCustomisable

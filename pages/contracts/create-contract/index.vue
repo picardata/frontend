@@ -26,21 +26,18 @@
                                     <div class="card border p-4">
                                         <div class="">
                                             <div class="all-form-title bold-text">
-                                                <div class="text-area">
-                                                    <img style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
-                                                    <h3>
-                                                        Fixed Rate
-                                                    </h3>
+                                                <nuxt-link to="/contracts/create-contract/fixed-rate">
+                                                    <div class="text-area">
+                                                        <img class="contract-type-img mb-4" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                                                        <h3>
+                                                            Fixed Rate
+                                                        </h3>
 
-                                                    <span>
-                                                        For contracts that have a fixed rate on every payment cycle
-                                                    </span>
-                                                </div>
-                                                <div class="mt-5">
-                                                    <nuxt-link to="/contracts/create-contract/fixed-rate" class="btn btn-lg btn-primary btn-round">
-                                                        Create Contract
-                                                    </nuxt-link>
-                                                </div>
+                                                        <span>
+                                                            For contracts that have a fixed rate on every payment cycle
+                                                        </span>
+                                                    </div>
+                                                </nuxt-link>
                                             </div>
                                         </div>
                                     </div>
@@ -54,21 +51,18 @@
                                     <div class="card border p-4">
                                         <div class="">
                                             <div class="all-form-title bold-text">
-                                                <div class="text-area">
-                                                    <img style="" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
-                                                    <h3>
-                                                        Pay As You Go
-                                                    </h3>
+                                                <nuxt-link to="/">
+                                                    <div class="text-area">
+                                                        <img class="contract-type-img mb-4" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+                                                        <h3>
+                                                            Pay As You Go
+                                                        </h3>
 
-                                                    <span>
+                                                        <span>
                                                         For contracts with time sheets or submitted work every payment cycle
                                                     </span>
-                                                </div>
-                                                <div class="mt-5">
-                                                    <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
-                                                        Create Contract
-                                                    </nuxt-link>
-                                                </div>
+                                                    </div>
+                                                </nuxt-link>
                                             </div>
                                         </div>
                                     </div>
@@ -82,21 +76,18 @@
                                     <div class="card border p-4">
                                         <div class="">
                                             <div class="all-form-title bold-text">
-                                                <div class="text-area">
-                                                    <img style="" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
-                                                    <h3>
-                                                        Milestone
-                                                    </h3>
+                                                <nuxt-link to="/">
+                                                    <div class="text-area">
+                                                        <img class="contract-type-img mb-4" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
+                                                        <h3>
+                                                            Milestone
+                                                        </h3>
 
-                                                    <span>
+                                                        <span>
                                                         For contracts with milestones that are paid as they get completed
                                                     </span>
-                                                </div>
-                                                <div class="mt-5">
-                                                    <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
-                                                        Create Contract
-                                                    </nuxt-link>
-                                                </div>
+                                                    </div>
+                                                </nuxt-link>
                                             </div>
                                         </div>
                                     </div>
@@ -110,21 +101,18 @@
                                     <div class="card border p-4">
                                         <div class="">
                                             <div class="all-form-title bold-text">
-                                                <div class="text-area">
-                                                    <img style="" src="~/assets/contract/full_time_employee_contract.png" alt="Full-time employee contract">
-                                                    <h3>
-                                                        Full-time Employee
-                                                    </h3>
+                                                <nuxt-link to="/">
+                                                    <div class="text-area">
+                                                        <img class="contract-type-img mb-4" src="~/assets/contract/full_time_employee_contract.png" alt="Full-time employee contract">
+                                                        <h3>
+                                                            Full-time Employee
+                                                        </h3>
 
-                                                    <span>
-                                                        Employ as full-time employee compliantly anywhere in the world
-                                                    </span>
-                                                </div>
-                                                <div class="mt-5">
-                                                    <nuxt-link to="/" class="btn btn-lg btn-primary btn-round">
-                                                        Create Contract
-                                                    </nuxt-link>
-                                                </div>
+                                                        <span>
+                                                            Employ as full-time employee compliantly anywhere in the world
+                                                        </span>
+                                                    </div>
+                                                </nuxt-link>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +154,7 @@ export default {
 
 <style scoped>
     .card {
-        height: 390px;
+        height: 350px;
     }
 
     h1 {
@@ -237,6 +225,10 @@ export default {
     .contract-type-wrapper {
         text-align: center;
     }
+
+    .contract-type-img {
+        height: 150px;
+    }
 </style>
 
 <style lang="scss">
@@ -259,7 +251,7 @@ export default {
             font-weight: normal !important;
         }
         .text-area {
-            height: 250px;
+            height: 320px;
         }
     }
 

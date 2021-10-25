@@ -2,14 +2,10 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.legalEntity" name="Entity Name">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Legal Entity Name</span>
-            <input v-model="contractStep1.legalEntity" type="text" class="form-input form-control" placeholder="">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
+        <div class="all-form-title bold-text form-field mb-4">
+          <span class="text-label">Legal Entity Name</span><br/>
+          <span class="text-label entity-name">{{contractStep1.legalEntity}}</span>
+        </div>
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.contractName" name="Contract Name">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Contract Name</span>
@@ -101,12 +97,13 @@ export default {
     flatPicker
   },
   props: [
+    'employees',
     'contract'
   ],
   data () {
     return {
       contractStep1: {
-        legalEntity: this.contract.legalEntity,
+        legalEntity: this.employees[0].company.name,
         contractName: this.contract.contractName,
         contractorName: this.contract.contractorName,
         contractorEmailAddress: this.contract.contractorEmailAddress,

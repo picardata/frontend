@@ -35,7 +35,7 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.firstPaymentAmount" name="Payment Amount">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.firstPaymentAmount" name="Payment Amount">
           <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
             <span class="text-label"> Amount</span>
             <input v-model="contractStep3.firstPaymentAmount" type="text" class="form-input form-control" placeholder="">

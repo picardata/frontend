@@ -24,7 +24,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="card border p-4" v-if="step === 1">
-                    <step1 :contract = "contract" ref="step1" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                    <step1 :employees = "employees" :contract = "contract" ref="step1" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
                   <div class="card border p-4" v-if="step === 2">
                     <step2 :contract = "contract" ref="step2" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
@@ -78,6 +78,15 @@ export default {
     step4,
     step5
   },
+  async asyncData (context) {
+    return await context.app.$axios.$get('/api/users/me')
+      .then((data) => {
+        console.log(data)
+        return data
+      })
+      .catch(e => console.log(e))
+  },
+
   data () {
     return {
       step: 1,
@@ -89,7 +98,7 @@ export default {
         jobTitle: '',
         seniorityLevel: '',
         scopeOfWork: '',
-        startDate: new Date(),
+        startDate: '',
         salaryAmount: '',
         salaryCurrency: '',
         salaryFrequency: '',
@@ -97,13 +106,24 @@ export default {
         invoiceCycleEnds: '',
         invoicePaymentDue: '',
         isInvoicePaymentPayAheadOfTheWeekend: false,
-        firstPaymentDate: new Date(),
+        firstPaymentDate: '',
         firstPaymentType: '',
         firstPaymentAmount: '',
-        terminationDate: new Date(),
+        terminationDate: '',
         noticePeriod: '',
         specialClause: '',
-        contractStatus: 1
+        clientSignature: '',
+        clientSignedDate: '',
+        contractorSignature: '',
+        contractorSignedDate: '',
+        contractStatus: 1,
+        stockOptionCurrency: '',
+        stockOptionAggregateValue: '',
+        stockOptionTotalNumber: '',
+        stockOptionVestingStartDate: '',
+        stockOptionTotalVestingMonth: '',
+        stockOptionVestingCliffMonth: '',
+        additionalDocument: ''
       },
       contractId: '',
       crumbs: [
@@ -147,33 +167,51 @@ export default {
 
         const userMe = await this.$axios.get('/api/users/me')
 
-        this.$axios.$post('/api/fixed/rate/contract/', {
-          legalEntity: this.contract.legalEntity,
-          contractName: this.contract.contractName,
-          contractorName: this.contract.contractorName,
-          contractorEmailAddress: this.contract.contractorEmailAddress,
-          jobTitle: this.contract.jobTitle,
-          seniorityLevel: this.contract.seniorityLevel,
-          scopeOfWork: this.contract.scopeOfWork,
-          startDate: this.contract.startDate,
-          salaryAmount: this.contract.salaryAmount,
-          salaryCurrency: this.contract.salaryCurrency,
-          salaryFrequency: this.contract.salaryFrequency,
-          isInvoiceSettingsCustomisable: this.contract.isInvoiceSettingsCustomisable,
-          invoiceCycleEnds: this.contract.invoiceCycleEnds,
-          invoicePaymentDue: this.contract.invoicePaymentDue,
-          isInvoicePaymentPayAheadOfTheWeekend: this.contract.isInvoicePaymentPayAheadOfTheWeekend,
-          firstPaymentDate: this.contract.firstPaymentDate,
-          firstPaymentType: this.contract.firstPaymentType,
-          firstPaymentAmount: this.contract.firstPaymentAmount,
-          terminationDate: this.contract.terminationDate,
-          noticePeriod: this.contract.noticePeriod,
-          specialClause: this.contract.specialClause,
-          contractStatus: this.contract.contractStatus,
-          company: userMe.data.employees[0].company.id
-        }).then((data) => {
+        const formData = new FormData()
+        formData.append('legalEntity', this.contract.legalEntity)
+        formData.append('contractName', this.contract.contractName)
+        formData.append('contractorName', this.contract.contractorName)
+        formData.append('contractorEmailAddress', this.contract.contractorEmailAddress)
+        formData.append('jobTitle', this.contract.jobTitle)
+        formData.append('seniorityLevel', this.contract.seniorityLevel)
+        formData.append('scopeOfWork', this.contract.scopeOfWork)
+        formData.append('startDate', this.contract.startDate)
+        formData.append('salaryAmount', this.contract.salaryAmount)
+        formData.append('salaryCurrency', this.contract.salaryCurrency)
+        formData.append('salaryFrequency', this.contract.salaryFrequency)
+        formData.append('isInvoiceSettingsCustomisable', this.contract.isInvoiceSettingsCustomisable)
+        formData.append('invoicePaymentDue', this.contract.invoicePaymentDue)
+        formData.append('invoiceCycleEnds', this.contract.invoiceCycleEnds)
+        formData.append('isInvoicePaymentPayAheadOfTheWeekend', this.contract.isInvoicePaymentPayAheadOfTheWeekend)
+        formData.append('firstPaymentDate', this.contract.firstPaymentDate)
+        formData.append('firstPaymentType', this.contract.firstPaymentType)
+        formData.append('firstPaymentAmount', this.contract.firstPaymentAmount)
+        formData.append('terminationDate', this.contract.terminationDate)
+        formData.append('specialClause', this.contract.specialClause)
+        formData.append('contractStatus', this.contract.contractStatus)
+        formData.append('company', userMe.data.employees[0].company.id)
+        formData.append('noticePeriod', this.contract.noticePeriod)
+        formData.append('clientSignature', this.contract.clientSignature)
+        formData.append('clientSignedDate', this.contract.clientSignedDate)
+        formData.append('contractorSignature', this.contract.contractorSignature)
+        formData.append('contractorSignedDate', this.contract.contractorSignedDate)
+        formData.append('stockOptionCurrency', this.contract.stockOptionCurrency)
+        formData.append('stockOptionAggregateValue', this.contract.stockOptionAggregateValue)
+        formData.append('stockOptionTotalNumber', this.contract.stockOptionTotalNumber)
+        formData.append('stockOptionVestingStartDate', this.contract.stockOptionVestingStartDate)
+        formData.append('stockOptionTotalVestingMonth', this.contract.stockOptionTotalVestingMonth)
+        formData.append('stockOptionVestingCliffMonth', this.contract.stockOptionVestingCliffMonth)
+        formData.append('additionalDocument', this.contract.additionalDocument)
+
+        this.$axios.$post('/api/fixed/rate/contract/',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then((data) => {
           this.contractId = data
-          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.id)
+          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.uuid)
           return true
         }).catch((e) => {
           const errors = {}
@@ -325,6 +363,11 @@ export default {
       font-size: 16px;
       font-weight: 800 !important;
       color: #313131;
+    }
+    .entity-name {
+      font-size: 20px !important;
+      margin: 10px 0;
+      display: block;
     }
 
     .text-label-desc {
