@@ -23,26 +23,6 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.firstPaymentType" name="Payment Type">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">First payment type</span>
-            <select v-model="contractStep3.firstPaymentType" class="form-control form-input">
-              <option v-for="(firstPaymentTypeOption, key) in firstPaymentTypeOptions" :key="firstPaymentTypeOption + key" :value="firstPaymentTypeOption.id">
-                {{ firstPaymentTypeOption.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.firstPaymentAmount" name="Payment Amount">
-          <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
-            <span class="text-label"> Amount</span>
-            <input v-model="contractStep3.firstPaymentAmount" type="text" class="form-input form-control" placeholder="">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -69,9 +49,7 @@ export default {
   data () {
     return {
       contractStep3: {
-        firstPaymentDate: this.contract.firstPaymentDate,
-        firstPaymentType: this.contract.firstPaymentType,
-        firstPaymentAmount: this.contract.firstPaymentAmount
+        firstPaymentDate: this.contract.firstPaymentDate
       },
       startDateconfig: {
         allowInput: true,

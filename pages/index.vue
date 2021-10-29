@@ -46,7 +46,6 @@
                                 Payment history
                               </h2>
                               <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
-
                             </div>
                             <div class="mt-3">
                               You’ll see beautiful graphs after your first payment!

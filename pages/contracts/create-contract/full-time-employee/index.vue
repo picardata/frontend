@@ -14,8 +14,7 @@
         <div class="container-fluid mt--6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a fixed contract</span>
-              <span>For contracts that have a fixed rate on every payment cycle</span>
+              <span class="form-title">Creating a full time employee contract</span>
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
@@ -32,6 +31,7 @@
                   <div class="card border p-4" v-if="step === 3">
                     <step3 :contract = "contract" ref="step3" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
+
                   <div class="card border p-4" v-if="step === 4">
                     <step4 :contract = "contract" ref="step4" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
@@ -62,11 +62,11 @@
 <script>
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
-import step1 from '@/components/contracts/fixedRate/step1'
-import step2 from '@/components/contracts/fixedRate/step2'
-import step3 from '@/components/contracts/fixedRate/step3'
-import step4 from '@/components/contracts/fixedRate/step4'
-import step5 from '@/components/contracts/fixedRate/step5'
+import step1 from '@/components/contracts/fullTimeEmployee/step1'
+import step2 from '@/components/contracts/fullTimeEmployee/step2'
+import step3 from '@/components/contracts/fullTimeEmployee/step3'
+import step4 from '@/components/contracts/fullTimeEmployee/step4'
+import step5 from '@/components/contracts/fullTimeEmployee/step5'
 
 export default {
   layout: 'argon',
@@ -86,44 +86,57 @@ export default {
       })
       .catch(e => console.log(e))
   },
-
   data () {
     return {
       step: 1,
       contract: {
+        employeeFirstName: '',
+        employeeLastName: '',
+        employeePersonalEmailAddress: '',
+        employeeNationality: '',
+        employeeWorkingCountry: '',
+        employeeWorkingState: '',
+        isEmployeeNeedWorkingVisa: '',
+        employeeWorkEligibilityDocFilename: '',
         legalEntity: '',
-        contractName: '',
-        contractorName: '',
-        contractorEmailAddress: '',
-        jobTitle: '',
         seniorityLevel: '',
+        jobTitle: '',
         scopeOfWork: '',
-        startDate: '',
         salaryAmount: '',
         salaryCurrency: '',
-        salaryFrequency: '',
-        isInvoiceSettingsCustomisable: false,
-        invoiceCycleEnds: '',
-        invoicePaymentDue: '',
-        isInvoicePaymentPayAheadOfTheWeekend: false,
-        firstPaymentDate: '',
-        firstPaymentType: '',
-        firstPaymentAmount: '',
-        terminationDate: '',
-        noticePeriod: '',
-        specialClause: '',
+        anySigningBonus: '',
+        grossSigningBonusAmount: '',
+        anyVariableCompensation: '',
+        variableCompensationAmount: '',
+        employmentType: '',
+        partTimeTotalWorkingDaysPerWeek: '',
+        partTimeTotalWorkingHoursPerDay: '',
+        partTimeTotalWorkingHoursPerWeek: '',
+        employmentStartDate: '',
+        timeOffType: '',
+        timeOffPaidVacationDays: '',
+        timeOffSickDays: '',
+        contractTermType: '',
+        contractEndDate: '',
+        probationPeriodType: '',
+        probationPeriodTotalDays: '',
+        healthBenefitType: '',
+        healthBenefitAmount: '',
+        stockOptionCurrency: '',
+        stockOptionAggregateValue: '',
+        stockOptionTotalNumber: '',
+        stockOptionTotalVestingMonth: '',
+        stockOptionVestingCliffMonth: '',
+        stockOptionVestingStartDate: '',
+        contractStatus: 1,
+        contractorName: '',
+        contractorEmailAddress: '',
+        contractorJobTitle: '',
         clientSignature: '',
         clientSignedDate: '',
         contractorSignature: '',
         contractorSignedDate: '',
-        contractStatus: 1,
-        stockOptionCurrency: '',
-        stockOptionAggregateValue: '',
-        stockOptionTotalNumber: '',
-        stockOptionVestingStartDate: '',
-        stockOptionTotalVestingMonth: '',
-        stockOptionVestingCliffMonth: '',
-        additionalDocument: ''
+        company: ''
       },
       contractId: '',
       crumbs: [
@@ -168,42 +181,55 @@ export default {
         const userMe = await this.$axios.get('/api/users/me')
 
         const formData = new FormData()
+        formData.append('company', userMe.data.employees[0].company.id)
+        formData.append('employeeFirstName', this.contract.employeeFirstName)
+        formData.append('employeeLastName', this.contract.employeeLastName)
+        formData.append('employeePersonalEmailAddress', this.contract.employeePersonalEmailAddress)
+        formData.append('employeeNationality', this.contract.employeeNationality)
+        formData.append('employeeWorkingCountry', this.contract.employeeWorkingCountry)
+        formData.append('employeeWorkingState', this.contract.employeeWorkingState)
+        formData.append('isEmployeeNeedWorkingVisa', this.contract.isEmployeeNeedWorkingVisa)
+        formData.append('employeeWorkEligibilityDocFilename', this.contract.employeeWorkEligibilityDocFilename)
         formData.append('legalEntity', this.contract.legalEntity)
-        formData.append('contractName', this.contract.contractName)
-        formData.append('contractorName', this.contract.contractorName)
-        formData.append('contractorEmailAddress', this.contract.contractorEmailAddress)
-        formData.append('jobTitle', this.contract.jobTitle)
         formData.append('seniorityLevel', this.contract.seniorityLevel)
+        formData.append('jobTitle', this.contract.jobTitle)
         formData.append('scopeOfWork', this.contract.scopeOfWork)
-        formData.append('startDate', this.contract.startDate)
         formData.append('salaryAmount', this.contract.salaryAmount)
         formData.append('salaryCurrency', this.contract.salaryCurrency)
-        formData.append('salaryFrequency', this.contract.salaryFrequency)
-        formData.append('isInvoiceSettingsCustomisable', this.contract.isInvoiceSettingsCustomisable)
-        formData.append('invoicePaymentDue', this.contract.invoicePaymentDue)
-        formData.append('invoiceCycleEnds', this.contract.invoiceCycleEnds)
-        formData.append('isInvoicePaymentPayAheadOfTheWeekend', this.contract.isInvoicePaymentPayAheadOfTheWeekend)
-        formData.append('firstPaymentDate', this.contract.firstPaymentDate)
-        formData.append('firstPaymentType', this.contract.firstPaymentType)
-        formData.append('firstPaymentAmount', this.contract.firstPaymentAmount)
-        formData.append('terminationDate', this.contract.terminationDate)
-        formData.append('specialClause', this.contract.specialClause)
-        formData.append('contractStatus', this.contract.contractStatus)
-        formData.append('company', userMe.data.employees[0].company.id)
-        formData.append('noticePeriod', this.contract.noticePeriod)
-        formData.append('clientSignature', this.contract.clientSignature)
-        formData.append('clientSignedDate', this.contract.clientSignedDate)
-        formData.append('contractorSignature', this.contract.contractorSignature)
-        formData.append('contractorSignedDate', this.contract.contractorSignedDate)
+        formData.append('anySigningBonus', this.contract.anySigningBonus)
+        formData.append('grossSigningBonusAmount', this.contract.grossSigningBonusAmount)
+        formData.append('anyVariableCompensation', this.contract.anyVariableCompensation)
+        formData.append('variableCompensationAmount', this.contract.variableCompensationAmount)
+        formData.append('employmentType', this.contract.employmentType)
+        formData.append('partTimeTotalWorkingDaysPerWeek', this.contract.partTimeTotalWorkingDaysPerWeek)
+        formData.append('partTimeTotalWorkingHoursPerDay', this.contract.partTimeTotalWorkingHoursPerDay)
+        formData.append('partTimeTotalWorkingHoursPerWeek', this.contract.partTimeTotalWorkingHoursPerWeek)
+        formData.append('timeOffType', this.contract.timeOffType)
+        formData.append('timeOffPaidVacationDays', this.contract.timeOffPaidVacationDays)
+        formData.append('timeOffSickDays', this.contract.timeOffSickDays)
+        formData.append('contractTermType', this.contract.contractTermType)
+        formData.append('contractEndDate', this.contract.contractEndDate)
+        formData.append('probationPeriodType', this.contract.probationPeriodType)
+        formData.append('probationPeriodTotalDays', this.contract.probationPeriodTotalDays)
+        formData.append('healthBenefitType', this.contract.healthBenefitType)
+        formData.append('healthBenefitAmount', this.contract.healthBenefitAmount)
         formData.append('stockOptionCurrency', this.contract.stockOptionCurrency)
         formData.append('stockOptionAggregateValue', this.contract.stockOptionAggregateValue)
         formData.append('stockOptionTotalNumber', this.contract.stockOptionTotalNumber)
-        formData.append('stockOptionVestingStartDate', this.contract.stockOptionVestingStartDate)
         formData.append('stockOptionTotalVestingMonth', this.contract.stockOptionTotalVestingMonth)
         formData.append('stockOptionVestingCliffMonth', this.contract.stockOptionVestingCliffMonth)
-        formData.append('additionalDocument', this.contract.additionalDocument)
+        formData.append('stockOptionVestingStartDate', this.contract.stockOptionVestingStartDate)
+        formData.append('contractStatus', this.contract.contractStatus)
+        formData.append('contractorName', this.contract.contractorName)
+        formData.append('contractorEmailAddress', this.contract.contractorEmailAddress)
+        formData.append('contractorJobTitle', this.contract.contractorJobTitle)
+        formData.append('clientSignature', this.contract.clientSignature)
+        formData.append('contractorJobTitle', this.contract.contractorJobTitle)
+        formData.append('clientSignedDate', this.contract.clientSignedDate)
+        formData.append('contractorSignature', this.contract.contractorSignature)
+        formData.append('contractorSignedDate', this.contract.contractorSignedDate)
 
-        this.$axios.$post('/api/fixed/rate/contract/',
+        this.$axios.$post('/api/full/time/employee/contract/',
           formData,
           {
             headers: {
@@ -211,7 +237,7 @@ export default {
             }
           }).then((data) => {
           this.contractId = data
-          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.uuid)
+          this.$router.push('/contracts/preview-contract/full-time-employee/' + this.contractId.uuid)
           return true
         }).catch((e) => {
           const errors = {}

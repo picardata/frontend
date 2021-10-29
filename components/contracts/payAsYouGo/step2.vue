@@ -5,6 +5,19 @@
         <div class="all-form-title bold-text form-field field-group">
           <span class="text-label">Define the rate</span>
         </div>
+
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.paymentPackageType" name="Payment Package Type">
+          <div class="all-form-title bold-text form-field mb-4">
+            <span class="text-label">Client will pay</span>
+            <select v-model="contractStep2.paymentPackageType" class="form-control form-input">
+              <option v-for="(paymentPackageTypeOption, key) in paymentPackageTypeOptions" :key="paymentPackageTypeOption + key" :value="paymentPackageTypeOption.id">
+                {{ paymentPackageTypeOption.name }}
+              </option>
+            </select>
+            <span class="text-danger">{{ errors[0] }}</span>
+          </div>
+        </ValidationProvider>
+
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep2.salaryAmounts" name="Salary Amount">
           <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
             <span class="text-label">How much?</span>
@@ -41,12 +54,14 @@
           <span class="text-label Invoicing">Invoicing</span>
         </div>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.salaryAmount" name="Salary Amount">
+        <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoiceCycle" name="">
           <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Customize invoice settings?</span>
-            <span class="text-label-desc">Toggle on to change from default values.</span>
-
-            <base-switch class="mr-1 form-checkbox" on-text="Yes" off-text="No" v-model="contractStep2.isInvoiceSettingsCustomisable"></base-switch>
+            <span class="text-label">Invoice cycle</span>
+            <select v-model="contractStep2.invoiceCycle" class="form-control form-input">
+              <option v-for="(invoiceCycleOption, key) in invoiceCycleOptions" :key="invoiceCycleOption + key" :value="invoiceCycleOption.id">
+                {{ invoiceCycleOption.name }}
+              </option>
+            </select>
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -54,7 +69,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoiceCycleEnds" name="">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Invoice cycle ends</span>
-            <select v-model="contractStep2.invoiceCycleEnds" class="form-control form-input" :disabled="isDisabled">
+            <select v-model="contractStep2.invoiceCycleEnds" class="form-control form-input">
               <option v-for="(invoiceCycleEndsOption, key) in invoiceCycleEndsOptions" :key="invoiceCycleEndsOption + key" :value="invoiceCycleEndsOption.id">
                 {{ invoiceCycleEndsOption.name }}
               </option>
@@ -66,7 +81,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep2.invoicePaymentDue" name="">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Payment due</span>
-            <select v-model="contractStep2.invoicePaymentDue" class="form-control form-input" :disabled="isDisabled">
+            <select v-model="contractStep2.invoicePaymentDue" class="form-control form-input">
               <option v-for="(invoicePaymentDueOption, key) in invoicePaymentDueOptions" :key="invoicePaymentDueOption + key" :value="invoicePaymentDueOption.id">
                 {{ invoicePaymentDueOption.name }}
               </option>
@@ -113,10 +128,11 @@ export default {
   data () {
     return {
       contractStep2: {
+        paymentPackageType: this.contract.paymentPackageType,
         salaryAmounts: this.contract.salaryAmount,
         salaryCurrency: this.contract.salaryCurrency,
         salaryFrequency: this.contract.salaryFrequency,
-        isInvoiceSettingsCustomisable: this.contract.isInvoiceSettingsCustomisable,
+        invoiceCycle: this.contract.invoiceCycle,
         invoiceCycleEnds: this.contract.invoiceCycleEnds,
         invoicePaymentDue: this.contract.invoicePaymentDue,
         isInvoicePaymentPayAheadOfTheWeekend: this.contract.isInvoicePaymentPayAheadOfTheWeekend
@@ -130,6 +146,34 @@ export default {
         {
           name: 'Create Contract',
           path: '/contracts'
+        }
+      ],
+      paymentPackageTypeOptions: [
+        {
+          name: 'Fixed rate',
+          id: 1
+        },
+        {
+          name: 'Task',
+          id: 2
+        }
+      ],
+      invoiceCycleOptions: [
+        {
+          name: 'Weekly',
+          id: 1
+        },
+        {
+          name: 'Every other week',
+          id: 2
+        },
+        {
+          name: 'Twice a month',
+          id: 3
+        },
+        {
+          name: 'Monthly',
+          id: 4
         }
       ],
       invoiceCycleEndsOptions: [
@@ -414,19 +458,19 @@ export default {
       ],
       salaryFrequencies: [
         {
-          name: 'Week',
+          name: 'Hour',
           id: 1
         },
         {
-          name: 'Every other week',
+          name: 'Day',
           id: 2
         },
         {
-          name: 'Twice a month',
+          name: 'Week',
           id: 3
         },
         {
-          name: 'Month',
+          name: 'Task',
           id: 4
         }
       ],
@@ -491,10 +535,11 @@ export default {
         return false
       }
 
+      this.contract.paymentPackageType = this.contractStep2.paymentPackageType
       this.contract.salaryAmount = this.contractStep2.salaryAmounts
       this.contract.salaryCurrency = this.contractStep2.salaryCurrency
       this.contract.salaryFrequency = this.contractStep2.salaryFrequency
-      this.contract.isInvoiceSettingsCustomisable = this.contractStep2.isInvoiceSettingsCustomisable
+      this.contract.invoiceCycle = this.contractStep2.invoiceCycle
       this.contract.invoiceCycleEnds = this.contractStep2.invoiceCycleEnds
       this.contract.invoicePaymentDue = this.contractStep2.invoicePaymentDue
       this.contract.isInvoicePaymentPayAheadOfTheWeekend = this.contractStep2.isInvoicePaymentPayAheadOfTheWeekend

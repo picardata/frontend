@@ -30,29 +30,6 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.jobTitle" name="Job Title">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Job Title</span>
-            <input v-model="contractStep1.jobTitle" type="text" class="form-input form-control" placeholder="">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.seniorityLevel" name="Seniority Level">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Seniority Level</span>
-            <select v-model="contractStep1.seniorityLevel" class="form-control form-input">
-              <option value="0" selected>
-                Choose Seniority Level
-              </option>
-              <option v-for="(seniorityLevel, key) in seniorityLevels" :key="seniorityLevel + key" :value="seniorityLevel.id">
-                {{ seniorityLevel.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors.email }}</span>
-          </div>
-        </ValidationProvider>
-
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Scope of Work</span>
@@ -107,10 +84,8 @@ export default {
         contractName: this.contract.contractName,
         contractorName: this.contract.contractorName,
         contractorEmailAddress: this.contract.contractorEmailAddress,
-        jobTitle: this.contract.jobTitle,
-        seniorityLevel: this.contract.seniorityLevel,
         scopeOfWork: this.contract.scopeOfWork,
-        startDate: this.contract.startDate
+        employmentStartDate: this.contract.employmentStartDate
       },
       startDateconfig: {
         allowInput: true,
@@ -123,52 +98,6 @@ export default {
           path: '/contracts'
         }
       ],
-      seniorityLevels: [
-        {
-          name: 'Not applicable',
-          id: 1
-        },
-        {
-          name: 'Junior',
-          id: 2
-        },
-        {
-          name: 'Mid',
-          id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
-        }
-      ],
       submenu: true
     }
   },
@@ -178,12 +107,11 @@ export default {
       if (!isValid) {
         return false
       }
+
       this.contract.legalEntity = this.contractStep1.legalEntity
       this.contract.contractName = this.contractStep1.contractName
       this.contract.contractorName = this.contractStep1.contractorName
       this.contract.contractorEmailAddress = this.contractStep1.contractorEmailAddress
-      this.contract.jobTitle = this.contractStep1.jobTitle
-      this.contract.seniorityLevel = this.contractStep1.seniorityLevel
       this.contract.scopeOfWork = this.contractStep1.scopeOfWork
       this.contract.startDate = this.contractStep1.startDate
 

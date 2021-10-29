@@ -178,6 +178,7 @@ export default {
       if (!isValid) {
         return false
       }
+
       this.contract.legalEntity = this.contractStep1.legalEntity
       this.contract.contractName = this.contractStep1.contractName
       this.contract.contractorName = this.contractStep1.contractorName

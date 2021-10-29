@@ -226,7 +226,14 @@ export default {
           }
         })
         if (!this.isLogin) {
-          this.$router.push('/onboarding')
+          if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+            const id = this.$route.query.id
+            const contractType = this.$route.query.type
+
+            this.$router.push('/onboarding?id=' + id + '&type=' + contractType)
+          } else {
+            this.$router.push('/onboarding')
+          }
         } else {
           this.$router.push('/')
         }

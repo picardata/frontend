@@ -2,7 +2,7 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.terminationDate" name="Termination date">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Termination date</span><br/>
             <span class="text-label-desc">The client will pay the contractor until the contract has been terminated.</span>
@@ -13,7 +13,7 @@
                 @on-close="blur"
                 :config="terminationDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep4.terminationDate">
+                v-model="contractStep3.terminationDate">
               </flat-picker>
             </base-input>
 
@@ -21,11 +21,11 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep4.noticePeriod" name="Notice period">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.noticePeriod" name="Notice period">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Notice period</span><br/>
             <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
-            <input v-model="contractStep4.noticePeriod" type="text" class="form-input form-control" placeholder="">
+            <input v-model="contractStep3.noticePeriod" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -59,10 +59,10 @@
                 <div class="all-form-title bold-text form-field two-collumns">
                   <span class="text-label">What is the value of the option you wish to offer?</span><br/>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionCurrency" name="Stock Option Currency">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.stockOptionCurrency" name="Stock Option Currency">
                     <div class="currency-field-wrapper">
 
-                      <select v-model="contractStep4.stockOptionCurrency" class="form-control form-input">
+                      <select v-model="contractStep3.stockOptionCurrency" class="form-control form-input">
                         <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
                           {{ salaryCurrency.name }}
                         </option>
@@ -71,24 +71,24 @@
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionAggregateValue" name="Aggregate option value">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.stockOptionAggregateValue" name="Aggregate option value">
                     <div class="aggregate-value-field-wrapper">
-                      <input v-model="contractStep4.stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
+                      <input v-model="contractStep3.stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                 </div>
 
-                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionTotalNumber" name="Number of stock options">
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.stockOptionTotalNumber" name="Number of stock options">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label d-block">Specify the number of stock options this represents?</span>
 
-                    <input v-model="contractStep4.stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
+                    <input v-model="contractStep3.stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
                     <span class="text-danger">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionVestingStartDate" name="Vesting start date">
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.stockOptionVestingStartDate" name="Vesting start date">
                   <div class="all-form-title bold-text form-field mb-4">
                     <span class="text-label">When does the vesting start?</span><br/>
                     <base-input class="text-label" label="">
@@ -98,7 +98,7 @@
                         @on-close="blur"
                         :config="stockOptionVestingStartDateConfig"
                         class="form-control form-input datepicker"
-                        v-model="contractStep4.stockOptionVestingStartDate">
+                        v-model="contractStep3.stockOptionVestingStartDate">
                       </flat-picker>
                     </base-input>
 
@@ -109,16 +109,16 @@
                 <div class="all-form-title bold-text form-field two-collumns">
                   <span class="text-label">What is the monthly vesting schedule?</span><br/>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionTotalVestingMonth" name="Total vesting months">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.stockOptionTotalVestingMonth" name="Total vesting months">
                     <div class="total-month-vesting-field-wrapper">
-                      <input v-model="contractStep4.stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                      <input v-model="contractStep3.stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionVestingCliffMonth" name="Cliff vesting months">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.stockOptionVestingCliffMonth" name="Cliff vesting months">
                     <div class="cliff-month-vesting-field-wrapper">
-                      <input v-model="contractStep4.stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                      <input v-model="contractStep3.stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
@@ -150,23 +150,23 @@
             Additional Document: Attach any additional document you may require for the contract. Attach a .zip for multiple documents.
             </span>
             <input
-            type="file"
-            class="btn btn-sm btn-secondary btn-add-doc"
-            accept="application/pdf"
-            id="additionalDocument"
-            ref="additionalDocument"
-            v-on:change="handleAdditionalDocumentUpload($event)"/>
+              type="file"
+              class="btn btn-sm btn-secondary btn-add-doc"
+              accept="application/pdf"
+              id="additionalDocument"
+              ref="additionalDocument"
+              v-on:change="handleAdditionalDocumentUpload($event)"/>
           </div>
 
           <span>{{ errors[0] }}</span>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.specialClause" name="Special Clause">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.specialClause" name="Special Clause">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Special Clause</span><br/>
             <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
 
-            <textarea v-model="contractStep4.specialClause" type="text" class="form-input form-control" placeholder=""></textarea>
+            <textarea v-model="contractStep3.specialClause" type="text" class="form-input form-control" placeholder=""></textarea>
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -196,7 +196,7 @@ export default {
   ],
   data () {
     return {
-      contractStep4: {
+      contractStep3: {
         terminationDate: this.contract.terminationDate,
         noticePeriod: this.contract.noticePeriod,
         specialClause: this.contract.specialClause,
@@ -232,16 +232,6 @@ export default {
         {
           name: 'Create Contract',
           path: '/contracts'
-        }
-      ],
-      firstPaymentTypeOptions: [
-        {
-          name: 'Full Payment',
-          id: 1
-        },
-        {
-          name: 'Pro Rata',
-          id: 2
         }
       ],
       salaryCurrencies: [
@@ -368,52 +358,6 @@ export default {
         { name: 'WST - Samoan Tala', id: 'WST' },
         { name: 'ZAR - South African Rand', id: 'ZAR' }
       ],
-      seniorityLevels: [
-        {
-          name: 'Not applicable',
-          id: 1
-        },
-        {
-          name: 'Junior',
-          id: 2
-        },
-        {
-          name: 'Mid',
-          id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
-        }
-      ],
       modals: {
         stockOption: false
       },
@@ -425,64 +369,64 @@ export default {
 
     },
     handleAdditionalDocumentUpload (event) {
-      this.contractStep4.additionalDocument = event.target.files[0]
+      this.contractStep3.additionalDocument = event.target.files[0]
     },
     addStockOption () {
       const errors = {
-        'contractStep4.stockOptionCurrency': '',
-        'contractStep4.stockOptionVestingStartDate': '',
-        'contractStep4.stockOptionTotalNumber': '',
-        'contractStep4.stockOptionTotalVestingMonth': '',
-        'contractStep4.stockOptionVestingCliffMonth': ''
+        'contractStep3.stockOptionCurrency': '',
+        'contractStep3.stockOptionVestingStartDate': '',
+        'contractStep3.stockOptionTotalNumber': '',
+        'contractStep3.stockOptionTotalVestingMonth': '',
+        'contractStep3.stockOptionVestingCliffMonth': ''
       }
       this.$refs.form.setErrors(errors)
 
       let isValid = true
 
-      if (isNaN(this.contractStep4.stockOptionAggregateValue)) {
-        const key = 'contractStep4.stockOptionAggregateValue'
+      if (isNaN(this.contractStep3.stockOptionAggregateValue)) {
+        const key = 'contractStep3.stockOptionAggregateValue'
         errors[key] = 'Aggregate Value may only contain numeric characters'
         isValid = false
       }
 
-      if (this.contractStep4.stockOptionCurrency === '') {
-        const key = 'contractStep4.stockOptionCurrency'
+      if (this.contractStep3.stockOptionCurrency === '') {
+        const key = 'contractStep3.stockOptionCurrency'
         errors[key] = 'Stock option currency is required'
         isValid = false
       }
 
-      if (this.contractStep4.stockOptionVestingStartDate === '') {
-        const key = 'contractStep4.stockOptionVestingStartDate'
+      if (this.contractStep3.stockOptionVestingStartDate === '') {
+        const key = 'contractStep3.stockOptionVestingStartDate'
         errors[key] = 'Stock option vesting start date is required'
         isValid = false
       }
 
-      if (this.contractStep4.stockOptionTotalNumber === '') {
-        const key = 'contractStep4.stockOptionTotalNumber'
+      if (this.contractStep3.stockOptionTotalNumber === '') {
+        const key = 'contractStep3.stockOptionTotalNumber'
         errors[key] = 'Stock option total number is required'
         isValid = false
-      } else if (isNaN(this.contractStep4.stockOptionTotalNumber)) {
-        const key = 'contractStep4.stockOptionTotalNumber'
+      } else if (isNaN(this.contractStep3.stockOptionTotalNumber)) {
+        const key = 'contractStep3.stockOptionTotalNumber'
         errors[key] = 'Stock option total number may only contain numeric characters'
         isValid = false
       }
 
-      if (this.contractStep4.stockOptionTotalVestingMonth === '') {
-        const key = 'contractStep4.stockOptionTotalVestingMonth'
+      if (this.contractStep3.stockOptionTotalVestingMonth === '') {
+        const key = 'contractStep3.stockOptionTotalVestingMonth'
         errors[key] = 'Stock option total vesting month is required'
         isValid = false
-      } else if (isNaN(this.contractStep4.stockOptionTotalVestingMonth)) {
-        const key = 'contractStep4.stockOptionTotalVestingMonth'
+      } else if (isNaN(this.contractStep3.stockOptionTotalVestingMonth)) {
+        const key = 'contractStep3.stockOptionTotalVestingMonth'
         errors[key] = 'Total vesting month may only contain numeric characters'
         isValid = false
       }
 
-      if (this.contractStep4.stockOptionVestingCliffMonth === '') {
-        const key = 'contractStep4.stockOptionVestingCliffMonth'
+      if (this.contractStep3.stockOptionVestingCliffMonth === '') {
+        const key = 'contractStep3.stockOptionVestingCliffMonth'
         errors[key] = 'Stock option cliff month is required'
         isValid = false
-      } else if (isNaN(this.contractStep4.stockOptionVestingCliffMonth)) {
-        const key = 'contractStep4.stockOptionVestingCliffMonth'
+      } else if (isNaN(this.contractStep3.stockOptionVestingCliffMonth)) {
+        const key = 'contractStep3.stockOptionVestingCliffMonth'
         errors[key] = 'Clift month may only contain numeric characters'
         isValid = false
       }
@@ -499,16 +443,17 @@ export default {
       if (!isValid) {
         return false
       }
-      this.contract.terminationDate = this.contractStep4.terminationDate
-      this.contract.noticePeriod = this.contractStep4.noticePeriod
-      this.contract.specialClause = this.contractStep4.specialClause
-      this.contract.stockOptionCurrency = this.contractStep4.stockOptionCurrency
-      this.contract.stockOptionAggregateValue = this.contractStep4.stockOptionAggregateValue
-      this.contract.stockOptionTotalNumber = this.contractStep4.stockOptionTotalNumber
-      this.contract.stockOptionVestingStartDate = this.contractStep4.stockOptionVestingStartDate
-      this.contract.stockOptionTotalVestingMonth = this.contractStep4.stockOptionTotalVestingMonth
-      this.contract.stockOptionVestingCliffMonth = this.contractStep4.stockOptionVestingCliffMonth
-      this.contract.additionalDocument = this.contractStep4.additionalDocument
+
+      this.contract.terminationDate = this.contractStep3.terminationDate
+      this.contract.noticePeriod = this.contractStep3.noticePeriod
+      this.contract.specialClause = this.contractStep3.specialClause
+      this.contract.stockOptionCurrency = this.contractStep3.stockOptionCurrency
+      this.contract.stockOptionAggregateValue = this.contractStep3.stockOptionAggregateValue
+      this.contract.stockOptionTotalNumber = this.contractStep3.stockOptionTotalNumber
+      this.contract.stockOptionVestingStartDate = this.contractStep3.stockOptionVestingStartDate
+      this.contract.stockOptionTotalVestingMonth = this.contractStep3.stockOptionTotalVestingMonth
+      this.contract.stockOptionVestingCliffMonth = this.contractStep3.stockOptionVestingCliffMonth
+      this.contract.additionalDocument = this.contractStep3.additionalDocument
 
       return isValid
     }
@@ -517,6 +462,18 @@ export default {
 </script>
 
 <style lang="scss">
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
   .btn-offer-stock {
     margin-top: 10px;
   }

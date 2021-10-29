@@ -2,33 +2,6 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Termination date</span><br/>
-            <span class="text-label-desc">The client will pay the contractor until the contract has been terminated.</span>
-            <base-input class="text-label">
-              <flat-picker
-                slot-scope="{focus, blur}"
-                @on-open="focus"
-                @on-close="blur"
-                :config="terminationDateconfig"
-                class="form-control form-input datepicker"
-                v-model="contractStep4.terminationDate">
-              </flat-picker>
-            </base-input>
-
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep4.noticePeriod" name="Notice period">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Notice period</span><br/>
-            <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
-            <input v-model="contractStep4.noticePeriod" type="text" class="form-input form-control" placeholder="">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
 
         <div class="all-form-title bold-text form-field mb-4">
           <span class="text-label">Stock options offer</span><br/>
@@ -139,38 +112,6 @@
           </template>
         </modal>
 
-        <ValidationProvider
-          ref="additionalDocument"
-          name="image"
-          v-slot="{ errors }"
-        >
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Additional Document</span><br/>
-            <span class="text-label-desc">
-            Additional Document: Attach any additional document you may require for the contract. Attach a .zip for multiple documents.
-            </span>
-            <input
-            type="file"
-            class="btn btn-sm btn-secondary btn-add-doc"
-            accept="application/pdf"
-            id="additionalDocument"
-            ref="additionalDocument"
-            v-on:change="handleAdditionalDocumentUpload($event)"/>
-          </div>
-
-          <span>{{ errors[0] }}</span>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.specialClause" name="Special Clause">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Special Clause</span><br/>
-            <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
-
-            <textarea v-model="contractStep4.specialClause" type="text" class="form-input form-control" placeholder=""></textarea>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -197,31 +138,12 @@ export default {
   data () {
     return {
       contractStep4: {
-        terminationDate: this.contract.terminationDate,
-        noticePeriod: this.contract.noticePeriod,
-        specialClause: this.contract.specialClause,
         stockOptionCurrency: this.contract.stockOptionCurrency,
         stockOptionAggregateValue: this.contract.stockOptionAggregateValue,
         stockOptionTotalNumber: this.contract.stockOptionTotalNumber,
         stockOptionVestingStartDate: this.contract.stockOptionVestingStartDate,
         stockOptionTotalVestingMonth: this.contract.stockOptionTotalVestingMonth,
-        stockOptionVestingCliffMonth: this.contract.stockOptionVestingCliffMonth,
-        additionalDocument: this.contract.additionalDocument
-      },
-      startDateconfig: {
-        allowInput: true,
-        altFormat: 'j F Y',
-        altInput: true
-      },
-      firstPaymentDateconfig: {
-        allowInput: true,
-        altFormat: 'j F Y',
-        altInput: true
-      },
-      terminationDateconfig: {
-        allowInput: true,
-        altFormat: 'j F Y',
-        altInput: true
+        stockOptionVestingCliffMonth: this.contract.stockOptionVestingCliffMonth
       },
       stockOptionVestingStartDateConfig: {
         allowInput: true,
@@ -234,16 +156,9 @@ export default {
           path: '/contracts'
         }
       ],
-      firstPaymentTypeOptions: [
-        {
-          name: 'Full Payment',
-          id: 1
-        },
-        {
-          name: 'Pro Rata',
-          id: 2
-        }
-      ],
+      modals: {
+        stockOption: false
+      },
       salaryCurrencies: [
         { name: 'SGD - Singapore Dollar', id: 'SGD' },
         { name: 'AED - United Emirate Arabs Dirham', id: 'AED' },
@@ -368,64 +283,12 @@ export default {
         { name: 'WST - Samoan Tala', id: 'WST' },
         { name: 'ZAR - South African Rand', id: 'ZAR' }
       ],
-      seniorityLevels: [
-        {
-          name: 'Not applicable',
-          id: 1
-        },
-        {
-          name: 'Junior',
-          id: 2
-        },
-        {
-          name: 'Mid',
-          id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
-        }
-      ],
-      modals: {
-        stockOption: false
-      },
       submenu: true
     }
   },
   methods: {
     onFormChange () {
 
-    },
-    handleAdditionalDocumentUpload (event) {
-      this.contractStep4.additionalDocument = event.target.files[0]
     },
     addStockOption () {
       const errors = {
@@ -499,16 +362,13 @@ export default {
       if (!isValid) {
         return false
       }
-      this.contract.terminationDate = this.contractStep4.terminationDate
-      this.contract.noticePeriod = this.contractStep4.noticePeriod
-      this.contract.specialClause = this.contractStep4.specialClause
+
       this.contract.stockOptionCurrency = this.contractStep4.stockOptionCurrency
       this.contract.stockOptionAggregateValue = this.contractStep4.stockOptionAggregateValue
       this.contract.stockOptionTotalNumber = this.contractStep4.stockOptionTotalNumber
       this.contract.stockOptionVestingStartDate = this.contractStep4.stockOptionVestingStartDate
       this.contract.stockOptionTotalVestingMonth = this.contractStep4.stockOptionTotalVestingMonth
       this.contract.stockOptionVestingCliffMonth = this.contractStep4.stockOptionVestingCliffMonth
-      this.contract.additionalDocument = this.contractStep4.additionalDocument
 
       return isValid
     }
@@ -517,6 +377,18 @@ export default {
 </script>
 
 <style lang="scss">
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
   .btn-offer-stock {
     margin-top: 10px;
   }

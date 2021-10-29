@@ -2,6 +2,23 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
+          <div class="all-form-title bold-text form-field mb-4">
+            <span class="text-label">Who can submit work?</span>
+
+            <ValidationProvider mode="passive" vid="contractStep4.canClientSubmitWork" name="Can client submit work">
+              <div class="checkbox-wrapper">
+                <base-switch class="mr-1" on-text="Yes" off-text="No" v-model="contractStep4.canClientSubmitWork"></base-switch>
+                <span class="text-label-desc">Client</span>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider mode="passive" vid="contractStep4.canContractorSubmitWork" name="Can contractor submit work">
+              <div class="checkbox-wrapper">
+                <base-switch class="mr-1" on-text="Yes" off-text="No" v-model="contractStep4.canContractorSubmitWork"></base-switch>
+                <span class="text-label-desc">Contractor</span>
+              </div>
+            </ValidationProvider>
+          </div>
+
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Termination date</span><br/>
@@ -197,6 +214,8 @@ export default {
   data () {
     return {
       contractStep4: {
+        canClientSubmitWork: this.contract.canClientSubmitWork,
+        canContractorSubmitWork: this.contract.canContractorSubmitWork,
         terminationDate: this.contract.terminationDate,
         noticePeriod: this.contract.noticePeriod,
         specialClause: this.contract.specialClause,
@@ -499,6 +518,9 @@ export default {
       if (!isValid) {
         return false
       }
+
+      this.contract.canClientSubmitWork = this.contractStep4.canClientSubmitWork
+      this.contract.canContractorSubmitWork = this.contractStep4.canContractorSubmitWork
       this.contract.terminationDate = this.contractStep4.terminationDate
       this.contract.noticePeriod = this.contractStep4.noticePeriod
       this.contract.specialClause = this.contractStep4.specialClause
@@ -517,6 +539,18 @@ export default {
 </script>
 
 <style lang="scss">
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
   .btn-offer-stock {
     margin-top: 10px;
   }

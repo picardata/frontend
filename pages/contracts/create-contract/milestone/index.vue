@@ -14,8 +14,7 @@
         <div class="container-fluid mt--6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a fixed contract</span>
-              <span>For contracts that have a fixed rate on every payment cycle</span>
+              <span class="form-title">Creating a milestone contract</span>
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
@@ -31,9 +30,6 @@
                   </div>
                   <div class="card border p-4" v-if="step === 3">
                     <step3 :contract = "contract" ref="step3" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-                  <div class="card border p-4" v-if="step === 4">
-                    <step4 :contract = "contract" ref="step4" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
                   <div class="contract-type-actions-wrapper">
@@ -62,11 +58,10 @@
 <script>
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
-import step1 from '@/components/contracts/fixedRate/step1'
-import step2 from '@/components/contracts/fixedRate/step2'
-import step3 from '@/components/contracts/fixedRate/step3'
-import step4 from '@/components/contracts/fixedRate/step4'
-import step5 from '@/components/contracts/fixedRate/step5'
+import step1 from '@/components/contracts/milestone/step1'
+import step2 from '@/components/contracts/milestone/step2'
+import step3 from '@/components/contracts/milestone/step3'
+import step5 from '@/components/contracts/milestone/step5'
 
 export default {
   layout: 'argon',
@@ -75,7 +70,6 @@ export default {
     step1,
     step2,
     step3,
-    step4,
     step5
   },
   async asyncData (context) {
@@ -93,37 +87,31 @@ export default {
       contract: {
         legalEntity: '',
         contractName: '',
-        contractorName: '',
-        contractorEmailAddress: '',
-        jobTitle: '',
-        seniorityLevel: '',
+        employmentStartDate: '',
         scopeOfWork: '',
-        startDate: '',
-        salaryAmount: '',
         salaryCurrency: '',
-        salaryFrequency: '',
-        isInvoiceSettingsCustomisable: false,
-        invoiceCycleEnds: '',
-        invoicePaymentDue: '',
-        isInvoicePaymentPayAheadOfTheWeekend: false,
-        firstPaymentDate: '',
-        firstPaymentType: '',
-        firstPaymentAmount: '',
+        milestoneName: '',
+        milestoneAmount: '',
+        milestoneAttachedFilename: '',
         terminationDate: '',
         noticePeriod: '',
         specialClause: '',
-        clientSignature: '',
-        clientSignedDate: '',
-        contractorSignature: '',
-        contractorSignedDate: '',
-        contractStatus: 1,
+        additionalDocumentFilename: '',
+        additionalDocument: '',
         stockOptionCurrency: '',
         stockOptionAggregateValue: '',
         stockOptionTotalNumber: '',
         stockOptionVestingStartDate: '',
         stockOptionTotalVestingMonth: '',
         stockOptionVestingCliffMonth: '',
-        additionalDocument: ''
+        contractStatus: 1,
+        contractorName: '',
+        contractorEmailAddress: '',
+        clientSignature: '',
+        contractorSignature: '',
+        clientSignedDate: '',
+        contractorSignedDate: '',
+        company: ''
       },
       contractId: '',
       crumbs: [
@@ -153,13 +141,7 @@ export default {
           this.step++
         }
       } else if (this.step === 3) {
-        const result = await this.$refs.step3.post()
-
-        if (result) {
-          this.step++
-        }
-      } else if (this.step === 4) {
-        const isValid = await this.$refs.step4.post()
+        const isValid = await this.$refs.step3.post()
 
         if (!isValid) {
           return false
@@ -168,42 +150,32 @@ export default {
         const userMe = await this.$axios.get('/api/users/me')
 
         const formData = new FormData()
+        formData.append('company', userMe.data.employees[0].company.id)
         formData.append('legalEntity', this.contract.legalEntity)
         formData.append('contractName', this.contract.contractName)
-        formData.append('contractorName', this.contract.contractorName)
-        formData.append('contractorEmailAddress', this.contract.contractorEmailAddress)
-        formData.append('jobTitle', this.contract.jobTitle)
-        formData.append('seniorityLevel', this.contract.seniorityLevel)
+        formData.append('employmentStartDate', this.contract.employmentStartDate)
         formData.append('scopeOfWork', this.contract.scopeOfWork)
-        formData.append('startDate', this.contract.startDate)
-        formData.append('salaryAmount', this.contract.salaryAmount)
         formData.append('salaryCurrency', this.contract.salaryCurrency)
-        formData.append('salaryFrequency', this.contract.salaryFrequency)
-        formData.append('isInvoiceSettingsCustomisable', this.contract.isInvoiceSettingsCustomisable)
-        formData.append('invoicePaymentDue', this.contract.invoicePaymentDue)
-        formData.append('invoiceCycleEnds', this.contract.invoiceCycleEnds)
-        formData.append('isInvoicePaymentPayAheadOfTheWeekend', this.contract.isInvoicePaymentPayAheadOfTheWeekend)
-        formData.append('firstPaymentDate', this.contract.firstPaymentDate)
-        formData.append('firstPaymentType', this.contract.firstPaymentType)
-        formData.append('firstPaymentAmount', this.contract.firstPaymentAmount)
         formData.append('terminationDate', this.contract.terminationDate)
-        formData.append('specialClause', this.contract.specialClause)
-        formData.append('contractStatus', this.contract.contractStatus)
-        formData.append('company', userMe.data.employees[0].company.id)
         formData.append('noticePeriod', this.contract.noticePeriod)
-        formData.append('clientSignature', this.contract.clientSignature)
-        formData.append('clientSignedDate', this.contract.clientSignedDate)
-        formData.append('contractorSignature', this.contract.contractorSignature)
-        formData.append('contractorSignedDate', this.contract.contractorSignedDate)
+        formData.append('specialClause', this.contract.specialClause)
+        formData.append('additionalDocumentFilename', this.contract.additionalDocumentFilename)
+        formData.append('additionalDocument', this.contract.additionalDocument)
         formData.append('stockOptionCurrency', this.contract.stockOptionCurrency)
         formData.append('stockOptionAggregateValue', this.contract.stockOptionAggregateValue)
         formData.append('stockOptionTotalNumber', this.contract.stockOptionTotalNumber)
         formData.append('stockOptionVestingStartDate', this.contract.stockOptionVestingStartDate)
         formData.append('stockOptionTotalVestingMonth', this.contract.stockOptionTotalVestingMonth)
         formData.append('stockOptionVestingCliffMonth', this.contract.stockOptionVestingCliffMonth)
-        formData.append('additionalDocument', this.contract.additionalDocument)
+        formData.append('contractStatus', this.contract.contractStatus)
+        formData.append('contractorName', this.contract.contractorName)
+        formData.append('contractorEmailAddress', this.contract.contractorEmailAddress)
+        formData.append('clientSignature', this.contract.clientSignature)
+        formData.append('contractorSignature', this.contract.contractorSignature)
+        formData.append('clientSignedDate', this.contract.clientSignedDate)
+        formData.append('contractorSignedDate', this.contract.contractorSignedDate)
 
-        this.$axios.$post('/api/fixed/rate/contract/',
+        this.$axios.$post('/api/milestone/contract/',
           formData,
           {
             headers: {
@@ -211,7 +183,7 @@ export default {
             }
           }).then((data) => {
           this.contractId = data
-          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.uuid)
+          this.$router.push('/contracts/preview-contract/milestone/' + this.contractId.uuid)
           return true
         }).catch((e) => {
           const errors = {}

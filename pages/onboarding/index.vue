@@ -224,7 +224,25 @@ export default {
         const result = await this.$refs.individualDetails.post()
         if (result) {
           this.step++
-          this.$router.push('/')
+
+          if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+            const id = this.$route.query.id
+            const contractType = this.$route.query.type
+
+            if (contractType === '1') {
+              this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
+            } else if (contractType === '2') {
+              this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
+            } else if (contractType === '3') {
+              this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
+            } else if (contractType === '4') {
+              this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+            } else {
+              this.$router.push('/')
+            }
+          } else {
+            this.$router.push('/')
+          }
         }
       } else {
         await this.$axios.$post('/api/users/onboarding/next')

@@ -14,8 +14,8 @@
         <div class="container-fluid mt--6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a fixed contract</span>
-              <span>For contracts that have a fixed rate on every payment cycle</span>
+              <span class="form-title">Creating a pay as you go contract</span>
+              <span>For contracts with time sheets or submitted work every payment cycle</span>
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
@@ -62,11 +62,11 @@
 <script>
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
-import step1 from '@/components/contracts/fixedRate/step1'
-import step2 from '@/components/contracts/fixedRate/step2'
-import step3 from '@/components/contracts/fixedRate/step3'
-import step4 from '@/components/contracts/fixedRate/step4'
-import step5 from '@/components/contracts/fixedRate/step5'
+import step1 from '@/components/contracts/payAsYouGo/step1'
+import step2 from '@/components/contracts/payAsYouGo/step2'
+import step3 from '@/components/contracts/payAsYouGo/step3'
+import step4 from '@/components/contracts/payAsYouGo/step4'
+import step5 from '@/components/contracts/payAsYouGo/step5'
 
 export default {
   layout: 'argon',
@@ -99,16 +99,17 @@ export default {
         seniorityLevel: '',
         scopeOfWork: '',
         startDate: '',
+        paymentPackageType: '',
         salaryAmount: '',
         salaryCurrency: '',
         salaryFrequency: '',
-        isInvoiceSettingsCustomisable: false,
+        invoiceCycle: '',
         invoiceCycleEnds: '',
         invoicePaymentDue: '',
         isInvoicePaymentPayAheadOfTheWeekend: false,
         firstPaymentDate: '',
-        firstPaymentType: '',
-        firstPaymentAmount: '',
+        canClientSubmitWork: false,
+        canContractorSubmitWork: false,
         terminationDate: '',
         noticePeriod: '',
         specialClause: '',
@@ -123,7 +124,9 @@ export default {
         stockOptionVestingStartDate: '',
         stockOptionTotalVestingMonth: '',
         stockOptionVestingCliffMonth: '',
-        additionalDocument: ''
+        additionalDocument: '',
+        additionalDocumentFilename: '',
+        customContractFilename: ''
       },
       contractId: '',
       crumbs: [
@@ -176,16 +179,17 @@ export default {
         formData.append('seniorityLevel', this.contract.seniorityLevel)
         formData.append('scopeOfWork', this.contract.scopeOfWork)
         formData.append('startDate', this.contract.startDate)
+        formData.append('paymentPackageType', this.contract.paymentPackageType)
         formData.append('salaryAmount', this.contract.salaryAmount)
         formData.append('salaryCurrency', this.contract.salaryCurrency)
         formData.append('salaryFrequency', this.contract.salaryFrequency)
-        formData.append('isInvoiceSettingsCustomisable', this.contract.isInvoiceSettingsCustomisable)
+        formData.append('invoiceCycle', this.contract.invoiceCycle)
         formData.append('invoicePaymentDue', this.contract.invoicePaymentDue)
         formData.append('invoiceCycleEnds', this.contract.invoiceCycleEnds)
         formData.append('isInvoicePaymentPayAheadOfTheWeekend', this.contract.isInvoicePaymentPayAheadOfTheWeekend)
         formData.append('firstPaymentDate', this.contract.firstPaymentDate)
-        formData.append('firstPaymentType', this.contract.firstPaymentType)
-        formData.append('firstPaymentAmount', this.contract.firstPaymentAmount)
+        formData.append('canClientSubmitWork', this.contract.canClientSubmitWork)
+        formData.append('canContractorSubmitWork', this.contract.canContractorSubmitWork)
         formData.append('terminationDate', this.contract.terminationDate)
         formData.append('specialClause', this.contract.specialClause)
         formData.append('contractStatus', this.contract.contractStatus)
@@ -202,8 +206,10 @@ export default {
         formData.append('stockOptionTotalVestingMonth', this.contract.stockOptionTotalVestingMonth)
         formData.append('stockOptionVestingCliffMonth', this.contract.stockOptionVestingCliffMonth)
         formData.append('additionalDocument', this.contract.additionalDocument)
+        formData.append('additionalDocumentFilename', this.contract.additionalDocumentFilename)
+        formData.append('customContractFilename', this.contract.customContractFilename)
 
-        this.$axios.$post('/api/fixed/rate/contract/',
+        this.$axios.$post('/api/pay/as/you/go/contract/',
           formData,
           {
             headers: {
@@ -211,7 +217,7 @@ export default {
             }
           }).then((data) => {
           this.contractId = data
-          this.$router.push('/contracts/preview-contract/fixed-rate/' + this.contractId.uuid)
+          this.$router.push('/contracts/preview-contract/pay-as-you-go/' + this.contractId.uuid)
           return true
         }).catch((e) => {
           const errors = {}
@@ -440,6 +446,7 @@ export default {
       list-style: none;
     }
   }
+
   .list-item-packages{
     li{
       list-style: inside;
