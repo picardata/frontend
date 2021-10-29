@@ -2033,7 +2033,7 @@ export default {
         additionalDocumentFilename: '',
         customContractFilename: ''
       }).then(() => {
-        this.modals.contractorSignature = true
+        this.modals.contractorSignature = false
         this.contractStatus = 3
         this.disableInvitationButton = false
         return true
@@ -2062,7 +2062,7 @@ export default {
         contractType: 1,
         companyName: this.company.name
       }).then(() => {
-        this.modals.contractorSignature = false
+        this.modals.contractorEmailInvitation = false
         this.contractStatus = 2
         this.disableInvitationButton = false
         return true
