@@ -3,7 +3,7 @@
     <div class="row mt-80">
       <div class="col-12">
         <div class="title">
-          <p style="font-size: 24px;color: #2E4823; font-weight: bolder;">Hey {{ profile.name }}, welcome to Globelise</p><br/>
+          <p style="font-size: 24px;color: #2E4823; font-weight: bolder;">Hey {{ profile.username }}, welcome to Globelise</p><br/>
           <p>To get started please provide your company information accurately.
             <br/> It will be used for all your document on Globelise.</p>
         </div>
@@ -16,7 +16,7 @@
 
             <div class="col-6 ">
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.name" name="Entity Name">
-                <input v-model="profile.organization" type="text" class="login-credential-input form-control" placeholder="Legal Entity Name">
+                <input v-model="profile.name" type="text" class="login-credential-input form-control" placeholder="Legal Entity Name">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.registrationNumber" name="Registration Number">
@@ -38,7 +38,6 @@
                 <input v-model="profile.workStreet" type="text" class="login-credential-input form-control" placeholder="Address">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-
             </div>
             <div class="col-6 pl-5">
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.country" name="Country" >
@@ -57,7 +56,6 @@
                 <input v-model="profile.workPostalCode" type="text" class="login-credential-input form-control" placeholder="Postal Code">
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
-
             </div>
           </div>
         </form>
@@ -77,6 +75,9 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  props: [
+    'employee'
+  ],
   data () {
     return {
       country: '',
@@ -163,30 +164,18 @@ export default {
         }
       ],
       profile: {
-        name: this.$auth.user.userProfile.firstname,
+        username: this.$auth.user.userProfile.firstname,
         email: this.$auth.user.username,
-        phone: '',
-        formattedPhone: '',
-        location: '',
-        taxID: '',
-        dateOfBirth: '',
-        nationality: '',
-        countryOfTaxResidence: '',
-        timezone: '',
-        street: '',
-        city: '',
-        postalCode: '',
-        occupation: 0,
-        role: '',
-        organization: '',
-        workLocation: '',
-        workStreet: '',
-        workCity: '',
-        workPostalCode: '',
-        workEntityType: '',
-        workVatID: '',
-        workRegistrationNumber: '',
-        workCountry: ''
+        name: this.employee.company.name,
+        workLocation: this.employee.company.location,
+        workStreet: this.employee.company.street,
+        workCity: this.employee.company.city,
+        workPostalCode: this.employee.company.postalCode,
+        workEntityType: this.employee.company.entityType,
+        workVatID: this.employee.company.vatID,
+        workRegistrationNumber: this.employee.company.registrationNumber,
+        workCountry: this.employee.company.country,
+        isCompanyAdmin: this.employee.isCompanyAdmin
       }
     }
   },
@@ -209,52 +198,18 @@ export default {
         return false
       }
 
-      const result = this.$axios.$post('/api/employees/', {
-        userProfile: this.$auth.user.userProfile.id,
-        role: '',
-        occupation: '',
-        taxID: '',
-        nationality: '',
-        countryOfTaxResidence: '',
-        timezone: '',
-        street: '',
-        city: '',
-        postalCode: '',
-        company: {
-          name: this.profile.organization,
-          location: this.profile.workLocation,
-          street: this.profile.workStreet,
-          city: this.profile.workCity,
-          postalCode: this.profile.workPostalCode,
-          entityType: this.profile.workEntityType,
-          vatID: this.profile.workVatID,
-          registrationNumber: this.profile.workRegistrationNumber,
-          country: this.profile.workCountry
-        }
-      }).then((data) => {
-        this.$auth.setUser(data)
-        return true
-      }).catch((e) => {
-        const errors = {}
+      this.employee.company.name = this.profile.name
+      this.employee.company.location = this.profile.workLocation
+      this.employee.company.street = this.profile.workStreet
+      this.employee.company.city = this.profile.workCity
+      this.employee.company.postalCode = this.profile.workPostalCode
+      this.employee.company.entityType = this.profile.workEntityType
+      this.employee.company.vatID = this.profile.workVatID
+      this.employee.company.registrationNumber = this.profile.workRegistrationNumber
+      this.employee.company.country = this.profile.workCountry
+      this.employee.isCompanyAdmin = true
 
-        if (e.response.data.errors.userProfile !== undefined) {
-          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-            const key = 'profile.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-        if (e.response.data.errors.company !== undefined) {
-          Object.entries(e.response.data.errors.company).forEach(function (value) {
-            const key = 'company.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-
-        this.$refs.form.setErrors(errors)
-        return false
-      })
-
-      return result
+      return isValid
     },
     onFormChange () {
       let isComplete = true

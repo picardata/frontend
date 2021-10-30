@@ -69,8 +69,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <EntityDetails ref="entityDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
-
+      <EntityDetails :employee = "employee" ref="entityDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
     </div>
     <div v-if="step === 3" class="col-9">
       <div class="row text-center">
@@ -98,7 +97,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <IndividualDetails ref="individualDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+      <IndividualDetails :employee = "employee" ref="individualDetails" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
 
     </div>
     <div class="row mt-5 justify-content-end btn-bottom">
@@ -172,7 +171,32 @@ export default {
         }
       ],
       isProfileCompleted: false,
-      isIntegrateGoogle: false
+      isIntegrateGoogle: false,
+      employee: {
+        userProfile: this.$auth.user.userProfile.id,
+        role: '',
+        occupation: '',
+        taxID: '',
+        nationality: '',
+        countryOfTaxResidence: '',
+        timezone: '',
+        street: '',
+        city: '',
+        postalCode: '',
+        phoneNumber: '',
+        isCompanyAdmin: false,
+        company: {
+          name: '',
+          location: '',
+          street: '',
+          city: '',
+          postalCode: '',
+          entityType: '',
+          vatID: '',
+          registrationNumber: '',
+          country: ''
+        }
+      }
     }
   },
   computed: {
@@ -223,26 +247,72 @@ export default {
       } else if (this.step === 3) {
         const result = await this.$refs.individualDetails.post()
         if (result) {
-          this.step++
+          await this.$axios.$post('/api/employees/', {
+            userProfile: this.employee.userProfile,
+            role: this.employee.userProfile,
+            occupation: this.employee.occupation,
+            taxID: this.employee.taxID,
+            nationality: this.employee.nationality,
+            countryOfTaxResidence: this.employee.countryOfTaxResidence,
+            timezone: this.employee.timezone,
+            street: this.employee.street,
+            city: this.employee.city,
+            postalCode: this.employee.postalCode,
+            phoneNumber: this.employee.phoneNumber,
+            isCompanyAdmin: this.employee.isCompanyAdmin,
+            company: {
+              name: this.employee.company.name,
+              location: this.employee.company.location,
+              street: this.employee.company.street,
+              city: this.employee.company.city,
+              postalCode: this.employee.company.postalCode,
+              entityType: this.employee.company.entityType,
+              vatID: this.employee.company.vatID,
+              registrationNumber: this.employee.company.registrationNumber,
+              country: this.employee.company.country
+            }
+          }).then((data) => {
+            this.$auth.setUser(data)
 
-          if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
-            const id = this.$route.query.id
-            const contractType = this.$route.query.type
+            this.step++
 
-            if (contractType === '1') {
-              this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
-            } else if (contractType === '2') {
-              this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
-            } else if (contractType === '3') {
-              this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
-            } else if (contractType === '4') {
-              this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+            if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+              const id = this.$route.query.id
+              const contractType = this.$route.query.type
+
+              if (contractType === '1') {
+                this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
+              } else if (contractType === '2') {
+                this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
+              } else if (contractType === '3') {
+                this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
+              } else if (contractType === '4') {
+                this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+              } else {
+                this.$router.push('/')
+              }
             } else {
               this.$router.push('/')
             }
-          } else {
-            this.$router.push('/')
-          }
+          }).catch((e) => {
+            const errors = {}
+
+            if (e.response.data.errors.userProfile !== undefined) {
+              Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
+                const key = 'profile.' + value[0]
+                errors[key] = value[1]
+              })
+            }
+            if (e.response.data.errors.company !== undefined) {
+              Object.entries(e.response.data.errors.company).forEach(function (value) {
+                const key = 'company.' + value[0]
+                errors[key] = value[1]
+              })
+            }
+
+            this.$refs.form.setErrors(errors)
+            return false
+          })
         }
       } else {
         await this.$axios.$post('/api/users/onboarding/next')
@@ -257,16 +327,6 @@ export default {
       this.step = 2
     },
     async goToIndividualDetails () {
-      await this.$axios.$post('/api/employees/', {
-        userProfile: this.$auth.user.userProfile.id,
-        role: '',
-        occupation: '',
-        company: {
-          name: '',
-          location: ''
-        }
-      })
-
       await this.$axios.$post('/api/users/onboarding/next', {
         step: 2
       })
@@ -274,26 +334,6 @@ export default {
       this.step = 3
     },
     skip () {
-      this.$axios.$post('/api/employees/', {
-        userProfile: {
-          firstname: this.$auth.user.userProfile.firstname,
-          lastname: '',
-          address: '',
-          phone: '',
-          email: this.$auth.user.username,
-          user: this.$auth.user.id
-        },
-        role: '',
-        occupation: '',
-        company: {
-          name: '',
-          location: ''
-        }
-      }).then((data) => {
-        this.$auth.setUser(data)
-        this.step = 4
-        return true
-      })
     },
     changeFormComplete (complete) {
       this.isProfileCompleted = complete

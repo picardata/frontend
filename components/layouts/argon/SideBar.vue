@@ -5,9 +5,9 @@
         <a class="navbar-brand text-white" href="/"><img src="~/assets/text_logo.png" alt="Globelise Logo"></a>
       </div>
       <div class="navbar-inner">
-        <ul class="navbar-nav mt-5">
+        <ul v-if="isCompanyAdmin === true" class="navbar-nav mt-5">
           <li
-            v-for="(item, key) in menus"
+            v-for="(item, key) in adminMenus"
             :key="item.name + key"
             :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
           >
@@ -34,6 +34,35 @@
             </a>
           </li>
         </ul>
+        <ul v-else class="navbar-nav mt-5">
+        <li
+        v-for="(item, key) in employeeMenus"
+        :key="item.name + key"
+        :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
+        >
+        <nuxt-link
+        v-if="item.name !== 'logout'"
+        :to="item.link"
+        :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+        >
+        <img  :src="require(`/assets/menu_icons/${item.icon}`)">
+        <div class="nav-link-text">
+        {{ item.displayName }}
+        </div>
+        </nuxt-link>
+
+        <a
+        v-else
+        @click.prevent="modals.logout = true"
+        :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+        >
+        <img  :src="require(`/assets/menu_icons/${item.icon}`)">
+        <div class="nav-link-text">
+        {{ item.displayName }}
+        </div>
+        </a>
+        </li>
+        </ul>
       </div>
     </div>
 
@@ -57,7 +86,35 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      menus: [
+      user: this.$auth.user,
+      isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
+      employeeMenus: [
+        {
+          name: 'index',
+          displayName: 'Home',
+          icon: 'Home.png',
+          link: '/'
+        },
+        {
+          name: 'contracts',
+          displayName: 'My Contracts',
+          icon: 'Contracts.png',
+          link: '/my-contracts'
+        },
+        {
+          name: 'profile',
+          displayName: 'Profile',
+          icon: 'User.png',
+          link: '#'
+        },
+        {
+          name: 'logout',
+          displayName: 'Logout',
+          icon: 'Log_out.png',
+          link: '/logout'
+        }
+      ],
+      adminMenus: [
         {
           name: 'index',
           displayName: 'Home',

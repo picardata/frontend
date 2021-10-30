@@ -89,6 +89,9 @@ export default {
     ValidationProvider,
     VuePhoneNumberInput
   },
+  props: [
+    'employee'
+  ],
   data () {
     return {
       country: '',
@@ -113,28 +116,15 @@ export default {
       profile: {
         name: this.$auth.user.userProfile.firstname,
         email: this.$auth.user.username,
-        phone: '',
         formattedPhone: '',
-        location: '',
-        taxID: '',
-        dateOfBirth: '',
-        nationality: '',
-        countryOfTaxResidence: '',
-        timezone: '',
-        street: '',
-        city: '',
-        postalCode: '',
-        occupation: 0,
-        role: '',
-        organization: '',
-        workLocation: '',
-        workStreet: '',
-        workCity: '',
-        workPostalCode: '',
-        workEntityType: '',
-        workVatID: '',
-        workRegistrationNumber: '',
-        workCountry: ''
+        nationality: this.employee.nationality,
+        timezone: this.employee.timezone,
+        street: this.employee.street,
+        countryOfTaxResidence: this.employee.countryOfTaxResidence,
+        taxID: this.employee.taxID,
+        phoneNumber: this.employee.phoneNumber,
+        city: this.employee.city,
+        postalCode: this.employee.postalCode
       }
     }
   },
@@ -157,41 +147,16 @@ export default {
         return false
       }
 
-      const result = this.$axios.$post('/api/employees/', {
-        userProfile: this.$auth.user.userProfile.id,
-        role: '',
-        occupation: '',
-        taxID: this.profile.taxID,
-        nationality: this.profile.nationality,
-        countryOfTaxResidence: this.profile.countryOfTaxResidence,
-        timezone: this.profile.timezone,
-        street: this.profile.street,
-        city: this.profile.city,
-        postalCode: this.profile.postalCode
-      }).then((data) => {
-        this.$auth.setUser(data)
-        return true
-      }).catch((e) => {
-        const errors = {}
+      this.employee.taxID = this.profile.taxID
+      this.employee.nationality = this.profile.nationality
+      this.employee.countryOfTaxResidence = this.profile.countryOfTaxResidence
+      this.employee.timezone = this.profile.timezone
+      this.employee.street = this.profile.street
+      this.employee.city = this.profile.city
+      this.employee.postalCode = this.profile.postalCode
+      this.employee.phoneNumber = this.profile.phoneNumber
 
-        if (e.response.data.errors.userProfile !== undefined) {
-          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-            const key = 'profile.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-        if (e.response.data.errors.company !== undefined) {
-          Object.entries(e.response.data.errors.company).forEach(function (value) {
-            const key = 'company.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-
-        this.$refs.form.setErrors(errors)
-        return false
-      })
-
-      return result
+      return isValid
     },
     onFormChange () {
       let isComplete = true
