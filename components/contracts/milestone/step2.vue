@@ -2,7 +2,6 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Currency</span>
@@ -14,7 +13,6 @@
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -27,7 +25,7 @@ import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
 
 export default {
-  name: 'step2',
+  name: 'Step2',
   auth: true,
   components: {
     ValidationObserver,
@@ -36,11 +34,6 @@ export default {
   props: [
     'contract'
   ],
-  computed: {
-    isDisabled () {
-      return !this.contractStep2.isInvoiceSettingsCustomisable
-    }
-  },
   data () {
     return {
       contractStep2: {
@@ -182,6 +175,11 @@ export default {
         { name: 'ZAR - South African Rand', id: 'ZAR' }
       ],
       submenu: true
+    }
+  },
+  computed: {
+    isDisabled () {
+      return !this.contractStep2.isInvoiceSettingsCustomisable
     }
   },
   methods: {

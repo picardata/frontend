@@ -3,9 +3,13 @@
     <div class="row mt-80">
       <div class="col-12">
         <div class="title">
-          <p style="font-size: 24px;color: #2E4823; font-weight: bolder;">Hey {{ profile.username }}, welcome to Globelise</p><br/>
-          <p>To get started please provide your company information accurately.
-            <br/> It will be used for all your document on Globelise.</p>
+          <p style="font-size: 24px;color: #2E4823; font-weight: bolder;">
+            Hey {{ profile.username }}, welcome to Globelise
+          </p><br>
+          <p>
+            To get started please provide your company information accurately.
+            <br> It will be used for all your document on Globelise.
+          </p>
         </div>
       </div>
     </div>
@@ -13,7 +17,6 @@
       <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
         <form @submit.prevent="handleSubmit(post)">
           <div class="row">
-
             <div class="col-6 ">
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.name" name="Entity Name">
                 <input v-model="profile.name" type="text" class="login-credential-input form-control" placeholder="Legal Entity Name">
@@ -40,8 +43,8 @@
               </ValidationProvider>
             </div>
             <div class="col-6 pl-5">
-              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.country" name="Country" >
-                <country-select v-model="profile.workCountry" :country="country" topCountry="SG"  class="form-control login-credential-input"/>
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="company.country" name="Country">
+                <country-select v-model="profile.workCountry" :country="country" top-country="SG" class="form-control login-credential-input" />
                 <span class="text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" mode="passive" vid="company.vatID" name="VAT ID">

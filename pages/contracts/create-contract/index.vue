@@ -1,130 +1,130 @@
 <template>
-    <div class="row picardata-form-index">
-        <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
-            <div>
-                <base-header type="grey" class="pb-6">
-                    <div class="row align-items-center py-4">
-                        <div class="col-lg-6 col-7">
-                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                                <route-breadcrumb :crumbs="crumbs" />
-                            </nav>
-                        </div>
-                    </div>
-                </base-header>
-                <div class="container-fluid mt--6">
-                    <div class="row mt-3">
-                        <div class="col-12 form-title-wrapper">
-                            <span class="form-title">Contract Type</span>
-                            <span>Start creating your contract by selecting the most relevant type.
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row mt-6 contract-type-wrapper">
-                        <div style="display:none;" class="col-3">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card border p-4">
-                                        <div class="">
-                                            <div class="all-form-title bold-text">
-                                                <nuxt-link to="/contracts/create-contract/fixed-rate">
-                                                    <div class="text-area">
-                                                        <img class="contract-type-img mb-4" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
-                                                        <h3>
-                                                            Fixed Rate
-                                                        </h3>
-
-                                                        <span>
-                                                            For contracts that have a fixed rate on every payment cycle
-                                                        </span>
-                                                    </div>
-                                                </nuxt-link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5 text-right"></div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card border p-4">
-                                        <div class="">
-                                            <div class="all-form-title bold-text">
-                                                <nuxt-link to="/contracts/create-contract/pay-as-you-go">
-                                                    <div class="text-area">
-                                                        <img class="contract-type-img mb-4" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
-                                                        <h3>
-                                                            Pay As You Go
-                                                        </h3>
-
-                                                        <span>
-                                                        For contracts with time sheets or submitted work every payment cycle
-                                                    </span>
-                                                    </div>
-                                                </nuxt-link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5 text-right"></div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card border p-4">
-                                        <div class="">
-                                            <div class="all-form-title bold-text">
-                                                <nuxt-link to="/contracts/create-contract/milestone">
-                                                    <div class="text-area">
-                                                        <img class="contract-type-img mb-4" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
-                                                        <h3>
-                                                            Milestone
-                                                        </h3>
-
-                                                        <span>
-                                                        For contracts with milestones that are paid as they get completed
-                                                    </span>
-                                                    </div>
-                                                </nuxt-link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5 text-right"></div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card border p-4">
-                                        <div class="">
-                                            <div class="all-form-title bold-text">
-                                                <nuxt-link to="/contracts/create-contract/full-time-employee">
-                                                    <div class="text-area">
-                                                        <img class="contract-type-img mb-4" src="~/assets/contract/full_time_employee_contract.png" alt="Full-time employee contract">
-                                                        <h3>
-                                                            Full-time Employee
-                                                        </h3>
-
-                                                        <span>
-                                                            Employ as full-time employee compliantly anywhere in the world
-                                                        </span>
-                                                    </div>
-                                                </nuxt-link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5 text-right"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="row picardata-form-index">
+    <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
+      <div>
+        <base-header type="grey" class="pb-6">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <route-breadcrumb :crumbs="crumbs" />
+              </nav>
             </div>
+          </div>
+        </base-header>
+        <div class="container-fluid mt--6">
+          <div class="row mt-3">
+            <div class="col-12 form-title-wrapper">
+              <span class="form-title">Contract Type</span>
+              <span>Start creating your contract by selecting the most relevant type.
+              </span>
+            </div>
+          </div>
+          <div class="row mt-6 contract-type-wrapper">
+            <div style="display:none;" class="col-3">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card border p-4">
+                    <div class="">
+                      <div class="all-form-title bold-text">
+                        <nuxt-link to="/contracts/create-contract/fixed-rate">
+                          <div class="text-area">
+                            <img class="contract-type-img mb-4" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                            <h3>
+                              Fixed Rate
+                            </h3>
+
+                            <span>
+                              For contracts that have a fixed rate on every payment cycle
+                            </span>
+                          </div>
+                        </nuxt-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-5 text-right" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card border p-4">
+                    <div class="">
+                      <div class="all-form-title bold-text">
+                        <nuxt-link to="/contracts/create-contract/pay-as-you-go">
+                          <div class="text-area">
+                            <img class="contract-type-img mb-4" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+                            <h3>
+                              Pay As You Go
+                            </h3>
+
+                            <span>
+                              For contracts with time sheets or submitted work every payment cycle
+                            </span>
+                          </div>
+                        </nuxt-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-5 text-right" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card border p-4">
+                    <div class="">
+                      <div class="all-form-title bold-text">
+                        <nuxt-link to="/contracts/create-contract/milestone">
+                          <div class="text-area">
+                            <img class="contract-type-img mb-4" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
+                            <h3>
+                              Milestone
+                            </h3>
+
+                            <span>
+                              For contracts with milestones that are paid as they get completed
+                            </span>
+                          </div>
+                        </nuxt-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-5 text-right" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card border p-4">
+                    <div class="">
+                      <div class="all-form-title bold-text">
+                        <nuxt-link to="/contracts/create-contract/full-time-employee">
+                          <div class="text-area">
+                            <img class="contract-type-img mb-4" src="~/assets/contract/full_time_employee_contract.png" alt="Full-time employee contract">
+                            <h3>
+                              Full-time Employee
+                            </h3>
+
+                            <span>
+                              Employ as full-time employee compliantly anywhere in the world
+                            </span>
+                          </div>
+                        </nuxt-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-5 text-right" />
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

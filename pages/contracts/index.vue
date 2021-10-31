@@ -21,9 +21,10 @@
           <div class="row mt-3 mb-4">
             <div class="col-12">
               <ContractList
-              :milestoneContracts = "milestoneContracts"
-              :fullTimeEmployeeContracts = "fullTimeEmployeeContracts"
-              :payAsYouGoContracts = "payAsYouGoContracts" />
+                :milestone-contracts="milestoneContracts"
+                :full-time-employee-contracts="fullTimeEmployeeContracts"
+                :pay-as-you-go-contracts="payAsYouGoContracts"
+              />
             </div>
           </div>
         </div>
@@ -39,6 +40,12 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
+  components: {
+    ContractList
+  },
+  mixins: [
+    loaderMixin
+  ],
   async asyncData (context) {
     const companyId = context.app.$auth.user.userProfile.employees[0].company.id
 
@@ -54,12 +61,6 @@ export default {
       fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
     }
   },
-  components: {
-    ContractList
-  },
-  mixins: [
-    loaderMixin
-  ],
   data () {
     return {
       crumbs: [

@@ -5,12 +5,12 @@
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-                    class="progress-bar bg-green"
-                    role="progressbar"
-                    style="width: 16.5%"
-                    aria-valuenow="16.5"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
+              class="progress-bar bg-green"
+              role="progressbar"
+              style="width: 16.5%"
+              aria-valuenow="16.5"
+              aria-valuemin="0"
+              aria-valuemax="100"
             />
           </div>
         </div>
@@ -34,8 +34,7 @@
             Next
           </button>
         </div>
-        <div class="col-2">
-        </div>
+        <div class="col-2" />
         <div class="col-5">
           <button type="button" class="btn btn-user-type btn-primary" @click.prevent="goToIndividualDetails">
             Next
@@ -48,12 +47,12 @@
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-                    class="progress-bar bg-green"
-                    role="progressbar"
-                    style="width: 66%"
-                    aria-valuenow="66"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
+              class="progress-bar bg-green"
+              role="progressbar"
+              style="width: 66%"
+              aria-valuenow="66"
+              aria-valuemin="0"
+              aria-valuemax="100"
             />
           </div>
         </div>
@@ -69,19 +68,19 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <EntityDetails :employee = "employee" ref="entityDetails" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+      <EntityDetails ref="entityDetails" :employee="employee" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
     </div>
     <div v-if="step === 3" class="col-9">
       <div class="row text-center">
         <div class="mt-4 col-12">
           <div class="progress" style="height: 5px;">
             <div
-                    class="progress-bar bg-green"
-                    role="progressbar"
-                    style="width: 100%"
-                    aria-valuenow="100"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
+              class="progress-bar bg-green"
+              role="progressbar"
+              style="width: 100%"
+              aria-valuenow="100"
+              aria-valuemin="0"
+              aria-valuemax="100"
             />
           </div>
         </div>
@@ -97,8 +96,7 @@
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
         </div>
       </div>
-      <IndividualDetails :employee = "employee" ref="individualDetails" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-
+      <IndividualDetails ref="individualDetails" :employee="employee" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
     </div>
     <div class="row mt-5 justify-content-end btn-bottom">
       <div class="pl-2">

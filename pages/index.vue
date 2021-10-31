@@ -1,6 +1,5 @@
 <template>
   <div class="row picardata-form-index">
-
     <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
       <div>
         <div class="container-fluid">

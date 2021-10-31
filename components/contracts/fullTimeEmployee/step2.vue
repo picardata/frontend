@@ -25,11 +25,10 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.scopeOfWork" name="Scope of Work">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Scope of Work</span>
-            <textarea v-model="contractStep2.scopeOfWork" type="text" class="form-input form-control" placeholder="Job Scope"></textarea>
+            <textarea v-model="contractStep2.scopeOfWork" type="text" class="form-input form-control" placeholder="Job Scope" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -42,7 +41,7 @@ import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
 
 export default {
-  name: 'step2',
+  name: 'Step2',
   auth: true,
   components: {
     ValidationObserver,
