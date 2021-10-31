@@ -1651,7 +1651,6 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.$get('/api/pay/as/you/go/contract/' + context.route.params.id)
       .then((data) => {
-        console.log(data)
         return data
       })
       .catch(e => console.log(e))
@@ -1971,7 +1970,8 @@ export default {
         stockOptionVestingStartDate: this.stockOptionVestingStartDate,
         additionalDocument: '',
         additionalDocumentFilename: '',
-        customContractFilename: ''
+        customContractFilename: '',
+        clientUserProfile: this.$auth.user.userProfile.id
       }).then(() => {
         this.modals.clientSignature = false
         this.contractStatus = 2
@@ -2031,7 +2031,9 @@ export default {
         stockOptionVestingStartDate: this.stockOptionVestingStartDate,
         additionalDocument: '',
         additionalDocumentFilename: '',
-        customContractFilename: ''
+        customContractFilename: '',
+        contractorUserProfile: this.$auth.user.userProfile.id,
+        clientUserProfile: this.clientUserProfile.id
       }).then(() => {
         this.modals.contractorSignature = false
         this.contractStatus = 3
@@ -2059,7 +2061,7 @@ export default {
         contractorEmailInvitationContent: this.contractorEmailInvitationContent,
         uuId: this.uuid,
         hostUrl: location.protocol + '//' + window.location.hostname,
-        contractType: 1,
+        contractType: 2,
         companyName: this.company.name
       }).then(() => {
         this.modals.contractorEmailInvitation = false

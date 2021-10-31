@@ -1771,7 +1771,8 @@ export default {
         clientSignedDate: this.clientSignedDate,
         contractorSignature: this.contractorSignature,
         contractorSignedDate: this.contractorSignedDate,
-        company: this.company.id
+        company: this.company.id,
+        clientUserProfile: this.$auth.user.userProfile.id
       }).then(() => {
         this.modals.clientSignature = false
         this.contractStatus = 2
@@ -1842,7 +1843,9 @@ export default {
         clientSignedDate: this.clientSignedDate,
         contractorSignature: this.contractorSignature,
         contractorSignedDate: this.contractorSignedDate,
-        company: this.company.id
+        company: this.company.id,
+        contractorUserProfile: this.$auth.user.userProfile.id,
+        clientUserProfile: this.clientUserProfile.id
       }).then(() => {
         this.modals.contractorSignature = false
         this.contractStatus = 3
@@ -1870,7 +1873,7 @@ export default {
         contractorEmailInvitationContent: this.contractorEmailInvitationContent,
         uuId: this.uuid,
         hostUrl: location.protocol + '//' + window.location.hostname,
-        contractType: 1,
+        contractType: 4,
         companyName: this.company.name
       }).then(() => {
         this.modals.contractorEmailInvitation = false

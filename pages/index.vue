@@ -66,42 +66,12 @@
 </template>
 <script>
 import { Select, Option } from 'element-ui'
-import moment from 'moment'
 import { Charts } from '~/components/argon-core/Charts/config'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
 
 function randomScalingFactor () {
   return Math.round(Math.random() * 100)
-}
-
-function isContainNonZero (data) {
-  if (data) {
-    const innerData = data.data
-    return innerData.some(x => x > 0)
-  }
-
-  return false
-}
-
-function processFacebookRespone (response) {
-  const pagePostEngagement = response.data
-
-  let facebookPagePostEngagementData
-  if (pagePostEngagement && pagePostEngagement.length > 0) {
-    const pagePostEngagementData = pagePostEngagement[0]
-    const values = pagePostEngagementData.values
-
-    const labels = values.map(value => moment(value.end_time.date).format('MMM DD'))
-    const data = values.map(value => value.value)
-
-    facebookPagePostEngagementData = {
-      labels,
-      data
-    }
-  }
-
-  return facebookPagePostEngagementData
 }
 
 export default {
@@ -117,115 +87,19 @@ export default {
   ],
   async asyncData (context) {
     const promises = [
-      context.app.$axios.get('/api/hubspot/companies/stats'),
-      context.app.$axios.get('/api/hubspot/contacts/stats'),
-      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me'),
-      context.app.$axios.get('/api/slack/users/stats'),
-      context.app.$axios.get('/api/facebook/post-engagements'),
-      context.app.$axios.get('/api/facebook/page-followers'),
-      context.app.$axios.get('/api/facebook/post-reach'),
-      context.app.$axios.get('/api/facebook/page-views'),
-      context.app.$axios.get('/api/facebook/videos-views')
+      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
     ]
 
     const responses = await Promise.all(promises.map(p => p.catch(_ => null)))
-
-    let hubspotCompanyStatRaw
-    let hubspotCompanyStat
-    if (responses[0]) {
-      hubspotCompanyStatRaw = responses[0]
-      hubspotCompanyStat = hubspotCompanyStatRaw.data
-    }
-
-    let hubspotContactStatRaw
-    let hubspotContactStat
-    if (responses[1]) {
-      hubspotContactStatRaw = responses[1]
-      hubspotContactStat = hubspotContactStatRaw.data
-    }
-
-    let slackUserStatRaw
-    let slackUserStat
-    if (responses[3]) {
-      slackUserStatRaw = responses[3]
-      slackUserStat = slackUserStatRaw.data
-    }
-
-    let hubspotCompanyStatTotal = 0
-
-    if (hubspotCompanyStat && hubspotCompanyStat.length > 0) {
-      hubspotCompanyStatTotal = hubspotCompanyStat[0].total
-    }
-
-    let hubspotContactStatTotal = 0
-    if (hubspotContactStat && hubspotContactStat.length > 0) {
-      hubspotContactStatTotal = hubspotContactStat[0].total
-    }
-
-    let slackUserStatTotal = 0
-    if (slackUserStat && slackUserStat.length > 0) {
-      slackUserStatTotal = slackUserStat[0].total
-    }
-
     let data
     if (responses[2]) {
       data = responses[2]
     }
 
-    let facebookPagePostEngagementData
-    if (responses[4]) {
-      facebookPagePostEngagementData = processFacebookRespone(responses[4])
-    }
-
-    let facebookFollowerCount
-    if (responses[5]) {
-      const data = responses[5].data
-      facebookFollowerCount = data.followers_count
-    }
-
-    let facebookPagePostReachData
-    if (responses[6]) {
-      facebookPagePostReachData = processFacebookRespone(responses[6])
-    }
-
-    let facebookPageViewData
-    if (responses[7]) {
-      facebookPageViewData = processFacebookRespone(responses[7])
-    }
-
-    let facebookPageVideoViewData
-    if (responses[8]) {
-      facebookPageVideoViewData = processFacebookRespone(responses[8])
-    }
-
-    const isAnyFacebookPageViewOrVideoViewExist = isContainNonZero(facebookPageViewData) || isContainNonZero(facebookPageVideoViewData)
-
-    const isAnyFacebookPagePostReachExist = isContainNonZero(facebookPagePostReachData)
-
-    const isAnyFacebookPagePostEngagementExist = isContainNonZero(facebookPagePostEngagementData)
-
-    const facebookPageViewAndVideoViewData = {
-      pageView: facebookPageViewData,
-      pageVideoView: facebookPageVideoViewData
-    }
     return {
-      isAnyFacebookPagePostEngagementExist,
-      isAnyFacebookPagePostReachExist,
-      isAnyFacebookPageViewOrVideoViewExist,
-      facebookPageViewAndVideoViewData,
-      facebookPageViewData,
-      facebookPageVideoViewData,
-      facebookFollowerCount,
-      facebookPagePostReachData,
-      facebookPagePostEngagementData,
-      hubspotCompanyStatTotal,
-      hubspotContactStatTotal,
-      slackUserStatTotal,
       employee: {
         role: data ? data.data.role : '',
-        occupation: data ? String(data.data.occupation) : '',
-        organization: data ? data.data.company.name : '',
-        workLocation: data ? data.data.company.location : ''
+        occupation: data ? String(data.data.occupation) : ''
       },
       profile: {
         firstname: data ? data.data.userProfile.firstname : '',

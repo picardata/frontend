@@ -81,7 +81,6 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.$get('/api/users/me')
       .then((data) => {
-        console.log(data)
         return data
       })
       .catch(e => console.log(e))
@@ -126,7 +125,9 @@ export default {
         stockOptionVestingCliffMonth: '',
         additionalDocument: '',
         additionalDocumentFilename: '',
-        customContractFilename: ''
+        customContractFilename: '',
+        contractorUserProfile: '',
+        clientUserProfile: ''
       },
       contractId: '',
       crumbs: [
@@ -208,6 +209,8 @@ export default {
         formData.append('additionalDocument', this.contract.additionalDocument)
         formData.append('additionalDocumentFilename', this.contract.additionalDocumentFilename)
         formData.append('customContractFilename', this.contract.customContractFilename)
+        formData.append('contractorUserProfile', this.contract.contractorUserProfile)
+        formData.append('clientUserProfile', this.contract.clientUserProfile)
 
         this.$axios.$post('/api/pay/as/you/go/contract/',
           formData,

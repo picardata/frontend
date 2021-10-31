@@ -247,7 +247,7 @@ export default {
       } else if (this.step === 3) {
         const result = await this.$refs.individualDetails.post()
         if (result) {
-          await this.$axios.$post('/api/employees/', {
+          const employeesData = {
             userProfile: this.employee.userProfile,
             role: this.employee.userProfile,
             occupation: this.employee.occupation,
@@ -260,7 +260,11 @@ export default {
             postalCode: this.employee.postalCode,
             phoneNumber: this.employee.phoneNumber,
             isCompanyAdmin: this.employee.isCompanyAdmin,
-            company: {
+            company: null
+          }
+
+          if (this.employee.company.name !== '') {
+            employeesData.company = {
               name: this.employee.company.name,
               location: this.employee.company.location,
               street: this.employee.company.street,
@@ -271,7 +275,11 @@ export default {
               registrationNumber: this.employee.company.registrationNumber,
               country: this.employee.company.country
             }
-          }).then((data) => {
+          }
+
+          await this.$axios.$post('/api/employees/',
+            employeesData
+          ).then((data) => {
             this.$auth.setUser(data)
 
             this.step++
