@@ -42,7 +42,7 @@
                           <tbody v-if="myContracts.length">
                             <tr v-for="(contract, index) in myContracts" :key="index">
                               <td>
-                                <NuxtLink :to="`/contracts/preview-contract/pay-as-you-go/${contract.uuid}`">
+                                <NuxtLink :to="`${contract.url}`">
                                   <span class="contract-name">{{ contract.contractName }}</span> <br>
                                   <span class="contract-type">{{ contract.contractType }}</span>
                                 </NuxtLink>
@@ -215,8 +215,8 @@ export default {
         contractStatus: payAsYouGoContract.contractStatus,
         salaryCurrency: payAsYouGoContract.salaryCurrency,
         salaryAmount: payAsYouGoContract.salaryAmount,
-        salaryPaymentType: payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name
-
+        salaryPaymentType: payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name,
+        url: '/contracts/preview-contract/pay-as-you-go/' + payAsYouGoContract.uuid
       }
       contracts.push(contract)
     })
@@ -229,8 +229,8 @@ export default {
         contractStatus: milestoneContract.contractStatus,
         salaryCurrency: '',
         salaryAmount: '',
-        salaryPaymentType: ''
-
+        salaryPaymentType: '',
+        url: '/contracts/preview-contract/milestone/' + milestoneContract.uuid
       }
       contracts.push(contract)
     })
@@ -243,7 +243,8 @@ export default {
         contractStatus: fullTimeEmployeeContract.contractStatus,
         salaryCurrency: fullTimeEmployeeContract.salaryCurrency,
         salaryAmount: fullTimeEmployeeContract.salaryAmount,
-        salaryPaymentType: 'Monthly'
+        salaryPaymentType: 'Monthly',
+        url: '/contracts/preview-contract/full-time-employee/' + fullTimeEmployeeContract.uuid
 
       }
 
