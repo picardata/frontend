@@ -17,37 +17,13 @@
               <span class="form-title">Contracts</span>
             </div>
           </div>
-          <div class="row mt-3">
-            <div class="col-12">
-              <ul class="list-packages">
-                <li>
-                  <div class="row">
-                    <div class="col-sm-7">
-                      <div class="card border p-4">
-                        <div class="mr-3">
-                          <div class="all-form-title bold-text">
-                            <div>
-                              No payments due
-                            </div>
-                            <div class="mt-5 float-right">
-                              <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
-                                Create Contract
-                              </nuxt-link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-5 text-right"></div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
             <div class="col-12">
-              <ContractList />
+              <ContractList
+              :milestoneContracts = "milestoneContracts"
+              :fullTimeEmployeeContracts = "fullTimeEmployeeContracts"
+              :payAsYouGoContracts = "payAsYouGoContracts" />
             </div>
           </div>
         </div>
@@ -63,6 +39,21 @@ export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
+  async asyncData (context) {
+    const companyId = context.app.$auth.user.userProfile.employees[0].company.id
+
+    const [payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
+      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
+      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
+      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
+    ])
+
+    return {
+      payAsYouGoContracts: payAsYouGoContracts.data,
+      milestoneContracts: milestoneContracts.data,
+      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
+    }
+  },
   components: {
     ContractList
   },
