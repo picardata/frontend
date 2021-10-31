@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-6">
-        <h1>Contracts List</h1>
-      </div>
-      <div class="col-6"></div>
-    </div>
     <div class="row mt-3">
-      <div class="col-12">
+      <div class="col-12 card border pr-0 pl-0">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -64,7 +58,7 @@ export default {
       contracts: [],
       totalPage: 1,
       currentPage: 1,
-        payAsYouGoSalaryFrequencies: [
+      payAsYouGoSalaryFrequencies: [
             {
                 name: 'Hour',
                 id: 1

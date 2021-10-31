@@ -98,12 +98,6 @@ export default {
           link: '/'
         },
         {
-          name: 'contracts',
-          displayName: 'My Contracts',
-          icon: 'Contracts.png',
-          link: '/my-contracts'
-        },
-        {
           name: 'profile',
           displayName: 'Profile',
           icon: 'User.png',

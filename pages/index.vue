@@ -9,53 +9,128 @@
             </div>
             <div>
               <div class="name">
-                Welcome, {{ profile.firstname }} {{ profile.lastname }}
+                Welcome, {{ profile.userProfile.firstname }}
               </div>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-12">
-              <ul class="list-packages">
-                <li>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="card border p-4">
-                        <div class="mr-3">
-                          <div class="all-form-title bold-text row">
-                            <div class="col-6">
-                              <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
-                                No payments due
-                              </h3>
-                            </div>
-                            <div class="col-6">
-                              <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
-                                Create Contract
-                              </nuxt-link>
-                            </div>
-                          </div>
+              <div v-if="!isCompanyAdmin" class="row">
+                <div class="col-8">
+                  <div class="card border">
+                    <div class="">
+                      <div class="">
+                        <div class="border-0 card-header">
+                          <h2 class="mb-0">
+                            My Contracts
+                          </h2>
                         </div>
+                        <table class="table table-striped my-contracts-table">
+                          <thead>
+                            <tr>
+                              <th scope="col">
+                                Contract
+                              </th>
+                              <th scope="col">
+                                Status
+                              </th>
+                              <th class="contract-amount-wrapper" scope="col">
+                                Amount
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="myContracts.length">
+                            <tr v-for="(contract, index) in myContracts" :key="index">
+                              <td>
+                                <NuxtLink :to="`/contracts/preview-contract/pay-as-you-go/${contract.uuid}`">
+                                  <span class="contract-name">{{ contract.contractName }}</span> <br>
+                                  <span class="contract-type">{{ contract.contractType }}</span>
+                                </NuxtLink>
+                              </td>
+                              <td>
+                                <span v-if="contract.contractStatus == 1" class="badge badge-1">DRAFT</span>
+                                <span v-else-if="contract.contractStatus == 2" class="badge badge-2">WAITING FOR CONTRACTOR SIGNATURE</span>
+                                <span v-else-if="contract.contractStatus == 3" class="badge badge-3">SIGNED BY BOTH PARTIES</span>
+                                <span v-else class="badge badge-0">UNDEFINED</span>
+                              </td>
+                              <td class="contract-amount-wrapper">
+                                <span class="contract-amount">{{ contract.salaryCurrency }} {{ formatPrice(contract.salaryAmount) }}</span><br>
+                                <span class="contract-payment-type">{{ contract.salaryPaymentType }}</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td>There is no contract</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
+                      <Paging
+                        style="width: 100%"
+                        :data="myContracts"
+                        :get-total-page="getMyContractTotalPage"
+                        :get-current-page="getMyContractCurrentPage"
+                        :set-current-page="setMyContractCurrentPage"
+                      />
                     </div>
-                    <div class="col-6">
-                      <div class="card border p-4">
-                        <div class="mr-3">
-                          <div class="all-form-title bold-text">
-                            <div>
-                              <h2 style="text-align: left;">
-                                Payment history
-                              </h2>
-                              <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
-                            </div>
-                            <div class="mt-3">
-                              You’ll see beautiful graphs after your first payment!
-                            </div>
-                          </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text">
+                        <div>
+                          <h2 style="text-align: left;">
+                            Payment history
+                          </h2>
+                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                        </div>
+                        <div class="mt-3">
+                          You’ll see beautiful graphs after your first payment!
                         </div>
                       </div>
                     </div>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
+              <div v-else class="row">
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text row">
+                        <div class="col-6">
+                          <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
+                            No payments due
+                          </h3>
+                        </div>
+                        <div class="col-6">
+                          <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
+                            Create Contract
+                          </nuxt-link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text">
+                        <div>
+                          <h2 style="text-align: left;">
+                            Payment history
+                          </h2>
+                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                        </div>
+                        <div class="mt-3">
+                          You’ll see beautiful graphs after your first payment!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -65,13 +140,8 @@
 </template>
 <script>
 import { Select, Option } from 'element-ui'
-import { Charts } from '~/components/argon-core/Charts/config'
 import loaderMixin from '~/mixins/loader'
 import hubspotMixin from '~/mixins/hubspot'
-
-function randomScalingFactor () {
-  return Math.round(Math.random() * 100)
-}
 
 export default {
   components: {
@@ -85,343 +155,153 @@ export default {
     hubspotMixin
   ],
   async asyncData (context) {
-    const promises = [
-      context.app.$axios.get('/api/user-profiles/' + context.app.$auth.user.userProfile.id + '/employees/me')
-    ]
-
-    const responses = await Promise.all(promises.map(p => p.catch(_ => null)))
-    let data
-    if (responses[2]) {
-      data = responses[2]
-    }
+    const contractorUserProfile = context.app.$auth.user.userProfile.id
+    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
+      context.app.$axios.get('/api/user-profiles/' + contractorUserProfile + '/employees/me'),
+      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
+      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
+      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile)
+    ])
 
     return {
-      employee: {
-        role: data ? data.data.role : '',
-        occupation: data ? String(data.data.occupation) : ''
-      },
-      profile: {
-        firstname: data ? data.data.userProfile.firstname : '',
-        lastname: data ? data.data.userProfile.lastname : '',
-        email: data ? data.data.userProfile.email : '',
-        phone: data ? data.data.userProfile.phone : '',
-        location: data ? data.data.userProfile.address : ''
-      }
+      profile: profile.data,
+      payAsYouGoContracts: payAsYouGoContracts.data,
+      milestoneContracts: milestoneContracts.data,
+      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
     }
   },
   data () {
     return {
-      timeframes: [
-        {
-          label: 'This month',
-          value: 1
-        },
-        {
-          label: '4 months',
-          value: 4
-        },
-        {
-          label: '6 months',
-          value: 6
-        },
-        {
-          label: 'This year',
-          value: 12
-        }
-      ],
-      selects: {
-        firstWidget: 'This month',
-        secondWidget: '6 months',
-        thirdWidget: 'This months',
-        forthWidget: '4 months',
-        fifthWidget: '4 months',
-        sixthWidget: 'This year',
-        seventhWidget: '6 months',
-        eighthWidget: '6 months'
-      },
       submenu: true,
-      totalIntegrations: 0,
-      menus: [
+      isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
+      myContracts: [],
+      myContractsTotalPage: 1,
+      myContractsCurrentPage: 1,
+      payAsYouGoContractSalaryFrequencies: [
         {
-          name: 'Your App Categories',
-          type: 'subtitle'
-        },
-        {
-          link: '/apps/app-library?category=6',
-          type: 'item',
-          name: 'Design'
+          name: 'Hour',
+          id: 1
         },
         {
-          link: '/apps/app-library?category=4',
-          type: 'item',
-          name: 'Sales & Marketing'
+          name: 'Day',
+          id: 2
         },
         {
-          link: '/apps/app-library?category=1',
-          type: 'item',
-          name: 'Finance'
+          name: 'Week',
+          id: 3
         },
         {
-          link: '/apps/app-library?category=5',
-          type: 'item',
-          name: 'Social Media'
-        },
-        {
-          link: '/apps/app-library?category=2',
-          type: 'item',
-          name: 'Collaboration'
-        },
-        {
-          link: '/apps/app-library?category=3',
-          type: 'item',
-          name: 'Human Resources'
+          name: 'Task',
+          id: 4
         }
-      ],
-      mostAccessedApps: [],
-      salesInsight: {
-        chartData: {
-          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Performance',
-            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
-            borderColor: Charts.colors.theme.primary
-          }]
-        }
-      },
-      transaction: {
-        chartData: {
-          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Performance',
-            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
-            borderColor: Charts.colors.theme.warning
-          }]
-        }
-      },
-      socialMedia: {
-        chartData: {
-          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Performance',
-            data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
-            borderColor: Charts.colors.theme.danger
-          }]
-        }
-      },
-      humanResources: {
-        chartData: {
-          labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Sales',
-            data: [25, 20, 30, 22, 17, 29]
-          }]
-        }
-      },
-      dotsChart: {
-        chartData: {
-          labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Performance',
-            data: [10, 18, 28, 23, 28, 40, 36, 46, 52],
-            pointRadius: 10,
-            pointHoverRadius: 15,
-            showLine: false
-          }]
-        },
-        extraOptions: {
-          scales: {
-            yAxes: [{
-              gridLines: {
-                color: Charts.colors.gray[200],
-                zeroLineColor: Charts.colors.gray[200]
-              }
-            }]
-          }
-        }
-      },
-      doughnutChart: {
-        chartData: {
-
-          labels: [
-            'Danger',
-            'Warning',
-            'Success',
-            'Primary',
-            'Info'
-          ],
-          datasets: [{
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ],
-            backgroundColor: [
-              Charts.colors.theme.danger,
-              Charts.colors.theme.warning,
-              Charts.colors.theme.success,
-              Charts.colors.theme.primary,
-              Charts.colors.theme.info
-            ],
-            label: 'Dataset 1'
-          }]
-        },
-        extraOptions: {
-          responsive: true,
-          legend: {
-            position: 'bottom'
-          },
-          animation: {
-            animateScale: true,
-            animateRotate: true
-          }
-        }
-      },
-      financial: {
-        chartData: {
-          labels: [
-            'Danger',
-            'Warning',
-            'Success',
-            'Primary',
-            'Info'
-          ],
-          datasets: [{
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ],
-            backgroundColor: [
-              Charts.colors.theme.danger,
-              Charts.colors.theme.warning,
-              Charts.colors.theme.success,
-              Charts.colors.theme.primary,
-              Charts.colors.theme.info
-            ],
-            label: 'Dataset 1'
-          }]
-        },
-        extraOptions: {
-          responsive: true,
-          legend: {
-            position: 'top'
-          },
-          animation: {
-            animateScale: true,
-            animateRotate: true
-          }
-        }
-      },
-      salesAndMarketing: {
-        chartData: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [{
-            label: 'Dataset 1',
-            backgroundColor: Charts.colors.theme.danger,
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ]
-          }, {
-            label: 'Dataset 2',
-            backgroundColor: Charts.colors.theme.primary,
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ]
-          }, {
-            label: 'Dataset 3',
-            backgroundColor: Charts.colors.theme.success,
-            data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
-            ]
-          }]
-
-        },
-        extraOptions: {
-          tooltips: {
-            mode: 'index',
-            intersect: false
-          },
-          responsive: true,
-          scales: {
-            xAxes: [{
-              stacked: true
-            }],
-            yAxes: [{
-              stacked: true
-            }]
-          }
-        }
-      }
+      ]
     }
   },
   computed: {
-    hubspotDataExist () {
-      return this.dealsChart.datasets[0].data.length
-    }
   },
   mounted () {
-    this.$axios.get('/api/integrations/?order%5Bid%5D=desc')
-      // eslint-disable-next-line no-return-assign
-      .then((data) => {
-        this.mostAccessedApps = data.data.filter(x => x.status === 1)
-        this.totalIntegrations = data.data.filter(x => x.status === 1).length
-      }).catch(
-      // eslint-disable-next-line no-console
-        (e) => {
-          console.log(e)
-        }
-      )
+    const contracts = []
+    const payAsYouGoSalaryFrequencies = this.payAsYouGoContractSalaryFrequencies
+    this.payAsYouGoContracts.forEach(function (payAsYouGoContract) {
+      const contract = {
+        uuid: payAsYouGoContract.uuid,
+        contractName: payAsYouGoContract.contractName,
+        contractType: 'PAY AS YOU GO',
+        contractStatus: payAsYouGoContract.contractStatus,
+        salaryCurrency: payAsYouGoContract.salaryCurrency,
+        salaryAmount: payAsYouGoContract.salaryAmount,
+        salaryPaymentType: payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name
 
-    // Hubspot get deals chart data
-    this.getHubspotChartDealsData()
+      }
+      contracts.push(contract)
+    })
+
+    this.milestoneContracts.forEach(function (milestoneContract) {
+      const contract = {
+        uuid: milestoneContract.uuid,
+        contractName: milestoneContract.contractName,
+        contractType: 'MILESTONE',
+        contractStatus: milestoneContract.contractStatus,
+        salaryCurrency: '',
+        salaryAmount: '',
+        salaryPaymentType: ''
+
+      }
+      contracts.push(contract)
+    })
+
+    this.fullTimeEmployeeContracts.forEach(function (fullTimeEmployeeContract) {
+      const contract = {
+        uuid: fullTimeEmployeeContract.uuid,
+        contractName: fullTimeEmployeeContract.employeeFirstName + ' ' + fullTimeEmployeeContract.employeeLastName,
+        contractType: 'FULL TIME EMPLOYEE',
+        contractStatus: fullTimeEmployeeContract.contractStatus,
+        salaryCurrency: fullTimeEmployeeContract.salaryCurrency,
+        salaryAmount: fullTimeEmployeeContract.salaryAmount,
+        salaryPaymentType: 'Monthly'
+
+      }
+
+      contracts.push(contract)
+    })
+
+    this.myContracts = contracts
   },
   methods: {
-    submenuAfterLeave (el) {
-      el.style.display = 'block'
-      el.style.left = '-14.6em'
+    setMyContractCurrentPage (currentPage) {
+      if (currentPage > 0 && currentPage <= this.myContractsTotalPage) {
+        this.myContractsCurrentPage = currentPage
+      }
     },
-    submenuAfterEnter (el) {
-      el.style.display = 'block'
-      el.style.left = '0em'
+    formatPrice (value) {
+      const val = (value / 1).toFixed(2).replace(',', '.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
-    appClick (index) {
-      const selectedIntegration = this.mostAccessedApps[index]
-      window.open('/apps/integrated-apps/' + selectedIntegration.id + '/' + selectedIntegration.application.appCode.replace('.', '-'), '_blank').focus()
+    getMyContractTotalPage () {
+      return this.myContractsTotalPage
+    },
+    getMyContractCurrentPage () {
+      return this.myContractsTotalPage
     }
   }
 }
 </script>
 <style scoped lang="scss">
-  /deep/.el-input__inner {
-    border: 0px;
-    font-style: 'Roboto Condensed';
-    font-size: 12px;
-    font-weight: 500;
-    color: #2534B6;
-  }
+  .my-contracts-table {
+    font-family: 'Roboto Condensed';
 
+    th {
+      font-size: 14px;
+      font-weight: 800;
+    }
+    td {
+      font-size: 14px;
+      color: black;
+    }
+    .contract-amount-wrapper {
+      text-align: right;
+    }
+
+    .badge{
+      color: #000000;
+      letter-spacing: 0.75px;
+      font-weight: 600;
+      font-size: 12px;
+      border-radius: 4px;
+      &.badge-0{
+        background-color: #ff6842;
+      }
+      &.badge-1{
+        background-color: #DAE6FF;
+      }
+      &.badge-2{
+        background-color: #FFDD63;
+      }
+      &.badge-3{
+        background-color: #aaff86d9;
+      }
+    }
+  }
   .all-form-title {
     font-family: 'Roboto Condensed';
     font-style: normal;
@@ -504,50 +384,6 @@ export default {
     }
   }
 
-  .most-apps{
-    h4{
-      color: #313131;
-      font-weight: 600;
-      font-size: 20px;
-      margin-top: 40px;
-    }
-  }
-
-  .stat-menu-title{
-    color: #313131;
-    font-weight: 600;
-    font-size: 20px;
-    margin-top: 40px;
-  }
-
-  .list-apps{
-    display: flex;
-    flex-wrap: wrap;
-
-    .app{
-      padding: 18px 4px 18px;
-      border-radius: 8px;
-      text-align: center;
-      width: 100px;
-      margin-right: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-
-      img{
-        width: fit-content;
-      }
-      h1{
-        font-size: 14px;
-        margin-top: 20px;
-        color: #313131;
-      }
-    }
-    font-size: 50px;
-    font-weight: bold;
-  }
-
   .right-content{
     padding: 80px 0 80px 40px;
   }
@@ -567,41 +403,6 @@ export default {
       font-weight: 500;
       color: #14142B;
       margin-top: 8px;
-    }
-  }
-
-  .most-apps{
-    h4{
-      color: #313131;
-      font-weight: 600;
-      font-size: 20px;
-      margin-top: 40px;
-    }
-  }
-
-  .list-apps{
-    display: flex;
-    flex-wrap: wrap;
-
-    .app{
-      padding: 18px 4px 18px;
-      border-radius: 8px;
-      text-align: center;
-      width: 100px;
-      margin-right: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-
-      img{
-        width: 40px;
-      }
-      h1{
-        font-size: 14px;
-        margin-top: 20px;
-        color: #313131;
-      }
     }
   }
 </style>
