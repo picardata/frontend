@@ -3,7 +3,6 @@
     <div class="wrapper">
       <div class="container picardata-container">
         <div class="row">
-
           <div class="col-md-12">
             <div class="icon-picardata text-center">
               <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
@@ -14,18 +13,18 @@
 
             <div class="form-group mt-4">
               <label
-                      :class="[`form-control-label`, {'d-none': !errors.firstname}]"
+                :class="[`form-control-label`, {'d-none': !errors.firstname}]"
               >
                 Full Name
               </label>
               <input
-                      v-model="firstname"
-                      :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
-                      placeholder="Full Name"
+                v-model="firstname"
+                :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
+                placeholder="Full Name"
               >
               <span v-if="this.firstname.length > 0 && errors.firstname" class="form-icon" @click="emptyInput('firstname')"><i class="fa fa-times" /></span>
               <span
-                      :class="['form-control-error', {'d-none': !errors.firstname}]"
+                :class="['form-control-error', {'d-none': !errors.firstname}]"
               >
                 {{ errors.firstname }}
               </span>

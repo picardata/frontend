@@ -10,19 +10,18 @@
           <div class="all-form-title bold-text form-field mb-4">
             <base-input class="text-label" label="First payment date">
               <flat-picker
+                v-model="contractStep3.firstPaymentDate"
                 slot-scope="{focus, blur}"
-                @on-open="focus"
-                @on-close="blur"
                 :config="firstPaymentDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep3.firstPaymentDate">
-              </flat-picker>
+                @on-open="focus"
+                @on-close="blur"
+              />
             </base-input>
 
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -36,7 +35,7 @@ import flatPicker from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
-  name: 'step1',
+  name: 'Step1',
   auth: true,
   components: {
     ValidationObserver,

@@ -19,21 +19,21 @@
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
-            <div class="col-3"></div>
+            <div class="col-3" />
             <div class="col-6">
               <div class="row">
                 <div class="col-12">
-                  <div class="card border p-4" v-if="step === 1">
-                    <step1 :employees = "employees" :contract = "contract" ref="step1" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  <div v-if="step === 1" class="card border p-4">
+                    <step1 ref="step1" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div class="card border p-4" v-if="step === 2">
-                    <step2 :contract = "contract" ref="step2" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  <div v-if="step === 2" class="card border p-4">
+                    <step2 ref="step2" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div class="card border p-4" v-if="step === 3">
-                    <step3 :contract = "contract" ref="step3" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  <div v-if="step === 3" class="card border p-4">
+                    <step3 ref="step3" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div class="card border p-4" v-if="step === 4">
-                    <step4 :contract = "contract" ref="step4" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  <div v-if="step === 4" class="card border p-4">
+                    <step4 ref="step4" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
                   <div class="contract-type-actions-wrapper">
@@ -42,7 +42,7 @@
                     </button>
 
                     <button v-if="step > 1 && step < 5" type="button" class="btn btn-lg btn-primary btn-add back-btn" @click.prevent="back">
-                      <i class="fas fa-arrow-left"></i>
+                      <i class="fas fa-arrow-left" />
                       Back
                     </button>
                   </div>
@@ -51,7 +51,7 @@
             </div>
           </div>
           <div v-if="step === 5">
-            <step5 :contract = "contract" ref="step5"/>
+            <step5 ref="step5" :contract="contract" />
           </div>
         </div>
       </div>
@@ -81,7 +81,6 @@ export default {
   async asyncData (context) {
     return await context.app.$axios.$get('/api/users/me')
       .then((data) => {
-        console.log(data)
         return data
       })
       .catch(e => console.log(e))
@@ -126,7 +125,9 @@ export default {
         stockOptionVestingCliffMonth: '',
         additionalDocument: '',
         additionalDocumentFilename: '',
-        customContractFilename: ''
+        customContractFilename: '',
+        contractorUserProfile: '',
+        clientUserProfile: ''
       },
       contractId: '',
       crumbs: [
@@ -208,6 +209,8 @@ export default {
         formData.append('additionalDocument', this.contract.additionalDocument)
         formData.append('additionalDocumentFilename', this.contract.additionalDocumentFilename)
         formData.append('customContractFilename', this.contract.customContractFilename)
+        formData.append('contractorUserProfile', this.contract.contractorUserProfile)
+        formData.append('clientUserProfile', this.contract.clientUserProfile)
 
         this.$axios.$post('/api/pay/as/you/go/contract/',
           formData,

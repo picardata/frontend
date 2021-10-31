@@ -3,8 +3,8 @@
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
         <div class="all-form-title bold-text form-field mb-4">
-          <span class="text-label">Legal Entity Name</span><br/>
-          <span class="text-label entity-name">{{contractStep1.legalEntity}}</span>
+          <span class="text-label">Legal Entity Name</span><br>
+          <span class="text-label entity-name">{{ contractStep1.legalEntity }}</span>
         </div>
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.employeeFirstName" name="Employee First and Middle Name">
           <div class="all-form-title bold-text form-field mb-4">
@@ -33,7 +33,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.employeeNationality" name="Employee Nationality">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Employee nationality</span>
-            <country-select v-model="contractStep1.employeeNationality" :country="country" topCountry="SG"  placeholder="Employee Nationality" class="form-input form-control"/>
+            <country-select v-model="contractStep1.employeeNationality" :country="country" top-country="SG" placeholder="Employee Nationality" class="form-input form-control" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -41,7 +41,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.employeeWorkingCountry" name="Country employee will be working from">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Country employee will be working from</span>
-            <country-select v-model="contractStep1.employeeWorkingCountry" :country="country" topCountry="SG"  placeholder="Country employee will be working from" class="form-input form-control"/>
+            <country-select v-model="contractStep1.employeeWorkingCountry" :country="country" top-country="SG" placeholder="Country employee will be working from" class="form-input form-control" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -76,7 +76,7 @@ import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
 
 export default {
-  name: 'stepOne',
+  name: 'StepOne',
   components: {
     ValidationObserver,
     ValidationProvider

@@ -2,36 +2,36 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Who can submit work?</span>
+        <div class="all-form-title bold-text form-field mb-4">
+          <span class="text-label">Who can submit work?</span>
 
-            <ValidationProvider mode="passive" vid="contractStep4.canClientSubmitWork" name="Can client submit work">
-              <div class="checkbox-wrapper">
-                <base-switch class="mr-1" on-text="Yes" off-text="No" v-model="contractStep4.canClientSubmitWork"></base-switch>
-                <span class="text-label-desc">Client</span>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider mode="passive" vid="contractStep4.canContractorSubmitWork" name="Can contractor submit work">
-              <div class="checkbox-wrapper">
-                <base-switch class="mr-1" on-text="Yes" off-text="No" v-model="contractStep4.canContractorSubmitWork"></base-switch>
-                <span class="text-label-desc">Contractor</span>
-              </div>
-            </ValidationProvider>
-          </div>
+          <ValidationProvider mode="passive" vid="contractStep4.canClientSubmitWork" name="Can client submit work">
+            <div class="checkbox-wrapper">
+              <base-switch v-model="contractStep4.canClientSubmitWork" class="mr-1" on-text="Yes" off-text="No" />
+              <span class="text-label-desc">Client</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider mode="passive" vid="contractStep4.canContractorSubmitWork" name="Can contractor submit work">
+            <div class="checkbox-wrapper">
+              <base-switch v-model="contractStep4.canContractorSubmitWork" class="mr-1" on-text="Yes" off-text="No" />
+              <span class="text-label-desc">Contractor</span>
+            </div>
+          </ValidationProvider>
+        </div>
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.terminationDate" name="Termination date">
           <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Termination date</span><br/>
+            <span class="text-label">Termination date</span><br>
             <span class="text-label-desc">The client will pay the contractor until the contract has been terminated.</span>
             <base-input class="text-label">
               <flat-picker
+                v-model="contractStep4.terminationDate"
                 slot-scope="{focus, blur}"
-                @on-open="focus"
-                @on-close="blur"
                 :config="terminationDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep4.terminationDate">
-              </flat-picker>
+                @on-open="focus"
+                @on-close="blur"
+              />
             </base-input>
 
             <span class="text-danger">{{ errors[0] }}</span>
@@ -40,7 +40,7 @@
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep4.noticePeriod" name="Notice period">
           <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Notice period</span><br/>
+            <span class="text-label">Notice period</span><br>
             <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
             <input v-model="contractStep4.noticePeriod" type="text" class="form-input form-control" placeholder="">
             <span class="text-danger">{{ errors[0] }}</span>
@@ -48,7 +48,7 @@
         </ValidationProvider>
 
         <div class="all-form-title bold-text form-field mb-4">
-          <span class="text-label">Stock options offer</span><br/>
+          <span class="text-label">Stock options offer</span><br>
           <span class="text-label-desc">
             Make stock option offers and track grants using Deel. Please be aware that establishing an international stock option plan, and making stock option grants typically requires legal counsel and approval from the company board of directors. A separate form of contract should be signed and prepared off platform to grant equity.
           </span>
@@ -56,17 +56,17 @@
           <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="modals.stockOption = true">
             Offer Stock Options
           </button>
-
         </div>
 
         <modal :show.sync="modals.stockOption" size="lg" modal-classes="modal-stock-option">
-          <template slot="header">
-          </template>
+          <template slot="header" />
           <div class="full-contract-details-wrapper">
             <div class="mr-3">
               <div class="all-form-title bold-text form-field">
-                <h3 class="text-center">Offer stock options</h3>
-                <span class="text-center d-block">For Fixed rate</span><br/>
+                <h3 class="text-center">
+                  Offer stock options
+                </h3>
+                <span class="text-center d-block">For Fixed rate</span><br>
                 <div class="information-text-wrapper">
                   <span>
                     Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
@@ -74,11 +74,10 @@
                 </div>
 
                 <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the value of the option you wish to offer?</span><br/>
+                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
 
                   <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionCurrency" name="Stock Option Currency">
                     <div class="currency-field-wrapper">
-
                       <select v-model="contractStep4.stockOptionCurrency" class="form-control form-input">
                         <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
                           {{ salaryCurrency.name }}
@@ -107,16 +106,16 @@
 
                 <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionVestingStartDate" name="Vesting start date">
                   <div class="all-form-title bold-text form-field mb-4">
-                    <span class="text-label">When does the vesting start?</span><br/>
+                    <span class="text-label">When does the vesting start?</span><br>
                     <base-input class="text-label" label="">
                       <flat-picker
+                        v-model="contractStep4.stockOptionVestingStartDate"
                         slot-scope="{focus, blur}"
-                        @on-open="focus"
-                        @on-close="blur"
                         :config="stockOptionVestingStartDateConfig"
                         class="form-control form-input datepicker"
-                        v-model="contractStep4.stockOptionVestingStartDate">
-                      </flat-picker>
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
                     </base-input>
 
                     <span class="text-danger">{{ errors[0] }}</span>
@@ -124,7 +123,7 @@
                 </ValidationProvider>
 
                 <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the monthly vesting schedule?</span><br/>
+                  <span class="text-label">What is the monthly vesting schedule?</span><br>
 
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionTotalVestingMonth" name="Total vesting months">
                     <div class="total-month-vesting-field-wrapper">
@@ -152,27 +151,27 @@
               </div>
             </div>
           </div>
-          <template slot="footer">
-          </template>
+          <template slot="footer" />
         </modal>
 
         <ValidationProvider
           ref="additionalDocument"
-          name="image"
           v-slot="{ errors }"
+          name="image"
         >
           <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Additional Document</span><br/>
+            <span class="text-label">Additional Document</span><br>
             <span class="text-label-desc">
-            Additional Document: Attach any additional document you may require for the contract. Attach a .zip for multiple documents.
+              Additional Document: Attach any additional document you may require for the contract. Attach a .zip for multiple documents.
             </span>
             <input
-            type="file"
-            class="btn btn-sm btn-secondary btn-add-doc"
-            accept="application/pdf"
-            id="additionalDocument"
-            ref="additionalDocument"
-            v-on:change="handleAdditionalDocumentUpload($event)"/>
+              id="additionalDocument"
+              ref="additionalDocument"
+              type="file"
+              class="btn btn-sm btn-secondary btn-add-doc"
+              accept="application/pdf"
+              @change="handleAdditionalDocumentUpload($event)"
+            >
           </div>
 
           <span>{{ errors[0] }}</span>
@@ -180,14 +179,13 @@
 
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep4.specialClause" name="Special Clause">
           <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Special Clause</span><br/>
+            <span class="text-label">Special Clause</span><br>
             <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
 
-            <textarea v-model="contractStep4.specialClause" type="text" class="form-input form-control" placeholder=""></textarea>
+            <textarea v-model="contractStep4.specialClause" type="text" class="form-input form-control" placeholder="" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -201,7 +199,7 @@ import flatPicker from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
-  name: 'step4',
+  name: 'Step4',
   auth: true,
   components: {
     ValidationObserver,

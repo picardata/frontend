@@ -28,8 +28,7 @@
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anySigningBonus" name="">
           <div class="all-form-title bold-text form-field mb-4">
-
-            <base-checkbox class="mr-1" on-text="Yes" off-text="No" v-model="contractStep3.anySigningBonus">
+            <base-checkbox v-model="contractStep3.anySigningBonus" class="mr-1" on-text="Yes" off-text="No">
               <span class="text-label">There will be a signing bonus</span>
             </base-checkbox>
             <span class="text-danger">{{ errors[0] }}</span>
@@ -46,7 +45,7 @@
 
         <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anyVariableCompensation" name="">
           <div class="all-form-title bold-text form-field mb-4">
-            <base-checkbox class="mr-1" on-text="Yes" off-text="No" v-model="contractStep3.anyVariableCompensation">
+            <base-checkbox v-model="contractStep3.anyVariableCompensation" class="mr-1" on-text="Yes" off-text="No">
               <span class="text-label">There will be variable compensation</span>
             </base-checkbox>
             <span class="text-danger">{{ errors[0] }}</span>
@@ -69,13 +68,13 @@
           <div class="all-form-title bold-text form-field mb-4">
             <base-input class="text-label" label="Employment Start Date">
               <flat-picker
+                v-model="contractStep3.employmentStartDate"
                 slot-scope="{focus, blur}"
-                @on-open="focus"
-                @on-close="blur"
                 :config="startDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep3.employmentStartDate">
-              </flat-picker>
+                @on-open="focus"
+                @on-close="blur"
+              />
             </base-input>
 
             <span class="text-danger">{{ errors[0] }}</span>
@@ -163,19 +162,18 @@
           <div class="all-form-title bold-text form-field mb-4">
             <base-input class="text-label" label="Contract End Date">
               <flat-picker
+                v-model="contractStep3.contractEndDate"
                 slot-scope="{focus, blur}"
-                @on-open="focus"
-                @on-close="blur"
                 :config="contractEndDateconfig"
                 class="form-control form-input datepicker"
-                v-model="contractStep3.contractEndDate">
-              </flat-picker>
+                @on-open="focus"
+                @on-close="blur"
+              />
             </base-input>
 
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-
       </form>
     </ValidationObserver>
   </div>
@@ -189,7 +187,7 @@ import flatPicker from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
-  name: 'step1',
+  name: 'Step1',
   auth: true,
   components: {
     ValidationObserver,

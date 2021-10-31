@@ -2,9 +2,8 @@
   <div class="mr-3">
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-
         <div class="all-form-title bold-text form-field mb-4">
-          <span class="text-label">Stock options offer</span><br/>
+          <span class="text-label">Stock options offer</span><br>
           <span class="text-label-desc">
             Make stock option offers and track grants using Deel. Please be aware that establishing an international stock option plan, and making stock option grants typically requires legal counsel and approval from the company board of directors. A separate form of contract should be signed and prepared off platform to grant equity.
           </span>
@@ -12,17 +11,17 @@
           <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="modals.stockOption = true">
             Offer Stock Options
           </button>
-
         </div>
 
         <modal :show.sync="modals.stockOption" size="lg" modal-classes="modal-stock-option">
-          <template slot="header">
-          </template>
+          <template slot="header" />
           <div class="full-contract-details-wrapper">
             <div class="mr-3">
               <div class="all-form-title bold-text form-field">
-                <h3 class="text-center">Offer stock options</h3>
-                <span class="text-center d-block">For Fixed rate</span><br/>
+                <h3 class="text-center">
+                  Offer stock options
+                </h3>
+                <span class="text-center d-block">For Fixed rate</span><br>
                 <div class="information-text-wrapper">
                   <span>
                     Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
@@ -30,11 +29,10 @@
                 </div>
 
                 <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the value of the option you wish to offer?</span><br/>
+                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
 
                   <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionCurrency" name="Stock Option Currency">
                     <div class="currency-field-wrapper">
-
                       <select v-model="contractStep4.stockOptionCurrency" class="form-control form-input">
                         <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
                           {{ salaryCurrency.name }}
@@ -63,16 +61,16 @@
 
                 <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionVestingStartDate" name="Vesting start date">
                   <div class="all-form-title bold-text form-field mb-4">
-                    <span class="text-label">When does the vesting start?</span><br/>
+                    <span class="text-label">When does the vesting start?</span><br>
                     <base-input class="text-label" label="">
                       <flat-picker
+                        v-model="contractStep4.stockOptionVestingStartDate"
                         slot-scope="{focus, blur}"
-                        @on-open="focus"
-                        @on-close="blur"
                         :config="stockOptionVestingStartDateConfig"
                         class="form-control form-input datepicker"
-                        v-model="contractStep4.stockOptionVestingStartDate">
-                      </flat-picker>
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
                     </base-input>
 
                     <span class="text-danger">{{ errors[0] }}</span>
@@ -80,7 +78,7 @@
                 </ValidationProvider>
 
                 <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the monthly vesting schedule?</span><br/>
+                  <span class="text-label">What is the monthly vesting schedule?</span><br>
 
                   <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionTotalVestingMonth" name="Total vesting months">
                     <div class="total-month-vesting-field-wrapper">
@@ -108,10 +106,8 @@
               </div>
             </div>
           </div>
-          <template slot="footer">
-          </template>
+          <template slot="footer" />
         </modal>
-
       </form>
     </ValidationObserver>
   </div>
@@ -125,7 +121,7 @@ import flatPicker from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
-  name: 'step4',
+  name: 'Step4',
   auth: true,
   components: {
     ValidationObserver,

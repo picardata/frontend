@@ -1,36 +1,35 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-6">
-        <h1>Contracts List</h1>
-      </div>
-      <div class="col-6">
-        <nuxt-link to="/billing" class="btn btn-lg btn-primary btn-round float-right">
-          Download All PDFs
-        </nuxt-link>
-      </div>
-    </div>
     <div class="row mt-3">
-      <div class="col-12">
+      <div class="col-12 card border pr-0 pl-0">
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Contract</th>
-              <th scope="col">Amount</th>
               <th scope="col">Status</th>
-              <th scope="col">Action</th>
+              <th class="contract-amount-wrapper" scope="col">Amount</th>
             </tr>
           </thead>
           <tbody>
+
             <tr v-for="(contract, index) in contracts" :key="index">
-              <td>{{ contract.title }}</td>
-              <td>{{ contract.amount }}</td>
               <td>
-                <span v-if="contract.status === 0" class="badge badge-paid">WAITING FOR CLIENT SIGN</span>
-                <span v-else-if="contract.status === 1" class="badge badge-posted">SIGNED</span>
+                <NuxtLink :to="`/contracts/preview-contract/pay-as-you-go/${contract.uuid}`">
+                  <span class="contract-name">{{ contract.contractName }}</span> <br/>
+                  <span class="contract-type">{{ contract.contractType }}</span>
+                </NuxtLink>
               </td>
               <td>
-                <a href="#">Download PDF</a></td>
+                <span v-if="contract.contractStatus == 1" class="badge badge-1">DRAFT</span>
+                <span v-else-if="contract.contractStatus == 2" class="badge badge-2">WAITING FOR CONTRACTOR SIGNATURE</span>
+                <span v-else-if="contract.contractStatus == 3" class="badge badge-3">SIGNED BY BOTH PARTIES</span>
+                <span v-else class="badge badge-0">UNDEFINED</span>
+              </td>
+              <td class="contract-amount-wrapper">
+                <span class="contract-amount">{{ contract.salaryCurrency }} {{ formatPrice(contract.salaryAmount) }}</span><br/>
+                <span class="contract-payment-type">{{ contract.salaryPaymentType }}</span>
+
+              </td>
             </tr>
           </tbody>
         </table>
@@ -49,44 +48,97 @@
 <script>
 export default {
   name: "ContractList",
+  props: [
+    'milestoneContracts',
+    'fullTimeEmployeeContracts',
+    'payAsYouGoContracts',
+  ],
   data () {
     return {
       contracts: [],
-      contractsPage1: [
-        {
-          title: 'Sales Exec Full Time SG\n' +
-                  'FULL TIME',
-          amount: 'SGD 3,500 MONTHLY',
-          status: 0,
-        },
-        {
-          title: 'Data Analyst Internship SG\n' +
-                  'FIXED RATE',
-          amount: 'SGD 800 MONTHLY',
-          status: 1,
-        }
-      ],
       totalPage: 1,
       currentPage: 1,
+      payAsYouGoSalaryFrequencies: [
+            {
+                name: 'Hour',
+                id: 1
+            },
+            {
+                name: 'Day',
+                id: 2
+            },
+            {
+                name: 'Week',
+                id: 3
+            },
+            {
+                name: 'Task',
+                id: 4
+            }
+        ],
     }
   },
-  created() {
-    this.contracts = this.contractsPage1
+  mounted () {
+    let contracts = []
+    const payAsYouGoSalaryFrequencies = this.payAsYouGoSalaryFrequencies
+    this.payAsYouGoContracts.forEach(function (payAsYouGoContract, index) {
+      const contract = {
+        uuid: payAsYouGoContract.uuid,
+        contractName: payAsYouGoContract.contractName,
+        contractType: 'PAY AS YOU GO',
+        contractStatus: payAsYouGoContract.contractStatus,
+        salaryCurrency: payAsYouGoContract.salaryCurrency,
+        salaryAmount: payAsYouGoContract.salaryAmount,
+        salaryPaymentType: payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name
+
+      }
+      contracts.push(contract)
+    });
+
+    this.milestoneContracts.forEach(function (milestoneContract, index) {
+      const contract = {
+        uuid: milestoneContract.uuid,
+        contractName: milestoneContract.contractName,
+        contractType: 'MILESTONE',
+        contractStatus: milestoneContract.contractStatus,
+        salaryCurrency: '',
+        salaryAmount: '',
+        salaryPaymentType: ''
+
+      }
+      contracts.push(contract)
+    });
+
+    this.fullTimeEmployeeContracts.forEach(function (fullTimeEmployeeContract, index) {
+      const contract = {
+        uuid: fullTimeEmployeeContract.uuid,
+        contractName: fullTimeEmployeeContract.employeeFirstName + ' ' + fullTimeEmployeeContract.employeeLastName,
+        contractType: 'FULL TIME EMPLOYEE',
+        contractStatus: fullTimeEmployeeContract.contractStatus,
+        salaryCurrency: fullTimeEmployeeContract.salaryCurrency,
+        salaryAmount: fullTimeEmployeeContract.salaryAmount,
+        salaryPaymentType: 'Monthly'
+
+      }
+
+      contracts.push(contract)
+    });
+
+    this.contracts = contracts
   },
   methods: {
     setCurrentPage (currentPage) {
       if (currentPage > 0 && currentPage <= this.totalPage) {
         this.currentPage = currentPage
-
-        if (currentPage === 1) {
-          this.contracts = this.contractsPage1
-        }
       }
+    },
+    formatPrice(value) {
+      let val = (value/1).toFixed(2).replace(',', '.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
     getTotalPage () {
       return this.totalPage
     },
-
     getCurrentPage () {
       return this.currentPage
     }
@@ -128,17 +180,40 @@ table{
       padding-left: 0;
     }
   }
+  .contract-name {
+    font-weight: 800;
+  }
+  .contract-type {
+    font-size: 12px;
+    color: black;
+  }
+  .contract-amount-wrapper {
+    text-align: right;
+  }
+  .contract-amount {
+    font-weight: 800;
+  }
+  .contract-payment-type {
+    font-size: 12px;
+    color: black;
+  }
   .badge{
     color: #000000;
     letter-spacing: 0.75px;
     font-weight: 600;
     font-size: 12px;
     border-radius: 4px;
-    &.badge-posted{
+    &.badge-0{
+      background-color: #ff6842;
+    }
+    &.badge-1{
+      background-color: #DAE6FF;
+    }
+    &.badge-2{
       background-color: #FFDD63;
     }
-    &.badge-paid{
-       background-color: #DAE6FF;
+    &.badge-3{
+      background-color: #aaff86d9;
     }
   }
   a{

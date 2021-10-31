@@ -46,7 +46,7 @@
             <span class="text-label">Customize invoice settings?</span>
             <span class="text-label-desc">Toggle on to change from default values.</span>
 
-            <base-switch class="mr-1 form-checkbox" on-text="Yes" off-text="No" v-model="contractStep2.isInvoiceSettingsCustomisable"></base-switch>
+            <base-switch v-model="contractStep2.isInvoiceSettingsCustomisable" class="mr-1 form-checkbox" on-text="Yes" off-text="No" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -80,7 +80,7 @@
             <span class="text-label">Pay ahead of the weekend</span>
             <span class="text-label-desc">If the payment due is on a weekend, pay on Friday</span>
 
-            <base-switch class="mr-1 form-checkbox" on-text="Yes" off-text="No" v-model="contractStep2.isInvoicePaymentPayAheadOfTheWeekend" :disabled="isDisabled"></base-switch>
+            <base-switch v-model="contractStep2.isInvoicePaymentPayAheadOfTheWeekend" class="mr-1 form-checkbox" on-text="Yes" off-text="No" :disabled="isDisabled" />
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -96,7 +96,7 @@ import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
 
 export default {
-  name: 'step2',
+  name: 'Step2',
   auth: true,
   components: {
     ValidationObserver,
@@ -105,11 +105,6 @@ export default {
   props: [
     'contract'
   ],
-  computed: {
-    isDisabled () {
-      return !this.contractStep2.isInvoiceSettingsCustomisable
-    }
-  },
   data () {
     return {
       contractStep2: {
@@ -480,6 +475,11 @@ export default {
       conditionalDisabled: {
         invoicing: 1
       }
+    }
+  },
+  computed: {
+    isDisabled () {
+      return !this.contractStep2.isInvoiceSettingsCustomisable
     }
   },
   methods: {

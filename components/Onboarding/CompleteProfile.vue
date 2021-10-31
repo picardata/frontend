@@ -145,45 +145,7 @@ export default {
         return false
       }
 
-      const result = this.$axios.$post('/api/employees/', {
-        userProfile: {
-          firstname: this.profile.name.trim(),
-          lastname: '',
-          address: this.profile.location,
-          phone: this.profile.phone.trim() === '' ? '' : this.profile.formattedPhone,
-          email: this.profile.email,
-          user: this.$auth.user.id
-        },
-        role: this.profile.role,
-        occupation: this.profile.occupation,
-        company: {
-          name: this.profile.organization,
-          location: this.profile.workLocation
-        }
-      }).then((data) => {
-        this.$auth.setUser(data)
-        return true
-      }).catch((e) => {
-        const errors = {}
-
-        if (e.response.data.errors.userProfile !== undefined) {
-          Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-            const key = 'profile.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-        if (e.response.data.errors.company !== undefined) {
-          Object.entries(e.response.data.errors.company).forEach(function (value) {
-            const key = 'company.' + value[0]
-            errors[key] = value[1]
-          })
-        }
-
-        this.$refs.form.setErrors(errors)
-        return false
-      })
-
-      return result
+      return isValid
     },
     onFormChange () {
       let isComplete = true

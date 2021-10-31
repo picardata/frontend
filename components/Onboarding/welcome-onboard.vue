@@ -9,7 +9,7 @@
     </div>
     <div class="row mt-24">
       <div class="col-12" style="text-align: center">
-        <p class="contractor-type paragraph" >
+        <p class="contractor-type paragraph">
           What kind of contractor are you?
         </p>
       </div>
@@ -17,17 +17,16 @@
 
     <div class="row mt-4 user-type">
       <div class="col-5">
-        <p class="paragraph" >
+        <p class="paragraph">
           <b>I am an entity </b>
-          <br/> Your entity information will be used on invoices and tax documentation
+          <br> Your entity information will be used on invoices and tax documentation
         </p>
       </div>
-      <div class="col-2">
-      </div>
+      <div class="col-2" />
       <div class="col-5">
-        <p class="paragraph" >
+        <p class="paragraph">
           <b>I am an individual </b>
-          <br/> Your full information will be used on invoices and tax documentation
+          <br> Your full information will be used on invoices and tax documentation
         </p>
       </div>
     </div>
