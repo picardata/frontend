@@ -247,7 +247,7 @@ export default {
         if (result) {
           const employeesData = {
             userProfile: this.employee.userProfile,
-            role: this.employee.userProfile,
+            role: '',
             occupation: this.employee.occupation,
             taxID: this.employee.taxID,
             nationality: this.employee.nationality,
@@ -262,7 +262,7 @@ export default {
           }
 
           if (this.employee.company.name !== '') {
-            employeesData.company = {
+            const companyData = {
               name: this.employee.company.name,
               location: this.employee.company.location,
               street: this.employee.company.street,
@@ -273,52 +273,71 @@ export default {
               registrationNumber: this.employee.company.registrationNumber,
               country: this.employee.company.country
             }
-          }
 
-          await this.$axios.$post('/api/employees/',
-            employeesData
-          ).then((data) => {
-            this.$auth.setUser(data)
+            await this.$axios.$post('/api/companies/',
+              companyData
+            ).then((data) => {
+              employeesData.company = data.id
 
-            this.step++
+              this.$axios.$post('/api/employees/',
+                employeesData
+              ).then((data) => {
+                this.$auth.setUser(data)
+                this.step++
 
-            if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
-              const id = this.$route.query.id
-              const contractType = this.$route.query.type
+                if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+                  const id = this.$route.query.id
+                  const contractType = this.$route.query.type
 
-              if (contractType === '1') {
-                this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
-              } else if (contractType === '2') {
-                this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
-              } else if (contractType === '3') {
-                this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
-              } else if (contractType === '4') {
-                this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+                  if (contractType === '1') {
+                    this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
+                  } else if (contractType === '2') {
+                    this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
+                  } else if (contractType === '3') {
+                    this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
+                  } else if (contractType === '4') {
+                    this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+                  } else {
+                    this.$router.push('/')
+                  }
+                } else {
+                  this.$router.push('/')
+                }
+              }).catch(() => {
+                return false
+              })
+            }).catch(() => {
+              return false
+            })
+          } else {
+            await this.$axios.$post('/api/employees/',
+              employeesData
+            ).then((data) => {
+              this.$auth.setUser(data)
+              this.step++
+
+              if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+                const id = this.$route.query.id
+                const contractType = this.$route.query.type
+
+                if (contractType === '1') {
+                  this.$router.push('/contracts/preview-contract/' + 'fixed-rate' + '/' + id)
+                } else if (contractType === '2') {
+                  this.$router.push('/contracts/preview-contract/' + 'pay-as-you-go' + '/' + id)
+                } else if (contractType === '3') {
+                  this.$router.push('/contracts/preview-contract/' + 'milestone' + '/' + id)
+                } else if (contractType === '4') {
+                  this.$router.push('/contracts/preview-contract/' + 'full-time-employee' + '/' + id)
+                } else {
+                  this.$router.push('/')
+                }
               } else {
                 this.$router.push('/')
               }
-            } else {
-              this.$router.push('/')
-            }
-          }).catch((e) => {
-            const errors = {}
-
-            if (e.response.data.errors.userProfile !== undefined) {
-              Object.entries(e.response.data.errors.userProfile).forEach(function (value) {
-                const key = 'profile.' + value[0]
-                errors[key] = value[1]
-              })
-            }
-            if (e.response.data.errors.company !== undefined) {
-              Object.entries(e.response.data.errors.company).forEach(function (value) {
-                const key = 'company.' + value[0]
-                errors[key] = value[1]
-              })
-            }
-
-            this.$refs.form.setErrors(errors)
-            return false
-          })
+            }).catch(() => {
+              return false
+            })
+          }
         }
       } else {
         await this.$axios.$post('/api/users/onboarding/next')

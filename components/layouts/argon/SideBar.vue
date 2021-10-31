@@ -195,6 +195,11 @@ export default {
       }
     }
   },
+  created () {
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isCompanyAdmin')) {
+      this.isCompanyAdmin = this.$auth.user.isCompanyAdmin
+    }
+  },
   methods: {
     isActive (name) {
       if (this.$route && this.$route.path) {
