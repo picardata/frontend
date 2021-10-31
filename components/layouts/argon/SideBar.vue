@@ -69,7 +69,7 @@
     <modal :show.sync="modals.logout">
       <template slot="header">
         <h5 id="exampleModalLabel" class="modal-title">
-          Are you sure want to log out from Picardata?
+          Are you sure want to log out from Globelise?
         </h5>
       </template>
       <template slot="footer">
@@ -124,7 +124,7 @@ export default {
           link: '/'
         },
         {
-          name: 'create-contract',
+          name: 'contracts-create-contract',
           displayName: 'Create a Contract',
           icon: 'Create_contract.png',
           link: '/contracts/create-contract'
@@ -204,8 +204,7 @@ export default {
   methods: {
     isActive (name) {
       if (this.$route && this.$route.path) {
-        const matchingRoute = this.$route.name.startsWith(name)
-        if (matchingRoute) {
+        if (this.$route.name === name) {
           return true
         }
       }
