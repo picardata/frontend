@@ -199,6 +199,11 @@ export default {
   },
   computed: {
   },
+  created () {
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isCompanyAdmin')) {
+      this.isCompanyAdmin = this.$auth.user.isCompanyAdmin
+    }
+  },
   mounted () {
     const contracts = []
     const payAsYouGoSalaryFrequencies = this.payAsYouGoContractSalaryFrequencies
