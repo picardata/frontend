@@ -130,6 +130,12 @@ export default {
           link: '/contracts'
         },
         {
+          name: 'payslips',
+          displayName: 'Payslips',
+          icon: 'Invoices_Receipts.png',
+          link: '/payslips'
+        },
+        {
           name: 'reports',
           displayName: 'Reports',
           icon: 'Reports.png',
@@ -141,12 +147,12 @@ export default {
           icon: 'Compliance_document.png',
           link: '#'
         },
-        {
-          name: 'invoices-receipts',
-          displayName: 'Invoices & Receipts',
-          icon: 'Invoices_Receipts.png',
-          link: '#'
-        },
+        // {
+        //   name: 'invoices-receipts',
+        //   displayName: 'Invoices & Receipts',
+        //   icon: 'Invoices_Receipts.png',
+        //   link: '#'
+        // },
         {
           name: 'taxes',
           displayName: 'Taxes',
