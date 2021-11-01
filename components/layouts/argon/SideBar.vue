@@ -136,6 +136,12 @@ export default {
           link: '/payslips'
         },
         {
+          name: 'payslips-upload-payslips',
+          displayName: 'Upload Payslips',
+          icon: 'Invoices_Receipts.png',
+          link: '/payslips/upload-payslips'
+        },
+        {
           name: 'reports',
           displayName: 'Reports',
           icon: 'Reports.png',

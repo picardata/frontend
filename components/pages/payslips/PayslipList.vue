@@ -66,7 +66,6 @@ export default {
             payslips.push(payslip)
         });
         this.payslips = payslips
-
     },
   methods: {
     setCurrentPage (currentPage) {
