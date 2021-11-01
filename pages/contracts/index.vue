@@ -47,7 +47,13 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    const companyId = context.app.$auth.user.userProfile.employees[0].company.id
+
+      let companyId = ''
+      if (Object.hasOwnProperty.call(context.app.$auth.user, 'company')) {
+        companyId = context.app.$auth.user.company.id
+      } else {
+        companyId = context.app.$auth.user.userProfile.employees[0].company.id
+      }
 
     const [payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
       context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
@@ -62,6 +68,7 @@ export default {
     }
   },
   data () {
+      console.log(this)
     return {
       crumbs: [
         {
