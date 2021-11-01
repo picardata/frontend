@@ -16,7 +16,7 @@
           <div class="row mt-3">
             <div class="col-12">
               <div v-if="!isCompanyAdmin" class="row">
-                <div class="col-8">
+                <div class="col-6">
                   <div class="card border">
                     <div class="">
                       <div class="">
@@ -76,19 +76,50 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
-                  <div class="card border p-4">
-                    <div class="mr-3">
-                      <div class="all-form-title bold-text">
-                        <div>
-                          <h2 style="text-align: left;">
-                            Payment history
+                <div class="col-6">
+                  <div class="card border">
+                    <div class="">
+                      <div class="">
+                        <div class="border-0 card-header">
+                          <h2 class="mb-0">
+                            My Payslips
                           </h2>
-                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
                         </div>
-                        <div class="mt-3">
-                          You’ll see beautiful graphs after your first payment!
-                        </div>
+                        <table class="table table-striped my-contracts-table">
+                          <thead>
+                            <tr>
+                              <th scope="col">
+                                Name
+                              </th>
+                              <th scope="col">
+                                Employee
+                              </th>
+                              <th class="contract-amount-wrapper" scope="col">
+                                Filename
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="myPayslips.length">
+                            <tr v-for="(payslip, index) in myPayslips" :key="index">
+                              <td>
+                                <span class="contract-name">{{ payslip.name }}</span>
+                              </td>
+                              <td>
+                                <span class="contract-name">{{ payslip.employee }}</span>
+                              </td>
+                              <td class="contract-amount-wrapper">
+                                <a :href="`${payslip.url}`" target="_blank">
+                                  <span class="contract-name">{{ payslip.filename }}</span>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td>There is no payslips</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -156,25 +187,31 @@ export default {
   ],
   async asyncData (context) {
     const contractorUserProfile = context.app.$auth.user.userProfile.id
-    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
+    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips] = await Promise.all([
       context.app.$axios.get('/api/user-profiles/' + contractorUserProfile + '/employees/me'),
       context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
-      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile)
+      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
     ])
 
     return {
       profile: profile.data,
       payAsYouGoContracts: payAsYouGoContracts.data,
       milestoneContracts: milestoneContracts.data,
-      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
+      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data,
+      uploadedPayslips: uploadedPayslips.data
     }
   },
   data () {
+    console.log(this)
     return {
       submenu: true,
       isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
       myContracts: [],
+      myPayslips: [],
+      myPayslipsTotalPage: 1,
+      myPayslipsCurrentPage: 1,
       myContractsTotalPage: 1,
       myContractsCurrentPage: 1,
       payAsYouGoContractSalaryFrequencies: [
@@ -252,6 +289,20 @@ export default {
     })
 
     this.myContracts = contracts
+
+    const payslips = []
+    const apiHost = this.$config.axios.baseURL
+
+    this.uploadedPayslips.forEach(function (uploadedPayslip) {
+      const payslip = {
+        name: uploadedPayslip.name,
+        filename: uploadedPayslip.filename,
+        employee: uploadedPayslip.employee.userProfile.firstname,
+        url: apiHost + '/uploads/payslip_document/' + uploadedPayslip.filename
+      }
+      payslips.push(payslip)
+    })
+    this.myPayslips = payslips
   },
   methods: {
     setMyContractCurrentPage (currentPage) {
