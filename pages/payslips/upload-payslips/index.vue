@@ -88,7 +88,7 @@ export default {
       newUploadedPayslips: [],
       crumbs: [
         {
-          name: 'Payslip List',
+          name: 'Upload Payslip',
           path: '/payslips/upload-payslips'
         }
       ],

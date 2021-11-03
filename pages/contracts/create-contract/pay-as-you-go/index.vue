@@ -133,8 +133,12 @@ export default {
       crumbs: [
         {
           name: 'Create Contract',
-          path: '/contracts'
-        }
+          path: '/create-contract'
+        },
+          {
+              name: 'Pay As You Go',
+              path: '/create-contract/pay-as-you-go'
+          }
       ],
       submenu: true
     }

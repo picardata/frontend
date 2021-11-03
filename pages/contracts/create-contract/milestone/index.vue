@@ -115,10 +115,14 @@ export default {
       },
       contractId: '',
       crumbs: [
-        {
-          name: 'Create Contract',
-          path: '/contracts'
-        }
+          {
+              name: 'Create Contract',
+              path: '/create-contract'
+          },
+          {
+              name: 'Milestone',
+              path: '/create-contract/milestone'
+          }
       ],
       submenu: true
     }
