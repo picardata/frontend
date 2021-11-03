@@ -14,17 +14,13 @@
         <div class="container-fluid mt--6">
           <div class="row mt-3">
             <div class="col-12">
-              <span class="form-title">Contracts</span>
+              <span class="form-title">Payslips</span>
             </div>
           </div>
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
             <div class="col-12">
-              <ContractList
-                :milestone-contracts="milestoneContracts"
-                :full-time-employee-contracts="fullTimeEmployeeContracts"
-                :pay-as-you-go-contracts="payAsYouGoContracts"
-              />
+              <PayslipList :uploaded-payslips="uploadedPayslips" />
             </div>
           </div>
         </div>
@@ -35,13 +31,13 @@
 
 <script>
 import loaderMixin from '~/mixins/loader'
-import ContractList from '~/components/pages/contracts/ContractList'
+import PayslipList from '~/components/pages/payslips/PayslipList'
 export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
   components: {
-    ContractList
+    PayslipList
   },
   mixins: [
     loaderMixin
@@ -54,24 +50,20 @@ export default {
       companyId = context.app.$auth.user.userProfile.employees[0].company.id
     }
 
-    const [payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
-      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
+    const [uploadedPayslips] = await Promise.all([
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
     ])
 
     return {
-      payAsYouGoContracts: payAsYouGoContracts.data,
-      milestoneContracts: milestoneContracts.data,
-      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
+      uploadedPayslips: uploadedPayslips.data
     }
   },
   data () {
     return {
       crumbs: [
         {
-          name: 'Contract List',
-          path: '/contracts'
+          name: 'Payslip List',
+          path: '/payslips'
         }
       ],
       submenu: true
