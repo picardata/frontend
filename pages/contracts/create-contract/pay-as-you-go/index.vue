@@ -135,10 +135,10 @@ export default {
           name: 'Create Contract',
           path: '/create-contract'
         },
-          {
-              name: 'Pay As You Go',
-              path: '/create-contract/pay-as-you-go'
-          }
+        {
+          name: 'Pay As You Go',
+          path: '/create-contract/pay-as-you-go'
+        }
       ],
       submenu: true
     }

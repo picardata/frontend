@@ -140,14 +140,14 @@ export default {
       },
       contractId: '',
       crumbs: [
-          {
-              name: 'Create Contract',
-              path: '/create-contract'
-          },
-          {
-              name: 'Full-time Employee',
-              path: '/create-contract/full-time-employee'
-          }
+        {
+          name: 'Create Contract',
+          path: '/create-contract'
+        },
+        {
+          name: 'Full-time Employee',
+          path: '/create-contract/full-time-employee'
+        }
       ],
       submenu: true
     }

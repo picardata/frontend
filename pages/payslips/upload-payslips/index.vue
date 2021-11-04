@@ -52,14 +52,29 @@
               <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="uploadPayslip">
                 Upload
               </button>
+
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
+                View Uploaded Payslips
+              </button>
             </div>
           </div>
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
-            <div class="col-12">
-              <!--              <PayslipList :key="id" :uploaded-payslips="uploadedPayslips" />-->
-            </div>
+            <div class="col-12" />
           </div>
+          <modal :show.sync="modals.uploadedPayslips" size="lg" modal-classes="modal-contract-details">
+            <template slot="header">
+              <h2 class="mb-0">
+                Uploaded Payslips
+              </h2>
+            </template>
+            <UploadedPayslipList :key="key" :uploaded-payslips="uploadedPayslips" />
+            <template slot="footer">
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = false">
+                <span>Close</span>
+              </button>
+            </template>
+          </modal>
         </div>
       </div>
     </div>
@@ -69,6 +84,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import loaderMixin from '~/mixins/loader'
+import UploadedPayslipList from '~/components/pages/payslips/UploadedPayslipList'
 
 export default {
   name: 'IndexVue',
@@ -76,14 +92,15 @@ export default {
   auth: true,
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    UploadedPayslipList
   },
   mixins: [
     loaderMixin
   ],
   data () {
     return {
-      id: 1,
+      key: 1,
       uploadedPayslips: [],
       newUploadedPayslips: [],
       crumbs: [
@@ -92,6 +109,9 @@ export default {
           path: '/payslips/upload-payslips'
         }
       ],
+      modals: {
+        uploadedPayslips: false
+      },
       submenu: true
     }
   },
@@ -105,7 +125,7 @@ export default {
       if (this.newUploadedPayslips.length > 0) {
         const axiosCall = this.$axios
         const apiHost = this.$config.axios.baseURL
-        const payslips = []
+        const payslips = this.uploadedPayslips
 
         this.newUploadedPayslips.forEach(function (newUploadedPayslip) {
           const originalFileName = newUploadedPayslip.name.replace(/\.[^/.]+$/, '')
@@ -129,7 +149,10 @@ export default {
               name: data.name,
               filename: data.filename,
               employee: data.employee.userProfile.firstname,
-              url: apiHost + '/uploads/payslip_document/' + data.filename
+              employeeId: data.employee.id,
+              url: apiHost + '/uploads/payslip_document/' + data.filename,
+              uuid: data.uuid,
+              companyId: data.company.id
             }
 
             payslips.push(payslip)
@@ -139,7 +162,10 @@ export default {
         })
         this.uploadedPayslips = payslips
         this.$refs.successfullMessage.style.display = 'block'
+        this.modals.uploadedPayslips = true
       }
+
+      this.key++
     }
   }
 }
