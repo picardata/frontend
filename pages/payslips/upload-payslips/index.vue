@@ -33,7 +33,12 @@
                       <span style="font-weight: 800;font-size: 16px;"><b>companyID_employeeID_filename.pdf</b></span><br>
                       <span style="font-weight: 800;font-size: 16px;">
                         <b>Example: 34_29_SEP2022.pdf</b>
-                      </span><br><br>
+                      </span><br>
+                      <button type="button" class="btn btn-sm btn-primary btn-add next-btn" @click.prevent="modals.employeeList = true">
+                        Get Company ID
+                      </button>
+                      <br><br>
+                      <br>
                       <input
                         id="additionalDocument"
                         ref="additionalDocument"
@@ -52,7 +57,6 @@
               <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="uploadPayslip">
                 Upload
               </button>
-
               <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
                 View Uploaded Payslips
               </button>
@@ -68,9 +72,22 @@
                 Uploaded Payslips
               </h2>
             </template>
-            <UploadedPayslipList :key="key" :uploaded-payslips="uploadedPayslips" />
+            <UploadedPayslipList :uploaded-payslips-key="uploadedPayslipsKey" :uploaded-payslips="uploadedPayslips" />
             <template slot="footer">
               <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = false">
+                <span>Close</span>
+              </button>
+            </template>
+          </modal>
+          <modal :show.sync="modals.employeeList" size="lg" modal-classes="modal-contract-details">
+            <template slot="header">
+              <h2 class="mb-0">
+                Employee List
+              </h2>
+            </template>
+            <EmployeeList :employee-list-key="employeeListKey" :companies="companies" />
+            <template slot="footer">
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.employeeList = false">
                 <span>Close</span>
               </button>
             </template>
@@ -85,6 +102,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import loaderMixin from '~/mixins/loader'
 import UploadedPayslipList from '~/components/pages/payslips/UploadedPayslipList'
+import EmployeeList from '~/components/pages/payslips/EmployeeList'
 
 export default {
   name: 'IndexVue',
@@ -93,14 +111,25 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    UploadedPayslipList
+    UploadedPayslipList,
+    EmployeeList
   },
   mixins: [
     loaderMixin
   ],
+  async asyncData (context) {
+    const [companies] = await Promise.all([
+      context.app.$axios.get('/api/companies/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+    ])
+
+    return {
+      companies: companies.data
+    }
+  },
   data () {
     return {
-      key: 1,
+      uploadedPayslipsKey: 1,
+      employeeListKey: 1,
       uploadedPayslips: [],
       newUploadedPayslips: [],
       crumbs: [
@@ -110,10 +139,15 @@ export default {
         }
       ],
       modals: {
-        uploadedPayslips: false
+        uploadedPayslips: false,
+        employeeList: true
       },
       submenu: true
     }
+  },
+  created () {
+    console.log('kudasai')
+    console.log(this)
   },
   methods: {
     onFormChange () {
@@ -165,7 +199,7 @@ export default {
         this.modals.uploadedPayslips = true
       }
 
-      this.key++
+      this.uploadedPayslipsKey++
     }
   }
 }
