@@ -33,7 +33,12 @@
                       <span style="font-weight: 800;font-size: 16px;"><b>companyID_employeeID_filename.pdf</b></span><br>
                       <span style="font-weight: 800;font-size: 16px;">
                         <b>Example: 34_29_SEP2022.pdf</b>
-                      </span><br><br>
+                      </span><br>
+                      <button type="button" class="btn btn-sm btn-primary btn-add next-btn" @click.prevent="modals.employeeList = true">
+                        Get Company ID
+                      </button>
+                      <br><br>
+                      <br>
                       <input
                         id="additionalDocument"
                         ref="additionalDocument"
@@ -52,14 +57,41 @@
               <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="uploadPayslip">
                 Upload
               </button>
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
+                View Uploaded Payslips
+              </button>
             </div>
           </div>
           <hr class="blue-divider">
           <div class="row mt-3 mb-4">
-            <div class="col-12">
-              <!--              <PayslipList :key="id" :uploaded-payslips="uploadedPayslips" />-->
-            </div>
+            <div class="col-12" />
           </div>
+          <modal :show.sync="modals.uploadedPayslips" size="lg" modal-classes="modal-contract-details">
+            <template slot="header">
+              <h2 class="mb-0">
+                Uploaded Payslips
+              </h2>
+            </template>
+            <UploadedPayslipList :uploaded-payslips-key="uploadedPayslipsKey" :uploaded-payslips="uploadedPayslips" />
+            <template slot="footer">
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = false">
+                <span>Close</span>
+              </button>
+            </template>
+          </modal>
+          <modal :show.sync="modals.employeeList" size="lg" modal-classes="modal-contract-details">
+            <template slot="header">
+              <h2 class="mb-0">
+                Employee List
+              </h2>
+            </template>
+            <EmployeeList :employee-list-key="employeeListKey" :companies="companies" />
+            <template slot="footer">
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.employeeList = false">
+                <span>Close</span>
+              </button>
+            </template>
+          </modal>
         </div>
       </div>
     </div>
@@ -69,6 +101,8 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import loaderMixin from '~/mixins/loader'
+import UploadedPayslipList from '~/components/pages/payslips/UploadedPayslipList'
+import EmployeeList from '~/components/pages/payslips/EmployeeList'
 
 export default {
   name: 'IndexVue',
@@ -76,24 +110,44 @@ export default {
   auth: true,
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    UploadedPayslipList,
+    EmployeeList
   },
   mixins: [
     loaderMixin
   ],
+  async asyncData (context) {
+    const [companies] = await Promise.all([
+      context.app.$axios.get('/api/companies/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+    ])
+
+    return {
+      companies: companies.data
+    }
+  },
   data () {
     return {
-      id: 1,
+      uploadedPayslipsKey: 1,
+      employeeListKey: 1,
       uploadedPayslips: [],
       newUploadedPayslips: [],
       crumbs: [
         {
-          name: 'Payslip List',
+          name: 'Upload Payslip',
           path: '/payslips/upload-payslips'
         }
       ],
+      modals: {
+        uploadedPayslips: false,
+        employeeList: true
+      },
       submenu: true
     }
+  },
+  created () {
+    console.log('kudasai')
+    console.log(this)
   },
   methods: {
     onFormChange () {
@@ -105,7 +159,7 @@ export default {
       if (this.newUploadedPayslips.length > 0) {
         const axiosCall = this.$axios
         const apiHost = this.$config.axios.baseURL
-        const payslips = []
+        const payslips = this.uploadedPayslips
 
         this.newUploadedPayslips.forEach(function (newUploadedPayslip) {
           const originalFileName = newUploadedPayslip.name.replace(/\.[^/.]+$/, '')
@@ -129,7 +183,10 @@ export default {
               name: data.name,
               filename: data.filename,
               employee: data.employee.userProfile.firstname,
-              url: apiHost + '/uploads/payslip_document/' + data.filename
+              employeeId: data.employee.id,
+              url: apiHost + '/uploads/payslip_document/' + data.filename,
+              uuid: data.uuid,
+              companyId: data.company.id
             }
 
             payslips.push(payslip)
@@ -139,7 +196,10 @@ export default {
         })
         this.uploadedPayslips = payslips
         this.$refs.successfullMessage.style.display = 'block'
+        this.modals.uploadedPayslips = true
       }
+
+      this.uploadedPayslipsKey++
     }
   }
 }

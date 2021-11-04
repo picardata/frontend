@@ -117,7 +117,11 @@ export default {
       crumbs: [
         {
           name: 'Create Contract',
-          path: '/contracts'
+          path: '/create-contract'
+        },
+        {
+          name: 'Milestone',
+          path: '/create-contract/milestone'
         }
       ],
       submenu: true

@@ -142,7 +142,11 @@ export default {
       crumbs: [
         {
           name: 'Create Contract',
-          path: '/contracts'
+          path: '/create-contract'
+        },
+        {
+          name: 'Full-time Employee',
+          path: '/create-contract/full-time-employee'
         }
       ],
       submenu: true
