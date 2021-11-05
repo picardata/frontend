@@ -237,7 +237,7 @@ export default {
           name: 'payslips',
           displayName: 'Payslips',
           icon: 'Invoices_Receipts.png',
-          link: '/payslips/globelise-admin/payslips'
+          link: '/payslips/globelise-admin/payslip-list'
         },
         {
           name: 'payslips-upload-payslips',
