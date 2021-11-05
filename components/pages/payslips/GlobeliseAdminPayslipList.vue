@@ -1,18 +1,20 @@
 <template>
   <div>
     <div class="row mt-3">
-      <div class="col-12">
+      <div class="col-12 card border pr-0 pl-0">
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Employee</th>
               <th class="contract-amount-wrapper" scope="col">Filename</th>
-              <th scope="col">Actions</th>
+              <th class="contract-amount-wrapper" scope="col">Action</th>
+
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(payslip, index) in uploadedPayslips" :key="index">
+
+            <tr v-for="(payslip, index) in payslips" :key="index">
               <td>
                 <span class="contract-name">{{ payslip.name }}</span>
               </td>
@@ -25,7 +27,7 @@
                 </a>
               </td>
               <td>
-                <button :id="'payslip-' + index" class="btn btn-gray-light delete-payslip-btn" @click="deletePayslip(payslip, index)">
+                <button :id="'payslip-' + index" class="btn btn-gray-light delete-payslip-btn" @click="deletePayslip(payslip)">
                   <span class="share-open">Delete</span>
                 </button>
               </td>
@@ -45,26 +47,29 @@ export default {
   ],
   data () {
     return {
-      totalPage: 1,
-      currentPage: 1,
+      payslips: []
     }
   },
+  created () {
+      let payslips = []
+      const apiHost = this.$config.axios.baseURL
+
+      this.uploadedPayslips.forEach(function (uploadedPayslip, index) {
+          const payslip = {
+              name: uploadedPayslip.name,
+              filename: uploadedPayslip.filename,
+              employee: uploadedPayslip.employee.userProfile.firstname,
+              url: apiHost + '/uploads/payslip_document/' + uploadedPayslip.filename,
+              uuid: uploadedPayslip.uuid,
+              employeeId: uploadedPayslip.employee.id,
+              companyId: uploadedPayslip.company.id
+          }
+
+          payslips.push(payslip)
+      });
+      this.payslips = payslips
+  },
   methods: {
-    setCurrentPage (currentPage) {
-      if (currentPage > 0 && currentPage <= this.totalPage) {
-        this.currentPage = currentPage
-      }
-    },
-    formatPrice(value) {
-      let val = (value/1).toFixed(2).replace(',', '.')
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    },
-    getTotalPage () {
-      return this.totalPage
-    },
-    getCurrentPage () {
-      return this.currentPage
-    },
       deletePayslip (payslip, index) {
           this.$axios.$patch('/api/payslip/' + payslip.uuid,
               {
@@ -102,8 +107,7 @@ table{
       color: #313131;
       font-weight: 600;
       font-size: 16px;
-      padding-left: 5px;
-      padding-right: 5px;
+      padding-left: 0;
     }
   }
   tbody{
@@ -116,7 +120,7 @@ table{
       font-size: 16px;
       letter-spacing: 0.75px;
       border: none;
-      padding-left: 5px;
+      padding-left: 0;
     }
   }
   .contract-name {
@@ -135,9 +139,6 @@ table{
   .contract-payment-type {
     font-size: 12px;
     color: black;
-  }
-  .delete-payslip-btn {
-    margin-top: -10px;
   }
   .badge{
     color: #000000;
