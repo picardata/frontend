@@ -183,6 +183,7 @@ export default {
         postalCode: '',
         phoneNumber: '',
         isCompanyAdmin: false,
+        isGlobeliseAdmin: false,
         company: {
           name: '',
           location: '',
@@ -258,6 +259,7 @@ export default {
             postalCode: this.employee.postalCode,
             phoneNumber: this.employee.phoneNumber,
             isCompanyAdmin: this.employee.isCompanyAdmin,
+            isGlobeliseAdmin: this.employee.isGlobeliseAdmin,
             company: null
           }
 

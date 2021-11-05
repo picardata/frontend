@@ -15,7 +15,81 @@
           </div>
           <div class="row mt-3">
             <div class="col-12">
-              <div v-if="!isCompanyAdmin" class="row">
+              <div v-if="isGlobeliseAdmin === true" class="row">
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text row">
+                        <div class="col-6">
+                          <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
+                            No payments due
+                          </h3>
+                        </div>
+                        <div class="col-6">
+                          <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
+                            Create Contract
+                          </nuxt-link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text">
+                        <div>
+                          <h2 style="text-align: left;">
+                            Payment history
+                          </h2>
+                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                        </div>
+                        <div class="mt-3">
+                          You’ll see beautiful graphs after your first payment!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="isCompanyAdmin === true" class="row">
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text row">
+                        <div class="col-6">
+                          <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
+                            No payments due
+                          </h3>
+                        </div>
+                        <div class="col-6">
+                          <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
+                            Create Contract
+                          </nuxt-link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card border p-4">
+                    <div class="mr-3">
+                      <div class="all-form-title bold-text">
+                        <div>
+                          <h2 style="text-align: left;">
+                            Payment history
+                          </h2>
+                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
+                        </div>
+                        <div class="mt-3">
+                          You’ll see beautiful graphs after your first payment!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="row">
                 <div class="col-6">
                   <div class="card border">
                     <div class="">
@@ -125,43 +199,6 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="row">
-                <div class="col-6">
-                  <div class="card border p-4">
-                    <div class="mr-3">
-                      <div class="all-form-title bold-text row">
-                        <div class="col-6">
-                          <h3 style="text-align: left; padding: 0.87rem 0 0 0;">
-                            No payments due
-                          </h3>
-                        </div>
-                        <div class="col-6">
-                          <nuxt-link to="/contracts/create-contract" class="btn btn-lg btn-primary btn-round">
-                            Create Contract
-                          </nuxt-link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="card border p-4">
-                    <div class="mr-3">
-                      <div class="all-form-title bold-text">
-                        <div>
-                          <h2 style="text-align: left;">
-                            Payment history
-                          </h2>
-                          <img class="mt-3" style="" src="~/assets/contract/fixed_rate_contract.png" alt="Fixed rate contract">
-                        </div>
-                        <div class="mt-3">
-                          You’ll see beautiful graphs after your first payment!
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -208,6 +245,7 @@ export default {
     return {
       submenu: true,
       isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
+      isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
       myContracts: [],
       myPayslips: [],
       myPayslipsTotalPage: 1,
@@ -239,6 +277,9 @@ export default {
   created () {
     if (Object.hasOwnProperty.call(this.$auth.user, 'isCompanyAdmin')) {
       this.isCompanyAdmin = this.$auth.user.isCompanyAdmin
+    }
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
+      this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
     }
   },
   mounted () {
