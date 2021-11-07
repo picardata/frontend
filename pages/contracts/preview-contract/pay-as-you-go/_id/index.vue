@@ -2321,8 +2321,11 @@ export default {
         stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
         stockOptionVestingStartDate: this.stockOptionVestingStartDate,
         additionalDocument: '',
-        additionalDocumentFilename: '',
-        customContractFilename: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument,
         clientUserProfile: this.$auth.user.userProfile.id
       }).then(() => {
         this.modals.clientSignature = false
@@ -2382,8 +2385,11 @@ export default {
         stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
         stockOptionVestingStartDate: this.stockOptionVestingStartDate,
         additionalDocument: '',
-        additionalDocumentFilename: '',
-        customContractFilename: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument,
         contractorUserProfile: this.$auth.user.userProfile.id,
         clientUserProfile: this.clientUserProfile.id
       }).then(() => {

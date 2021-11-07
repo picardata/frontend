@@ -35,13 +35,16 @@
                   <div v-if="step === 4" class="card border p-4">
                     <step4 ref="step4" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
+                  <div v-if="step === 5" class="card border p-4">
+                    <step5 ref="step5" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  </div>
 
                   <div class="contract-type-actions-wrapper">
-                    <button v-if="step < 5" type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="next">
+                    <button v-if="step < 6" type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="next">
                       Next
                     </button>
 
-                    <button v-if="step > 1 && step < 5" type="button" class="btn btn-lg btn-primary btn-add back-btn" @click.prevent="back">
+                    <button v-if="step > 1 && step < 6" type="button" class="btn btn-lg btn-primary btn-add back-btn" @click.prevent="back">
                       <i class="fas fa-arrow-left" />
                       Back
                     </button>
@@ -49,9 +52,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div v-if="step === 5">
-            <step5 ref="step5" :contract="contract" />
           </div>
         </div>
       </div>
@@ -125,9 +125,12 @@ export default {
         stockOptionVestingCliffMonth: '',
         additionalDocument: '',
         additionalDocumentFilename: '',
-        customContractFilename: '',
         contractorUserProfile: '',
-        clientUserProfile: ''
+        clientUserProfile: '',
+        contractorTaxResidence: '',
+        typeOfContractDocument: '',
+        customContract: '',
+        customContractFilename: ''
       },
       contractId: '',
       crumbs: [
@@ -167,7 +170,13 @@ export default {
           this.step++
         }
       } else if (this.step === 4) {
-        const isValid = await this.$refs.step4.post()
+        const result = await this.$refs.step4.post()
+
+        if (result) {
+          this.step++
+        }
+      } else if (this.step === 5) {
+        const isValid = await this.$refs.step5.post()
 
         if (!isValid) {
           return false
@@ -215,6 +224,10 @@ export default {
         formData.append('customContractFilename', this.contract.customContractFilename)
         formData.append('contractorUserProfile', this.contract.contractorUserProfile)
         formData.append('clientUserProfile', this.contract.clientUserProfile)
+        formData.append('customContract', this.contract.customContract)
+        formData.append('customContractFilename', this.contract.customContractFilename)
+        formData.append('contractorTaxResidence', this.contract.contractorTaxResidence)
+        formData.append('typeOfContractDocument', this.contract.typeOfContractDocument)
 
         this.$axios.$post('/api/pay/as/you/go/contract/',
           formData,
