@@ -66,47 +66,47 @@ export default {
       seniorityLevels: [
         {
           name: 'Not applicable',
-          id: 1
+          id: 0
         },
         {
           name: 'Junior',
-          id: 2
+          id: 1
         },
         {
           name: 'Mid',
-          id: 3
+          id: 2
         },
         {
           name: 'Senior',
-          id: 4
+          id: 3
         },
         {
           name: 'Lead',
-          id: 5
+          id: 4
         },
         {
           name: 'Principal / Staff',
-          id: 6
+          id: 5
         },
         {
           name: 'Director',
-          id: 7
+          id: 6
         },
         {
           name: 'Head of Department',
-          id: 8
+          id: 7
         },
         {
           name: 'Vice President',
-          id: 9
+          id: 8
         },
         {
           name: 'Senior Vice President',
-          id: 10
+          id: 9
         },
         {
           name: 'C-level Executive',
-          id: 11
+          id: 10
         }
       ],
       submenu: true,

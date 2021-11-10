@@ -23,7 +23,7 @@
             <div class="col-6">
               <div class="row">
                 <div class="col-12">
-                  <div v-if="step === 1" class="card border p-4">
+                  <div v-if="step === 1">
                     <step1 ref="step1" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
                   <div v-if="step === 2" class="card border p-4">
@@ -290,6 +290,11 @@ export default {
 </style>
 
 <style lang="scss">
+  .multiple-fields-wrapper {
+    display: inline-table;
+    width: 100%;
+  }
+
   .form-title-wrapper {
     text-align: center;
     span {

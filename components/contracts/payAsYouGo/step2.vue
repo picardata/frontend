@@ -9,7 +9,7 @@
         <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.paymentPackageType" name="Payment Package Type">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Client will pay</span>
-            <select v-model="contractStep2.paymentPackageType" class="form-control form-input">
+            <select v-model="contractStep2.paymentPackageType" class="form-control form-input" @change="togglePaymentPackage($event)">
               <option v-for="(paymentPackageTypeOption, key) in paymentPackageTypeOptions" :key="paymentPackageTypeOption + key" :value="paymentPackageTypeOption.id">
                 {{ paymentPackageTypeOption.name }}
               </option>
@@ -18,28 +18,30 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep2.salaryAmounts" name="Salary Amount">
-          <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
-            <span class="text-label">How much?</span>
-            <input v-model="contractStep2.salaryAmounts" type="text" class="form-input form-control" placeholder="0.00">
-            <span class="text-danger">{{ errors[0] }}</span>
+        <div class="multiple-fields-wrapper">
+          <div v-if="showElement.salaryAmounts" :key="'salaryAmounts-'+key.salaryAmounts" class="all-form-title bold-text form-field two-colls first-coll mb-4">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep2.salaryAmounts" name="Salary Amount">
+              <span class="text-label">How much?</span>
+              <input v-model="contractStep2.salaryAmounts" type="text" class="form-input form-control" placeholder="0.00">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
           </div>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
-          <div class="all-form-title bold-text form-field two-colls mb-4">
-            <span class="text-label">Currency</span>
-            <select v-model="contractStep2.salaryCurrency" class="form-control form-input">
-              <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
-                {{ salaryCurrency.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
+            <div class="all-form-title bold-text form-field two-colls mb-4">
+              <span class="text-label">Currency</span>
+              <select v-model="contractStep2.salaryCurrency" class="form-control form-input">
+                <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                  {{ salaryCurrency.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </div>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryFrequency" name="Payment Frequency">
-          <div class="all-form-title bold-text form-field mb-4">
+        <div v-if="showElement.salaryFrequency" :key="'salaryFrequency-'+key.salaryFrequency" class="all-form-title bold-text form-field mb-4">
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryFrequency" name="Payment Frequency">
             <span class="text-label">Per</span>
             <select v-model="contractStep2.salaryFrequency" class="form-control form-input">
               <option v-for="(salaryFrequency, key) in salaryFrequencies" :key="salaryFrequency + key" :value="salaryFrequency.id">
@@ -47,8 +49,8 @@
               </option>
             </select>
             <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+          </ValidationProvider>
+        </div>
 
         <div class="all-form-title form-field field-group">
           <span class="text-label Invoicing">Invoicing</span>
@@ -121,6 +123,14 @@ export default {
     'contract'
   ],
   data () {
+    let displaySalaryAmounts = true
+    let displaySalaryFrequency = true
+
+    if (this.contract.paymentPackageType === 1) {
+      displaySalaryAmounts = false
+      displaySalaryFrequency = false
+    }
+
     return {
       contractStep2: {
         paymentPackageType: this.contract.paymentPackageType,
@@ -146,185 +156,185 @@ export default {
       paymentPackageTypeOptions: [
         {
           name: 'Fixed rate',
-          id: 1
+          id: 0
         },
         {
           name: 'Task',
-          id: 2
+          id: 1
         }
       ],
       invoiceCycleOptions: [
         {
           name: 'Weekly',
-          id: 1
+          id: 0
         },
         {
           name: 'Every other week',
-          id: 2
+          id: 1
         },
         {
           name: 'Twice a month',
-          id: 3
+          id: 2
         },
         {
           name: 'Monthly',
-          id: 4
+          id: 3
         }
       ],
       invoiceCycleEndsOptions: [
         {
           name: '1st of the month',
-          id: 1
+          id: 0
         },
         {
           name: '2nd of the month',
-          id: 2
+          id: 1
         },
         {
           name: '3rd of the month',
-          id: 3
+          id: 2
         },
         {
           name: '4th of the month',
-          id: 4
+          id: 3
         },
         {
           name: '5th of the month',
-          id: 5
+          id: 4
         },
         {
           name: '6th of the month',
-          id: 6
+          id: 5
         },
         {
           name: '7th of the month',
-          id: 7
+          id: 6
         },
         {
           name: '8th of the month',
-          id: 8
+          id: 7
         },
         {
           name: '9th of the month',
-          id: 9
+          id: 8
         },
         {
           name: '10th of the month',
-          id: 10
+          id: 9
         },
         {
           name: '11th of the month',
-          id: 11
+          id: 10
         },
         {
           name: '12th of the month',
-          id: 12
+          id: 11
         },
         {
           name: '13th of the month',
-          id: 13
+          id: 12
         },
         {
           name: '14th of the month',
-          id: 14
+          id: 13
         },
         {
           name: '15th of the month',
-          id: 15
+          id: 14
         },
         {
           name: '16th of the month',
-          id: 16
+          id: 15
         },
         {
           name: '17th of the month',
-          id: 17
+          id: 16
         },
         {
           name: '18th of the month',
-          id: 18
+          id: 17
         },
         {
           name: '19th of the month',
-          id: 19
+          id: 18
         },
         {
           name: '20th of the month',
-          id: 20
+          id: 19
         },
         {
           name: '21st of the month',
-          id: 21
+          id: 20
         },
         {
           name: '22nd of the month',
-          id: 22
+          id: 21
         },
         {
           name: '23rd of the month',
-          id: 23
+          id: 22
         },
         {
           name: '24th of the month',
-          id: 24
+          id: 23
         },
         {
           name: '25th of the month',
-          id: 25
+          id: 24
         },
         {
           name: '26th of the month',
-          id: 26
+          id: 25
         },
         {
           name: '27th of the month',
-          id: 27
+          id: 26
         },
         {
           name: '28th of the month',
-          id: 28
+          id: 27
         },
         {
           name: '29th of the month',
-          id: 29
+          id: 28
         },
         {
           name: '30th of the month',
-          id: 30
+          id: 29
         },
         {
           name: 'Last day of the month',
-          id: 31
+          id: 30
         }
       ],
       invoicePaymentDueOptions: [
         {
           name: 'Same day',
-          id: 1
+          id: 0
         },
         {
           name: '5 Days later',
-          id: 2
+          id: 1
         },
         {
           name: '7 Days later',
-          id: 3
+          id: 2
         },
         {
           name: '15 Days later',
-          id: 4
+          id: 3
         },
         {
           name: '30 Days later',
-          id: 5
+          id: 4
         },
         {
           name: '60 Days later',
-          id: 6
+          id: 5
         },
         {
           name: '90 Days later',
-          id: 7
+          id: 6
         }
       ],
       salaryCurrencies: [
@@ -454,70 +464,32 @@ export default {
       salaryFrequencies: [
         {
           name: 'Hour',
-          id: 1
+          id: 0
         },
         {
           name: 'Day',
-          id: 2
-        },
-        {
-          name: 'Week',
-          id: 3
-        },
-        {
-          name: 'Task',
-          id: 4
-        }
-      ],
-      seniorityLevels: [
-        {
-          name: 'Not applicable',
           id: 1
         },
         {
-          name: 'Junior',
+          name: 'Week',
           id: 2
         },
         {
-          name: 'Mid',
+          name: 'Task',
           id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
         }
       ],
       submenu: true,
       conditionalDisabled: {
         invoicing: 1
+      },
+      showElement: {
+        salaryAmounts: displaySalaryAmounts,
+        salaryFrequency: displaySalaryFrequency
+      },
+      key: {
+        salaryAmounts: 0,
+        salaryFrequency: 0
       }
     }
   },
@@ -528,6 +500,21 @@ export default {
   },
   methods: {
     onFormChange () {
+    },
+    togglePaymentPackage (event) {
+      const paymentPackageType = event.target.value
+
+      if (paymentPackageType === '0') {
+        this.showElement.salaryAmounts = true
+        this.showElement.salaryFrequency = true
+      } else {
+        this.showElement.salaryAmounts = false
+        this.showElement.salaryFrequency = false
+        this.contractStep2.salaryAmounts = ''
+        this.contractStep2.salaryFrequency = ''
+      }
+
+      this.showCustomContractDivKey++
     },
     async post () {
       const isValid = await this.$refs.form.validate()

@@ -45,7 +45,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Client</span><br>
-                      <span>Date: {{ clientSignedDate }}</span>
+                      <span>Date: {{ $moment(clientSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Contractor</span><br>
-                      <span>Date: {{ contractorSignedDate }}</span>
+                      <span>Date: {{ $moment(contractorSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -131,7 +131,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Payment Details </span><br>
-                    <div class="contract-review-field-wrapper">
+                    <div v-if="salaryFrequency !== null" class="contract-review-field-wrapper">
                       <span class="text-left">Rate</span>
                       <span class="text-right text-date">{{ salaryCurrency }} {{ salaryAmount }} per {{ this.salaryFrequencies[salaryFrequency].name }}</span>
                     </div>
@@ -2019,249 +2019,245 @@ export default {
           path: '/forms/' + this.$route.params.id
         }
       ],
-      firstPaymentTypeOptions: [
-        {
-          name: 'Default'
-        },
-        {
-          name: 'Full Payment'
-        },
-        {
-          name: 'Pro Rata'
-        }
-      ],
-      invoicePaymentDueOptions: [
-        {
-          name: 'Default'
-        },
-        {
-          name: 'Same day',
-          id: 1
-        },
-        {
-          name: '5 Days later',
-          id: 2
-        },
-        {
-          name: '7 Days later',
-          id: 3
-        },
-        {
-          name: '15 Days later',
-          id: 4
-        },
-        {
-          name: '30 Days later',
-          id: 5
-        },
-        {
-          name: '60 Days later',
-          id: 6
-        },
-        {
-          name: '90 Days later',
-          id: 7
-        }
-      ],
-      invoiceCycleEndsOptions: [
-        {
-          name: 'Default'
-        },
-        {
-          name: '1st of the month',
-          id: 1
-        },
-        {
-          name: '2nd of the month',
-          id: 2
-        },
-        {
-          name: '3rd of the month',
-          id: 3
-        },
-        {
-          name: '4th of the month',
-          id: 4
-        },
-        {
-          name: '5th of the month',
-          id: 5
-        },
-        {
-          name: '6th of the month',
-          id: 6
-        },
-        {
-          name: '7th of the month',
-          id: 7
-        },
-        {
-          name: '8th of the month',
-          id: 8
-        },
-        {
-          name: '9th of the month',
-          id: 9
-        },
-        {
-          name: '10th of the month',
-          id: 10
-        },
-        {
-          name: '11th of the month',
-          id: 11
-        },
-        {
-          name: '12th of the month',
-          id: 12
-        },
-        {
-          name: '13th of the month',
-          id: 13
-        },
-        {
-          name: '14th of the month',
-          id: 14
-        },
-        {
-          name: '15th of the month',
-          id: 15
-        },
-        {
-          name: '16th of the month',
-          id: 16
-        },
-        {
-          name: '17th of the month',
-          id: 17
-        },
-        {
-          name: '18th of the month',
-          id: 18
-        },
-        {
-          name: '19th of the month',
-          id: 19
-        },
-        {
-          name: '20th of the month',
-          id: 20
-        },
-        {
-          name: '21st of the month',
-          id: 21
-        },
-        {
-          name: '22nd of the month',
-          id: 22
-        },
-        {
-          name: '23rd of the month',
-          id: 23
-        },
-        {
-          name: '24th of the month',
-          id: 24
-        },
-        {
-          name: '25th of the month',
-          id: 25
-        },
-        {
-          name: '26th of the month',
-          id: 26
-        },
-        {
-          name: '27th of the month',
-          id: 27
-        },
-        {
-          name: '28th of the month',
-          id: 28
-        },
-        {
-          name: '29th of the month',
-          id: 29
-        },
-        {
-          name: '30th of the month',
-          id: 30
-        },
-        {
-          name: 'Last day of the month',
-          id: 31
-        }
-      ],
-      salaryFrequencies: [
-        {
-          name: 'Default'
-        },
-        {
-          name: 'Week',
-          id: 1
-        },
-        {
-          name: 'Every other week',
-          id: 2
-        },
-        {
-          name: 'Twice a month',
-          id: 3
-        },
-        {
-          name: 'Month',
-          id: 4
-        }
-      ],
-      seniorityLevels: [
-        {
-          name: 'Default'
-        },
-        {
-          name: 'Not applicable',
-          id: 1
-        },
-        {
-          name: 'Junior',
-          id: 2
-        },
-        {
-          name: 'Mid',
-          id: 3
-        },
-        {
-          name: 'Senior',
-          id: 4
-        },
-        {
-          name: 'Lead',
-          id: 5
-        },
-        {
-          name: 'Principal / Staff',
-          id: 6
-        },
-        {
-          name: 'Director',
-          id: 7
-        },
-        {
-          name: 'Head of Department',
-          id: 8
-        },
-        {
-          name: 'Vice President',
-          id: 9
-        },
-        {
-          name: 'Senior Vice President',
-          id: 10
-        },
-        {
-          name: 'C-level Executive',
-          id: 11
-        }
-      ],
+        invoicePaymentDueOptions: [
+            {
+                name: 'Same day',
+                id: 0
+            },
+            {
+                name: '5 Days later',
+                id: 1
+            },
+            {
+                name: '7 Days later',
+                id: 2
+            },
+            {
+                name: '15 Days later',
+                id: 3
+            },
+            {
+                name: '30 Days later',
+                id: 4
+            },
+            {
+                name: '60 Days later',
+                id: 5
+            },
+            {
+                name: '90 Days later',
+                id: 6
+            }
+        ],
+        invoiceCycleOptions: [
+            {
+                name: 'Weekly',
+                id: 0
+            },
+            {
+                name: 'Every other week',
+                id: 1
+            },
+            {
+                name: 'Twice a month',
+                id: 2
+            },
+            {
+                name: 'Monthly',
+                id: 3
+            }
+        ],
+        invoiceCycleEndsOptions: [
+            {
+                name: '1st of the month',
+                id: 0
+            },
+            {
+                name: '2nd of the month',
+                id: 1
+            },
+            {
+                name: '3rd of the month',
+                id: 2
+            },
+            {
+                name: '4th of the month',
+                id: 3
+            },
+            {
+                name: '5th of the month',
+                id: 4
+            },
+            {
+                name: '6th of the month',
+                id: 5
+            },
+            {
+                name: '7th of the month',
+                id: 6
+            },
+            {
+                name: '8th of the month',
+                id: 7
+            },
+            {
+                name: '9th of the month',
+                id: 8
+            },
+            {
+                name: '10th of the month',
+                id: 9
+            },
+            {
+                name: '11th of the month',
+                id: 10
+            },
+            {
+                name: '12th of the month',
+                id: 11
+            },
+            {
+                name: '13th of the month',
+                id: 12
+            },
+            {
+                name: '14th of the month',
+                id: 13
+            },
+            {
+                name: '15th of the month',
+                id: 14
+            },
+            {
+                name: '16th of the month',
+                id: 15
+            },
+            {
+                name: '17th of the month',
+                id: 16
+            },
+            {
+                name: '18th of the month',
+                id: 17
+            },
+            {
+                name: '19th of the month',
+                id: 18
+            },
+            {
+                name: '20th of the month',
+                id: 19
+            },
+            {
+                name: '21st of the month',
+                id: 20
+            },
+            {
+                name: '22nd of the month',
+                id: 21
+            },
+            {
+                name: '23rd of the month',
+                id: 22
+            },
+            {
+                name: '24th of the month',
+                id: 23
+            },
+            {
+                name: '25th of the month',
+                id: 24
+            },
+            {
+                name: '26th of the month',
+                id: 25
+            },
+            {
+                name: '27th of the month',
+                id: 26
+            },
+            {
+                name: '28th of the month',
+                id: 27
+            },
+            {
+                name: '29th of the month',
+                id: 28
+            },
+            {
+                name: '30th of the month',
+                id: 29
+            },
+            {
+                name: 'Last day of the month',
+                id: 30
+            }
+        ],
+        salaryFrequencies: [
+            {
+                name: 'Hour',
+                id: 0
+            },
+            {
+                name: 'Day',
+                id: 1
+            },
+            {
+                name: 'Week',
+                id: 2
+            },
+            {
+                name: 'Task',
+                id: 3
+            }
+        ],
+        seniorityLevels: [
+            {
+                name: 'Not applicable',
+                id: 0
+            },
+            {
+                name: 'Junior',
+                id: 1
+            },
+            {
+                name: 'Mid',
+                id: 2
+            },
+            {
+                name: 'Senior',
+                id: 3
+            },
+            {
+                name: 'Lead',
+                id: 4
+            },
+            {
+                name: 'Principal / Staff',
+                id: 5
+            },
+            {
+                name: 'Director',
+                id: 6
+            },
+            {
+                name: 'Head of Department',
+                id: 7
+            },
+            {
+                name: 'Vice President',
+                id: 8
+            },
+            {
+                name: 'Senior Vice President',
+                id: 9
+            },
+            {
+                name: 'C-level Executive',
+                id: 10
+            }
+        ],
+
       modals: {
         clientSignature: false,
         contractorSignature: false,
@@ -2285,6 +2281,9 @@ export default {
       if (!isValid) {
         return false
       }
+
+      this.clientSignedDate = new Date()
+
       this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
         legalEntity: this.legalEntity,
         contractName: this.contractName,
@@ -2311,9 +2310,9 @@ export default {
         contractStatus: 2,
         company: this.company.id,
         clientSignature: this.clientSignature,
-        clientSignedDate: new Date(),
-        contractorSignature: this.contractorSignature,
-        contractorSignedDate: new Date(),
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: '',
+        contractorSignedDate: '',
         stockOptionCurrency: this.stockOptionCurrency,
         stockOptionAggregateValue: this.stockOptionAggregateValue,
         stockOptionTotalNumber: this.stockOptionTotalNumber,
@@ -2327,7 +2326,8 @@ export default {
         contractorTaxResidence: this.contractorTaxResidence,
         typeOfContractDocument: this.typeOfContractDocument,
         clientUserProfile: this.$auth.user.userProfile.id
-      }).then(() => {
+      }).then((data) => {
+        this.clientUserProfile = data.clientUserProfile
         this.modals.clientSignature = false
         this.contractStatus = 2
         this.disableInvitationButton = false
@@ -2349,6 +2349,9 @@ export default {
       if (!isValid) {
         return false
       }
+
+      this.contractorSignedDate = new Date()
+
       this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
         legalEntity: this.legalEntity,
         contractName: this.contractName,
@@ -2377,7 +2380,7 @@ export default {
         clientSignature: this.clientSignature,
         clientSignedDate: new Date(),
         contractorSignature: this.contractorSignature,
-        contractorSignedDate: new Date(),
+        contractorSignedDate: this.contractorSignedDate,
         stockOptionCurrency: this.stockOptionCurrency,
         stockOptionAggregateValue: this.stockOptionAggregateValue,
         stockOptionTotalNumber: this.stockOptionTotalNumber,
@@ -2392,7 +2395,8 @@ export default {
         typeOfContractDocument: this.typeOfContractDocument,
         contractorUserProfile: this.$auth.user.userProfile.id,
         clientUserProfile: this.clientUserProfile.id
-      }).then(() => {
+      }).then((data) => {
+        this.contractorUserProfile = data.contractorUserProfile
         this.modals.contractorSignature = false
         this.contractStatus = 3
         this.disableInvitationButton = false
