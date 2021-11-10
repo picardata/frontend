@@ -255,19 +255,19 @@ export default {
       payAsYouGoContractSalaryFrequencies: [
         {
           name: 'Hour',
-          id: 1
+          id: 0
         },
         {
           name: 'Day',
-          id: 2
+          id: 1
         },
         {
           name: 'Week',
-          id: 3
+          id: 2
         },
         {
           name: 'Task',
-          id: 4
+          id: 3
         }
       ]
     }
@@ -286,6 +286,11 @@ export default {
     const contracts = []
     const payAsYouGoSalaryFrequencies = this.payAsYouGoContractSalaryFrequencies
     this.payAsYouGoContracts.forEach(function (payAsYouGoContract) {
+      let salaryFrequency = ''
+      if (payAsYouGoContract.salaryFrequency !== null) {
+        salaryFrequency = payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name
+      }
+
       const contract = {
         uuid: payAsYouGoContract.uuid,
         contractName: payAsYouGoContract.contractName,
@@ -293,7 +298,7 @@ export default {
         contractStatus: payAsYouGoContract.contractStatus,
         salaryCurrency: payAsYouGoContract.salaryCurrency,
         salaryAmount: payAsYouGoContract.salaryAmount,
-        salaryPaymentType: payAsYouGoSalaryFrequencies[payAsYouGoContract.salaryFrequency].name,
+        salaryPaymentType: salaryFrequency,
         url: '/contracts/preview-contract/pay-as-you-go/' + payAsYouGoContract.uuid
       }
       contracts.push(contract)
