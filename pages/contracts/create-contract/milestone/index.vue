@@ -25,7 +25,7 @@
                   <div v-if="step === 1" class="card border p-4">
                     <step1 ref="step1" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div v-if="step === 2" class="card border p-4">
+                  <div v-if="step === 2">
                     <step2 ref="step2" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
                   <div v-if="step === 3" class="card border p-4">
@@ -90,9 +90,6 @@ export default {
         employmentStartDate: '',
         scopeOfWork: '',
         salaryCurrency: '',
-        milestoneName: '',
-        milestoneAmount: '',
-        milestoneAttachedFilename: '',
         terminationDate: '',
         noticePeriod: '',
         specialClause: '',
@@ -115,7 +112,15 @@ export default {
         contractorTaxResidence: '',
         typeOfContractDocument: '',
         customContract: '',
-        customContractFilename: ''
+        customContractFilename: '',
+        milestoneDetails: [
+          {
+            name: '',
+            amount: '',
+            filename: '',
+            attachedDocument: ''
+          }
+        ]
       },
       contractId: '',
       crumbs: [
@@ -201,6 +206,25 @@ export default {
             }
           }).then((data) => {
           this.contractId = data
+          const milestoneContract = data
+          if (this.contract.milestoneDetails.length > 0) {
+            const axiosCall = this.$axios
+            const milestoneDetailsApiCall = []
+
+            this.contract.milestoneDetails.forEach(function (milestoneDetail) {
+              const milestoneDetailFormData = new FormData()
+              milestoneDetailFormData.append('name', milestoneDetail.name)
+              milestoneDetailFormData.append('amount', milestoneDetail.amount)
+              milestoneDetailFormData.append('filename', milestoneDetail.filename)
+              milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+              milestoneDetailFormData.append('milestoneContract', milestoneContract.id)
+
+              milestoneDetailsApiCall.push(axiosCall.$post('/api/milestone/details/', milestoneDetailFormData, { headers: { 'Content-Type': 'multipart/form-data' } }))
+            })
+
+            console.log(milestoneDetailsApiCall)
+          }
+
           this.$router.push('/contracts/preview-contract/milestone/' + this.contractId.uuid)
           return true
         }).catch((e) => {
