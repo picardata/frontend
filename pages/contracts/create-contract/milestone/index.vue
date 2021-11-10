@@ -216,7 +216,10 @@ export default {
               milestoneDetailFormData.append('name', milestoneDetail.name)
               milestoneDetailFormData.append('amount', milestoneDetail.amount)
               milestoneDetailFormData.append('filename', milestoneDetail.filename)
-              milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+
+              if (milestoneDetail.attachedDocument !== '') {
+                milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+              }
               milestoneDetailFormData.append('milestoneContract', milestoneContract.id)
 
               milestoneDetailsApiCall.push(axiosCall.$post('/api/milestone/details/', milestoneDetailFormData, { headers: { 'Content-Type': 'multipart/form-data' } }))
