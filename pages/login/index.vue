@@ -366,6 +366,11 @@ export default {
     text-underline: #2e4823;
     padding: 0;
     margin-top: -4px;
+
+    &:hover {
+      background-color: #f4f3f5;
+      box-shadow: none;
+    }
   }
 }
   .forgot-password-wrapper {
