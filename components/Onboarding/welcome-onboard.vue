@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="row mt-80">
+    <div class="row mt-30">
       <div class="col-12">
         <div class="welcome">
-          Welcome to Globelise!
+          Welcome back!
         </div>
       </div>
     </div>
@@ -16,17 +16,25 @@
     </div>
 
     <div class="row mt-4 user-type">
-      <div class="col-5">
+      <div class="col-6 entity-wrapper">
+        <div class="image-wrapper">
+          <img class="mb-4" src="~/assets/onboarding/entity.png" alt="Entity">
+        </div>
+
         <p class="paragraph">
           <b>I am an entity </b>
-          <br> Your entity information will be used on invoices and tax documentation
+          <br>I am hiring on behalf of my company
+          <br>I would like to include my entity's information on invoices and tax documentation.
         </p>
       </div>
-      <div class="col-2" />
-      <div class="col-5">
+
+      <div class="col-6 individual-wrapper">
+        <div class="image-wrapper">
+          <img class="mb-4" src="~/assets/onboarding/individual.png" alt="Individual">
+        </div>
         <p class="paragraph">
           <b>I am an individual </b>
-          <br> Your full information will be used on invoices and tax documentation
+          <br>I am hiring independently. I would like to include my information on invoices and tax documentation.
         </p>
       </div>
     </div>
@@ -38,6 +46,24 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .entity-wrapper {
+    border-right: 1px solid #dfdfdf;
+  }
+
+  .entity-wrapper, .individual-wrapper {
+    padding: 10px 30px;
+
+    .paragraph {
+      color: #313131;
+      font-size: 14px;
+      padding: 0 60px;
+    }
+  }
+
+  .image-wrapper {
+    text-align: center;
+  }
+
   .welcome {
     font-size: 18px;
     font-weight: 700;
@@ -46,13 +72,10 @@ export default {
     text-align: center;
   }
 
-  .paragraph {
-    color: #313131;
-    font-size: 16px;
-  }
-
   .contractor-type {
-    font-size: 24px;
+    font-size: 36px;
+    color: #2e4823;
+    font-weight: 900;
   }
 
   .user-type {

@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding-complete-profile pb-5">
+  <div class="onboarding-complete-profile">
     <div class="row mt-80">
       <div class="col-12">
         <div class="title">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="form-wrapper mt-5">
       <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
         <form @submit.prevent="handleSubmit(post)">
           <div class="row">
@@ -176,6 +176,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .form-wrapper {
+    padding: 2rem;
+    background: #ffffff;
+
+    .login-credential-input{
+      margin-bottom: 35px;
+      min-height: 60px;
+
+      &::placeholder{
+        color: #A0A3BD;
+        font-size: 16px;
+      }
+    }
+    .phonenumber-custom {
+      background: #fff !important;
+
+      .country-selector__input {
+        border-radius: 0 !important;
+      }
+    }
+  }
+
   .title{
     align-items: center;
     text-align: center;
@@ -208,9 +230,7 @@ export default {
       font-size: 16px;
     }
   }
-  .phonenumber-custom{
-    margin-top: 40px;
-  }
+
   select.login-credential-input{
     appearance: none;
 

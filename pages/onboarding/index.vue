@@ -1,41 +1,15 @@
 <template>
   <div class="row justify-content-center pt-80">
     <div v-if="step === 1" class="col-9">
-      <div class="row text-center">
-        <div class="mt-4 col-12">
-          <div class="progress" style="height: 5px;">
-            <div
-              class="progress-bar bg-green"
-              role="progressbar"
-              style="width: 16.5%"
-              aria-valuenow="16.5"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-4 font-weight-bold">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
-        </div>
-        <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">02.</div></span> Entity Details
-        </div>
-        <div class="col-4">
-          <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">03.</div></span> Individual Details
-        </div>
-      </div>
       <WelcomeOnboard />
 
-      <div class="row mt-4 user-type">
-        <div class="col-5">
+      <div class="row mt-4 user-type welcome-button-wrapper">
+        <div class="col-6 next-button-wrapper">
           <button type="button" class="btn btn-user-type btn-primary" @click.prevent="goToEntityDetails">
             Next
           </button>
         </div>
-        <div class="col-2" />
-        <div class="col-5">
+        <div class="col-6 next-button-wrapper">
           <button type="button" class="btn btn-user-type btn-primary" @click.prevent="goToIndividualDetails">
             Next
           </button>
@@ -43,21 +17,7 @@
       </div>
     </div>
     <div v-if="step === 2" class="col-9">
-      <div class="row text-center">
-        <div class="mt-4 col-12">
-          <div class="progress" style="height: 5px;">
-            <div
-              class="progress-bar bg-green"
-              role="progressbar"
-              style="width: 66%"
-              aria-valuenow="66"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row mt-3">
+      <div class="row mt-3 text-center">
         <div class="col-4 font-weight-bold">
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
@@ -69,23 +29,15 @@
         </div>
       </div>
       <EntityDetails ref="entityDetails" :employee="employee" @finishSaveProfile="next" @skip="skip" @formProfileChange="changeFormComplete($event)" />
+
+      <div class="button-form-wrapper mb-5">
+        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+          Save Details
+        </button>
+      </div>
     </div>
     <div v-if="step === 3" class="col-9">
-      <div class="row text-center">
-        <div class="mt-4 col-12">
-          <div class="progress" style="height: 5px;">
-            <div
-              class="progress-bar bg-green"
-              role="progressbar"
-              style="width: 100%"
-              aria-valuenow="100"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row mt-3">
+      <div class="row mt-3 text-center">
         <div class="col-4 font-weight-bold">
           <span class="text-highlight progress-font d-inline"><div class="d-inline progress-numbering">01.</div></span> Welcome on board
         </div>
@@ -97,13 +49,8 @@
         </div>
       </div>
       <IndividualDetails ref="individualDetails" :employee="employee" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-    </div>
-    <div class="row mt-5 justify-content-end btn-bottom">
-      <div class="pl-2">
-        <button v-if="step === 2" type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
-          Save Details
-        </button>
-        <button v-if="step === 3" type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
+      <div class="button-form-wrapper mb-5">
+        <button type="button" class="btn btn-lg btn-primary btn-add" @click.prevent="next">
           Save Details
         </button>
       </div>
@@ -375,7 +322,18 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+  .button-form-wrapper {
+    padding: 0 2rem 2rem 2rem;
+    background: #ffffff;
+    .btn-add {
+      width: 100%;
+      border-radius: 0;
+      background-color: #6bb745;
+      border-color: #6bb745;
+    }
+  }
+
   .btn-add {
     width: 150px;
     border-radius: 40px;
@@ -417,5 +375,10 @@ export default {
 
   .bg-green{
     background-color: #2E4823 !important;
+  }
+
+  .next-button-wrapper {
+    padding: 10px 30px;
+    text-align: center;
   }
 </style>
