@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding-complete-profile pb-5">
+  <div class="onboarding-complete-profile">
     <div class="row mt-80">
       <div class="col-12">
         <div class="title">
@@ -7,13 +7,12 @@
             Hey {{ profile.username }}, welcome to Globelise
           </p><br>
           <p>
-            To get started please provide your company information accurately.
-            <br> It will be used for all your document on Globelise.
+            Please provide your company information to be added to all your documents on Globelise.
           </p>
         </div>
       </div>
     </div>
-    <div>
+    <div class="form-wrapper mt-5">
       <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
         <form @submit.prevent="handleSubmit(post)">
           <div class="row">
@@ -229,6 +228,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .form-wrapper {
+    padding: 2rem;
+    background: #ffffff;
+
+    .login-credential-input{
+      margin-bottom: 35px;
+      min-height: 60px;
+
+      &::placeholder{
+        color: #A0A3BD;
+        font-size: 16px;
+      }
+    }
+  }
+
 .title{
   align-items: center;
   text-align: center;
@@ -254,13 +268,7 @@ export default {
   font-weight: 600;
   color: #313131;
 }
-.login-credential-input{
-  margin-top: 40px;
-  &::placeholder{
-    color: #A0A3BD;
-    font-size: 16px;
-  }
-}
+
 .phonenumber-custom{
   margin-top: 40px;
 }

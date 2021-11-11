@@ -2,16 +2,7 @@
   <div class="row picardata-form-index">
     <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
       <div>
-        <base-header type="grey" class="pb-6">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
-            </div>
-          </div>
-        </base-header>
-        <div class="container-fluid mt--6">
+        <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
               <span class="form-title">Creating a full time employee contract</span>
@@ -19,7 +10,7 @@
           </div>
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-3" />
-            <div class="col-6">
+            <div class="col-7">
               <div class="row">
                 <div class="col-12">
                   <div v-if="step === 1">
@@ -37,7 +28,7 @@
                   </div>
 
                   <div class="contract-type-actions-wrapper">
-                    <button v-if="step < 5" type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="next">
+                    <button v-if="step < 5" type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="next">
                       Next
                     </button>
 

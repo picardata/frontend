@@ -1,5 +1,5 @@
 body {
-  background-color: white !important;
+  background-color: #f4f3f5 !important;
   font-family: 'Roboto Condensed';
 }
 
@@ -454,8 +454,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .login-credential-input {
-  border-radius: 16px;
-  background: #EFF0F6;
+  border-radius: 0;
   color: #181C3B;
   min-height: 64px;
   border: 1px solid #dee2e6;
@@ -464,7 +463,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
   &:focus {
     color: #181C3B;
-    background-color: #EFF0F7;
     border: 1px solid #dee2e6;
     outline: 0;
     box-shadow: none;
@@ -534,7 +532,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .phonenumber-custom{
-  min-height: 64px;
+  min-height: 0;
   margin-bottom: 0;
 
   .country-selector{
@@ -546,8 +544,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     height: 64px !important;
     min-height: 64px !important;
     font-size: 1rem !important;
-    background: #EFF0F6 !important;
+    background: #ffffff !important;
     border: 1px solid #dee2e6 !important;
+    border-radius: 0 !important;
 
     &::placeholder{
       color: #A0A3BD !important;

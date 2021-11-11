@@ -4,135 +4,135 @@
       <div class="container picardata-container">
         <div class="row">
           <div class="col-md-12">
-            <div class="icon-picardata text-center">
-              <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
-              <h2 class="register-to-picardata">
-                Register to Globelise
-              </h2>
+            <div class="title-wrapper text-center mb-5">
+              <h2>Sign up</h2>
+              <span>Choose sign up method</span>
             </div>
 
-            <div class="form-group mt-4">
-              <label
-                :class="[`form-control-label`, {'d-none': !errors.firstname}]"
-              >
-                Full Name
-              </label>
-              <input
-                v-model="firstname"
-                :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
-                placeholder="Full Name"
-              >
-              <span v-if="this.firstname.length > 0 && errors.firstname" class="form-icon" @click="emptyInput('firstname')"><i class="fa fa-times" /></span>
-              <span
-                :class="['form-control-error', {'d-none': !errors.firstname}]"
-              >
-                {{ errors.firstname }}
-              </span>
-            </div>
-            <div class="form-group mt-4">
-              <label
-                :class="[`form-control-label`, {'d-none': !errors.username}]"
-              >
-                Email
-              </label>
-              <input
-                v-model="username"
-                :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
-                placeholder="Email"
-                autocomplete="off"
-                @change="validateEmail"
-                @keyup="validateForRegisterButton"
-              >
-              <span v-if="this.username.length > 0 && errors.username" class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
-              <span
-                :class="['form-control-error', {'d-none': !errors.username}]"
-              >
-                {{ errors.username }}
-              </span>
-            </div>
+            <div class="body-form-wrapper">
+              <span class="description">Sign up using email address</span>
 
-            <div class="form-group mt-4">
-              <label
-                :class="[`form-control-label`, {'d-none': !errors.password}]"
-              >
-                Password
-              </label>
-              <input
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
-                placeholder="Password"
-                autocomplete="off"
-                maxlength="50"
-                @change="validatePassword"
-                @keyup="validateForRegisterButton"
-              >
-
-              <span v-if="!showPassword && this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
-              <span v-else-if="this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
-
-              <span
-                :class="[`form-control-error`, {'d-none': !errors.password}]"
-                v-html="errors.password"
-              />
-            </div>
-
-            <div class="form-group  mt-4">
-              <label
-                :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
-              >
-                Confirm Password
-              </label>
-              <input
-                v-model="passwordAgain"
-                :type="showPasswordAgain ? 'text' : 'password'"
-                :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
-                placeholder="Confirm Password"
-                autocomplete="off"
-                maxlength="50"
-                @change="validatePasswordAgain"
-                @keyup="validateForRegisterButton"
-              >
-
-              <span
-                v-if="!showPasswordAgain && this.passwordAgain.length > 0"
-                class="form-icon"
-                @click="togglePasswordAgain"
-              >
-                <i class="fa fa-eye-slash" />
-              </span>
-              <span
-                v-else-if="this.passwordAgain.length > 0"
-                class="form-icon"
-                @click="togglePasswordAgain"
-              >
-                <i class="fa fa-eye" />
-              </span>
-
-              <span
-                :class="[`form-control-error`, {'d-none': !errors.passwordAgain}]"
-                v-html="errors.passwordAgain"
-              />
-            </div>
-            <div class="form-group mt-4">
-              <div>
-                <input v-model="termAndPrivacy" type="checkbox" @click="handleTermAndPrivacy">
-                By Continuing, you confirm and acknowledge that you have read and you agree to our <a href="https://drive.google.com/file/d/11qIsXocRG6EtkpdhH1649HVC5VgAB4Vp/view?usp=sharing" target="_blank">terms of services</a> and <a href="https://drive.google.com/file/d/1qOjaPGbIyLNNlVV4AeWN3CUz9Lkt4VQd/view?usp=sharing" target="_blank">privacy policy</a>.
+              <div class="form-group mt-4">
+                <label
+                  :class="[`form-control-label`, {'d-none': !errors.firstname}]"
+                >
+                  Full Name
+                </label>
+                <input
+                  v-model="firstname"
+                  :class="[`form-control`, 'login-credential-input', {'error': errors.firstname}]"
+                  placeholder="Full Name"
+                >
+                <span v-if="this.firstname.length > 0 && errors.firstname" class="form-icon" @click="emptyInput('firstname')"><i class="fa fa-times" /></span>
+                <span
+                  :class="['form-control-error', {'d-none': !errors.firstname}]"
+                >
+                  {{ errors.firstname }}
+                </span>
               </div>
+              <div class="form-group mt-4">
+                <label
+                  :class="[`form-control-label`, {'d-none': !errors.username}]"
+                >
+                  Email
+                </label>
+                <input
+                  v-model="username"
+                  :class="[`form-control`, 'login-credential-input', {'error': errors.username}]"
+                  placeholder="Email"
+                  autocomplete="off"
+                  @change="validateEmail"
+                  @keyup="validateForRegisterButton"
+                >
+                <span v-if="this.username.length > 0 && errors.username" class="form-icon" @click="emptyInput('username')"><i class="fa fa-times" /></span>
+                <span
+                  :class="['form-control-error', {'d-none': !errors.username}]"
+                >
+                  {{ errors.username }}
+                </span>
+              </div>
+              <div class="form-group mt-4">
+                <label
+                  :class="[`form-control-label`, {'d-none': !errors.password}]"
+                >
+                  Password
+                </label>
+                <input
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  :class="[`form-control`, 'login-credential-input', {'error': errors.password}]"
+                  placeholder="Password"
+                  autocomplete="off"
+                  maxlength="50"
+                  @change="validatePassword"
+                  @keyup="validateForRegisterButton"
+                >
+
+                <span v-if="!showPassword && this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye-slash" /></span>
+                <span v-else-if="this.password.length > 0" class="form-icon" @click="togglePassword"><i class="fa fa-eye" /></span>
+
+                <span
+                  :class="[`form-control-error`, {'d-none': !errors.password}]"
+                  v-html="errors.password"
+                />
+              </div>
+              <div class="form-group  mt-4">
+                <label
+                  :class="[`form-control-label`, {'d-none': !errors.passwordAgain}]"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  v-model="passwordAgain"
+                  :type="showPasswordAgain ? 'text' : 'password'"
+                  :class="[`form-control`, 'login-credential-input', {'error': errors.passwordAgain}]"
+                  placeholder="Confirm Password"
+                  autocomplete="off"
+                  maxlength="50"
+                  @change="validatePasswordAgain"
+                  @keyup="validateForRegisterButton"
+                >
+
+                <span
+                  v-if="!showPasswordAgain && this.passwordAgain.length > 0"
+                  class="form-icon"
+                  @click="togglePasswordAgain"
+                >
+                  <i class="fa fa-eye-slash" />
+                </span>
+                <span
+                  v-else-if="this.passwordAgain.length > 0"
+                  class="form-icon"
+                  @click="togglePasswordAgain"
+                >
+                  <i class="fa fa-eye" />
+                </span>
+
+                <span
+                  :class="[`form-control-error`, {'d-none': !errors.passwordAgain}]"
+                  v-html="errors.passwordAgain"
+                />
+              </div>
+              <div class="form-group mt-4">
+                <div>
+                  <input v-model="termAndPrivacy" type="checkbox" @click="handleTermAndPrivacy">
+                  By Continuing, you confirm and acknowledge that you have read and you agree to our <a href="https://drive.google.com/file/d/11qIsXocRG6EtkpdhH1649HVC5VgAB4Vp/view?usp=sharing" target="_blank">terms of services</a> and <a href="https://drive.google.com/file/d/1qOjaPGbIyLNNlVV4AeWN3CUz9Lkt4VQd/view?usp=sharing" target="_blank">privacy policy</a>.
+                </div>
+              </div>
+              <button
+                type="button"
+                :class="['btn btn-primary btn-block mt-4 mb-4 rounded btn-register']"
+                :disabled="disableRegisterButton"
+                @click="onSubmit"
+              >
+                Register
+              </button>
             </div>
 
-            <button
-              type="button"
-              :class="['btn btn-primary btn-block mt-4 mb-4 rounded btn-register']"
-              :disabled="disableRegisterButton"
-              @click="onSubmit"
-            >
-              Register
-            </button>
-
-            <div class="d-flex justify-content-center">
-              <nuxt-link to="/login" class="btn btn-outline-primary btn-block already-had-account">
-                <span class="already-had-account-text">Already had an account? Sign in</span>
+            <div class="footer-form-wrapper text-center justify-content-center mt-3">
+              Already had an account?
+              <nuxt-link to="/login" class="already-had-account">
+                <span class="already-had-account-text">Sign in</span>
               </nuxt-link>
             </div>
           </div>
@@ -430,7 +430,7 @@ $placeholder-font-size: 16px;
 }
 
 .btn-register:disabled {
-  background: #2E4823;
+  background: #6bb745;
   font-size: 16px;
 }
 
@@ -529,22 +529,38 @@ input:focus:-ms-input-placeholder {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #e9ecef;
+  background-color: #f4f3f5;
   padding: 3em 16em;
 }
 
 .wrapper{
-  background: #FFFFFF;
-  width: 50%;
+  width: 65%;
   height: auto;
   /*border-radius: 16px;*/
-  padding: 3rem 2rem 3rem;
+  padding: 2rem;
 }
 
-.icon-picardata{
+.body-form-wrapper {
+  background: #ffffff;
+  padding: 3rem 2rem 0.5rem 2rem;
+
+  .description {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: 18px;
+  }
+}
+
+.title-wrapper{
+  font-family: 'Roboto Condensed';
+
   h2{
     margin-top: 24px;
     margin-bottom: 32px;
+    font-size: 32px;
+    font-weight: 900;
+    color: #2e4823;
   }
 }
 
@@ -561,13 +577,19 @@ input:focus:-ms-input-placeholder {
 }
 
 .btn-primary{
-  background: #2E4823;
+  background: #6bb745;
+  border-color: #6bb745;
+
   &.rounded{
     border-radius: 40px !important;
   }
   &:hover{
     box-shadow: none;
     transform: translateY(0);
+  }
+  &.disabled{
+    background: #6bb745;
+    border-color: #6bb745;
   }
 }
 
@@ -580,8 +602,8 @@ input:focus:-ms-input-placeholder {
 }
 
 .login-credential-input {
-  background: #EFF0F7;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 0;
 }
 
 .form-group{
@@ -616,6 +638,26 @@ input:focus:-ms-input-placeholder {
     padding: 24px;
     font-size: 14px;
     color: #A0A3BD;
+  }
+}
+
+.already-had-account {
+  font-size: 14px;
+
+  .already-had-account-text {
+    text-decoration: underline;
+    text-underline: #2e4823;
+    padding: 0;
+    margin-top: -4px;
+    font-size: 15px;
+    color: #2e4823;
+    text-decoration: underline;
+
+    &:hover {
+      background-color: #f4f3f5;
+      box-shadow: none;
+      color: #2e4823;
+    }
   }
 }
 </style>

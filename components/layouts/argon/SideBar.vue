@@ -40,19 +40,8 @@
             :key="item.name + key"
             :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
           >
-            <nuxt-link
-              v-if="item.name !== 'logout'"
-              :to="item.link"
-              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
-            >
-              <img :src="require(`/assets/menu_icons/${item.icon}`)">
-              <div class="nav-link-text">
-                {{ item.displayName }}
-              </div>
-            </nuxt-link>
-
             <a
-              v-else
+              v-if="item.name === 'logout'"
               :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
               @click.prevent="modals.logout = true"
             >
@@ -61,6 +50,21 @@
                 {{ item.displayName }}
               </div>
             </a>
+
+            <div v-else-if="item.name === 'separator'">
+              <div class="border-top separator-menu" />
+            </div>
+
+            <nuxt-link
+              v-else
+              :to="item.link"
+              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+            >
+              <img :src="require(`/assets/menu_icons/${item.icon}`)">
+              <div class="nav-link-text">
+                {{ item.displayName }}
+              </div>
+            </nuxt-link>
           </li>
         </ul>
         <ul v-else class="navbar-nav mt-5">
@@ -128,9 +132,9 @@ export default {
           link: '/'
         },
         {
-          name: 'profile',
-          displayName: 'Profile',
-          icon: 'User.png',
+          name: 'user-settings',
+          displayName: 'User Settings',
+          icon: 'User_setting.png',
           link: '#'
         },
         {
@@ -202,6 +206,12 @@ export default {
           link: '#'
         },
         {
+          name: 'separator',
+          displayName: 'User Settings',
+          icon: 'User_setting.png',
+          link: '#'
+        },
+        {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
@@ -211,12 +221,6 @@ export default {
           name: 'payments',
           displayName: 'Payments',
           icon: 'Payment_methods.png',
-          link: '#'
-        },
-        {
-          name: 'profile',
-          displayName: 'Profile',
-          icon: 'User.png',
           link: '#'
         },
         {
@@ -249,12 +253,6 @@ export default {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
-          link: '#'
-        },
-        {
-          name: 'profile',
-          displayName: 'Profile',
-          icon: 'User.png',
           link: '#'
         },
         {
@@ -310,4 +308,5 @@ export default {
     }
   }
 }
+
 </style>

@@ -27,7 +27,7 @@
     height: auto;
 
     img{
-      max-height: 2.5rem;
+      //max-height: 2.5rem;
     }
   }
 
@@ -38,26 +38,27 @@
       display: block;
       color: #313131;
       &.active{
-        color: white;
+        color: $primary;
       }
 
       img {
-        height: 25px;
+        height: 20px;
       }
     }
 
     .nav-item{
-      padding: 8px 0;
+      padding: 5px 0;
       &.active{
-        color: white;
-        background: $secondary;
+        color: $primary;
+        background-color: #eaf1d2;
       }
       &:hover{
-        background-color: $secondary;
+        color: $primary;
+        background-color: #eaf1d2;
         transition: all 0.175s ease-in-out;
 
         a.sidebar-menu-item{
-          color: white;
+          color: $primary;
         }
       }
       .pd-icon{
