@@ -1,113 +1,140 @@
 <template>
-  <div class="mr-3">
+  <div>
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <div class="all-form-title bold-text form-field mb-4">
-          <span class="text-label">Stock options offer</span><br>
-          <span class="text-label-desc">
-            Make stock option offers and track grants using Deel. Please be aware that establishing an international stock option plan, and making stock option grants typically requires legal counsel and approval from the company board of directors. A separate form of contract should be signed and prepared off platform to grant equity.
-          </span>
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Health benefit</span>
+          </div>
 
-          <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="modals.stockOption = true">
-            Offer Stock Options
-          </button>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep4.contractTermType" name="Health benefit">
+            <div class="all-form-title bold-text form-field mb-4">
+              <select v-model="contractStep4.healthBenefitType" class="form-control form-input" @change="toggleHealthBenefitAmount($event)">
+                <option v-for="(healthBenefitTypeOption, key) in healthBenefitTypeOptions" :key="healthBenefitTypeOption + key" :value="healthBenefitTypeOption.id">
+                  {{ healthBenefitTypeOption.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+
+          <div v-if="showElement.healthBenefitAmount" :key="healthBenefitAmountKey" class="all-form-title bold-text form-field mb-4">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.healthBenefitAmount" name="Gross Monthly Healthcare Allowance">
+              <span class="text-label">Gross Monthly Allowance</span>
+              <input v-model="contractStep4.healthBenefitAmount" type="text" class="form-input form-control" placeholder="0">
+
+              <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
         </div>
 
-        <modal :show.sync="modals.stockOption" size="lg" modal-classes="modal-stock-option">
-          <template slot="header" />
-          <div class="full-contract-details-wrapper">
-            <div class="mr-3">
-              <div class="all-form-title bold-text form-field">
-                <h3 class="text-center">
-                  Offer stock options
-                </h3>
-                <span class="text-center d-block">For Fixed rate</span><br>
-                <div class="information-text-wrapper">
-                  <span>
-                    Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
-                  </span>
-                </div>
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field mb-4">
+            <span class="text-label">Stock options offer</span><br>
+            <span class="text-label-desc">
+              Make stock option offers and track grants using Deel. Please be aware that establishing an international stock option plan, and making stock option grants typically requires legal counsel and approval from the company board of directors. A separate form of contract should be signed and prepared off platform to grant equity.
+            </span>
 
-                <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
-
-                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionCurrency" name="Stock Option Currency">
-                    <div class="currency-field-wrapper">
-                      <select v-model="contractStep4.stockOptionCurrency" class="form-control form-input">
-                        <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
-                          {{ salaryCurrency.name }}
-                        </option>
-                      </select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </div>
-                  </ValidationProvider>
-
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionAggregateValue" name="Aggregate option value">
-                    <div class="aggregate-value-field-wrapper">
-                      <input v-model="contractStep4.stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </div>
-                  </ValidationProvider>
-                </div>
-
-                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionTotalNumber" name="Number of stock options">
-                  <div class="all-form-title bold-text form-field">
-                    <span class="text-label d-block">Specify the number of stock options this represents?</span>
-
-                    <input v-model="contractStep4.stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
-                    <span class="text-danger">{{ errors[0] }}</span>
+            <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="modals.stockOption = true">
+              Offer Stock Options
+            </button>
+          </div>
+          <modal :show.sync="modals.stockOption" size="lg" modal-classes="modal-stock-option">
+            <template slot="header" />
+            <div class="full-contract-details-wrapper">
+              <div class="mr-3">
+                <div class="all-form-title bold-text form-field">
+                  <h3 class="text-center">
+                    Offer stock options
+                  </h3>
+                  <span class="text-center d-block">For Fixed rate</span><br>
+                  <div class="information-text-wrapper">
+                    <span>
+                      Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
+                    </span>
                   </div>
-                </ValidationProvider>
 
-                <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionVestingStartDate" name="Vesting start date">
-                  <div class="all-form-title bold-text form-field mb-4">
-                    <span class="text-label">When does the vesting start?</span><br>
-                    <base-input class="text-label" label="">
-                      <flat-picker
-                        v-model="contractStep4.stockOptionVestingStartDate"
-                        slot-scope="{focus, blur}"
-                        :config="stockOptionVestingStartDateConfig"
-                        class="form-control form-input datepicker"
-                        @on-open="focus"
-                        @on-close="blur"
-                      />
-                    </base-input>
+                  <div class="all-form-title bold-text form-field two-collumns">
+                    <span class="text-label">What is the value of the option you wish to offer?</span><br>
 
-                    <span class="text-danger">{{ errors[0] }}</span>
+                    <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionCurrency" name="Stock Option Currency">
+                      <div class="currency-field-wrapper">
+                        <select v-model="contractStep4.stockOptionCurrency" class="form-control form-input">
+                          <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                            {{ salaryCurrency.name }}
+                          </option>
+                        </select>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionAggregateValue" name="Aggregate option value">
+                      <div class="aggregate-value-field-wrapper">
+                        <input v-model="contractStep4.stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
                   </div>
-                </ValidationProvider>
 
-                <div class="all-form-title bold-text form-field two-collumns">
-                  <span class="text-label">What is the monthly vesting schedule?</span><br>
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionTotalNumber" name="Number of stock options">
+                    <div class="all-form-title bold-text form-field">
+                      <span class="text-label d-block">Specify the number of stock options this represents?</span>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionTotalVestingMonth" name="Total vesting months">
-                    <div class="total-month-vesting-field-wrapper">
-                      <input v-model="contractStep4.stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                      <input v-model="contractStep4.stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionVestingCliffMonth" name="Cliff vesting months">
-                    <div class="cliff-month-vesting-field-wrapper">
-                      <input v-model="contractStep4.stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep4.stockOptionVestingStartDate" name="Vesting start date">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <span class="text-label">When does the vesting start?</span><br>
+                      <base-input class="text-label" label="">
+                        <flat-picker
+                          v-model="contractStep4.stockOptionVestingStartDate"
+                          slot-scope="{focus, blur}"
+                          :config="stockOptionVestingStartDateConfig"
+                          class="form-control form-input datepicker"
+                          @on-open="focus"
+                          @on-close="blur"
+                        />
+                      </base-input>
+
                       <span class="text-danger">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
-                </div>
 
-                <div class="button-wrapper">
-                  <base-button type="primary" @click.prevent="addStockOption">
-                    Add Equity Offer
-                  </base-button>
-                  <base-button type="primary" @click.prevent="modals.stockOption = false">
-                    Close
-                  </base-button>
+                  <div class="all-form-title bold-text form-field two-collumns">
+                    <span class="text-label">What is the monthly vesting schedule?</span><br>
+
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionTotalVestingMonth" name="Total vesting months">
+                      <div class="total-month-vesting-field-wrapper">
+                        <input v-model="contractStep4.stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep4.stockOptionVestingCliffMonth" name="Cliff vesting months">
+                      <div class="cliff-month-vesting-field-wrapper">
+                        <input v-model="contractStep4.stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="button-wrapper">
+                    <base-button type="primary" @click.prevent="addStockOption">
+                      Add Equity Offer
+                    </base-button>
+                    <base-button type="primary" @click.prevent="modals.stockOption = false">
+                      Close
+                    </base-button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <template slot="footer" />
-        </modal>
+            <template slot="footer" />
+          </modal>
+        </div>
       </form>
     </ValidationObserver>
   </div>
@@ -132,6 +159,11 @@ export default {
     'contract'
   ],
   data () {
+    let showHealthBenefitAmount = false
+    if (this.contract.healthBenefitType === 1) {
+      showHealthBenefitAmount = true
+    }
+
     return {
       contractStep4: {
         stockOptionCurrency: this.contract.stockOptionCurrency,
@@ -139,13 +171,29 @@ export default {
         stockOptionTotalNumber: this.contract.stockOptionTotalNumber,
         stockOptionVestingStartDate: this.contract.stockOptionVestingStartDate,
         stockOptionTotalVestingMonth: this.contract.stockOptionTotalVestingMonth,
-        stockOptionVestingCliffMonth: this.contract.stockOptionVestingCliffMonth
+        stockOptionVestingCliffMonth: this.contract.stockOptionVestingCliffMonth,
+        healthBenefitType: this.contract.healthBenefitType,
+        healthBenefitAmount: this.contract.healthBenefitAmount
       },
       stockOptionVestingStartDateConfig: {
         allowInput: true,
         altFormat: 'j F Y',
         altInput: true
       },
+      showElement: {
+        healthBenefitAmount: showHealthBenefitAmount
+      },
+      healthBenefitAmountKey: 0,
+      healthBenefitTypeOptions: [
+        {
+          name: 'No',
+          id: 0
+        },
+        {
+          name: 'Yes',
+          id: 1
+        }
+      ],
       crumbs: [
         {
           name: 'Create Contract',
@@ -283,8 +331,19 @@ export default {
     }
   },
   methods: {
-    onFormChange () {
+    toggleHealthBenefitAmount (event) {
+      const healthBenefitType = event.target.value
 
+      if (healthBenefitType === '1') {
+        this.showElement.healthBenefitAmount = true
+      } else {
+        this.showElement.healthBenefitAmount = false
+      }
+
+      this.contractStep4.healthBenefitAmount = ''
+      this.healthBenefitAmountKey++
+    },
+    onFormChange () {
     },
     addStockOption () {
       const errors = {
@@ -365,6 +424,8 @@ export default {
       this.contract.stockOptionVestingStartDate = this.contractStep4.stockOptionVestingStartDate
       this.contract.stockOptionTotalVestingMonth = this.contractStep4.stockOptionTotalVestingMonth
       this.contract.stockOptionVestingCliffMonth = this.contractStep4.stockOptionVestingCliffMonth
+      this.contract.healthBenefitType = this.contractStep4.healthBenefitType
+      this.contract.healthBenefitAmount = this.contractStep4.healthBenefitAmount
 
       return isValid
     }

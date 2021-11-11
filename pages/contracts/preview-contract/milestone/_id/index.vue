@@ -2330,7 +2330,6 @@ export default {
         contractorUserProfile: this.$auth.user.userProfile.id
       }).then((data) => {
         this.contractorUserProfile = data.contractorUserProfile
-
         this.modals.contractorSignature = false
         this.contractStatus = 3
         this.disableInvitationButton = false

@@ -2019,244 +2019,244 @@ export default {
           path: '/forms/' + this.$route.params.id
         }
       ],
-        invoicePaymentDueOptions: [
-            {
-                name: 'Same day',
-                id: 0
-            },
-            {
-                name: '5 Days later',
-                id: 1
-            },
-            {
-                name: '7 Days later',
-                id: 2
-            },
-            {
-                name: '15 Days later',
-                id: 3
-            },
-            {
-                name: '30 Days later',
-                id: 4
-            },
-            {
-                name: '60 Days later',
-                id: 5
-            },
-            {
-                name: '90 Days later',
-                id: 6
-            }
-        ],
-        invoiceCycleOptions: [
-            {
-                name: 'Weekly',
-                id: 0
-            },
-            {
-                name: 'Every other week',
-                id: 1
-            },
-            {
-                name: 'Twice a month',
-                id: 2
-            },
-            {
-                name: 'Monthly',
-                id: 3
-            }
-        ],
-        invoiceCycleEndsOptions: [
-            {
-                name: '1st of the month',
-                id: 0
-            },
-            {
-                name: '2nd of the month',
-                id: 1
-            },
-            {
-                name: '3rd of the month',
-                id: 2
-            },
-            {
-                name: '4th of the month',
-                id: 3
-            },
-            {
-                name: '5th of the month',
-                id: 4
-            },
-            {
-                name: '6th of the month',
-                id: 5
-            },
-            {
-                name: '7th of the month',
-                id: 6
-            },
-            {
-                name: '8th of the month',
-                id: 7
-            },
-            {
-                name: '9th of the month',
-                id: 8
-            },
-            {
-                name: '10th of the month',
-                id: 9
-            },
-            {
-                name: '11th of the month',
-                id: 10
-            },
-            {
-                name: '12th of the month',
-                id: 11
-            },
-            {
-                name: '13th of the month',
-                id: 12
-            },
-            {
-                name: '14th of the month',
-                id: 13
-            },
-            {
-                name: '15th of the month',
-                id: 14
-            },
-            {
-                name: '16th of the month',
-                id: 15
-            },
-            {
-                name: '17th of the month',
-                id: 16
-            },
-            {
-                name: '18th of the month',
-                id: 17
-            },
-            {
-                name: '19th of the month',
-                id: 18
-            },
-            {
-                name: '20th of the month',
-                id: 19
-            },
-            {
-                name: '21st of the month',
-                id: 20
-            },
-            {
-                name: '22nd of the month',
-                id: 21
-            },
-            {
-                name: '23rd of the month',
-                id: 22
-            },
-            {
-                name: '24th of the month',
-                id: 23
-            },
-            {
-                name: '25th of the month',
-                id: 24
-            },
-            {
-                name: '26th of the month',
-                id: 25
-            },
-            {
-                name: '27th of the month',
-                id: 26
-            },
-            {
-                name: '28th of the month',
-                id: 27
-            },
-            {
-                name: '29th of the month',
-                id: 28
-            },
-            {
-                name: '30th of the month',
-                id: 29
-            },
-            {
-                name: 'Last day of the month',
-                id: 30
-            }
-        ],
-        salaryFrequencies: [
-            {
-                name: 'Hour',
-                id: 0
-            },
-            {
-                name: 'Day',
-                id: 1
-            },
-            {
-                name: 'Week',
-                id: 2
-            },
-            {
-                name: 'Task',
-                id: 3
-            }
-        ],
-        seniorityLevels: [
-            {
-                name: 'Not applicable',
-                id: 0
-            },
-            {
-                name: 'Junior',
-                id: 1
-            },
-            {
-                name: 'Mid',
-                id: 2
-            },
-            {
-                name: 'Senior',
-                id: 3
-            },
-            {
-                name: 'Lead',
-                id: 4
-            },
-            {
-                name: 'Principal / Staff',
-                id: 5
-            },
-            {
-                name: 'Director',
-                id: 6
-            },
-            {
-                name: 'Head of Department',
-                id: 7
-            },
-            {
-                name: 'Vice President',
-                id: 8
-            },
-            {
-                name: 'Senior Vice President',
-                id: 9
-            },
-            {
-                name: 'C-level Executive',
-                id: 10
-            }
-        ],
+      invoicePaymentDueOptions: [
+        {
+          name: 'Same day',
+          id: 0
+        },
+        {
+          name: '5 Days later',
+          id: 1
+        },
+        {
+          name: '7 Days later',
+          id: 2
+        },
+        {
+          name: '15 Days later',
+          id: 3
+        },
+        {
+          name: '30 Days later',
+          id: 4
+        },
+        {
+          name: '60 Days later',
+          id: 5
+        },
+        {
+          name: '90 Days later',
+          id: 6
+        }
+      ],
+      invoiceCycleOptions: [
+        {
+          name: 'Weekly',
+          id: 0
+        },
+        {
+          name: 'Every other week',
+          id: 1
+        },
+        {
+          name: 'Twice a month',
+          id: 2
+        },
+        {
+          name: 'Monthly',
+          id: 3
+        }
+      ],
+      invoiceCycleEndsOptions: [
+        {
+          name: '1st of the month',
+          id: 0
+        },
+        {
+          name: '2nd of the month',
+          id: 1
+        },
+        {
+          name: '3rd of the month',
+          id: 2
+        },
+        {
+          name: '4th of the month',
+          id: 3
+        },
+        {
+          name: '5th of the month',
+          id: 4
+        },
+        {
+          name: '6th of the month',
+          id: 5
+        },
+        {
+          name: '7th of the month',
+          id: 6
+        },
+        {
+          name: '8th of the month',
+          id: 7
+        },
+        {
+          name: '9th of the month',
+          id: 8
+        },
+        {
+          name: '10th of the month',
+          id: 9
+        },
+        {
+          name: '11th of the month',
+          id: 10
+        },
+        {
+          name: '12th of the month',
+          id: 11
+        },
+        {
+          name: '13th of the month',
+          id: 12
+        },
+        {
+          name: '14th of the month',
+          id: 13
+        },
+        {
+          name: '15th of the month',
+          id: 14
+        },
+        {
+          name: '16th of the month',
+          id: 15
+        },
+        {
+          name: '17th of the month',
+          id: 16
+        },
+        {
+          name: '18th of the month',
+          id: 17
+        },
+        {
+          name: '19th of the month',
+          id: 18
+        },
+        {
+          name: '20th of the month',
+          id: 19
+        },
+        {
+          name: '21st of the month',
+          id: 20
+        },
+        {
+          name: '22nd of the month',
+          id: 21
+        },
+        {
+          name: '23rd of the month',
+          id: 22
+        },
+        {
+          name: '24th of the month',
+          id: 23
+        },
+        {
+          name: '25th of the month',
+          id: 24
+        },
+        {
+          name: '26th of the month',
+          id: 25
+        },
+        {
+          name: '27th of the month',
+          id: 26
+        },
+        {
+          name: '28th of the month',
+          id: 27
+        },
+        {
+          name: '29th of the month',
+          id: 28
+        },
+        {
+          name: '30th of the month',
+          id: 29
+        },
+        {
+          name: 'Last day of the month',
+          id: 30
+        }
+      ],
+      salaryFrequencies: [
+        {
+          name: 'Hour',
+          id: 0
+        },
+        {
+          name: 'Day',
+          id: 1
+        },
+        {
+          name: 'Week',
+          id: 2
+        },
+        {
+          name: 'Task',
+          id: 3
+        }
+      ],
+      seniorityLevels: [
+        {
+          name: 'Not applicable',
+          id: 0
+        },
+        {
+          name: 'Junior',
+          id: 1
+        },
+        {
+          name: 'Mid',
+          id: 2
+        },
+        {
+          name: 'Senior',
+          id: 3
+        },
+        {
+          name: 'Lead',
+          id: 4
+        },
+        {
+          name: 'Principal / Staff',
+          id: 5
+        },
+        {
+          name: 'Director',
+          id: 6
+        },
+        {
+          name: 'Head of Department',
+          id: 7
+        },
+        {
+          name: 'Vice President',
+          id: 8
+        },
+        {
+          name: 'Senior Vice President',
+          id: 9
+        },
+        {
+          name: 'C-level Executive',
+          id: 10
+        }
+      ],
 
       modals: {
         clientSignature: false,

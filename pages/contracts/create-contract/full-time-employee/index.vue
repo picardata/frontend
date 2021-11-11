@@ -22,17 +22,17 @@
             <div class="col-6">
               <div class="row">
                 <div class="col-12">
-                  <div v-if="step === 1" class="card border p-4">
+                  <div v-if="step === 1">
                     <step1 ref="step1" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div v-if="step === 2" class="card border p-4">
-                    <step2 ref="step2" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  <div v-if="step === 2">
+                    <step2 ref="step2" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div v-if="step === 3" class="card border p-4">
+                  <div v-if="step === 3">
                     <step3 ref="step3" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
-                  <div v-if="step === 4" class="card border p-4">
+                  <div v-if="step === 4">
                     <step4 ref="step4" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
@@ -98,15 +98,16 @@ export default {
         employeeWorkingState: '',
         isEmployeeNeedWorkingVisa: '',
         employeeWorkEligibilityDocFilename: '',
+        employeeWorkEligibilityDoc: '',
         legalEntity: '',
         seniorityLevel: '',
         jobTitle: '',
         scopeOfWork: '',
         salaryAmount: '',
         salaryCurrency: '',
-        anySigningBonus: '',
+        anySigningBonus: false,
         grossSigningBonusAmount: '',
-        anyVariableCompensation: '',
+        anyVariableCompensation: false,
         variableCompensationAmount: '',
         employmentType: '',
         partTimeTotalWorkingDaysPerWeek: '',
@@ -194,6 +195,7 @@ export default {
         formData.append('employeeWorkingState', this.contract.employeeWorkingState)
         formData.append('isEmployeeNeedWorkingVisa', this.contract.isEmployeeNeedWorkingVisa)
         formData.append('employeeWorkEligibilityDocFilename', this.contract.employeeWorkEligibilityDocFilename)
+        formData.append('employeeWorkEligibilityDoc', this.contract.employeeWorkEligibilityDoc)
         formData.append('legalEntity', this.contract.legalEntity)
         formData.append('seniorityLevel', this.contract.seniorityLevel)
         formData.append('jobTitle', this.contract.jobTitle)
@@ -294,6 +296,11 @@ export default {
 </style>
 
 <style lang="scss">
+  .multiple-fields-wrapper {
+    display: inline-table;
+    width: 100%;
+  }
+
   .form-title-wrapper {
     text-align: center;
     span {

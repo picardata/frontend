@@ -44,7 +44,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Client</span><br>
-                      <span>Date: {{ clientSignedDate }}</span>
+                      <span>Date: {{ $moment(clientSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Contractor</span><br>
-                      <span>Date: {{ contractorSignedDate }}</span>
+                      <span>Date: {{ $moment(contractorSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -2075,6 +2075,7 @@ export default {
       if (!isValid) {
         return false
       }
+      this.clientSignedDate = new Date()
 
       this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
         legalEntity: this.legalEntity,
@@ -2125,7 +2126,9 @@ export default {
         contractorSignedDate: this.contractorSignedDate,
         company: this.company.id,
         clientUserProfile: this.$auth.user.userProfile.id
-      }).then(() => {
+      }).then((data) => {
+        this.clientUserProfile = data.clientUserProfile
+
         this.modals.clientSignature = false
         this.contractStatus = 2
         this.disableInvitationButton = false
@@ -2197,8 +2200,10 @@ export default {
         contractorSignedDate: this.contractorSignedDate,
         company: this.company.id,
         contractorUserProfile: this.$auth.user.userProfile.id,
+
         clientUserProfile: this.clientUserProfile.id
-      }).then(() => {
+      }).then((data) => {
+        this.contractorUserProfile = data.contractorUserProfile
         this.modals.contractorSignature = false
         this.contractStatus = 3
         this.disableInvitationButton = false
