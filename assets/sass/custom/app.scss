@@ -454,8 +454,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .login-credential-input {
-  border-radius: 16px;
-  background: #EFF0F6;
+  border-radius: 0;
   color: #181C3B;
   min-height: 64px;
   border: 1px solid #dee2e6;
@@ -464,7 +463,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
   &:focus {
     color: #181C3B;
-    background-color: #EFF0F7;
     border: 1px solid #dee2e6;
     outline: 0;
     box-shadow: none;

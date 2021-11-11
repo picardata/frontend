@@ -4,9 +4,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div class="icon-picardata text-center">
-              <img class="mb-2" src="~/assets/logo.png" alt="" style="width:75px;">
-              <h2>Login to Globelise</h2>
+            <div class="title-wrapper text-center">
+              <h2>Log in</h2>
+              <span>Log in using email address</span>
             </div>
 
             <div class="form-group mt-4">
@@ -18,7 +18,7 @@
               <input
                 v-model="email"
                 :class="[`form-control`, 'login-credential-input', {'error': errors.email}]"
-                placeholder="Email"
+                placeholder="Email Address"
                 @change="validateEmail"
                 @keyup.enter="onSubmit"
               >
@@ -30,7 +30,13 @@
               </span>
             </div>
 
-            <div class="form-group mt-4">
+            <div class="col-md-12 text-right forgot-password-wrapper">
+              <nuxt-link to="#" class="text-link" @click.native="openModal('forgotPassword')">
+                Forgot password?
+              </nuxt-link>
+            </div>
+
+            <div class="form-group">
               <label
                 :class="[`form-control-label`, {'d-none': !errors.password}]"
               >
@@ -54,10 +60,10 @@
               />
             </div>
 
-            <div class="form-check  mt-4">
-              <input id="checkbox-remember-me" style="margin-left: -14px;" type="checkbox" class="form-check-input">
-              <label class="form-check-label ml-3" for="checkbox-remember-me">Remember me</label>
-            </div>
+            <!--            <div class="form-check  mt-4">-->
+            <!--              <input id="checkbox-remember-me" style="margin-left: -14px;" type="checkbox" class="form-check-input">-->
+            <!--              <label class="form-check-label ml-3" for="checkbox-remember-me">Remember me</label>-->
+            <!--            </div>-->
 
             <button
               :disabled="isDisable"
@@ -67,15 +73,10 @@
               Login
             </button>
 
-            <div class="col-md-12 text-center mb-2">
-              <nuxt-link to="#" class="text-link" @click.native="openModal('forgotPassword')">
-                Forgot password
-              </nuxt-link>
-            </div>
-
-            <div class="col-md-12 text-center">
-              <nuxt-link to="/signup" class="btn btn-outline-primary text-link">
-                Not registered yet? Register now
+            <div class="col-md-12 text-center register-wrapper">
+              Don't have an account?
+              <nuxt-link to="/signup" class="btn btn-register text-link">
+                Sign up
               </nuxt-link>
             </div>
           </div>
@@ -246,12 +247,12 @@ export default {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #e9ecef;
+  background-color: #f4f3f5;
   padding: 3em 16em;
 }
 
 .wrapper{
-  background: #FFFFFF;
+  /*background: #FFFFFF;*/
   /*width: 100%;*/
   width: 468px;
   height: auto;
@@ -259,13 +260,15 @@ export default {
   padding: 3rem 2rem 3rem;
 }
 
-.icon-picardata{
+.title-wrapper{
+  font-family: 'Roboto Condensed';
+
   h2{
     margin-top: 24px;
     margin-bottom: 32px;
-    font-size: 20px;
-    font-weight: 600;
-    font-family: 'Roboto Condensed';
+    font-size: 32px;
+    font-weight: 900;
+    color: #2e4823;
   }
 }
 
@@ -288,7 +291,8 @@ export default {
 }
 
 .btn-primary{
-  background: #2E4823;
+  background: #6bb745;
+  border-color: #6bb745;
   &.rounded{
     border-radius: 40px !important;
   }
@@ -297,7 +301,8 @@ export default {
     transform: translateY(0);
   }
   &.disabled{
-    background: #2E4823;
+    background: #6bb745;
+    border-color: #6bb745;
   }
 }
 
@@ -352,4 +357,25 @@ export default {
     background-color: #FFFFFF;
   }
 }
+
+.register-wrapper {
+  font-size: 14px;
+
+  .btn-register {
+    text-decoration: underline;
+    text-underline: #2e4823;
+    padding: 0;
+    margin-top: -4px;
+  }
+}
+  .forgot-password-wrapper {
+    color: #6bb745;
+
+    a {
+      color: #6bb745 !important;
+    }
+    a:hover {
+      background-color: #f4f3f5;
+    }
+  }
 </style>
