@@ -140,14 +140,10 @@ export default {
       ],
       modals: {
         uploadedPayslips: false,
-        employeeList: true
+        employeeList: false
       },
       submenu: true
     }
-  },
-  created () {
-    console.log('kudasai')
-    console.log(this)
   },
   methods: {
     onFormChange () {
@@ -171,6 +167,7 @@ export default {
           formData.append('type', 'Upload')
           formData.append('company', originalFileNameArr[0])
           formData.append('employee', originalFileNameArr[1])
+          formData.append('status', 1)
 
           axiosCall.$post('/api/payslip/',
             formData,

@@ -1,179 +1,233 @@
 <template>
-  <div class="mr-3">
+  <div>
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <div class="all-form-title bold-text form-field field-group">
-          <span class="text-label">Compensation</span>
-        </div>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.salaryCurrency" name="Payment Currency">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Currency</span>
-            <select v-model="contractStep3.salaryCurrency" class="form-control form-input">
-              <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
-                {{ salaryCurrency.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Compensation</span>
           </div>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.salaryAmount" name="Gross annual base salary">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Gross annual base salary</span>
-            <input v-model="contractStep3.salaryAmount" type="text" class="form-input form-control" placeholder="0.00">
-            <span class="text-danger">{{ errors[0] }}</span>
+          <div class="multiple-fields-wrapper">
+            <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.salaryCurrency" name="Payment Currency">
+                <span class="text-label">Currency</span>
+                <select v-model="contractStep3.salaryCurrency" class="form-control form-input">
+                  <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                    {{ salaryCurrency.name }}
+                  </option>
+                </select>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+
+            <div class="all-form-title bold-text form-field two-colls mb-4">
+              <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.salaryAmount" name="Gross annual base salary">
+                <span class="text-label">Gross annual base salary</span>
+                <input v-model="contractStep3.salaryAmount" type="text" class="form-input form-control" placeholder="0.00">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
           </div>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anySigningBonus" name="">
-          <div class="all-form-title bold-text form-field mb-4">
-            <base-checkbox v-model="contractStep3.anySigningBonus" class="mr-1" on-text="Yes" off-text="No">
+          <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anySigningBonus" name="">
+            <div class="all-form-title bold-text form-field mb-4">
+              <input
+                v-model="contractStep3.anySigningBonus"
+                type="checkbox"
+                :value="contractStep3.anySigningBonus"
+                class="mr-1"
+                on-text="Yes"
+                off-text="No"
+                @change="toggleGrossSigningBonus($event)"
+              >
               <span class="text-label">There will be a signing bonus</span>
-            </base-checkbox>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.grossSigningBonusAmount" name="Gross signing bonus">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Gross signing bonus</span>
-            <input v-model="contractStep3.grossSigningBonusAmount" type="text" class="form-input form-control" placeholder="0.00">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.grossSigningBonusAmount" name="Gross signing bonus">
+            <div v-if="showElement.grossSigningBonusAmount" :key="grossSigningBonusAmountKey" class="all-form-title bold-text form-field mb-4">
+              <span class="text-label">Gross signing bonus</span>
+              <input v-model="contractStep3.grossSigningBonusAmount" type="text" class="form-input form-control" placeholder="0.00">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anyVariableCompensation" name="">
-          <div class="all-form-title bold-text form-field mb-4">
-            <base-checkbox v-model="contractStep3.anyVariableCompensation" class="mr-1" on-text="Yes" off-text="No">
+          <ValidationProvider v-slot="{ errors }" mode="passive" vid="contractStep3.anyVariableCompensation" name="">
+            <div class="all-form-title bold-text form-field mb-4">
+              <input
+                v-model="contractStep3.anyVariableCompensation"
+                type="checkbox"
+                :value="contractStep3.anyVariableCompensation"
+                class="mr-1"
+                on-text="Yes"
+                off-text="No"
+                @change="toggleVariableCompensation($event)"
+              >
               <span class="text-label">There will be variable compensation</span>
-            </base-checkbox>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.variableCompensationAmount" name="Yearly Variable Compensation">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Yearly Variable Compensation</span>
-            <input v-model="contractStep3.variableCompensationAmount" type="text" class="form-input form-control" placeholder="0.00">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <div class="all-form-title bold-text form-field field-group">
-          <span class="text-label">Job Information</span>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.variableCompensationAmount" name="Yearly Variable Compensation">
+            <div v-if="showElement.variableCompensationAmount" :key="variableCompensationAmountKey" class="all-form-title bold-text form-field mb-4">
+              <span class="text-label">Yearly Variable Compensation</span>
+              <input v-model="contractStep3.variableCompensationAmount" type="text" class="form-input form-control" placeholder="0.00">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
         </div>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.employmentStartDate" name="Start Date">
-          <div class="all-form-title bold-text form-field mb-4">
-            <base-input class="text-label" label="Employment Start Date">
-              <flat-picker
-                v-model="contractStep3.employmentStartDate"
-                slot-scope="{focus, blur}"
-                :config="startDateconfig"
-                class="form-control form-input datepicker"
-                @on-open="focus"
-                @on-close="blur"
-              />
-            </base-input>
-
-            <span class="text-danger">{{ errors[0] }}</span>
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Job Information</span>
           </div>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.employmentType" name="">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Employment Type</span>
-            <select v-model="contractStep3.employmentType" class="form-control form-input">
-              <option v-for="(employmentTypeOption, key) in employmentTypeOptions" :key="employmentTypeOption + key" :value="employmentTypeOption.id">
-                {{ employmentTypeOption.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.employmentStartDate" name="Start Date">
+            <div class="all-form-title bold-text form-field mb-4">
+              <base-input class="text-label" label="Employment Start Date">
+                <flat-picker
+                  v-model="contractStep3.employmentStartDate"
+                  slot-scope="{focus, blur}"
+                  :config="startDateconfig"
+                  class="form-control form-input datepicker"
+                  @on-open="focus"
+                  @on-close="blur"
+                />
+              </base-input>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.partTimeTotalWorkingDaysPerWeek" name="Total working days per week">
-          <div class="all-form-title bold-text form-field mb-4">
-            <input v-model="contractStep3.partTimeTotalWorkingDaysPerWeek" type="text" class="form-input form-control" placeholder="Total working days per week">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.partTimeTotalWorkingHoursPerDay" name="Total working hours per day">
-          <div class="all-form-title bold-text form-field mb-4">
-            <input v-model="contractStep3.partTimeTotalWorkingHoursPerDay" type="text" class="form-input form-control" placeholder="Total working hours per day">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.partTimeTotalWorkingHoursPerWeek" name="Total working hours per week">
-          <div class="all-form-title bold-text form-field mb-4">
-            <input v-model="contractStep3.partTimeTotalWorkingHoursPerWeek" type="text" class="form-input form-control" placeholder="Total working hours per week">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <div class="all-form-title bold-text form-field field-group">
-          <span class="text-label">Time Off</span>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
         </div>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.timeOffType" name="">
-          <div class="all-form-title bold-text form-field mb-4">
-            <select v-model="contractStep3.timeOffType" class="form-control form-input">
-              <option v-for="(timeOffTypeOption, key) in timeOffTypeOptions" :key="timeOffTypeOption + key" :value="timeOffTypeOption.id">
-                {{ timeOffTypeOption.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+        <div class="card border p-4">
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.employmentType" name="Employment Type">
+            <div class="all-form-title bold-text form-field mb-4">
+              <span class="text-label">Employment Type</span>
+              <select v-model="contractStep3.employmentType" class="form-control form-input" @change="togglePartTimeFields($event)">
+                <option v-for="(employmentTypeOption, key) in employmentTypeOptions" :key="employmentTypeOption + key" :value="employmentTypeOption.id">
+                  {{ employmentTypeOption.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.timeOffPaidVacationDays" name="Paid vacation days">
-          <div class="all-form-title bold-text form-field mb-4">
-            <input v-model="contractStep3.timeOffPaidVacationDays" type="text" class="form-input form-control" placeholder="Paid vacation days">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+          <div v-if="showElement.partTimeFields" :key="partTimeFieldsKey">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.partTimeTotalWorkingDaysPerWeek" name="Total working days per week">
+              <div class="all-form-title bold-text form-field mb-4">
+                <input v-model="contractStep3.partTimeTotalWorkingDaysPerWeek" type="text" class="form-input form-control" placeholder="Total working days per week">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.partTimeTotalWorkingHoursPerWeek" name="Sick off days">
-          <div class="all-form-title bold-text form-field mb-4">
-            <input v-model="contractStep3.timeOffSickDays" type="text" class="form-input form-control" placeholder="Sick off days">
-            <span class="text-danger">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.partTimeTotalWorkingHoursPerDay" name="Total working hours per day">
+              <div class="all-form-title bold-text form-field mb-4">
+                <input v-model="contractStep3.partTimeTotalWorkingHoursPerDay" type="text" class="form-input form-control" placeholder="Total working hours per day">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
 
-        <div class="all-form-title bold-text form-field field-group">
-          <span class="text-label">Contract Term</span>
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.partTimeTotalWorkingHoursPerWeek" name="Total working hours per week">
+              <div class="all-form-title bold-text form-field mb-4">
+                <input v-model="contractStep3.partTimeTotalWorkingHoursPerWeek" type="text" class="form-input form-control" placeholder="Total working hours per week">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+          </div>
         </div>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.contractTermType" name="">
-          <div class="all-form-title bold-text form-field mb-4">
-            <select v-model="contractStep3.contractTermType" class="form-control form-input">
-              <option v-for="(contractTermTypeOption, key) in contractTermTypeOptions" :key="contractTermTypeOption + key" :value="contractTermTypeOption.id">
-                {{ contractTermTypeOption.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Time Off</span>
           </div>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.contractEndDate" name="Contract End Date">
-          <div class="all-form-title bold-text form-field mb-4">
-            <base-input class="text-label" label="Contract End Date">
-              <flat-picker
-                v-model="contractStep3.contractEndDate"
-                slot-scope="{focus, blur}"
-                :config="contractEndDateconfig"
-                class="form-control form-input datepicker"
-                @on-open="focus"
-                @on-close="blur"
-              />
-            </base-input>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.timeOffType" name="Time Off">
+            <div class="all-form-title bold-text form-field mb-4">
+              <select v-model="contractStep3.timeOffType" class="form-control form-input">
+                <option v-for="(timeOffTypeOption, key) in timeOffTypeOptions" :key="timeOffTypeOption + key" :value="timeOffTypeOption.id">
+                  {{ timeOffTypeOption.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
 
-            <span class="text-danger">{{ errors[0] }}</span>
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.timeOffPaidVacationDays" name="Paid vacation days">
+            <div class="all-form-title bold-text form-field mb-4">
+              <input v-model="contractStep3.timeOffPaidVacationDays" type="text" class="form-input form-control" placeholder="Paid vacation days">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.partTimeTotalWorkingHoursPerWeek" name="Sick off days">
+            <div class="all-form-title bold-text form-field mb-4">
+              <input v-model="contractStep3.timeOffSickDays" type="text" class="form-input form-control" placeholder="Sick off days">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </div>
+
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Contract Term</span>
           </div>
-        </ValidationProvider>
+
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.contractTermType" name="">
+            <div class="all-form-title bold-text form-field mb-4">
+              <select v-model="contractStep3.contractTermType" class="form-control form-input" @change="toggleContractEndDate($event)">
+                <option v-for="(contractTermTypeOption, key) in contractTermTypeOptions" :key="contractTermTypeOption + key" :value="contractTermTypeOption.id">
+                  {{ contractTermTypeOption.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+
+          <div v-if="showElement.contractEndDate" :key="contractEndDateKey" class="all-form-title bold-text form-field mb-4">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractStep3.contractEndDate" name="Contract End Date">
+              <base-input class="text-label" label="Contract End Date">
+                <flat-picker
+                  v-model="contractStep3.contractEndDate"
+                  slot-scope="{focus, blur}"
+                  :config="contractEndDateconfig"
+                  class="form-control form-input datepicker"
+                  @on-open="focus"
+                  @on-close="blur"
+                />
+              </base-input>
+
+              <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+        </div>
+
+        <div class="card border p-4">
+          <div class="all-form-title bold-text form-field field-group">
+            <span class="text-label">Probation Period</span>
+          </div>
+
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep3.contractTermType" name="">
+            <div class="all-form-title bold-text form-field mb-4">
+              <select v-model="contractStep3.probationPeriodType" class="form-control form-input" @change="toggleProbationPeriodTotalDays($event)">
+                <option v-for="(probationPeriodTypeOption, key) in probationPeriodTypeOptions" :key="probationPeriodTypeOption + key" :value="probationPeriodTypeOption.id">
+                  {{ probationPeriodTypeOption.name }}
+                </option>
+              </select>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+
+          <div v-if="showElement.probationPeriodTotalDays" :key="probationPeriodTotalDaysKey" class="all-form-title bold-text form-field mb-4">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.contractEndDate" name="Probation Period Total Days">
+              <span class="text-label">Number of probation days</span>
+              <input v-model="contractStep3.probationPeriodTotalDays" type="text" class="form-input form-control" placeholder="0">
+
+              <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+        </div>
       </form>
     </ValidationObserver>
   </div>
@@ -198,6 +252,31 @@ export default {
     'contract'
   ],
   data () {
+    let showGrossSigningBonusAmount = false
+    if (this.contract.anySigningBonus === true) {
+      showGrossSigningBonusAmount = true
+    }
+
+    let showVariableCompensationAmount = false
+    if (this.contract.anyVariableCompensation === true) {
+      showVariableCompensationAmount = true
+    }
+
+    let showPartTimeFields = false
+    if (this.contract.employmentType === 1) {
+      showPartTimeFields = true
+    }
+
+    let showContractEndDate = false
+    if (this.contract.contractTermType === 1) {
+      showContractEndDate = true
+    }
+
+    let showProbationPeriodTotalDays = false
+    if (this.contract.probationPeriodType === 1) {
+      showProbationPeriodTotalDays = true
+    }
+
     return {
       contractStep3: {
         salaryAmount: this.contract.salaryAmount,
@@ -215,8 +294,23 @@ export default {
         timeOffPaidVacationDays: this.contract.timeOffPaidVacationDays,
         timeOffSickDays: this.contract.timeOffSickDays,
         contractTermType: this.contract.contractTermType,
-        contractEndDate: this.contract.contractEndDate
+        contractEndDate: this.contract.contractEndDate,
+        probationPeriodType: this.contract.probationPeriodType,
+        probationPeriodTotalDays: this.contract.probationPeriodTotalDays
       },
+      showElement: {
+        grossSigningBonusAmount: showGrossSigningBonusAmount,
+        variableCompensationAmount: showVariableCompensationAmount,
+        partTimeFields: showPartTimeFields,
+        contractEndDate: showContractEndDate,
+        probationPeriodTotalDays: showProbationPeriodTotalDays
+      },
+      grossSigningBonusAmountKey: 0,
+      variableCompensationAmountKey: 0,
+      partTimeFieldsKey: 0,
+      contractEndDateKey: 0,
+      probationPeriodTotalDaysKey: 0,
+
       startDateconfig: {
         allowInput: true,
         altFormat: 'j F Y',
@@ -231,6 +325,16 @@ export default {
         {
           name: 'Create Contract',
           path: '/contracts'
+        }
+      ],
+      probationPeriodTypeOptions: [
+        {
+          name: 'No probation period',
+          id: 0
+        },
+        {
+          name: 'Probation period',
+          id: 1
         }
       ],
       employmentTypeOptions: [
@@ -391,6 +495,69 @@ export default {
     }
   },
   methods: {
+    toggleGrossSigningBonus (event) {
+      const anySigningBonus = event.target.checked
+
+      if (anySigningBonus === true) {
+        this.showElement.grossSigningBonusAmount = true
+      } else {
+        this.showElement.grossSigningBonusAmount = false
+      }
+
+      this.contractStep3.grossSigningBonusAmount = 0
+      this.grossSigningBonusAmountKey++
+    },
+    toggleVariableCompensation (event) {
+      const anyVariableCompensation = event.target.checked
+
+      if (anyVariableCompensation === true) {
+        this.showElement.variableCompensationAmount = true
+      } else {
+        this.showElement.variableCompensationAmount = false
+      }
+
+      this.contractStep3.variableCompensationAmount = 0
+      this.variableCompensationAmountKey++
+    },
+    togglePartTimeFields (event) {
+      const partTimeFields = event.target.value
+
+      if (partTimeFields === '1') {
+        this.showElement.partTimeFields = true
+      } else {
+        this.showElement.partTimeFields = false
+      }
+
+      this.contractStep3.partTimeTotalWorkingDaysPerWeek = 0
+      this.contractStep3.partTimeTotalWorkingHoursPerDay = 0
+      this.contractStep3.partTimeTotalWorkingHoursPerWeek = 0
+      this.partTimeFieldsKey++
+    },
+    toggleContractEndDate (event) {
+      const contractEndDate = event.target.value
+
+      if (contractEndDate === '1') {
+        this.showElement.contractEndDate = true
+      } else {
+        this.showElement.contractEndDate = false
+      }
+
+      this.contractStep3.contractEndDate = ''
+      this.contractEndDateKey++
+    },
+    toggleProbationPeriodTotalDays (event) {
+      const probationPeriodTotalDays = event.target.value
+
+      if (probationPeriodTotalDays === '1') {
+        this.showElement.probationPeriodTotalDays = true
+      } else {
+        this.showElement.probationPeriodTotalDays = false
+      }
+
+      this.contractStep3.probationPeriodTotalDays = ''
+      this.probationPeriodTotalDaysKey++
+    },
+
     onFormChange () {
     },
     async post () {
@@ -415,6 +582,8 @@ export default {
       this.contract.timeOffSickDays = this.contractStep3.timeOffSickDays
       this.contract.contractTermType = this.contractStep3.contractTermType
       this.contract.contractEndDate = this.contractStep3.contractEndDate
+      this.contract.probationPeriodType = this.contractStep3.probationPeriodType
+      this.contract.probationPeriodTotalDays = this.contractStep3.probationPeriodTotalDays
 
       return isValid
     }

@@ -25,11 +25,14 @@
                   <div v-if="step === 1" class="card border p-4">
                     <step1 ref="step1" :employees="employees" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
-                  <div v-if="step === 2" class="card border p-4">
+                  <div v-if="step === 2">
                     <step2 ref="step2" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
                   <div v-if="step === 3" class="card border p-4">
                     <step3 ref="step3" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                  </div>
+                  <div v-if="step === 4" class="card border p-4">
+                    <step4 ref="step4" :contract="contract" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
 
                   <div class="contract-type-actions-wrapper">
@@ -46,9 +49,6 @@
               </div>
             </div>
           </div>
-          <div v-if="step === 5">
-            <step5 ref="step5" :contract="contract" />
-          </div>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@ import 'vue-country-region-select'
 import step1 from '@/components/contracts/milestone/step1'
 import step2 from '@/components/contracts/milestone/step2'
 import step3 from '@/components/contracts/milestone/step3'
-import step5 from '@/components/contracts/milestone/step5'
+import step4 from '@/components/contracts/milestone/step4'
 
 export default {
   layout: 'argon',
@@ -70,7 +70,7 @@ export default {
     step1,
     step2,
     step3,
-    step5
+    step4
   },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/users/me')
@@ -90,9 +90,6 @@ export default {
         employmentStartDate: '',
         scopeOfWork: '',
         salaryCurrency: '',
-        milestoneName: '',
-        milestoneAmount: '',
-        milestoneAttachedFilename: '',
         terminationDate: '',
         noticePeriod: '',
         specialClause: '',
@@ -111,7 +108,19 @@ export default {
         contractorSignature: '',
         clientSignedDate: '',
         contractorSignedDate: '',
-        company: ''
+        company: '',
+        contractorTaxResidence: '',
+        typeOfContractDocument: '',
+        customContract: '',
+        customContractFilename: '',
+        milestoneDetails: [
+          {
+            name: '',
+            amount: '',
+            filename: '',
+            attachedDocument: ''
+          }
+        ]
       },
       contractId: '',
       crumbs: [
@@ -145,7 +154,13 @@ export default {
           this.step++
         }
       } else if (this.step === 3) {
-        const isValid = await this.$refs.step3.post()
+        const result = await this.$refs.step3.post()
+
+        if (result) {
+          this.step++
+        }
+      } else if (this.step === 4) {
+        const isValid = await this.$refs.step4.post()
 
         if (!isValid) {
           return false
@@ -178,6 +193,10 @@ export default {
         formData.append('contractorSignature', this.contract.contractorSignature)
         formData.append('clientSignedDate', this.contract.clientSignedDate)
         formData.append('contractorSignedDate', this.contract.contractorSignedDate)
+        formData.append('customContract', this.contract.customContract)
+        formData.append('customContractFilename', this.contract.customContractFilename)
+        formData.append('contractorTaxResidence', this.contract.contractorTaxResidence)
+        formData.append('typeOfContractDocument', this.contract.typeOfContractDocument)
 
         this.$axios.$post('/api/milestone/contract/',
           formData,
@@ -187,6 +206,28 @@ export default {
             }
           }).then((data) => {
           this.contractId = data
+          const milestoneContract = data
+          if (this.contract.milestoneDetails.length > 0) {
+            const axiosCall = this.$axios
+            const milestoneDetailsApiCall = []
+
+            this.contract.milestoneDetails.forEach(function (milestoneDetail) {
+              const milestoneDetailFormData = new FormData()
+              milestoneDetailFormData.append('name', milestoneDetail.name)
+              milestoneDetailFormData.append('amount', milestoneDetail.amount)
+              milestoneDetailFormData.append('filename', milestoneDetail.filename)
+
+              if (milestoneDetail.attachedDocument !== '') {
+                milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+              }
+              milestoneDetailFormData.append('milestoneContract', milestoneContract.id)
+
+              milestoneDetailsApiCall.push(axiosCall.$post('/api/milestone/details/', milestoneDetailFormData, { headers: { 'Content-Type': 'multipart/form-data' } }))
+            })
+
+            console.log(milestoneDetailsApiCall)
+          }
+
           this.$router.push('/contracts/preview-contract/milestone/' + this.contractId.uuid)
           return true
         }).catch((e) => {

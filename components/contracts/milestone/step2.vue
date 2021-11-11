@@ -1,18 +1,69 @@
 <template>
-  <div class="mr-3">
+  <div>
     <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
       <form @submit.prevent="handleSubmit(post)">
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
-          <div class="all-form-title bold-text form-field mb-4">
-            <span class="text-label">Currency</span>
-            <select v-model="contractStep2.salaryCurrency" class="form-control form-input">
-              <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
-                {{ salaryCurrency.name }}
-              </option>
-            </select>
-            <span class="text-danger">{{ errors[0] }}</span>
+        <div class="card border p-4">
+          <div class="mr-3">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryCurrency" name="Payment Currency">
+              <div class="all-form-title bold-text form-field mb-4">
+                <span class="text-label">Currency</span>
+                <select v-model="contractStep2.salaryCurrency" class="form-control form-input">
+                  <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                    {{ salaryCurrency.name }}
+                  </option>
+                </select>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
           </div>
-        </ValidationProvider>
+        </div>
+
+        <div v-for="(milestoneDetail, index) in contractStep2.milestoneDetails" :key="'milestoneDetails' + index">
+          <div class="card border p-4">
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" :vid="'milestoneDetailName-' + index" name="Name">
+              <div class="all-form-title bold-text form-field mb-4">
+                <span class="text-label">Name</span>
+                <input v-model="milestoneDetail.name" type="text" class="form-input form-control" placeholder="">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" :vid="'milestoneDetailAmount-' + index" name="Amount">
+              <div class="all-form-title bold-text form-field mb-4">
+                <span class="text-label">Amount</span>
+                <input v-model="milestoneDetail.amount" type="text" class="form-input form-control" placeholder="">
+                <span class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+
+            <ValidationProvider
+              ref="attachedDocument"
+              v-slot="{ errors }"
+              name="image"
+            >
+              <div class="all-form-title bold-text form-field mb-4">
+                <span class="text-label">Attach file</span><br>
+                <input
+                  id="attachedDocument"
+                  ref="attachedDocument"
+                  type="file"
+                  class="btn btn-sm btn-secondary btn-add-doc"
+                  accept="application/pdf"
+                  @change="handleAttachedDocumentUpload($event, index)"
+                >
+              </div>
+
+              <span>{{ errors[0] }}</span>
+            </ValidationProvider>
+
+            <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="removeMilestone($event, index)">
+              Remove this milestone
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-sm btn-secondary btn-add-milestone p-2 mb-4" @click.prevent="addMilestone()">
+          Add milestone
+        </button>
       </form>
     </ValidationObserver>
   </div>
@@ -37,13 +88,16 @@ export default {
   data () {
     return {
       contractStep2: {
-        salaryCurrency: this.contract.salaryCurrency
+        salaryCurrency: this.contract.salaryCurrency,
+        milestoneDetails: this.contract.milestoneDetails
       },
       startDateconfig: {
         allowInput: true,
         altFormat: 'j F Y',
         altInput: true
       },
+
+      milestoneDetailsKey: 1000,
       crumbs: [
         {
           name: 'Create Contract',
@@ -187,13 +241,36 @@ export default {
     },
     async post () {
       const isValid = await this.$refs.form.validate()
+
       if (!isValid) {
         return false
       }
 
       this.contract.salaryCurrency = this.contractStep2.salaryCurrency
+      this.contract.milestoneDetails = this.contractStep2.milestoneDetails
       return isValid
+    },
+    addMilestone () {
+      const newMilestone = {
+        name: '',
+        amount: '',
+        filename: '',
+        attachedDocument: ''
+      }
+
+      this.contractStep2.milestoneDetails.push(newMilestone)
+      this.contractStep2.milestoneDetailsKey++
+    },
+    removeMilestone (index) {
+      this.contractStep2.milestoneDetails.splice(index, 1)
+    },
+    handleAttachedDocumentUpload (event, index) {
+      this.contractStep2.milestoneDetails[index].attachedDocument = event.target.files[0]
     }
   }
 }
 </script>
+
+<style lang="scss">
+
+</style>

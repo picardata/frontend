@@ -5,7 +5,36 @@
         <a class="navbar-brand text-white" href="/"><img src="~/assets/text_logo.png" alt="Globelise Logo"></a>
       </div>
       <div class="navbar-inner">
-        <ul v-if="isCompanyAdmin === true" class="navbar-nav mt-5">
+        <ul v-if="isGlobeliseAdmin === true" class="navbar-nav mt-5">
+          <li
+            v-for="(item, key) in globeliseAdminMenus"
+            :key="item.name + key"
+            :class="[`nav-item`, `text-center`, {active: isActive(item.name)}]"
+          >
+            <nuxt-link
+              v-if="item.name !== 'logout'"
+              :to="item.link"
+              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+            >
+              <img :src="require(`/assets/menu_icons/${item.icon}`)">
+              <div class="nav-link-text">
+                {{ item.displayName }}
+              </div>
+            </nuxt-link>
+
+            <a
+              v-else
+              :class="[`sidebar-menu-item`, `text-center`, {active: isActive(item.name)}]"
+              @click.prevent="modals.logout = true"
+            >
+              <img :src="require(`/assets/menu_icons/${item.icon}`)">
+              <div class="nav-link-text">
+                {{ item.displayName }}
+              </div>
+            </a>
+          </li>
+        </ul>
+        <ul v-else-if="isCompanyAdmin === true" class="navbar-nav mt-5">
           <li
             v-for="(item, key) in adminMenus"
             :key="item.name + key"
@@ -90,6 +119,7 @@ export default {
     return {
       user: this.$auth.user,
       isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
+      isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
       employeeMenus: [
         {
           name: 'index',
@@ -136,12 +166,6 @@ export default {
           link: '/payslips'
         },
         {
-          name: 'payslips-upload-payslips',
-          displayName: 'Upload Payslips',
-          icon: 'Invoices_Receipts.png',
-          link: '/payslips/upload-payslips'
-        },
-        {
           name: 'reports',
           displayName: 'Reports',
           icon: 'Reports.png',
@@ -153,12 +177,12 @@ export default {
           icon: 'Compliance_document.png',
           link: '#'
         },
-        // {
-        //   name: 'invoices-receipts',
-        //   displayName: 'Invoices & Receipts',
-        //   icon: 'Invoices_Receipts.png',
-        //   link: '#'
-        // },
+        {
+          name: 'invoices-receipts',
+          displayName: 'Invoices & Receipts',
+          icon: 'Invoices_Receipts.png',
+          link: '#'
+        },
         {
           name: 'taxes',
           displayName: 'Taxes',
@@ -202,6 +226,44 @@ export default {
           link: '/logout'
         }
       ],
+      globeliseAdminMenus: [
+        {
+          name: 'index',
+          displayName: 'Home',
+          icon: 'Home.png',
+          link: '/'
+        },
+        {
+          name: 'payslips',
+          displayName: 'Payslips',
+          icon: 'Invoices_Receipts.png',
+          link: '/payslips/globelise-admin/payslip-list'
+        },
+        {
+          name: 'payslips-upload-payslips',
+          displayName: 'Upload Payslips',
+          icon: 'Invoices_Receipts.png',
+          link: '/payslips/globelise-admin/upload-payslips'
+        },
+        {
+          name: 'user-settings',
+          displayName: 'User Settings',
+          icon: 'User_setting.png',
+          link: '#'
+        },
+        {
+          name: 'profile',
+          displayName: 'Profile',
+          icon: 'User.png',
+          link: '#'
+        },
+        {
+          name: 'logout',
+          displayName: 'Logout',
+          icon: 'Log_out.png',
+          link: '/logout'
+        }
+      ],
       modals: {
         logout: false
       }
@@ -210,6 +272,10 @@ export default {
   created () {
     if (Object.hasOwnProperty.call(this.$auth.user, 'isCompanyAdmin')) {
       this.isCompanyAdmin = this.$auth.user.isCompanyAdmin
+    }
+
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
+      this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
     }
   },
   methods: {

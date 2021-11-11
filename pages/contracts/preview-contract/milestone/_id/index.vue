@@ -44,7 +44,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Client</span><br>
-                      <span>Date: {{ clientSignedDate }}</span>
+                      <span>Date: {{ $moment(clientSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="text-right">
                       <span class="text-label">Signed by Contractor</span><br>
-                      <span>Date: {{ contractorSignedDate }}</span>
+                      <span>Date: {{ $moment(contractorSignedDate).format("ll") }}</span>
                     </div>
                   </div>
                 </div>
@@ -2249,6 +2249,8 @@ export default {
         return false
       }
 
+      this.clientSignedDate = new Date()
+
       this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
         legalEntity: this.legalEntity,
         contractName: this.contractName,
@@ -2260,10 +2262,8 @@ export default {
         noticePeriod: this.noticePeriod,
         specialClause: this.specialClause,
         contractStatus: 2,
-        clientSignature: this.clientSignature,
-        clientSignedDate: new Date(),
-        contractorSignature: this.contractorSignature,
-        contractorSignedDate: new Date(),
+        contractorSignature: '',
+        contractorSignedDate: '',
         stockOptionCurrency: this.stockOptionCurrency,
         stockOptionAggregateValue: this.stockOptionAggregateValue,
         stockOptionTotalNumber: this.stockOptionTotalNumber,
@@ -2273,8 +2273,11 @@ export default {
         additionalDocumentFilename: this.additionalDocumentFilename,
         salaryCurrency: this.salaryCurrency,
         company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
         clientUserProfile: this.$auth.user.userProfile.id
-      }).then(() => {
+      }).then((data) => {
+        this.clientUserProfile = data.clientUserProfile
         this.modals.clientSignature = false
         this.contractStatus = 2
         this.disableInvitationButton = false
@@ -2297,6 +2300,8 @@ export default {
         return false
       }
 
+      this.contractorSignedDate = new Date()
+
       this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
         legalEntity: this.legalEntity,
         contractName: this.contractName,
@@ -2308,10 +2313,9 @@ export default {
         noticePeriod: this.noticePeriod,
         specialClause: this.specialClause,
         contractStatus: 3,
+        clientUserProfile: this.clientUserProfile.id,
         clientSignature: this.clientSignature,
-        clientSignedDate: new Date(),
-        contractorSignature: this.contractorSignature,
-        contractorSignedDate: new Date(),
+        clientSignedDate: this.clientSignedDate,
         stockOptionCurrency: this.stockOptionCurrency,
         stockOptionAggregateValue: this.stockOptionAggregateValue,
         stockOptionTotalNumber: this.stockOptionTotalNumber,
@@ -2321,9 +2325,11 @@ export default {
         additionalDocumentFilename: this.additionalDocumentFilename,
         salaryCurrency: this.salaryCurrency,
         company: this.company.id,
-        contractorUserProfile: this.$auth.user.userProfile.id,
-        clientUserProfile: this.clientUserProfile.id
-      }).then(() => {
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        contractorUserProfile: this.$auth.user.userProfile.id
+      }).then((data) => {
+        this.contractorUserProfile = data.contractorUserProfile
         this.modals.contractorSignature = false
         this.contractStatus = 3
         this.disableInvitationButton = false
