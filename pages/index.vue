@@ -197,6 +197,52 @@
                       </div>
                     </div>
                   </div>
+                  <div class="card border">
+                    <div class="">
+                      <div class="">
+                        <div class="border-0 card-header">
+                          <h2 class="mb-0">
+                            My Tax Documents
+                          </h2>
+                        </div>
+                        <table class="table table-striped my-contracts-table">
+                          <thead>
+                            <tr>
+                              <th scope="col">
+                                Name
+                              </th>
+                              <th scope="col">
+                                Employee
+                              </th>
+                              <th class="contract-amount-wrapper" scope="col">
+                                Filename
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="myTaxDocuments.length">
+                            <tr v-for="(taxDocument, index) in myTaxDocuments" :key="index">
+                              <td>
+                                <span class="contract-name">{{ taxDocument.name }}</span>
+                              </td>
+                              <td>
+                                <span class="contract-name">{{ taxDocument.employee }}</span>
+                              </td>
+                              <td class="contract-amount-wrapper">
+                                <a :href="`${taxDocument.url}`" target="_blank">
+                                  <span class="contract-name">{{ taxDocument.filename }}</span>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td>There is no tax documents</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,12 +270,13 @@ export default {
   ],
   async asyncData (context) {
     const contractorUserProfile = context.app.$auth.user.userProfile.id
-    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips] = await Promise.all([
+    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips, uploadedTaxDocuments] = await Promise.all([
       context.app.$axios.get('/api/user-profiles/' + contractorUserProfile + '/employees/me'),
       context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile),
+      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
     ])
 
     return {
@@ -237,19 +284,23 @@ export default {
       payAsYouGoContracts: payAsYouGoContracts.data,
       milestoneContracts: milestoneContracts.data,
       fullTimeEmployeeContracts: fullTimeEmployeeContracts.data,
-      uploadedPayslips: uploadedPayslips.data
+      uploadedPayslips: uploadedPayslips.data,
+      uploadedTaxDocuments: uploadedTaxDocuments.data
     }
   },
   data () {
-    console.log(this)
     return {
       submenu: true,
       isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
       isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
       myContracts: [],
       myPayslips: [],
+      myTaxDocuments: [],
+
       myPayslipsTotalPage: 1,
       myPayslipsCurrentPage: 1,
+      myTaxDocumentsTotalPage: 1,
+      myTaxDocumentsCurrentPage: 1,
       myContractsTotalPage: 1,
       myContractsCurrentPage: 1,
       payAsYouGoContractSalaryFrequencies: [
@@ -349,6 +400,18 @@ export default {
       payslips.push(payslip)
     })
     this.myPayslips = payslips
+
+    const taxDocuments = []
+    this.uploadedTaxDocuments.forEach(function (uploadedTaxDocument) {
+      const taxDocument = {
+        name: uploadedTaxDocument.name,
+        filename: uploadedTaxDocument.filename,
+        employee: uploadedTaxDocument.employee.userProfile.firstname,
+        url: apiHost + '/uploads/tax_document/' + uploadedTaxDocument.filename
+      }
+      taxDocuments.push(taxDocument)
+    })
+    this.myTaxDocuments = taxDocuments
   },
   methods: {
     setMyContractCurrentPage (currentPage) {
