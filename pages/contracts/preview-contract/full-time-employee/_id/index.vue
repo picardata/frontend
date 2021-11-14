@@ -4,22 +4,27 @@
       <div>
         <base-header type="grey" class="pb-6">
           <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+            <div class="">
+              <div class="">
+                <h2 class="form-title">
+                  {{ employeeFirstName }} {{ employeeLastName }} - {{ jobTitle }}
+                </h2>
+                <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>
+                <span class="mr-4 text-bold">PAY AS YOU GO</span>
+                <span>TEAM: <span class="text-bold">{{ legalEntity }}</span></span>
+              </div>
             </div>
           </div>
         </base-header>
         <div class="container-fluid mt--6">
-          <div class="row mt-3">
-            <div class="col-12 form-title-wrapper">
-              <span class="form-title">Full time employee contract</span>
-            </div>
-          </div>
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-2" />
             <div class="col-8">
+              <div>
+                <h2 class="form-title text-left">
+                  Signatures
+                </h2>
+              </div>
               <div v-if="contractStatus == 1" class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
@@ -83,6 +88,18 @@
                 </div>
               </div>
 
+              <div>
+                <h2 class="form-title text-left">
+                  Review the contract details
+                </h2>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    This deal is using the standard Globelise contractaa
+                  </div>
+                </div>
+              </div>
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
@@ -1972,15 +1989,11 @@ export default {
   },
   data () {
     return {
-      crumbs: [
-        {
-          name: 'Contracts',
-          path: '/contracts'
-        },
-        {
-          name: 'Fixed Rate Contract',
-          path: '/forms/' + this.$route.params.id
-        }
+      contractStatusOptions: [
+        { name: '' },
+        { name: 'DRAFT' },
+        { name: 'WAITING FOR CONTRACTOR SIGNATURE' },
+        { name: 'SIGNED BY BOTH PARTIES' }
       ],
       salaryFrequencies: [
         {
@@ -2275,7 +2288,7 @@ export default {
         /* identical to box height */
         letter-spacing: 0.75px;
         /* Body Text */
-        color: #313131;
+      color: #2e4823;
     }
 
     .bold-text{
@@ -2286,6 +2299,10 @@ export default {
     }
 </style>
 <style lang="scss">
+  .text-bold {
+    font-weight: 900;
+    color: #2e4823;
+  }
     .hide-btn {
         display: block;
     }

@@ -5,22 +5,24 @@
         <base-header type="grey" class="pb-6">
           <div class="row align-items-center py-4">
             <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+              <h2 class="form-title">
+                {{ contractName }}
+              </h2>
+              <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>
+              <span class="mr-4 text-bold">PAY AS YOU GO</span>
+              <span>TEAM: <span class="text-bold">{{ legalEntity }}</span></span>
             </div>
           </div>
         </base-header>
         <div class="container-fluid mt--6">
-          <div class="row mt-3">
-            <div class="col-12 form-title-wrapper">
-              <span class="form-title">Pay as you go contract</span>
-              <span>For contracts with time sheets or submitted work every payment cycle</span>
-            </div>
-          </div>
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-2" />
             <div class="col-8">
+              <div>
+                <h2 class="form-title text-left">
+                  Signatures
+                </h2>
+              </div>
               <div v-if="contractStatus == 1" class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
@@ -80,6 +82,34 @@
                       <span class="text-label">Signed by Contractor</span><br>
                       <span>Date: {{ $moment(contractorSignedDate).format("ll") }}</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 class="form-title text-left">
+                  Review the contract details
+                </h2>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div v-if="typeOfContractDocument === '1'" class="all-form-title bold-text form-field">
+                    <img class="contract-type-img mr-4 text-right" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+
+                    <span>This deal is using custom contract </span>
+
+                    <a href="#" @click.prevent="downloadPdf">
+                      <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                    </a>
+                  </div>
+                  <div v-else class="all-form-title bold-text form-field">
+                    <img class="contract-type-img mr-4 text-right" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+
+                    <span>This deal is using the standard Globelise contract</span>
+
+                    <a href="#" @click.prevent="downloadPdf">
+                      <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2009,15 +2039,11 @@ export default {
   },
   data () {
     return {
-      crumbs: [
-        {
-          name: 'Contracts',
-          path: '/contracts'
-        },
-        {
-          name: 'Fixed Rate Contract',
-          path: '/forms/' + this.$route.params.id
-        }
+      contractStatusOptions: [
+        { name: '' },
+        { name: 'DRAFT' },
+        { name: 'WAITING FOR CONTRACTOR SIGNATURE' },
+        { name: 'SIGNED BY BOTH PARTIES' }
       ],
       invoicePaymentDueOptions: [
         {
@@ -2443,7 +2469,13 @@ export default {
       })
     },
     downloadPdf () {
-      window.open('http://api.local.globelise.com/generate/contract/' + this.contractId, '_blank')
+      const apiHost = this.$axios.defaults.baseURL
+
+      if (this.typeOfContractDocument === '1') {
+        window.open(apiHost + '/uploads/pay_as_you_go_contract_custom_contract/' + this.customContractFilename, '_blank')
+      } else {
+        window.open(apiHost + '/generate/contract/' + this.contractId, '_blank')
+      }
     }
   }
 }
@@ -2466,7 +2498,7 @@ export default {
         /* identical to box height */
         letter-spacing: 0.75px;
         /* Body Text */
-        color: #313131;
+        color: #2e4823;
     }
     .bold-text{
         font-weight:700 !important;
@@ -2476,6 +2508,17 @@ export default {
     }
 </style>
 <style lang="scss">
+  .download-contract-link {
+    margin-top: 35px;
+  }
+
+  .contract-type-img {
+    height: 100px;
+  }
+  .text-bold {
+    font-weight: 900;
+    color: #2e4823;
+  }
     .hide-btn {
         display: block;
     }
