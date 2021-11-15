@@ -135,7 +135,10 @@
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label"> Job Role </span><br>
+                    <span class="text-label"> Job Role </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.jobRole = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">Job Title</span>
                       <span class="text-right text-date">{{ jobTitle }}</span>
@@ -150,17 +153,11 @@
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label"> Scope </span><br>
-                    <div class="contract-review-field-wrapper">
-                      <span class="text-left">{{ scopeOfWork }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card border p-4">
-                <div class="mr-3">
-                  <div class="all-form-title bold-text form-field">
-                    <span class="text-label">Payment Details </span><br>
+                    <span class="text-label">Payment Details </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.paymentDetails = true">
+                      Edit
+                    </button>
+                    <br>
                     <div v-if="salaryFrequency !== null" class="contract-review-field-wrapper">
                       <span class="text-left">Rate</span>
                       <span class="text-right text-date">{{ salaryCurrency }} {{ salaryAmount }} per {{ this.salaryFrequencies[salaryFrequency].name }}</span>
@@ -185,10 +182,107 @@
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label">First payment </span><br>
+                    <span class="text-label">First payment </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.firstPayment = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">Date</span>
                       <span class="text-right text-date">{{ $moment(firstPaymentDate).format("ll") }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Stock options </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                      Edit
+                    </button><br>
+                    <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Stock options</span>
+                      <span class="text-right">${{ stockOptionAggregateValue }}</span><br>
+                      <span class="text-left">To be offered</span>
+                      <span class="text-right">{{ stockOptionCurrency }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label"> Scope </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                      Edit
+                    </button><br>
+                    <div class="contract-review-field-wrapper">
+                      <span class="text-left">{{ scopeOfWork }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Country compliance </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
+                      Edit
+                    </button><br>
+                    <div v-if="contractorTaxResidence !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Contractor's Country</span>
+                      <span class="text-right text-date">{{ contractorTaxResidence }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Other specifics</span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
+                      Edit
+                    </button><br>
+                    <div v-if="additionalDocumentFilename !== null" class="contract-review-field-wrapper">
+                      <img class="contract-type-img mr-4 text-right" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+
+                      <span>This deal is using additional document</span>
+
+                      <a href="#" @click.prevent="downloadAdditionalDocument">
+                        <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                      </a>
+                    </div>
+
+                    <div v-if="specialClause !== null" class="contract-review-field-wrapper">
+                      <span class="text-left mb-2 full-width">Special Clause</span><br>
+                      <span class="text-left">{{ specialClause }}</span>
+                    </div>
+
+                    <div class="contract-review-field-wrapper">
+                      <span class="text-left mb-2 full-width">Who can add work</span><br>
+                      <span v-if="canClientSubmitWork === true && canContractorSubmitWork === true" class="text-left">Both parties</span>
+                      <span v-else-if="canClientSubmitWork === true && canContractorSubmitWork === false" class="text-left">Client only</span>
+                      <span v-else-if="canClientSubmitWork === false && canContractorSubmitWork === true" class="text-left">Contractor only</span>
+                      <span v-else class="text-left">Not applicable</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">End of contract </span>
+                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                      Edit
+                    </button><br>
+                    <div class="contract-review-field-wrapper">
+                      <span class="text-left">End date</span>
+                      <span v-if="terminationDate !== null" class="text-right text-date">{{ $moment(terminationDate).format("ll") }}</span>
+                      <span v-else class="text-right text-date">This contract doesn't have an end date.</span>
+                    </div>
+                    <div class="contract-review-field-wrapper">
+                      <span class="text-left">Notice period</span>
+                      <span class="text-right text-date">{{ noticePeriod }} days</span>
                     </div>
                   </div>
                 </div>
@@ -2017,18 +2111,475 @@
       </div>
       <template slot="footer" />
     </modal>
+    <modal :show.sync="modals.paymentDetails" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define the rate</span>
+                </div>
+
+                <div class="multiple-fields-wrapper">
+                  <div v-if="showElement.salaryAmounts" :key="'salaryAmounts-'+key.salaryAmounts" class="all-form-title bold-text form-field two-colls first-coll mb-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="salaryAmount" name="Salary Amount">
+                      <span class="text-label">How much?</span>
+                      <input v-model="salaryAmount" type="text" class="form-input form-control" placeholder="0.00">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="salaryCurrency" name="Payment Currency">
+                    <div class="all-form-title bold-text form-field two-colls mb-4">
+                      <span class="text-label">Currency</span>
+                      <select v-model="salaryCurrency" class="form-control form-input">
+                        <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                          {{ salaryCurrency.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <div v-if="showElement.salaryFrequency" :key="'salaryFrequency-'+key.salaryFrequency" class="all-form-title bold-text form-field mb-4">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep2.salaryFrequency" name="Payment Frequency">
+                    <span class="text-label">Per</span>
+                    <select v-model="salaryFrequency" class="form-control form-input">
+                      <option v-for="(salaryFrequency, key) in salaryFrequencies" :key="salaryFrequency + key" :value="salaryFrequency.id">
+                        {{ salaryFrequency.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+
+                <div class="all-form-title form-field field-group">
+                  <span class="text-label Invoicing">Invoicing</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="invoiceCycle" name="">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Invoice cycle</span>
+                    <select v-model="invoiceCycle" class="form-control form-input">
+                      <option v-for="(invoiceCycleOption, key) in invoiceCycleOptions" :key="invoiceCycleOption + key" :value="invoiceCycleOption.id">
+                        {{ invoiceCycleOption.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="invoiceCycleEnds" name="">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Invoice cycle ends</span>
+                    <select v-model="invoiceCycleEnds" class="form-control form-input">
+                      <option v-for="(invoiceCycleEndsOption, key) in invoiceCycleEndsOptions" :key="invoiceCycleEndsOption + key" :value="invoiceCycleEndsOption.id">
+                        {{ invoiceCycleEndsOption.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="invoicePaymentDue" name="">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Payment due</span>
+                    <select v-model="invoicePaymentDue" class="form-control form-input">
+                      <option v-for="(invoicePaymentDueOption, key) in invoicePaymentDueOptions" :key="invoicePaymentDueOption + key" :value="invoicePaymentDueOption.id">
+                        {{ invoicePaymentDueOption.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="isInvoicePaymentPayAheadOfTheWeekend" name="">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Pay ahead of the weekend</span>
+                    <span class="text-label-desc">If the payment due is on a weekend, pay on Friday</span>
+
+                    <base-switch v-model="isInvoicePaymentPayAheadOfTheWeekend" class="mr-1 form-checkbox" on-text="Yes" off-text="No" :disabled="isDisabled" />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updatePaymentDetails">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.firstPayment" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define first payment date</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="firstPaymentDate" name="First payment date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <base-input class="text-label" label="First payment date">
+                      <flat-picker
+                        v-model="firstPaymentDate"
+                        slot-scope="{focus, blur}"
+                        :config="firstPaymentDateconfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateFirstPaymentDate">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.jobRole" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define job role</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.jobTitle" name="Job Title">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Job Title</span>
+                    <input v-model="jobTitle" type="text" class="form-input form-control" placeholder="">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.seniorityLevel" name="Seniority Level">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Seniority Level</span>
+                    <select v-model="seniorityLevel" class="form-control form-input">
+                      <option value="0" selected>
+                        Choose Seniority Level
+                      </option>
+                      <option v-for="(seniorityLevel, key) in seniorityLevels" :key="seniorityLevel + key" :value="seniorityLevel.id">
+                        {{ seniorityLevel.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors.email }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateJobRole">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.scope" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define scope of work</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Scope of Work</span>
+                    <textarea v-model="scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateScope">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.countryCompliance" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define country compliance</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractorTaxResidence" name="Contractor Tax Residence">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Where is the contractor's tax residence?</span>
+                    <country-select v-model="contractorTaxResidence" :country="contractorTaxResidence" top-country="SG" class="form-control form-input" />
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateCountryCompliance">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.endOfContract" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define contract ending condition</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="terminationDate" name="Termination date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Termination date</span><br>
+                    <span class="text-label-desc">The client will pay the contractor until the contract has been terminated.</span>
+                    <base-input class="text-label">
+                      <flat-picker
+                        v-model="terminationDate"
+                        slot-scope="{focus, blur}"
+                        :config="terminationDateconfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="noticePeriod" name="Notice period">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Notice period</span><br>
+                    <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
+                    <input v-model="noticePeriod" type="text" class="form-input form-control" placeholder="">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateEndOfContract">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.otherSpecific" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Other specifics</span>
+                </div>
+
+                <div class="all-form-title bold-text form-field mb-4">
+                  <span class="text-label">Who can submit work?</span>
+
+                  <ValidationProvider mode="passive" vid="canClientSubmitWork" name="Can client submit work">
+                    <div class="checkbox-wrapper">
+                      <base-switch v-model="canClientSubmitWork" class="mr-1" on-text="Yes" off-text="No" />
+                      <span class="text-label-desc">Client</span>
+                    </div>
+                  </ValidationProvider>
+                  <ValidationProvider mode="passive" vid="canContractorSubmitWork" name="Can contractor submit work">
+                    <div class="checkbox-wrapper">
+                      <base-switch v-model="canContractorSubmitWork" class="mr-1" on-text="Yes" off-text="No" />
+                      <span class="text-label-desc">Contractor</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="specialClause" name="Special Clause">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Special Clause</span><br>
+                    <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
+
+                    <textarea v-model="specialClause" type="text" class="form-input form-control" placeholder="" />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateOtherSpecific">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.stockOffer" size="lg" modal-classes="modal-stock-option">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Offer stock options</span>
+                </div>
+
+                <div class="information-text-wrapper">
+                  <span>
+                    Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
+                  </span>
+                </div>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionCurrency" name="Stock Option Currency">
+                    <div class="currency-field-wrapper">
+                      <select v-model="stockOptionCurrency" class="form-control form-input">
+                        <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                          {{ salaryCurrency.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionAggregateValue" name="Aggregate option value">
+                    <div class="aggregate-value-field-wrapper">
+                      <input v-model="stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionTotalNumber" name="Number of stock options">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label d-block">Specify the number of stock options this represents?</span>
+
+                    <input v-model="stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionVestingStartDate" name="Vesting start date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">When does the vesting start?</span><br>
+                    <base-input class="text-label" label="">
+                      <flat-picker
+                        v-model="stockOptionVestingStartDate"
+                        slot-scope="{focus, blur}"
+                        :config="stockOptionVestingStartDateConfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the monthly vesting schedule?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionTotalVestingMonth" name="Total vesting months">
+                    <div class="total-month-vesting-field-wrapper">
+                      <input v-model="stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionVestingCliffMonth" name="Cliff vesting months">
+                    <div class="cliff-month-vesting-field-wrapper">
+                      <input v-model="stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateStockOffer">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
   </div>
 </template>
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import flatPicker from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+import 'vue-country-region-select'
 
 export default {
   layout: 'argon',
   auth: true,
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    flatPicker
   },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/pay/as/you/go/contract/' + context.route.params.id)
@@ -2039,11 +2590,36 @@ export default {
   },
   data () {
     return {
+      firstPaymentDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      terminationDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      stockOptionVestingStartDateConfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
       contractStatusOptions: [
         { name: '' },
         { name: 'DRAFT' },
         { name: 'WAITING FOR CONTRACTOR SIGNATURE' },
         { name: 'SIGNED BY BOTH PARTIES' }
+      ],
+      paymentPackageTypeOptions: [
+        {
+          name: 'Fixed rate',
+          id: 0
+        },
+        {
+          name: 'Task',
+          id: 1
+        }
       ],
       invoicePaymentDueOptions: [
         {
@@ -2219,6 +2795,130 @@ export default {
           id: 30
         }
       ],
+      salaryCurrencies: [
+        { name: 'SGD - Singapore Dollar', id: 'SGD' },
+        { name: 'AED - United Emirate Arabs Dirham', id: 'AED' },
+        { name: 'ALL - Albanian Lek', id: 'ALL' },
+        { name: 'AMD - Armenian Dram', id: 'AMD' },
+        { name: 'ARS - Argentine Peso', id: 'ARS' },
+        { name: 'AUD - Australian Dollar', id: 'AUD' },
+        { name: 'AZN - Azerbaijani Manat', id: 'AZN' },
+        { name: 'BAM - Bosnia and Herzegovina Convertible Mark', id: 'BAM' },
+        { name: 'BBD - Barbadian Dollar', id: 'BBD' },
+        { name: 'BDT - Bangladeshi Taka', id: 'BDT' },
+        { name: 'BGN - Bulgarian Lev', id: 'BGN' },
+        { name: 'BHD - Bahraini Dinar', id: 'BHD' },
+        { name: 'BMD - Bermudian Dollar', id: 'BMD' },
+        { name: 'BND - Brunei Dinar', id: 'BND' },
+        { name: 'BOB - Bolivian Boliviano', id: 'BOB' },
+        { name: 'BRL - Brazilian Real', id: 'BRL' },
+        { name: 'BSD - Bahamian Dollar', id: 'BSD' },
+        { name: 'BWP - Pula', id: 'BWP' },
+        { name: 'BYN - Belarusian Ruble', id: 'BYN' },
+        { name: 'BZD - Belize Dollar', id: 'BZD' },
+        { name: 'CAD - Canadian Dollar', id: 'CAD' },
+        { name: 'CDF - Congolese Franc', id: 'CDF' },
+        { name: 'CHF - Swiss Franc', id: 'CHF' },
+        { name: 'CLP - Chilean Peso', id: 'CLP' },
+        { name: 'CNY - Chinese Yuan', id: 'CNY' },
+        { name: 'COP - Colombian Peso', id: 'COP' },
+        { name: 'CRC - Costa Rican Colon', id: 'CRC' },
+        { name: 'CUP - Cuban Peso', id: 'CUP' },
+        { name: 'CVE - Cape Verdean Escudo', id: 'CVE' },
+        { name: 'CZK - Czech Koruna', id: 'CZK' },
+        { name: 'DJF - Djiboutian Franc', id: 'DJF' },
+        { name: 'DKK - Danish Krone', id: 'DKK' },
+        { name: 'DOP - Dominican Peso', id: 'DOP' },
+        { name: 'DZD - Algerian Dinar', id: 'DZD' },
+        { name: 'EGP - Egyptian Pound', id: 'EGP' },
+        { name: 'ETP - Ethiopian Birr', id: 'ETP' },
+        { name: 'EUR - Euro', id: 'EUR' },
+        { name: 'FJD - Fijian Dollar', id: 'FJD' },
+        { name: 'GBP - British Pound', id: 'GBP' },
+        { name: 'GEL - Georgian Lari', id: 'GEL' },
+        { name: 'GHS - Ghanian Cedi', id: 'GHS' },
+        { name: 'GIP - Gibraltar Pound', id: 'GIP' },
+        { name: 'GMD - Gambian Dalasi', id: 'GMD' },
+        { name: 'GNF - Guinea Franc', id: 'GNF' },
+        { name: 'GTQ - Guatemalan Quetzal', id: 'GTQ' },
+        { name: 'GYD - Guyanes Dollar', id: 'GYD' },
+        { name: 'HKD - Hong Kong Dollar', id: 'HKD' },
+        { name: 'HNL - Honduran Lempira', id: 'HNL' },
+        { name: 'HRK - Croatian Kuna', id: 'HRK' },
+        { name: 'HTG - Haitian Gourde', id: 'HTG' },
+        { name: 'HUF - Hungarian Forint', id: 'HUF' },
+        { name: 'IDR - Indonesian Rupiah', id: 'IDR' },
+        { name: 'ILS - Israeli New Shekel', id: 'ILS' },
+        { name: 'INR - Indian Rupee', id: 'INR' },
+        { name: 'ISK - Icelandic Króna', id: 'ISK' },
+        { name: 'JMD - Jamaican Dollar', id: 'JMD' },
+        { name: 'JOD - Jordanian Dinar', id: 'JOD' },
+        { name: 'JPY - Japanese Yen', id: 'JPY' },
+        { name: 'KES - Kenyan Shilling', id: 'KES' },
+        { name: 'KGS - Kyrgyzstani Som', id: 'KGS' },
+        { name: 'KHR - Cambodian Riel', id: 'KHR' },
+        { name: 'KMF - Comorian Franc', id: 'KMF' },
+        { name: 'KRW - South Korean Won', id: 'KRW' },
+        { name: 'KWD - Kuwaiti Dinar', id: 'KWD' },
+        { name: 'KYD - Cayman Island Dollar', id: 'KYD' },
+        { name: 'KZT - Kazakhstani Tenge', id: 'KZT' },
+        { name: 'LAK - KIP', id: 'LAK' },
+        { name: 'LBP - Lebanese Pound', id: 'LBP' },
+        { name: 'LKR - Sri Lankan Rupee', id: 'LKR' },
+        { name: 'LSL - Lesotho Loti', id: 'LSL' },
+        { name: 'LVL - Latvian Lats', id: 'LVL' },
+        { name: 'MAD - Moroccan Dirham', id: 'MAD' },
+        { name: 'MGA - Malagasy Ariary', id: 'MGA' },
+        { name: 'MMK - Burmese Kyat', id: 'MMK' },
+        { name: 'MNT - Mongolian Togrog', id: 'MNT' },
+        { name: 'MOP - Macanese Pataca', id: 'MOP' },
+        { name: 'MRO - Mauritanian Ouguiya', id: 'MRO' },
+        { name: 'MUR - Mauritian Rupee', id: 'MUR' },
+        { name: 'MVR - Maldivian Rufiyaa', id: 'MVR' },
+        { name: 'MWK - Malawian Kwacha', id: 'MWK' },
+        { name: 'MXN - Mexican Peso', id: 'MXN' },
+        { name: 'MYR - Malaysian Ringgit', id: 'MYR' },
+        { name: 'MZN - Mozambican Metical', id: 'MZN' },
+        { name: 'NAD - Namibia Dollar', id: 'NAD' },
+        { name: 'NGN - Nigerian Naira', id: 'NGN' },
+        { name: 'NIO - Nicaraguan Cordoba', id: 'NIO' },
+        { name: 'NOK - Norwegian Krone', id: 'NOK' },
+        { name: 'NPR - Nepalese Rupee', id: 'NPR' },
+        { name: 'NZD - New Zealand Dollar', id: 'NZD' },
+        { name: 'OMR - Omani Rial', id: 'OMR' },
+        { name: 'PAB - Panamanian Balboa', id: 'PAB' },
+        { name: 'PEN - Peruvian Sol', id: 'PEN' },
+        { name: 'PGK - Kina', id: 'PGK' },
+        { name: 'PHP - Philippine Peso', id: 'PHP' },
+        { name: 'PKR - Pakistani Rupee', id: 'PKR' },
+        { name: 'PLN - Polish Zloty', id: 'PLN' },
+        { name: 'PYG - Paraguayan Guarani', id: 'PYG' },
+        { name: 'QAR - Qatari Riyal', id: 'QAR' },
+        { name: 'RON - Romanian Leu', id: 'RON' },
+        { name: 'RSD - Serbian Dinar', id: 'RSD' },
+        { name: 'RUB - Russian Ruble', id: 'RUB' },
+        { name: 'RWF - Rwandan Franc', id: 'RWF' },
+        { name: 'SAR - Saudi Riyal ', id: 'SAR' },
+        { name: 'SEK - Swedish Krona', id: 'SEK' },
+        { name: 'SLL - Sierra Leonean Leone', id: 'SLL' },
+        { name: 'SRD - Surinamese Dollar', id: 'SRD' },
+        { name: 'SVC - Salvadoran Colon', id: 'SVC' },
+        { name: 'SZL - Swazi Lilangeni', id: 'SZL' },
+        { name: 'THB - Thai Baht', id: 'THB' },
+        { name: 'TJS - Tajikstani Somoni', id: 'TJS' },
+        { name: 'TMT - Turmenikstan Manat', id: 'TMT' },
+        { name: 'TND - Tunisian Dinar', id: 'TND' },
+        { name: 'TRY - Turkish Lira', id: 'TRY' },
+        { name: 'TTD - Trinidad and Tobago Dollar', id: 'TTD' },
+        { name: 'TWD - Taiwan Dollar', id: 'TWD' },
+        { name: 'UAH - Ukranian Hryvnia', id: 'UAH' },
+        { name: 'UGX - Ugandan Shilling', id: 'UGX' },
+        { name: 'USD - US Dollar', id: 'USD' },
+        { name: 'UYU - Uruguayan Peso', id: 'UYU' },
+        { name: 'VND - Vietnamese Dong', id: 'VND' },
+        { name: 'WST - Samoan Tala', id: 'WST' },
+        { name: 'ZAR - South African Rand', id: 'ZAR' }
+      ],
       salaryFrequencies: [
         {
           name: 'Hour',
@@ -2283,11 +2983,26 @@ export default {
           id: 10
         }
       ],
-
+      showElement: {
+        salaryAmounts: true,
+        salaryFrequency: true
+      },
+      key: {
+        salaryAmounts: 0,
+        salaryFrequency: 0
+      },
       modals: {
         clientSignature: false,
         contractorSignature: false,
-        contractorEmailInvitation: false
+        contractorEmailInvitation: false,
+        paymentDetails: false,
+        scope: false,
+        endOfContract: false,
+        firstPayment: false,
+        jobRole: false,
+        stockOffer: false,
+        countryCompliance: false,
+        otherSpecific: false
       },
       submenu: true,
       currentDate: new Date(),
@@ -2296,12 +3011,28 @@ export default {
       contractorEmailInvitationContent: 'Hey! We are so excited to work with you. This is an invitation to your Globelise contract where you\'ll find all the details we discussed. Globelise is also the platform we use for compliance and payments.'
     }
   },
+  computed: {
+    isDisabled () {
+      return !this.isInvoiceSettingsCustomisable
+    }
+  },
   mounted () {
     if (this.contractStatus > 1) {
       this.disableInvitationButton = false
     }
+
+    if (this.paymentPackageType === '0') {
+      this.showElement.salaryAmounts = true
+      this.showElement.salaryFrequency = true
+    } else {
+      this.showElement.salaryAmounts = false
+      this.showElement.salaryFrequency = false
+    }
   },
   methods: {
+    handleAdditionalDocumentUpload (event) {
+      this.additionalDocument = event.target.files[0]
+    },
     async sendClientSignature () {
       const isValid = await this.$refs.form.validate()
       if (!isValid) {
@@ -2468,6 +3199,502 @@ export default {
         return false
       })
     },
+    async updatePaymentDetails () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.paymentDetails = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateFirstPaymentDate () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.firstPayment = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateScope () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.scope = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateJobRole () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.jobRole = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateCountryCompliance () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.countryCompliance = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateEndOfContract () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.endOfContract = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateOtherSpecific () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.otherSpecific = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateStockOffer () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/pay/as/you/go/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        jobTitle: this.jobTitle,
+        seniorityLevel: this.seniorityLevel,
+        scopeOfWork: this.scopeOfWork,
+        startDate: this.startDate,
+        paymentPackageType: this.paymentPackageType,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        salaryFrequency: this.salaryFrequency,
+        invoiceCycle: this.invoiceCycle,
+        invoiceCycleEnds: this.invoiceCycleEnds,
+        invoicePaymentDue: this.invoicePaymentDue,
+        isInvoicePaymentPayAheadOfTheWeekend: this.isInvoicePaymentPayAheadOfTheWeekend,
+        firstPaymentDate: this.firstPaymentDate,
+        canClientSubmitWork: this.canClientSubmitWork,
+        canContractorSubmitWork: this.canContractorSubmitWork,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        contractStatus: this.contractStatus,
+        company: this.company.id,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.clientSignedDate,
+        contractorSignedDate: this.contractorSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        additionalDocument: '',
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        customContract: '',
+        customContractFilename: this.customContractFilename,
+        contractorTaxResidence: this.contractorTaxResidence,
+        typeOfContractDocument: this.typeOfContractDocument
+      }).then(() => {
+        this.modals.stockOffer = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
     downloadPdf () {
       const apiHost = this.$axios.defaults.baseURL
 
@@ -2475,6 +3702,24 @@ export default {
         window.open(apiHost + '/uploads/pay_as_you_go_contract_custom_contract/' + this.customContractFilename, '_blank')
       } else {
         window.open(apiHost + '/generate/contract/' + this.contractId, '_blank')
+      }
+    },
+    downloadAdditionalDocument () {
+      const apiHost = this.$axios.defaults.baseURL
+
+      window.open(apiHost + '/uploads/pay_as_you_go_contract_additional_document/' + this.additionalDocumentFilename, '_blank')
+    },
+    togglePaymentPackage (event) {
+      const paymentPackageType = event.target.value
+
+      if (paymentPackageType === '0') {
+        this.showElement.salaryAmounts = true
+        this.showElement.salaryFrequency = true
+      } else {
+        this.showElement.salaryAmounts = false
+        this.showElement.salaryFrequency = false
+        this.salaryAmount = 0
+        this.salaryFrequency = 0
       }
     }
   }
@@ -2508,6 +3753,27 @@ export default {
     }
 </style>
 <style lang="scss">
+  .full-width {
+    width: 100%;
+  }
+
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
+
+  .multiple-fields-wrapper {
+    display: inline-table;
+    width: 100%;
+  }
   .download-contract-link {
     margin-top: 35px;
   }
@@ -2528,6 +3794,65 @@ export default {
             display: block;
         }
     }
+  .modal-stock-option {
+    .modal-body {
+      padding: 0 1.5rem;
+    }
+
+    h3 {
+      font-size: 22px !important;
+    }
+
+    .form-field {
+      margin-bottom: 10px;
+    }
+
+    .two-collumns {
+      height: 110px;
+      display: block;
+    }
+
+    .currency-field-wrapper {
+      width: 35%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .aggregate-value-field-wrapper {
+      width: 65%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .total-month-vesting-field-wrapper {
+      width: 49%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .cliff-month-vesting-field-wrapper {
+      width: 50%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .information-text-wrapper {
+      background-color: #e8f1fe;
+      margin-bottom: 20px;
+      padding: 18px;
+      border-radius: 8px;
+
+      span {
+        color: #7c8286;
+      }
+    }
+  }
     .modal-contract-details {
         .full-contract-details-wrapper {
             height: 380px;

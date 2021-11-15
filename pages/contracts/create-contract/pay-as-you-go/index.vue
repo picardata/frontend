@@ -216,7 +216,6 @@ export default {
         formData.append('contractorUserProfile', this.contract.contractorUserProfile)
         formData.append('clientUserProfile', this.contract.clientUserProfile)
         formData.append('customContract', this.contract.customContract)
-        formData.append('customContractFilename', this.contract.customContractFilename)
         formData.append('contractorTaxResidence', this.contract.contractorTaxResidence)
         formData.append('typeOfContractDocument', this.contract.typeOfContractDocument)
 
