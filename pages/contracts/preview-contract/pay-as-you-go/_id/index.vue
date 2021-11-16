@@ -136,7 +136,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Job Role </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.jobRole = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.jobRole = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -154,7 +154,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Payment Details </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.paymentDetails = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.paymentDetails = true">
                       Edit
                     </button>
                     <br>
@@ -183,7 +183,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">First payment </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.firstPayment = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.firstPayment = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -197,7 +197,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Stock options </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
                       Edit
                     </button><br>
                     <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
@@ -213,7 +213,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Scope </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -226,7 +226,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Country compliance </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
                       Edit
                     </button><br>
                     <div v-if="contractorTaxResidence !== null" class="contract-review-field-wrapper">
@@ -240,7 +240,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Other specifics</span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
                       Edit
                     </button><br>
                     <div v-if="additionalDocumentFilename !== null" class="contract-review-field-wrapper">
@@ -272,7 +272,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">End of contract </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -2304,37 +2304,6 @@
       </div>
       <template slot="footer" />
     </modal>
-    <modal :show.sync="modals.scope" size="lg" modal-classes="modal-contractor-details">
-      <template slot="header" />
-      <div class="full-contract-details-wrapper">
-        <div class="mr-3">
-          <div class="all-form-title bold-text form-field">
-            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-              <form @submit.prevent="handleSubmit(post)">
-                <div class="all-form-title bold-text form-field field-group">
-                  <span class="text-label">Define scope of work</span>
-                </div>
-
-                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
-                  <div class="all-form-title bold-text form-field mb-4">
-                    <span class="text-label">Scope of Work</span>
-                    <textarea v-model="scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
-                    <span class="text-danger">{{ errors[0] }}</span>
-                  </div>
-                </ValidationProvider>
-              </form>
-            </ValidationObserver>
-
-            <div class="button-wrapper">
-              <base-button type="primary" @click.prevent="updateScope">
-                Update
-              </base-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <template slot="footer" />
-    </modal>
     <modal :show.sync="modals.countryCompliance" size="lg" modal-classes="modal-contractor-details">
       <template slot="header" />
       <div class="full-contract-details-wrapper">
@@ -2556,6 +2525,37 @@
 
             <div class="button-wrapper">
               <base-button type="primary" @click.prevent="updateStockOffer">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.scope" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define scope of work</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Scope of Work</span>
+                    <textarea v-model="scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateScope">
                 Update
               </base-button>
             </div>

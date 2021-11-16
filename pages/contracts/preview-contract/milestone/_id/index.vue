@@ -9,7 +9,7 @@
                 {{ contractName }}
               </h2>
               <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>
-              <span class="mr-4 text-bold">PAY AS YOU GO</span>
+              <span class="mr-4 text-bold">MILESTONE</span>
               <span>TEAM: <span class="text-bold">{{ legalEntity }}</span></span>
             </div>
           </div>
@@ -23,7 +23,7 @@
                   Signatures
                 </h2>
               </div>
-              <div v-if="contractStatus == 1" class="card border p-4">
+              <div v-if="contractStatus === '1'" class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Client sign here </span><br>
@@ -128,7 +128,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Milestones </span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.milestones = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.milestones = true">
                       Edit
                     </button><br>
                     <div v-for="(milestone, index) in milestoneDetails" :key="'milestone-' + index" class="contract-review-field-wrapper">
@@ -146,7 +146,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Stock options </span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
                       Edit
                     </button><br>
                     <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
@@ -162,7 +162,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Scope </span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -175,7 +175,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Country compliance </span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
                       Edit
                     </button><br>
                     <div v-if="contractorTaxResidence !== null" class="contract-review-field-wrapper">
@@ -189,7 +189,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Other specifics</span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
                       Edit
                     </button><br>
                     <div v-if="additionalDocumentFilename !== null" class="contract-review-field-wrapper">
@@ -213,7 +213,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">End of contract </span>
-                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -2379,7 +2379,6 @@ export default {
     ValidationObserver,
     ValidationProvider,
     flatPicker
-
   },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/milestone/contract/' + context.route.params.id)
@@ -2801,8 +2800,6 @@ export default {
     if (this.contractStatus > 1) {
       this.disableInvitationButton = false
     }
-
-    console.log(this)
   },
   methods: {
     async sendClientSignature () {
