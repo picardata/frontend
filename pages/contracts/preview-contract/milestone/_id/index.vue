@@ -113,7 +113,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
@@ -128,8 +127,26 @@
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Milestones </span>
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.milestones = true">
+                      Edit
+                    </button><br>
+                    <div v-for="(milestone, index) in milestoneDetails" :key="'milestone-' + index" class="contract-review-field-wrapper">
+                      <span class="text-left">{{ milestone.name }}</span>
+                      <span class="text-right text-date">${{ milestone.amount }}</span><br>
+                      <a v-if="milestone.filename !== null" class="text-left" href="#" @click.prevent="downloadMilestoneFileAttachment(milestone.filename)">
+                        {{ milestone.filename }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card border p-4">
+                <div class="mr-3">
+                  <div class="all-form-title bold-text form-field">
                     <span class="text-label">Stock options </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
                       Edit
                     </button><br>
                     <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
@@ -141,12 +158,11 @@
                   </div>
                 </div>
               </div>
-
               <div class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Scope </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -159,7 +175,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Country compliance </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
                       Edit
                     </button><br>
                     <div v-if="contractorTaxResidence !== null" class="contract-review-field-wrapper">
@@ -173,7 +189,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Other specifics</span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
                       Edit
                     </button><br>
                     <div v-if="additionalDocumentFilename !== null" class="contract-review-field-wrapper">
@@ -197,7 +213,7 @@
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">End of contract </span>
-                    <button type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                    <button v-if="contractStatus == 1" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
                       Edit
                     </button><br>
                     <div class="contract-review-field-wrapper">
@@ -2279,6 +2295,75 @@
       </div>
       <template slot="footer" />
     </modal>
+    <modal :show.sync="modals.milestones" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Other specifics</span>
+                </div>
+                <div v-for="(milestoneDetail, index) in milestoneDetails" :key="'milestoneDetails' + index">
+                  <div class="card border p-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" :vid="'milestoneDetailName-' + index" name="Name">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Name</span>
+                        <input v-model="milestoneDetail.name" type="text" class="form-input form-control" placeholder="">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" :vid="'milestoneDetailAmount-' + index" name="Amount">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Amount</span>
+                        <input v-model="milestoneDetail.amount" type="text" class="form-input form-control" placeholder="">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider
+                      ref="attachedDocument"
+                      v-slot="{ errors }"
+                      name="image"
+                    >
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Attach file</span><br>
+                        <input
+                          id="attachedDocument"
+                          ref="attachedDocument"
+                          type="file"
+                          class="btn btn-sm btn-secondary btn-add-doc"
+                          accept="application/pdf"
+                          @change="handleAttachedDocumentUpload($event, index)"
+                        >
+                      </div>
+
+                      <span>{{ errors[0] }}</span>
+                    </ValidationProvider>
+
+                    <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="removeMilestone($event, index)">
+                      Remove this milestone
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-secondary btn-add-milestone p-2 mb-4" @click.prevent="addMilestone()">
+                  Add milestone
+                </button>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateMilestoneDetails">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
   </div>
 </template>
 <script>
@@ -2702,7 +2787,8 @@ export default {
         scope: false,
         endOfContract: false,
         countryCompliance: false,
-        otherSpecific: false
+        otherSpecific: false,
+        milestones: false
       },
       submenu: true,
       currentDate: new Date(),
@@ -2715,6 +2801,8 @@ export default {
     if (this.contractStatus > 1) {
       this.disableInvitationButton = false
     }
+
+    console.log(this)
   },
   methods: {
     async sendClientSignature () {
@@ -3069,6 +3157,56 @@ export default {
         return false
       })
     },
+    async updateMilestoneDetails () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      const axiosCall = this.$axios
+      const milestoneDetailsApiCall = []
+      const milestoneContractId = this.id
+
+      console.log(this.milestoneDetails)
+
+      this.milestoneDetails.forEach(function (milestoneDetail) {
+        if (Object.hasOwnProperty.call(milestoneDetail, 'id')) {
+          const milestoneContractUuid = milestoneDetail.uuid
+
+          axiosCall.$patch('/api/milestone/details/' + milestoneContractUuid, {
+            name: milestoneDetail.name,
+            amount: milestoneDetail.amount,
+            filename: milestoneDetail.filename,
+            milestoneContract: milestoneContractId
+          }).then(() => {
+            return true
+          }).catch((e) => {
+            const errors = {}
+
+            Object.entries(e.response.data.errors).forEach(function (value) {
+              const key = value[0]
+              errors[key] = value[1]
+            })
+
+            this.$refs.form.setErrors(errors)
+            return false
+          })
+        } else {
+          const milestoneDetailFormData = new FormData()
+          milestoneDetailFormData.append('name', milestoneDetail.name)
+          milestoneDetailFormData.append('amount', milestoneDetail.amount)
+          milestoneDetailFormData.append('filename', milestoneDetail.filename)
+          milestoneDetailFormData.append('milestoneContract', milestoneContractId)
+
+          if (milestoneDetail.attachedDocument !== '') {
+            milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+          }
+          milestoneDetailsApiCall.push(axiosCall.$post('/api/milestone/details/', milestoneDetailFormData, { headers: { 'Content-Type': 'multipart/form-data' } }))
+        }
+      })
+
+      this.modals.milestones = false
+    },
     downloadPdf () {
       const apiHost = this.$axios.defaults.baseURL
 
@@ -3077,6 +3215,28 @@ export default {
       } else {
         window.open(apiHost + '/generate/contract/' + this.contractId, '_blank')
       }
+    },
+    downloadMilestoneFileAttachment (filename) {
+      const apiHost = this.$axios.defaults.baseURL
+
+      window.open(apiHost + '/uploads/milestone_details_attached_document/' + filename, '_blank')
+    },
+    addMilestone () {
+      const newMilestone = {
+        name: '',
+        amount: '',
+        filename: '',
+        attachedDocument: ''
+      }
+
+      this.milestoneDetails.push(newMilestone)
+      this.milestoneDetailsKey++
+    },
+    removeMilestone (index) {
+      this.milestoneDetails.splice(index, 1)
+    },
+    handleAttachedDocumentUpload (event, index) {
+      this.milestoneDetails[index].attachedDocument = event.target.files[0]
     }
   }
 }
@@ -3421,7 +3581,7 @@ export default {
     }
 
     .contract-review-field-wrapper {
-      background-color: #f1eeee;
+      background-color: #f4f3f5;
       padding: 10px 10px;
       height: 40px;
       margin: 10px 0 0 0;

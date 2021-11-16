@@ -1719,7 +1719,7 @@ export default {
     }
 
     .contract-review-field-wrapper {
-      background-color: #f1eeee;
+      background-color: #f4f3f5;
       padding: 10px 10px;
       height: 40px;
       margin: 10px 0 0 0;
