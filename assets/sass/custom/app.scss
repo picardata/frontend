@@ -192,7 +192,8 @@ nav .breadcrumb-item a:nth-child(1) {
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: #313131;
+  color: #2E4823;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .card{
@@ -581,4 +582,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .cursor-pointer{
   cursor: pointer;
+}
+
+.page-header {
+  font-family: 'Roboto' !important;
+  font-weight: 900 !important;
+  color: #2E4823 !important;
 }

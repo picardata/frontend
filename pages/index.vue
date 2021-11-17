@@ -17,7 +17,7 @@
             <div class="col-12">
               <div v-if="isGlobeliseAdmin === true" class="row">
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text row">
                         <div class="col-6">
@@ -35,7 +35,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text">
                         <div>
@@ -54,7 +54,7 @@
               </div>
               <div v-else-if="isCompanyAdmin === true" class="row">
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text row">
                         <div class="col-6">
@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text">
                         <div>
@@ -91,7 +91,7 @@
               </div>
               <div v-else class="row">
                 <div class="col-6">
-                  <div class="card border">
+                  <div class="card border table-primary">
                     <div class="">
                       <div class="">
                         <div class="border-0 card-header">
@@ -116,7 +116,7 @@
                           <tbody v-if="myContracts.length">
                             <tr v-for="(contract, index) in myContracts" :key="index">
                               <td>
-                                <NuxtLink :to="`${contract.url}`">
+                                <NuxtLink :to="`${contract.url}`" class="">
                                   <span class="contract-name">{{ contract.contractName }}</span> <br>
                                   <span class="contract-type">{{ contract.contractType }}</span>
                                 </NuxtLink>
@@ -135,23 +135,19 @@
                           </tbody>
                           <tbody v-else>
                             <tr>
-                              <td>There is no contract</td>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no contract</span>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                      <Paging
-                        style="width: 100%"
-                        :data="myContracts"
-                        :get-total-page="getMyContractTotalPage"
-                        :get-current-page="getMyContractCurrentPage"
-                        :set-current-page="setMyContractCurrentPage"
-                      />
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border">
+                  <div class="card border table-primary">
                     <div class="">
                       <div class="">
                         <div class="border-0 card-header">
@@ -183,14 +179,66 @@
                               </td>
                               <td class="contract-amount-wrapper">
                                 <a :href="`${payslip.url}`" target="_blank">
-                                  <span class="contract-name">{{ payslip.filename }}</span>
+                                  <span class="contract-name file-url">{{ payslip.filename }}</span>
                                 </a>
                               </td>
                             </tr>
                           </tbody>
                           <tbody v-else>
                             <tr>
-                              <td>There is no payslips</td>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no payslip</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card border table-primary">
+                    <div class="">
+                      <div class="">
+                        <div class="border-0 card-header">
+                          <h2 class="mb-0">
+                            My Tax Documents
+                          </h2>
+                        </div>
+                        <table class="table table-striped my-contracts-table">
+                          <thead>
+                            <tr>
+                              <th scope="col">
+                                Name
+                              </th>
+                              <th scope="col">
+                                Employee
+                              </th>
+                              <th class="contract-amount-wrapper" scope="col">
+                                Filename
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="myTaxDocuments.length">
+                            <tr v-for="(taxDocument, index) in myTaxDocuments" :key="index">
+                              <td>
+                                <span class="contract-name">{{ taxDocument.name }}</span>
+                              </td>
+                              <td>
+                                <span class="contract-name">{{ taxDocument.employee }}</span>
+                              </td>
+                              <td class="contract-amount-wrapper">
+                                <a :href="`${taxDocument.url}`" target="_blank">
+                                  <span class="contract-name file-url">{{ taxDocument.filename }}</span>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no tax document</span>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -224,12 +272,13 @@ export default {
   ],
   async asyncData (context) {
     const contractorUserProfile = context.app.$auth.user.userProfile.id
-    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips] = await Promise.all([
+    const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips, uploadedTaxDocuments] = await Promise.all([
       context.app.$axios.get('/api/user-profiles/' + contractorUserProfile + '/employees/me'),
       context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile),
+      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
     ])
 
     return {
@@ -237,19 +286,23 @@ export default {
       payAsYouGoContracts: payAsYouGoContracts.data,
       milestoneContracts: milestoneContracts.data,
       fullTimeEmployeeContracts: fullTimeEmployeeContracts.data,
-      uploadedPayslips: uploadedPayslips.data
+      uploadedPayslips: uploadedPayslips.data,
+      uploadedTaxDocuments: uploadedTaxDocuments.data
     }
   },
   data () {
-    console.log(this)
     return {
       submenu: true,
       isCompanyAdmin: this.$auth.user.userProfile.employees[0].isCompanyAdmin,
       isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
       myContracts: [],
       myPayslips: [],
+      myTaxDocuments: [],
+
       myPayslipsTotalPage: 1,
       myPayslipsCurrentPage: 1,
+      myTaxDocumentsTotalPage: 1,
+      myTaxDocumentsCurrentPage: 1,
       myContractsTotalPage: 1,
       myContractsCurrentPage: 1,
       payAsYouGoContractSalaryFrequencies: [
@@ -349,6 +402,18 @@ export default {
       payslips.push(payslip)
     })
     this.myPayslips = payslips
+
+    const taxDocuments = []
+    this.uploadedTaxDocuments.forEach(function (uploadedTaxDocument) {
+      const taxDocument = {
+        name: uploadedTaxDocument.name,
+        filename: uploadedTaxDocument.filename,
+        employee: uploadedTaxDocument.employee.userProfile.firstname,
+        url: apiHost + '/uploads/tax_document/' + uploadedTaxDocument.filename
+      }
+      taxDocuments.push(taxDocument)
+    })
+    this.myTaxDocuments = taxDocuments
   },
   methods: {
     setMyContractCurrentPage (currentPage) {
@@ -370,6 +435,27 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+  .table-primary {
+    color: #2E4823 !important;
+
+    th, td {
+      color: #2E4823 !important;
+      font-weight: 900 !important;
+      letter-spacing: 0;
+    }
+
+    .file-url {
+      color: #6BB745 !important;
+    }
+
+    .no-data {
+      text-align: center;
+
+      img {
+        width: 120px;
+      }
+    }
+  }
   .my-contracts-table {
     font-family: 'Roboto Condensed';
 
@@ -476,8 +562,9 @@ export default {
       margin-right: 24px;
     }
     .name{
-      font-weight: bolder;
-      font-size: 24px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 28px;
       color: #2E4823;
     }
     .role{
@@ -498,9 +585,10 @@ export default {
       margin-right: 24px;
     }
     .name{
+      font-family: 'Roboto', sans-serif;
       font-weight: 600;
-      font-size: 20px;
-      color: #14142B;
+      font-size: 28px;
+      color: #2E4823;
     }
     .role{
       font-weight: 500;

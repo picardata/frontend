@@ -21,7 +21,7 @@
           </div>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractStep3.noticePeriod" name="Notice period">
+        <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="contractStep3.noticePeriod" name="Notice period">
           <div class="all-form-title bold-text form-field mb-4">
             <span class="text-label">Notice period</span><br>
             <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>

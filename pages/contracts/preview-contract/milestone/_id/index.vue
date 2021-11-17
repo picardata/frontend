@@ -5,22 +5,25 @@
         <base-header type="grey" class="pb-6">
           <div class="row align-items-center py-4">
             <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+              <h2 class="form-title  page-header">
+                {{ contractName }}
+              </h2>
+              <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>
+              <span class="mr-4 text-bold">MILESTONE</span>
+              <span>TEAM: <span class="text-bold">{{ legalEntity }}</span></span>
             </div>
           </div>
         </base-header>
         <div class="container-fluid mt--6">
-          <div class="row mt-3">
-            <div class="col-12 form-title-wrapper">
-              <span class="form-title">Milestone contract</span>
-            </div>
-          </div>
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-2" />
             <div class="col-8">
-              <div v-if="contractStatus == 1" class="card border p-4">
+              <div>
+                <h2 class="form-title text-left">
+                  Signatures
+                </h2>
+              </div>
+              <div v-if="contractStatus === '1'" class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Client sign here </span><br>
@@ -83,21 +86,37 @@
                 </div>
               </div>
 
+              <div>
+                <h2 class="form-title text-left">
+                  Review the contract details
+                </h2>
+              </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
+                  <div v-if="typeOfContractDocument === '1'" class="all-form-title bold-text form-field">
+                    <img class="contract-type-img mr-4 text-right" src="~/assets/contract/milestone_contract.png" alt="Milestone contract">
+
+                    <span>This deal is using custom contract </span>
+
+                    <a href="#" @click.prevent="downloadPdf">
+                      <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                    </a>
+                  </div>
+                  <div v-else class="all-form-title bold-text form-field">
+                    <img class="contract-type-img mr-4 text-right" src="~/assets/contract/milestone_contract.png" alt="Pay as you go contract">
+
+                    <span>This deal is using the standard Globelise contract</span>
+
+                    <a href="#" @click.prevent="downloadPdf">
+                      <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Contract details </span><br>
-
-                    <div class="contract-review-field-wrapper">
-                      <span class="text-left">Contractor's start date</span>
-                      <span class="text-right text-date">{{ $moment(employmentStartDate).format("ll") }}</span>
-                    </div>
-
-                    <div class="contract-review-field-wrapper">
-                      <span class="text-left">Contractor Type</span>
-                      <span class="text-right text-date">Milestone</span>
-                    </div>
-
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">Entity Name</span>
                       <span class="text-right text-date">{{ legalEntity }}</span>
@@ -106,9 +125,46 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label"> Scope </span><br>
+                    <span class="text-label">Milestones </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.milestones = true">
+                      Edit
+                    </button><br>
+                    <div v-for="(milestone, index) in milestoneDetails" :key="'milestone-' + index" class="contract-review-field-wrapper">
+                      <span class="text-left">{{ milestone.name }}</span>
+                      <span class="text-right text-date">${{ milestone.amount }}</span><br>
+                      <a v-if="milestone.filename !== null" class="text-left" href="#" @click.prevent="downloadMilestoneFileAttachment(milestone.filename)">
+                        {{ milestone.filename }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Stock options </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                      Edit
+                    </button><br>
+                    <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Stock options</span>
+                      <span class="text-right">${{ stockOptionAggregateValue }}</span><br>
+                      <span class="text-left">To be offered</span>
+                      <span class="text-right">{{ stockOptionCurrency }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label"> Scope </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">{{ scopeOfWork }}</span>
                     </div>
@@ -116,12 +172,58 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label">Payment Details </span><br>
+                    <span class="text-label">Country compliance </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
+                      Edit
+                    </button><br>
+                    <div v-if="contractorTaxResidence !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Contractor's Country</span>
+                      <span class="text-right text-date">{{ contractorTaxResidence }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Other specifics</span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
+                      Edit
+                    </button><br>
+                    <div v-if="additionalDocumentFilename !== null" class="contract-review-field-wrapper">
+                      <img class="contract-type-img mr-4 text-right" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
+
+                      <span>This deal is using additional document</span>
+
+                      <a href="#" @click.prevent="downloadAdditionalDocument">
+                        <img class="text-right float-right download-contract-link" src="~/assets/menu_icons/Download02.png" alt="Download contract">
+                      </a>
+                    </div>
+
+                    <div v-if="specialClause !== null" class="contract-review-field-wrapper">
+                      <span class="text-left mb-2 full-width">Special Clause</span><br>
+                      <span class="text-left">{{ specialClause }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">End of contract </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
-                      <span class="text-left">Currency</span>
-                      <span class="text-right text-date">{{ salaryCurrency }}</span>
+                      <span class="text-left">End date</span>
+                      <span v-if="terminationDate !== null" class="text-right text-date">{{ $moment(terminationDate).format("ll") }}</span>
+                      <span v-else class="text-right text-date">This contract doesn't have an end date.</span>
+                    </div>
+                    <div class="contract-review-field-wrapper">
+                      <span class="text-left">Notice period</span>
+                      <span class="text-right text-date">{{ noticePeriod }} days</span>
                     </div>
                   </div>
                 </div>
@@ -1950,17 +2052,333 @@
       </div>
       <template slot="footer" />
     </modal>
+    <modal :show.sync="modals.stockOffer" size="lg" modal-classes="modal-stock-option">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Offer stock options</span>
+                </div>
+
+                <div class="information-text-wrapper">
+                  <span>
+                    Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
+                  </span>
+                </div>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionCurrency" name="Stock Option Currency">
+                    <div class="currency-field-wrapper">
+                      <select v-model="stockOptionCurrency" class="form-control form-input">
+                        <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                          {{ salaryCurrency.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionAggregateValue" name="Aggregate option value">
+                    <div class="aggregate-value-field-wrapper">
+                      <input v-model="stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionTotalNumber" name="Number of stock options">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label d-block">Specify the number of stock options this represents?</span>
+
+                    <input v-model="stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionVestingStartDate" name="Vesting start date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">When does the vesting start?</span><br>
+                    <base-input class="text-label" label="">
+                      <flat-picker
+                        v-model="stockOptionVestingStartDate"
+                        slot-scope="{focus, blur}"
+                        :config="stockOptionVestingStartDateConfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the monthly vesting schedule?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionTotalVestingMonth" name="Total vesting months">
+                    <div class="total-month-vesting-field-wrapper">
+                      <input v-model="stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionVestingCliffMonth" name="Cliff vesting months">
+                    <div class="cliff-month-vesting-field-wrapper">
+                      <input v-model="stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateStockOffer">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.scope" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define scope of work</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Scope of Work</span>
+                    <textarea v-model="scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateScope">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.countryCompliance" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define country compliance</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractorTaxResidence" name="Contractor Tax Residence">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Where is the contractor's tax residence?</span>
+                    <country-select v-model="contractorTaxResidence" :country="contractorTaxResidence" top-country="SG" class="form-control form-input" />
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateCountryCompliance">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.endOfContract" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define contract ending condition</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="terminationDate" name="Termination date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Termination date</span><br>
+                    <span class="text-label-desc">The client will pay the contractor until the contract has been terminated.</span>
+                    <base-input class="text-label">
+                      <flat-picker
+                        v-model="terminationDate"
+                        slot-scope="{focus, blur}"
+                        :config="terminationDateconfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="noticePeriod" name="Notice period">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Notice period</span><br>
+                    <span class="text-label-desc">Either party may terminate within the days of notice based on the agreement, after which the contract will be terminated.</span>
+                    <input v-model="noticePeriod" type="text" class="form-input form-control" placeholder="">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateEndOfContract">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.otherSpecific" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Other specifics</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="specialClause" name="Special Clause">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Special Clause</span><br>
+                    <span class="text-label-desc">You may want a special clause on the contract to outline terms of a special scenario.</span>
+
+                    <textarea v-model="specialClause" type="text" class="form-input form-control" placeholder="" />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateOtherSpecific">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.milestones" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Other specifics</span>
+                </div>
+                <div v-for="(milestoneDetail, index) in milestoneDetails" :key="'milestoneDetails' + index">
+                  <div class="card border p-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" :vid="'milestoneDetailName-' + index" name="Name">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Name</span>
+                        <input v-model="milestoneDetail.name" type="text" class="form-input form-control" placeholder="">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" :vid="'milestoneDetailAmount-' + index" name="Amount">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Amount</span>
+                        <input v-model="milestoneDetail.amount" type="text" class="form-input form-control" placeholder="">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider
+                      ref="attachedDocument"
+                      v-slot="{ errors }"
+                      name="image"
+                    >
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <span class="text-label">Attach file</span><br>
+                        <input
+                          id="attachedDocument"
+                          ref="attachedDocument"
+                          type="file"
+                          class="btn btn-sm btn-secondary btn-add-doc"
+                          accept="application/pdf"
+                          @change="handleAttachedDocumentUpload($event, index)"
+                        >
+                      </div>
+
+                      <span>{{ errors[0] }}</span>
+                    </ValidationProvider>
+
+                    <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="removeMilestone($event, index)">
+                      Remove this milestone
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-secondary btn-add-milestone p-2 mb-4" @click.prevent="addMilestone()">
+                  Add milestone
+                </button>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateMilestoneDetails">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
   </div>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import flatPicker from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+import 'vue-country-region-select'
 
 export default {
   layout: 'argon',
   auth: true,
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    flatPicker
   },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/milestone/contract/' + context.route.params.id)
@@ -1972,15 +2390,26 @@ export default {
   },
   data () {
     return {
-      crumbs: [
-        {
-          name: 'Contracts',
-          path: '/contracts'
-        },
-        {
-          name: 'Fixed Rate Contract',
-          path: '/forms/' + this.$route.params.id
-        }
+      firstPaymentDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      terminationDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      stockOptionVestingStartDateConfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      contractStatusOptions: [
+        { name: '' },
+        { name: 'DRAFT' },
+        { name: 'WAITING FOR CONTRACTOR SIGNATURE' },
+        { name: 'SIGNED BY BOTH PARTIES' }
       ],
       firstPaymentTypeOptions: [
         {
@@ -2155,6 +2584,130 @@ export default {
           id: 31
         }
       ],
+      salaryCurrencies: [
+        { name: 'SGD - Singapore Dollar', id: 'SGD' },
+        { name: 'AED - United Emirate Arabs Dirham', id: 'AED' },
+        { name: 'ALL - Albanian Lek', id: 'ALL' },
+        { name: 'AMD - Armenian Dram', id: 'AMD' },
+        { name: 'ARS - Argentine Peso', id: 'ARS' },
+        { name: 'AUD - Australian Dollar', id: 'AUD' },
+        { name: 'AZN - Azerbaijani Manat', id: 'AZN' },
+        { name: 'BAM - Bosnia and Herzegovina Convertible Mark', id: 'BAM' },
+        { name: 'BBD - Barbadian Dollar', id: 'BBD' },
+        { name: 'BDT - Bangladeshi Taka', id: 'BDT' },
+        { name: 'BGN - Bulgarian Lev', id: 'BGN' },
+        { name: 'BHD - Bahraini Dinar', id: 'BHD' },
+        { name: 'BMD - Bermudian Dollar', id: 'BMD' },
+        { name: 'BND - Brunei Dinar', id: 'BND' },
+        { name: 'BOB - Bolivian Boliviano', id: 'BOB' },
+        { name: 'BRL - Brazilian Real', id: 'BRL' },
+        { name: 'BSD - Bahamian Dollar', id: 'BSD' },
+        { name: 'BWP - Pula', id: 'BWP' },
+        { name: 'BYN - Belarusian Ruble', id: 'BYN' },
+        { name: 'BZD - Belize Dollar', id: 'BZD' },
+        { name: 'CAD - Canadian Dollar', id: 'CAD' },
+        { name: 'CDF - Congolese Franc', id: 'CDF' },
+        { name: 'CHF - Swiss Franc', id: 'CHF' },
+        { name: 'CLP - Chilean Peso', id: 'CLP' },
+        { name: 'CNY - Chinese Yuan', id: 'CNY' },
+        { name: 'COP - Colombian Peso', id: 'COP' },
+        { name: 'CRC - Costa Rican Colon', id: 'CRC' },
+        { name: 'CUP - Cuban Peso', id: 'CUP' },
+        { name: 'CVE - Cape Verdean Escudo', id: 'CVE' },
+        { name: 'CZK - Czech Koruna', id: 'CZK' },
+        { name: 'DJF - Djiboutian Franc', id: 'DJF' },
+        { name: 'DKK - Danish Krone', id: 'DKK' },
+        { name: 'DOP - Dominican Peso', id: 'DOP' },
+        { name: 'DZD - Algerian Dinar', id: 'DZD' },
+        { name: 'EGP - Egyptian Pound', id: 'EGP' },
+        { name: 'ETP - Ethiopian Birr', id: 'ETP' },
+        { name: 'EUR - Euro', id: 'EUR' },
+        { name: 'FJD - Fijian Dollar', id: 'FJD' },
+        { name: 'GBP - British Pound', id: 'GBP' },
+        { name: 'GEL - Georgian Lari', id: 'GEL' },
+        { name: 'GHS - Ghanian Cedi', id: 'GHS' },
+        { name: 'GIP - Gibraltar Pound', id: 'GIP' },
+        { name: 'GMD - Gambian Dalasi', id: 'GMD' },
+        { name: 'GNF - Guinea Franc', id: 'GNF' },
+        { name: 'GTQ - Guatemalan Quetzal', id: 'GTQ' },
+        { name: 'GYD - Guyanes Dollar', id: 'GYD' },
+        { name: 'HKD - Hong Kong Dollar', id: 'HKD' },
+        { name: 'HNL - Honduran Lempira', id: 'HNL' },
+        { name: 'HRK - Croatian Kuna', id: 'HRK' },
+        { name: 'HTG - Haitian Gourde', id: 'HTG' },
+        { name: 'HUF - Hungarian Forint', id: 'HUF' },
+        { name: 'IDR - Indonesian Rupiah', id: 'IDR' },
+        { name: 'ILS - Israeli New Shekel', id: 'ILS' },
+        { name: 'INR - Indian Rupee', id: 'INR' },
+        { name: 'ISK - Icelandic Króna', id: 'ISK' },
+        { name: 'JMD - Jamaican Dollar', id: 'JMD' },
+        { name: 'JOD - Jordanian Dinar', id: 'JOD' },
+        { name: 'JPY - Japanese Yen', id: 'JPY' },
+        { name: 'KES - Kenyan Shilling', id: 'KES' },
+        { name: 'KGS - Kyrgyzstani Som', id: 'KGS' },
+        { name: 'KHR - Cambodian Riel', id: 'KHR' },
+        { name: 'KMF - Comorian Franc', id: 'KMF' },
+        { name: 'KRW - South Korean Won', id: 'KRW' },
+        { name: 'KWD - Kuwaiti Dinar', id: 'KWD' },
+        { name: 'KYD - Cayman Island Dollar', id: 'KYD' },
+        { name: 'KZT - Kazakhstani Tenge', id: 'KZT' },
+        { name: 'LAK - KIP', id: 'LAK' },
+        { name: 'LBP - Lebanese Pound', id: 'LBP' },
+        { name: 'LKR - Sri Lankan Rupee', id: 'LKR' },
+        { name: 'LSL - Lesotho Loti', id: 'LSL' },
+        { name: 'LVL - Latvian Lats', id: 'LVL' },
+        { name: 'MAD - Moroccan Dirham', id: 'MAD' },
+        { name: 'MGA - Malagasy Ariary', id: 'MGA' },
+        { name: 'MMK - Burmese Kyat', id: 'MMK' },
+        { name: 'MNT - Mongolian Togrog', id: 'MNT' },
+        { name: 'MOP - Macanese Pataca', id: 'MOP' },
+        { name: 'MRO - Mauritanian Ouguiya', id: 'MRO' },
+        { name: 'MUR - Mauritian Rupee', id: 'MUR' },
+        { name: 'MVR - Maldivian Rufiyaa', id: 'MVR' },
+        { name: 'MWK - Malawian Kwacha', id: 'MWK' },
+        { name: 'MXN - Mexican Peso', id: 'MXN' },
+        { name: 'MYR - Malaysian Ringgit', id: 'MYR' },
+        { name: 'MZN - Mozambican Metical', id: 'MZN' },
+        { name: 'NAD - Namibia Dollar', id: 'NAD' },
+        { name: 'NGN - Nigerian Naira', id: 'NGN' },
+        { name: 'NIO - Nicaraguan Cordoba', id: 'NIO' },
+        { name: 'NOK - Norwegian Krone', id: 'NOK' },
+        { name: 'NPR - Nepalese Rupee', id: 'NPR' },
+        { name: 'NZD - New Zealand Dollar', id: 'NZD' },
+        { name: 'OMR - Omani Rial', id: 'OMR' },
+        { name: 'PAB - Panamanian Balboa', id: 'PAB' },
+        { name: 'PEN - Peruvian Sol', id: 'PEN' },
+        { name: 'PGK - Kina', id: 'PGK' },
+        { name: 'PHP - Philippine Peso', id: 'PHP' },
+        { name: 'PKR - Pakistani Rupee', id: 'PKR' },
+        { name: 'PLN - Polish Zloty', id: 'PLN' },
+        { name: 'PYG - Paraguayan Guarani', id: 'PYG' },
+        { name: 'QAR - Qatari Riyal', id: 'QAR' },
+        { name: 'RON - Romanian Leu', id: 'RON' },
+        { name: 'RSD - Serbian Dinar', id: 'RSD' },
+        { name: 'RUB - Russian Ruble', id: 'RUB' },
+        { name: 'RWF - Rwandan Franc', id: 'RWF' },
+        { name: 'SAR - Saudi Riyal ', id: 'SAR' },
+        { name: 'SEK - Swedish Krona', id: 'SEK' },
+        { name: 'SLL - Sierra Leonean Leone', id: 'SLL' },
+        { name: 'SRD - Surinamese Dollar', id: 'SRD' },
+        { name: 'SVC - Salvadoran Colon', id: 'SVC' },
+        { name: 'SZL - Swazi Lilangeni', id: 'SZL' },
+        { name: 'THB - Thai Baht', id: 'THB' },
+        { name: 'TJS - Tajikstani Somoni', id: 'TJS' },
+        { name: 'TMT - Turmenikstan Manat', id: 'TMT' },
+        { name: 'TND - Tunisian Dinar', id: 'TND' },
+        { name: 'TRY - Turkish Lira', id: 'TRY' },
+        { name: 'TTD - Trinidad and Tobago Dollar', id: 'TTD' },
+        { name: 'TWD - Taiwan Dollar', id: 'TWD' },
+        { name: 'UAH - Ukranian Hryvnia', id: 'UAH' },
+        { name: 'UGX - Ugandan Shilling', id: 'UGX' },
+        { name: 'USD - US Dollar', id: 'USD' },
+        { name: 'UYU - Uruguayan Peso', id: 'UYU' },
+        { name: 'VND - Vietnamese Dong', id: 'VND' },
+        { name: 'WST - Samoan Tala', id: 'WST' },
+        { name: 'ZAR - South African Rand', id: 'ZAR' }
+      ],
       salaryFrequencies: [
         {
           name: 'Default'
@@ -2228,7 +2781,13 @@ export default {
       modals: {
         clientSignature: false,
         contractorSignature: false,
-        contractorEmailInvitation: false
+        contractorEmailInvitation: false,
+        stockOffer: false,
+        scope: false,
+        endOfContract: false,
+        countryCompliance: false,
+        otherSpecific: false,
+        milestones: false
       },
       submenu: true,
       currentDate: new Date(),
@@ -2375,329 +2934,713 @@ export default {
         return false
       })
     },
+    async updateStockOffer () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        scopeOfWork: this.scopeOfWork,
+        employmentStartDate: this.employmentStartDate,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        salaryCurrency: this.salaryCurrency,
+        company: this.company.id,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate
+      }).then(() => {
+        this.modals.stockOffer = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateScope () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        scopeOfWork: this.scopeOfWork,
+        employmentStartDate: this.employmentStartDate,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        salaryCurrency: this.salaryCurrency,
+        company: this.company.id,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate
+      }).then(() => {
+        this.modals.scope = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateCountryCompliance () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        scopeOfWork: this.scopeOfWork,
+        employmentStartDate: this.employmentStartDate,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        salaryCurrency: this.salaryCurrency,
+        company: this.company.id,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate
+      }).then(() => {
+        this.modals.countryCompliance = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateEndOfContract () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        scopeOfWork: this.scopeOfWork,
+        employmentStartDate: this.employmentStartDate,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        salaryCurrency: this.salaryCurrency,
+        company: this.company.id,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate
+      }).then(() => {
+        this.modals.endOfContract = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateOtherSpecific () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/milestone/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        contractName: this.contractName,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        scopeOfWork: this.scopeOfWork,
+        employmentStartDate: this.employmentStartDate,
+        terminationDate: this.terminationDate,
+        noticePeriod: this.noticePeriod,
+        specialClause: this.specialClause,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        additionalDocumentFilename: this.additionalDocumentFilename,
+        salaryCurrency: this.salaryCurrency,
+        company: this.company.id,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate
+      }).then(() => {
+        this.modals.otherSpecific = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateMilestoneDetails () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      const axiosCall = this.$axios
+      const milestoneDetailsApiCall = []
+      const milestoneContractId = this.id
+
+      console.log(this.milestoneDetails)
+
+      this.milestoneDetails.forEach(function (milestoneDetail) {
+        if (Object.hasOwnProperty.call(milestoneDetail, 'id')) {
+          const milestoneContractUuid = milestoneDetail.uuid
+
+          axiosCall.$patch('/api/milestone/details/' + milestoneContractUuid, {
+            name: milestoneDetail.name,
+            amount: milestoneDetail.amount,
+            filename: milestoneDetail.filename,
+            milestoneContract: milestoneContractId
+          }).then(() => {
+            return true
+          }).catch((e) => {
+            const errors = {}
+
+            Object.entries(e.response.data.errors).forEach(function (value) {
+              const key = value[0]
+              errors[key] = value[1]
+            })
+
+            this.$refs.form.setErrors(errors)
+            return false
+          })
+        } else {
+          const milestoneDetailFormData = new FormData()
+          milestoneDetailFormData.append('name', milestoneDetail.name)
+          milestoneDetailFormData.append('amount', milestoneDetail.amount)
+          milestoneDetailFormData.append('filename', milestoneDetail.filename)
+          milestoneDetailFormData.append('milestoneContract', milestoneContractId)
+
+          if (milestoneDetail.attachedDocument !== '') {
+            milestoneDetailFormData.append('attachedDocument', milestoneDetail.attachedDocument)
+          }
+          milestoneDetailsApiCall.push(axiosCall.$post('/api/milestone/details/', milestoneDetailFormData, { headers: { 'Content-Type': 'multipart/form-data' } }))
+        }
+      })
+
+      this.modals.milestones = false
+    },
     downloadPdf () {
-      window.open('http://api.local.globelise.com/generate/contract/' + this.contractId, '_blank')
+      const apiHost = this.$axios.defaults.baseURL
+
+      if (this.typeOfContractDocument === '1') {
+        window.open(apiHost + '/uploads/milestone_contract_custom_contract/' + this.customContractFilename, '_blank')
+      } else {
+        window.open(apiHost + '/generate/contract/' + this.contractId, '_blank')
+      }
+    },
+    downloadMilestoneFileAttachment (filename) {
+      const apiHost = this.$axios.defaults.baseURL
+
+      window.open(apiHost + '/uploads/milestone_details_attached_document/' + filename, '_blank')
+    },
+    addMilestone () {
+      const newMilestone = {
+        name: '',
+        amount: '',
+        filename: '',
+        attachedDocument: ''
+      }
+
+      this.milestoneDetails.push(newMilestone)
+      this.milestoneDetailsKey++
+    },
+    removeMilestone (index) {
+      this.milestoneDetails.splice(index, 1)
+    },
+    handleAttachedDocumentUpload (event, index) {
+      this.milestoneDetails[index].attachedDocument = event.target.files[0]
     }
   }
 }
 </script>
 
 <style scoped>
-    .card {
-        height: auto;
-    }
-
-    h1 {
-        font-size: 36px;
-        font-weight: bolder;
-    }
-
-    .form-title {
-        font-family: 'Roboto Condensed';
-        font-style: normal;
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 54px;
-        /* identical to box height */
-        letter-spacing: 0.75px;
-        /* Body Text */
-        color: #313131;
-    }
-
-    .bold-text{
-        font-weight:700 !important;
-    }
-    .contract-type-wrapper {
-        text-align: center;
-    }
+  .card {
+    height: auto;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: bolder;
+  }
+  .form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 54px;
+    /* identical to box height */
+    letter-spacing: 0.75px;
+    /* Body Text */
+    color: #2e4823;
+  }
+  .bold-text{
+    font-weight:700 !important;
+  }
+  .contract-type-wrapper {
+    text-align: center;
+  }
 </style>
 <style lang="scss">
-    .hide-btn {
-        display: block;
+  .full-width {
+    width: 100%;
+  }
+
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
+
+  .multiple-fields-wrapper {
+    display: inline-table;
+    width: 100%;
+  }
+  .download-contract-link {
+    margin-top: 35px;
+  }
+
+  .contract-type-img {
+    height: 100px;
+  }
+  .text-bold {
+    font-weight: 900;
+    color: #2e4823;
+  }
+  .hide-btn {
+    display: block;
+  }
+  .form-title-wrapper {
+    text-align: center;
+    span {
+      display: block;
+    }
+  }
+  .modal-stock-option {
+    .modal-body {
+      padding: 0 1.5rem;
     }
 
-    .form-title-wrapper {
-        text-align: center;
-        span {
-            display: block;
-        }
-    }
-    .modal-contract-details {
-        .full-contract-details-wrapper {
-            height: 380px;
-            overflow: auto;
-
-            .form-field {
-                color: #6a6969;
-
-                .contract-main-title {
-                    text-align: center;
-                }
-
-                .sub-point {
-                    margin-left: 25px;
-                }
-
-                .sub-sub-point {
-                    margin-left: 50px;
-                }
-
-                b {
-                    color: black;
-                    font-weight: 900;
-                }
-            }
-        }
-
-        .modal-footer {
-            display: block !important;
-            width: 100%;
-
-            .signature-wrapper {
-                width: 100%;
-            }
-
-            .button-wrapper {
-                padding: 10px 0;
-                width: 100%;
-                display: grid;
-            }
-        }
+    h3 {
+      font-size: 22px !important;
     }
 
-    .modal-contractor-invitation {
-        .full-contract-details-wrapper {
-            .form-field {
-                color: #6a6969;
-                margin-bottom: 20px;
-            }
-
-            textarea {
-                height: 100px;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
-
-        .modal-footer {
-            display: block !important;
-            width: 100%;
-
-            .signature-wrapper {
-                width: 100%;
-            }
-
-            .button-wrapper {
-                padding: 10px 0;
-                width: 100%;
-                display: grid;
-            }
-        }
+    .form-field {
+      margin-bottom: 10px;
     }
 
-    .contract-type-actions-wrapper {
-        margin-bottom: 20px;
-
-        .next-btn {
-            width: 100%;
-            margin-bottom: 5px;
-        }
-
-        .back-btn {
-            margin-top: 0;
-            background-color: transparent;
-            border: 0px;
-            box-shadow: none;
-            color: #525f7f;
-            float: left;
-            padding-left: 0px;
-
-            .fa {
-                margin-right: 5px;
-            }
-
-            &.btn-primary:hover, &.btn-primary:active {
-                background-color: transparent;
-                border: 0px;
-                box-shadow: none !important;
-                color: #525f7f;
-            }
-        }
+    .two-collumns {
+      height: 110px;
+      display: block;
     }
-    .signature-wrapper {
-      .form-field {
-        width: 45%;
+
+    .currency-field-wrapper {
+      width: 35%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .aggregate-value-field-wrapper {
+      width: 65%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .total-month-vesting-field-wrapper {
+      width: 49%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .cliff-month-vesting-field-wrapper {
+      width: 50%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .information-text-wrapper {
+      background-color: #e8f1fe;
+      margin-bottom: 20px;
+      padding: 18px;
+      border-radius: 8px;
+
+      span {
+        color: #7c8286;
       }
     }
-    .all-form-title {
-        font-family: 'Roboto Condensed';
-        font-style: normal;
-        color: #313131;
-        text-align: center;
-        /*margin-bottom: 30px;*/
+  }
+  .modal-contract-details {
+    .full-contract-details-wrapper {
+      height: 380px;
+      overflow: auto;
 
-        &.form-field {
-            text-align: left;
+      .form-field {
+        color: #6a6969;
+
+        .contract-main-title {
+          text-align: center;
         }
 
-        &.two-colls {
-            &.first-coll {
-                padding-right: 10px;
-            }
-            float: left;
-            display: block;
-            width: 50%;
+        .sub-point {
+          margin-left: 25px;
         }
 
-        &.field-group {
-            .text-label {
-                font-size: 18px;
-            }
-            margin-bottom: 10px;
+        .sub-sub-point {
+          margin-left: 50px;
         }
 
-        h3 {
-            font-size: 18px;
+        b {
+          color: black;
+          font-weight: 900;
         }
-
-        .text-label {
-            font-size: 16px;
-            font-weight: 800 !important;
-            color: #313131;
-        }
-
-        .text-label-desc {
-            display: block;
-            font-size: 14px;
-            color: darkgrey;
-        }
-
-        .form-checkbox {
-            display: block;
-            float: right;
-            margin-top: -40px;
-        }
-
-        .form-control-label {
-            font-size: 16px;
-            font-weight: 800 !important;
-            color: #313131;
-        }
-
-        .text-label-desc {
-            .form-control-label {
-                display: block;
-                font-size: 14px;
-                color: darkgrey;
-            }
-        }
-
-        .form-input {
-            margin: 10px 0 5px 0;
-            width: 100%;
-            height: 100%;
-            outline: none;
-            font-size: 16px;
-            line-height: 24px;
-            color: var(--black);
-        }
-
-        .form-signature {
-            border: none;
-            border-bottom: 1px solid #eee;
-        }
-
-        .text-signature {
-            font-family: 'Birthstone', cursive;
-            color: black;
-            font-size: 24px;
-
-            &.client-signature {
-                font-size: 32px;
-            }
-        }
-
-        &.signed-signature-wrapper {
-            width: 100%;
-            display: inline-table;
-
-            .text-left {
-                float: left;
-            }
-
-            .text-right {
-                display: block;
-                float: right;
-                margin-top: 16px;
-            }
-        }
-
-        .contract-review-field-wrapper {
-            background-color: #f1eeee;
-            padding: 10px 10px;
-            height: 40px;
-            margin: 10px 0 0 0;
-            display: inline-table;
-            width: 100%;
-
-            &.no-background {
-                background-color: #ffffff !important;
-                padding-left: 0px;
-            }
-
-            .text-left {
-                float: left;
-            }
-
-            .text-right {
-                float: right;
-                font-weight: bold !important;
-            }
-
-            .signature-btn {
-                width: 150px;
-            }
-        }
+      }
     }
-    .list-packages{
+    .modal-footer {
+      display: block !important;
+      width: 100%;
+
+      .signature-wrapper {
+        width: 100%;
+      }
+
+      .button-wrapper {
+        padding: 10px 0;
+        width: 100%;
+        display: grid;
+      }
+    }
+  }
+  .modal-contractor-invitation {
+    .full-contract-details-wrapper {
+      .form-field {
+        color: #6a6969;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        height: 100px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    .modal-footer {
+      display: block !important;
+      width: 100%;
+
+      .signature-wrapper {
+        width: 100%;
+      }
+
+      .button-wrapper {
+        padding: 10px 0;
+        width: 100%;
+        display: grid;
+      }
+    }
+  }
+
+  .contract-type-actions-wrapper {
+    margin-bottom: 20px;
+
+    .next-btn {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    .back-btn {
+      margin-top: 0;
+      background-color: transparent;
+      border: 0px;
+      box-shadow: none;
+      color: #525f7f;
+      float: left;
+      padding-left: 0px;
+
+      .fa {
+        margin-right: 5px;
+      }
+
+      &.btn-primary:hover, &.btn-primary:active {
+        background-color: transparent;
+        border: 0px;
+        box-shadow: none !important;
+        color: #525f7f;
+      }
+    }
+  }
+  .signature-wrapper {
+    .form-field {
+      width: 45%;
+      margin-left: 20px;
+    }
+  }
+  .all-form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    color: #313131;
+    text-align: center;
+    /*margin-bottom: 30px;*/
+
+    &.form-field {
+      text-align: left;
+    }
+
+    &.two-colls {
+      &.first-coll {
+        padding-right: 10px;
+      }
+      float: left;
+      display: block;
+      width: 50%;
+    }
+
+    &.field-group {
+      .text-label {
+        font-size: 18px;
+      }
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    .text-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+
+    .text-label-desc {
+      display: block;
+      font-size: 14px;
+      color: darkgrey;
+    }
+
+    .form-checkbox {
+      display: block;
+      float: right;
+      margin-top: -40px;
+    }
+
+    .form-control-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+
+    .text-label-desc {
+      .form-control-label {
+        display: block;
+        font-size: 14px;
+        color: darkgrey;
+      }
+    }
+
+    .form-input {
+      margin: 10px 0 5px 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--black);
+    }
+
+    .form-signature {
+      border: none;
+      border-bottom: 1px solid #eee;
+    }
+
+    .text-signature {
+      font-family: 'Birthstone', cursive;
+      color: black;
+      font-size: 24px;
+
+      &.client-signature {
+        font-size: 32px;
+      }
+    }
+
+    &.signed-signature-wrapper {
+      width: 100%;
+      display: inline-table;
+
+      .text-left {
+        float: left;
+      }
+
+      .text-right {
+        display: block;
+        float: right;
+        margin-top: 16px;
+      }
+    }
+
+    .contract-review-field-wrapper {
+      background-color: #f4f3f5;
+      padding: 10px 10px;
+      height: 40px;
+      margin: 10px 0 0 0;
+      display: inline-table;
+      width: 100%;
+
+      &.no-background {
+        background-color: #ffffff !important;
         padding-left: 0px;
+      }
 
-        li{
-            list-style: none;
-        }
+      .text-left {
+        float: left;
+      }
+
+      .text-right {
+        float: right;
+        font-weight: bold !important;
+      }
+
+      .signature-btn {
+        width: 150px;
+      }
     }
-    .list-item-packages{
-        li{
-            list-style: inside;
-            font-family: 'Roboto Condensed';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 28px;
-            letter-spacing: 0.75px;
-            /* Body Text */
-            color: #000;
-        }
+  }
+  .list-packages{
+    padding-left: 0px;
+
+    li{
+      list-style: none;
     }
-    hr{
-        &.black-line{
-            width: 100%;
-            color: #E0E0E0;
-            background-color: #E0E0E0;
-            margin:1em auto;
-        }
+  }
+  .list-item-packages{
+    li{
+      list-style: inside;
+      font-family: 'Roboto Condensed';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+      letter-spacing: 0.75px;
+      /* Body Text */
+      color: #000;
     }
-    .cards-info{
-        span{
-            letter-spacing: 0.75px;
-            margin-rigt: 6px;
-        }
+  }
+  hr{
+    &.black-line{
+      width: 100%;
+      color: #E0E0E0;
+      background-color: #E0E0E0;
+      margin:1em auto;
     }
-    div{
-        &.divider{
-            border-left: 1px solid #EFF7FF !important;
-        }
+  }
+  .cards-info{
+    span{
+      letter-spacing: 0.75px;
+      margin-rigt: 6px;
     }
+  }
+  div{
+    &.divider{
+      border-left: 1px solid #EFF7FF !important;
+    }
+  }
 </style>

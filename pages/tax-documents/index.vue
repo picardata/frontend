@@ -5,16 +5,12 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12">
-              <span class="form-title page-header">Contracts</span>
+              <span class="form-title page-header">Tax Documents</span>
             </div>
           </div>
           <div class="row mt-3 mb-4">
             <div class="col-12">
-              <ContractList
-                :milestone-contracts="milestoneContracts"
-                :full-time-employee-contracts="fullTimeEmployeeContracts"
-                :pay-as-you-go-contracts="payAsYouGoContracts"
-              />
+              <TaxDocumentList :uploaded-tax-documents="uploadedTaxDocuments" />
             </div>
           </div>
         </div>
@@ -25,13 +21,13 @@
 
 <script>
 import loaderMixin from '~/mixins/loader'
-import ContractList from '~/components/pages/contracts/ContractList'
+import TaxDocumentList from '~/components/pages/taxDocuments/TaxDocumentList'
 export default {
   name: 'IndexVue',
   layout: 'argon',
   auth: true,
   components: {
-    ContractList
+    TaxDocumentList
   },
   mixins: [
     loaderMixin
@@ -44,24 +40,20 @@ export default {
       companyId = context.app.$auth.user.userProfile.employees[0].company.id
     }
 
-    const [payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
-      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
+    const [uploadedTaxDocuments] = await Promise.all([
+      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
     ])
 
     return {
-      payAsYouGoContracts: payAsYouGoContracts.data,
-      milestoneContracts: milestoneContracts.data,
-      fullTimeEmployeeContracts: fullTimeEmployeeContracts.data
+      uploadedTaxDocuments: uploadedTaxDocuments.data
     }
   },
   data () {
     return {
       crumbs: [
         {
-          name: 'Contract List',
-          path: '/contracts'
+          name: 'Tax Document List',
+          path: '/tax-document'
         }
       ],
       submenu: true

@@ -170,6 +170,12 @@ export default {
           link: '/payslips'
         },
         {
+          name: 'tax-documents',
+          displayName: 'Tax Documents',
+          icon: 'Invoices_Receipts.png',
+          link: '/tax-documents'
+        },
+        {
           name: 'reports',
           displayName: 'Reports',
           icon: 'Reports.png',
@@ -248,6 +254,18 @@ export default {
           displayName: 'Upload Payslips',
           icon: 'Invoices_Receipts.png',
           link: '/payslips/globelise-admin/upload-payslips'
+        },
+        {
+          name: 'tax-documents',
+          displayName: 'Tax Documents',
+          icon: 'Invoices_Receipts.png',
+          link: '/tax-documents/globelise-admin/tax-document-list'
+        },
+        {
+          name: 'tax-documents-upload-tax-documents',
+          displayName: 'Upload Tax Documents',
+          icon: 'Invoices_Receipts.png',
+          link: '/tax-documents/globelise-admin/upload-tax-documents'
         },
         {
           name: 'user-settings',

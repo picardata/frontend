@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12">
-              <span class="form-title page-header">Payslips</span>
+              <span class="form-title page-header">Tax Documents</span>
             </div>
           </div>
           <div class="row mt-3 mb-4">
@@ -13,14 +13,14 @@
               <div>
                 <div class="row mt-3">
                   <div class="col-10 mb-4 pl-0">
-                    <form id="navbar-search-main" :key="payslipSearchKey" class="navbar-search form-inline navbar-search-light">
+                    <form id="navbar-search-main" :key="taxDocumentsSearchKey" class="navbar-search form-inline navbar-search-light">
                       <div class="form-group" style="width: 100%">
                         <div class="input-group input-group-alternative company-search-bar">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search" /></span>
                           </div>
 
-                          <select v-model="selectedCompany" class="form-control form-input" @change="getPayslipList($event)">
+                          <select v-model="selectedCompany" class="form-control form-input" @change="getTaxDocumentList($event)">
                             <option v-for="(company, key) in companyArr" :key="company.uuid + key" :value="company.id">
                               {{ company.name }} (REGISTRATION NO.: {{ company.registrationNumber }}, COUNTRY: {{ company.country }})
                             </option>
@@ -30,16 +30,16 @@
                     </form>
                   </div>
                   <div class="col-2 mb-4 pr-0">
-                    <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="getAllPayslipList()">
+                    <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="getAllTaxDocumentList()">
                       <span>Clear Search</span>
                     </button>
                   </div>
                   <div class="col-12 card border pr-0 pl-0">
-                    <table :key="payslipKey" class="table table-striped">
+                    <table :key="taxDocumentKey" class="table table-striped">
                       <thead>
                         <tr>
                           <th scope="col">
-                            Payslip Name
+                            Tax Document Name
                           </th>
                           <th scope="col">
                             Employee
@@ -53,20 +53,20 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(payslip, index) in payslips" :key="index">
+                        <tr v-for="(taxDocument, index) in taxDocuments" :key="index">
                           <td>
-                            <span class="contract-name">{{ payslip.name }}</span>
+                            <span class="contract-name">{{ taxDocument.name }}</span>
                           </td>
                           <td>
-                            <span class="contract-name">{{ payslip.employee }}</span>
+                            <span class="contract-name">{{ taxDocument.employee }}</span>
                           </td>
                           <td>
-                            <a :href="`${payslip.url}`" target="_blank">
-                              <span class="contract-name">{{ payslip.filename }}</span>
+                            <a :href="`${taxDocument.url}`" target="_blank">
+                              <span class="contract-name">{{ taxDocument.filename }}</span>
                             </a>
                           </td>
                           <td>
-                            <button :id="'payslip-' + index" class="btn btn-gray-light delete-payslip-btn" @click="deletePayslip(payslip, index)">
+                            <button :id="'tax-document-' + index" class="btn btn-gray-light delete-payslip-btn" @click="deleteTaxDocument(taxDocument, index)">
                               <span class="share-open">Delete</span>
                             </button>
                           </td>
@@ -94,13 +94,13 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    const [uploadedPayslips, companiesRawData] = await Promise.all([
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1'),
+    const [uploadedTaxDocuments, companiesRawData] = await Promise.all([
+      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1'),
       context.app.$axios.get('/api/companies/?order[name]=asc&page_number=1&items_per_page=999&status=1')
     ])
 
     return {
-      uploadedPayslips: uploadedPayslips.data,
+      uploadedTaxDocuments: uploadedTaxDocuments.data,
       companiesRawData: companiesRawData.data
     }
   },
@@ -108,35 +108,35 @@ export default {
     return {
       crumbs: [
         {
-          name: 'Payslip List',
-          path: '/payslips'
+          name: 'Tax Document List',
+          path: '/tax-documents'
         }
       ],
       submenu: true,
-      payslipKey: 0,
-      payslipSearchKey: 0,
+      taxDocumentKey: 0,
+      taxDocumentSearchKey: 0,
       selectedCompany: '',
       companyArr: []
     }
   },
   created () {
-    const payslips = []
+    const taxDocuments = []
     const apiHost = this.$config.axios.baseURL
 
-    this.uploadedPayslips.forEach(function (uploadedPayslip) {
-      const payslip = {
-        name: uploadedPayslip.name,
-        filename: uploadedPayslip.filename,
-        employee: uploadedPayslip.employee.userProfile.firstname,
-        url: apiHost + '/uploads/payslip_document/' + uploadedPayslip.filename,
-        uuid: uploadedPayslip.uuid,
-        employeeId: uploadedPayslip.employee.id,
-        companyId: uploadedPayslip.company.id
+    this.uploadedTaxDocuments.forEach(function (uploadedTaxDocument) {
+      const taxDocument = {
+        name: uploadedTaxDocument.name,
+        filename: uploadedTaxDocument.filename,
+        employee: uploadedTaxDocument.employee.userProfile.firstname,
+        url: apiHost + '/uploads/tax_document/' + uploadedTaxDocument.filename,
+        uuid: uploadedTaxDocument.uuid,
+        employeeId: uploadedTaxDocument.employee.id,
+        companyId: uploadedTaxDocument.company.id
       }
 
-      payslips.push(payslip)
+      taxDocuments.push(taxDocument)
     })
-    this.payslips = payslips
+    this.taxDocuments = taxDocuments
 
     const companies = []
     this.companiesRawData.forEach(function (companyRaw) {
@@ -156,76 +156,76 @@ export default {
     this.companyArr = companies
   },
   methods: {
-    getPayslipList (event) {
+    getTaxDocumentList (event) {
       this.selectedCompany = event.target.value
-      this.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + this.selectedCompany)
-        .then((payslipDatas) => {
-          const payslips = []
+      this.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + this.selectedCompany)
+        .then((taxDocumentDatas) => {
+          const taxDocuments = []
           const apiHost = this.$config.axios.baseURL
-          if (payslipDatas.data.length > 0) {
-            payslipDatas.data.forEach(function (payslipData) {
-              const payslip = {
-                name: payslipData.name,
-                filename: payslipData.filename,
-                employee: payslipData.employee.userProfile.firstname,
-                url: apiHost + '/uploads/payslip_document/' + payslipData.filename,
-                uuid: payslipData.uuid,
-                employeeId: payslipData.employee.id,
-                companyId: payslipData.company.id
+          if (taxDocumentDatas.data.length > 0) {
+            taxDocumentDatas.data.forEach(function (taxDocumentData) {
+              const taxDocument = {
+                name: taxDocumentData.name,
+                filename: taxDocumentData.filename,
+                employee: taxDocumentData.employee.userProfile.firstname,
+                url: apiHost + '/uploads/tax_document/' + taxDocumentData.filename,
+                uuid: taxDocumentData.uuid,
+                employeeId: taxDocumentData.employee.id,
+                companyId: taxDocumentData.company.id
               }
 
-              payslips.push(payslip)
+              taxDocuments.push(taxDocument)
             })
           }
 
-          this.payslips = payslips
+          this.taxDocuments = taxDocuments
           console.log(this)
-          this.payslipKey++
+          this.taxDocumentKey++
         }).catch(() => {
           return false
         })
     },
-    getAllPayslipList () {
-      this.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1')
-        .then((payslipDatas) => {
-          const payslips = []
+    getAllTaxDocumentList () {
+      this.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1')
+        .then((taxDocumentDatas) => {
+          const taxDocuments = []
           const apiHost = this.$config.axios.baseURL
-          if (payslipDatas.data.length > 0) {
-            payslipDatas.data.forEach(function (payslipData) {
-              const payslip = {
-                name: payslipData.name,
-                filename: payslipData.filename,
-                employee: payslipData.employee.userProfile.firstname,
-                url: apiHost + '/uploads/payslip_document/' + payslipData.filename,
-                uuid: payslipData.uuid,
-                employeeId: payslipData.employee.id,
-                companyId: payslipData.company.id
+          if (taxDocumentDatas.data.length > 0) {
+            taxDocumentDatas.data.forEach(function (taxDocumentData) {
+              const taxDocument = {
+                name: taxDocumentData.name,
+                filename: taxDocumentData.filename,
+                employee: taxDocumentData.employee.userProfile.firstname,
+                url: apiHost + '/uploads/tax_document/' + taxDocumentData.filename,
+                uuid: taxDocumentData.uuid,
+                employeeId: taxDocumentData.employee.id,
+                companyId: taxDocumentData.company.id
               }
 
-              payslips.push(payslip)
+              taxDocuments.push(taxDocument)
             })
           }
           this.selectedCompany = ''
-          this.payslips = payslips
-          this.payslipKey++
-          this.payslipSearchKey++
+          this.taxDocuments = taxDocuments
+          this.taxDocumentKey++
+          this.taxDocumentSearchKey++
         }).catch(() => {
           return false
         })
     },
 
-    deletePayslip (payslip, index) {
-      this.$axios.$patch('/api/payslip/' + payslip.uuid,
+    deleteTaxDocument (taxDocument, index) {
+      this.$axios.$patch('/api/tax/document/' + taxDocument.uuid,
         {
           status: 0,
-          name: payslip.name,
-          employee: payslip.employeeId,
-          company: payslip.companyId,
+          name: taxDocument.name,
+          employee: taxDocument.employeeId,
+          company: taxDocument.companyId,
           type: 'Upload'
         }
       ).then(() => {
-        this.payslips.splice(index, 1)
-        this.payslipKey++
+        this.taxDocuments.splice(index, 1)
+        this.taxDocumentKey++
       }).catch(() => {
         return false
       })

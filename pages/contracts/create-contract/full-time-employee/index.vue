@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a full time employee contract</span>
+              <span class="form-title page-header">Creating a full time employee contract</span>
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
@@ -443,7 +443,7 @@ export default {
     }
 
     .contract-review-field-wrapper {
-      background-color: #f1eeee;
+      background-color: #f4f3f5;
       padding: 10px 10px;
       height: 40px;
       margin: 10px 0 0 0;

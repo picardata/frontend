@@ -4,22 +4,27 @@
       <div>
         <base-header type="grey" class="pb-6">
           <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
+            <div class="">
+              <div class="">
+                <h2 class="form-title  page-header">
+                  {{ employeeFirstName }} {{ employeeLastName }} - {{ jobTitle }}
+                </h2>
+                <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>
+                <span class="mr-4 text-bold">FULL TIME EMPLOYEE</span>
+                <span>TEAM: <span class="text-bold">{{ legalEntity }}</span></span>
+              </div>
             </div>
           </div>
         </base-header>
         <div class="container-fluid mt--6">
-          <div class="row mt-3">
-            <div class="col-12 form-title-wrapper">
-              <span class="form-title">Full time employee contract</span>
-            </div>
-          </div>
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-2" />
             <div class="col-8">
+              <div>
+                <h2 class="form-title text-left">
+                  Signatures
+                </h2>
+              </div>
               <div v-if="contractStatus == 1" class="card border p-4">
                 <div class="mr-3">
                   <div class="all-form-title bold-text form-field">
@@ -83,21 +88,78 @@
                 </div>
               </div>
 
-              <div class="card border p-4">
-                <div class="mr-3">
-                  <div class="all-form-title bold-text form-field">
-                    <span class="text-label"> Contract details </span><br>
+              <div>
+                <h2 class="form-title text-left">
+                  Review scope of work details
+                </h2>
+              </div>
 
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">General monthly payroll </span><br>
                     <div class="contract-review-field-wrapper">
-                      <span class="text-left">Contractor's start date</span>
+                      <span class="text-left">Gross Salary</span>
+                      <span class="text-right text-date">{{ salaryCurrency }} {{ salaryAmount }}</span>
+                    </div><br><br>
+
+                    <div v-if="anySigningBonus === true">
+                      <span class="text-label">Signing bonus </span><br>
+                      <div class="contract-review-field-wrapper">
+                        <span class="text-left">Gross signing bonus</span>
+                        <span class="text-right text-date">{{ salaryCurrency }} {{ grossSigningBonusAmount }}</span>
+                      </div><br><br>
+                    </div>
+
+                    <div v-if="anyVariableCompensation === true">
+                      <span class="text-label">Variable compensation</span><br>
+                      <div class="contract-review-field-wrapper">
+                        <span class="text-left">Yearly variable compensation</span>
+                        <span class="text-right text-date">{{ salaryCurrency }} {{ variableCompensationAmount }}</span>
+                      </div><br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Contract details</span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.contractDetails = true">
+                      Edit
+                    </button><br>
+                    <div v-if="employmentStartDate !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Start date</span>
                       <span class="text-right text-date">{{ $moment(employmentStartDate).format("ll") }}</span>
                     </div>
-
-                    <div class="contract-review-field-wrapper">
-                      <span class="text-left">Contractor Type</span>
-                      <span class="text-right text-date">Full time employee</span>
+                    <div v-if="jobTitle !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Job Title</span>
+                      <span class="text-right text-date">{{ jobTitle }}</span>
                     </div>
-
+                    <div v-if="seniorityLevel !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Seniority Level</span>
+                      <span class="text-right text-date">{{ this.seniorityLevels[seniorityLevel].name }}</span>
+                    </div>
+                    <div v-if="employmentType !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Employment Type</span>
+                      <span class="text-right text-date">{{ this.employmentTypeOptions[employmentType].name }}</span><br>
+                      <span v-if="employmentType === '1'" class="text-right text-date">{{ partTimeTotalWorkingDaysPerWeek }} Day work week · {{ partTimeTotalWorkingHoursPerDay }} hours per week</span>
+                    </div>
+                    <div v-if="timeOffType !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Time off</span>
+                      <span class="text-right text-date">{{ this.timeOffTypeOptions[timeOffType].name }}</span><br>
+                      <span class="text-right text-date">{{ timeOffPaidVacationDays }} Paid vacation days</span>
+                    </div>
+                    <div v-if="probationPeriodType !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Probation period</span>
+                      <span class="text-right text-date">{{ this.probationPeriodTypeOptions[probationPeriodType].name }}</span><br>
+                      <span v-if="probationPeriodType === '1'" class="text-right text-date">{{ probationPeriodTotalDays }} Days</span>
+                    </div>
+                    <div v-if="healthBenefitType !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Health benefit</span>
+                      <span class="text-right text-date">{{ this.healthBenefitTypeOptions[healthBenefitType].name }}</span><br>
+                      <span v-if="healthBenefitType === '1'" class="text-right text-date">${{ healthBenefitAmount }}</span>
+                    </div>
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">Entity Name</span>
                       <span class="text-right text-date">{{ legalEntity }}</span>
@@ -106,9 +168,28 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label"> Scope </span><br>
+                    <span class="text-label">Stock options </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
+                      Edit
+                    </button><br>
+                    <div v-if="stockOptionAggregateValue !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Stock options</span>
+                      <span class="text-right">${{ stockOptionAggregateValue }}</span><br>
+                      <span class="text-left">To be offered</span>
+                      <span class="text-right">{{ stockOptionCurrency }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label"> Scope </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
                       <span class="text-left">{{ scopeOfWork }}</span>
                     </div>
@@ -116,12 +197,53 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
-                    <span class="text-label">Payment Details </span><br>
+                    <span class="text-label">End of contract </span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
+                      Edit
+                    </button><br>
                     <div class="contract-review-field-wrapper">
-                      <span class="text-left">Currency</span>
-                      <span class="text-right text-date">{{ salaryCurrency }}</span>
+                      <span class="text-left">Contract end date</span>
+                      <span v-if="contractEndDate !== null" class="text-right text-date">{{ $moment(contractEndDate).format("ll") }}</span>
+                      <span v-else class="text-right text-date">This contract doesn't have an end date.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label">Employee details</span>
+                    <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.employeeDetails = true">
+                      Edit
+                    </button><br>
+                    <div v-if="employeeFirstName !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Employee full legal name</span>
+                      <span class="text-right text-date">{{ employeeFirstName }} {{ employeeLastName }}</span>
+                    </div>
+                    <div v-if="employeePersonalEmailAddress !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Employee email</span>
+                      <span class="text-right text-date">{{ employeePersonalEmailAddress }}</span>
+                    </div>
+                    <div v-if="employeeNationality !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Employee Nationality</span>
+                      <span class="text-right text-date">{{ employeeNationality }}</span>
+                    </div>
+                    <div v-if="employeeWorkingCountry !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Employment country</span>
+                      <span class="text-right text-date">{{ employeeWorkingCountry }}</span>
+                    </div>
+                    <div v-if="isEmployeeNeedWorkingVisa !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Work visa</span>
+                      <span v-if="isEmployeeNeedWorkingVisa === true" class="text-right text-date">Yes</span>
+                      <span v-else class="text-right text-date">No</span>
+                    </div>
+                    <div v-if="employeeWorkEligibilityDocFilename !== null" class="contract-review-field-wrapper">
+                      <span class="text-left">Work eligibility document</span>
+                      <a class="text-right" href="#" @click.prevent="downloadEmployeeWorkEligibilityDocFilename(employeeWorkEligibilityDocFilename)">
+                        {{ employeeWorkEligibilityDocFilename }}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -1950,17 +2072,510 @@
       </div>
       <template slot="footer" />
     </modal>
+    <modal :show.sync="modals.contractDetails" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="">
+                  <div class="all-form-title bold-text form-field field-group">
+                    <span class="text-label">Job Information</span>
+                  </div>
+
+                  <div class="multiple-fields-wrapper">
+                    <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
+                      <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="seniorityLevel" name="Seniority">
+                        <span class="text-label">Seniority Level</span>
+                        <select v-model="seniorityLevel" class="form-control form-input">
+                          <option v-for="(seniorityLevel, key) in seniorityLevels" :key="seniorityLevel + key" :value="seniorityLevel.id">
+                            {{ seniorityLevel.name }}
+                          </option>
+                        </select>
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+
+                    <div class="all-form-title bold-text form-field two-colls mb-4">
+                      <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="jobTitle" name="Job Title">
+                        <span class="text-label">Job Title</span>
+                        <input v-model="jobTitle" type="text" class="form-input form-control" placeholder="">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </ValidationProvider>
+                    </div>
+                  </div>
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="employmentStartDate" name="Start Date">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <base-input class="text-label" label="Employment Start Date">
+                        <flat-picker
+                          v-model="employmentStartDate"
+                          slot-scope="{focus, blur}"
+                          :config="startDateconfig"
+                          class="form-control form-input datepicker"
+                          @on-open="focus"
+                          @on-close="blur"
+                        />
+                      </base-input>
+
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <div class="">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="employmentType" name="Employment Type">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <span class="text-label">Employment Type</span>
+                      <select v-model="employmentType" class="form-control form-input" @change="togglePartTimeFields($event)">
+                        <option v-for="(employmentTypeOption, key) in employmentTypeOptions" :key="employmentTypeOption + key" :value="employmentTypeOption.id">
+                          {{ employmentTypeOption.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <div v-if="showElement.partTimeFields" :key="partTimeFieldsKey">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="partTimeTotalWorkingDaysPerWeek" name="Total working days per week">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <input v-model="partTimeTotalWorkingDaysPerWeek" type="text" class="form-input form-control" placeholder="Total working days per week">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="partTimeTotalWorkingHoursPerDay" name="Total working hours per day">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <input v-model="partTimeTotalWorkingHoursPerDay" type="text" class="form-input form-control" placeholder="Total working hours per day">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="partTimeTotalWorkingHoursPerWeek" name="Total working hours per week">
+                      <div class="all-form-title bold-text form-field mb-4">
+                        <input v-model="partTimeTotalWorkingHoursPerWeek" type="text" class="form-input form-control" placeholder="Total working hours per week">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+                </div>
+
+                <div class="">
+                  <div class="all-form-title bold-text form-field field-group">
+                    <span class="text-label">Time Off</span>
+                  </div>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="timeOffType" name="Time Off">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <select v-model="timeOffType" class="form-control form-input">
+                        <option v-for="(timeOffTypeOption, key) in timeOffTypeOptions" :key="timeOffTypeOption + key" :value="timeOffTypeOption.id">
+                          {{ timeOffTypeOption.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="timeOffPaidVacationDays" name="Paid vacation days">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <input v-model="timeOffPaidVacationDays" type="text" class="form-input form-control" placeholder="Paid vacation days">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|numeric" vid="partTimeTotalWorkingHoursPerWeek" name="Sick off days">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <input v-model="timeOffSickDays" type="text" class="form-input form-control" placeholder="Sick off days">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <div class="">
+                  <div class="all-form-title bold-text form-field field-group">
+                    <span class="text-label">Contract Term</span>
+                  </div>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractTermType" name="">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <select v-model="contractTermType" class="form-control form-input" @change="toggleContractEndDate($event)">
+                        <option v-for="(contractTermTypeOption, key) in contractTermTypeOptions" :key="contractTermTypeOption + key" :value="contractTermTypeOption.id">
+                          {{ contractTermTypeOption.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <div v-if="showElement.contractEndDate" :key="contractEndDateKey" class="all-form-title bold-text form-field mb-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="contractEndDate" name="Contract End Date">
+                      <base-input class="text-label" label="Contract End Date">
+                        <flat-picker
+                          v-model="contractEndDate"
+                          slot-scope="{focus, blur}"
+                          :config="contractEndDateconfig"
+                          class="form-control form-input datepicker"
+                          @on-open="focus"
+                          @on-close="blur"
+                        />
+                      </base-input>
+
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>
+
+                <div class="">
+                  <div class="all-form-title bold-text form-field field-group">
+                    <span class="text-label">Probation Period</span>
+                  </div>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractTermType" name="">
+                    <div class="all-form-title bold-text form-field mb-4">
+                      <select v-model="probationPeriodType" class="form-control form-input" @change="toggleProbationPeriodTotalDays($event)">
+                        <option v-for="(probationPeriodTypeOption, key) in probationPeriodTypeOptions" :key="probationPeriodTypeOption + key" :value="probationPeriodTypeOption.id">
+                          {{ probationPeriodTypeOption.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <div v-if="showElement.probationPeriodTotalDays" :key="probationPeriodTotalDaysKey" class="all-form-title bold-text form-field mb-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="contractEndDate" name="Probation Period Total Days">
+                      <span class="text-label">Number of probation days</span>
+                      <input v-model="probationPeriodTotalDays" type="text" class="form-input form-control" placeholder="0">
+
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>
+
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Health benefit</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractTermType" name="Health benefit">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <select v-model="healthBenefitType" class="form-control form-input" @change="toggleHealthBenefitAmount($event)">
+                      <option v-for="(healthBenefitTypeOption, key) in healthBenefitTypeOptions" :key="healthBenefitTypeOption + key" :value="healthBenefitTypeOption.id">
+                        {{ healthBenefitTypeOption.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <div v-if="showElement.healthBenefitAmount" :key="healthBenefitAmountKey" class="all-form-title bold-text form-field mb-4">
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="healthBenefitAmount" name="Gross Monthly Healthcare Allowance">
+                    <span class="text-label">Gross Monthly Allowance</span>
+                    <input v-model="healthBenefitAmount" type="text" class="form-input form-control" placeholder="0">
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateContractDetails">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.stockOffer" size="lg" modal-classes="modal-stock-option">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Offer stock options</span>
+                </div>
+
+                <div class="information-text-wrapper">
+                  <span>
+                    Stock options need to be approved by the Board of Directors, and a separate form of contract will be required for the options to be granted.
+                  </span>
+                </div>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the value of the option you wish to offer?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionCurrency" name="Stock Option Currency">
+                    <div class="currency-field-wrapper">
+                      <select v-model="stockOptionCurrency" class="form-control form-input">
+                        <option v-for="(salaryCurrency, key) in salaryCurrencies" :key="salaryCurrency + key" :value="salaryCurrency.id">
+                          {{ salaryCurrency.name }}
+                        </option>
+                      </select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionAggregateValue" name="Aggregate option value">
+                    <div class="aggregate-value-field-wrapper">
+                      <input v-model="stockOptionAggregateValue" type="text" class="form-input form-control" placeholder="Aggregate option value">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionTotalNumber" name="Number of stock options">
+                  <div class="all-form-title bold-text form-field">
+                    <span class="text-label d-block">Specify the number of stock options this represents?</span>
+
+                    <input v-model="stockOptionTotalNumber" rules="numeric" type="text" class="form-input form-control" placeholder="Number of stock options">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" vid="stockOptionVestingStartDate" name="Vesting start date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">When does the vesting start?</span><br>
+                    <base-input class="text-label" label="">
+                      <flat-picker
+                        v-model="stockOptionVestingStartDate"
+                        slot-scope="{focus, blur}"
+                        :config="stockOptionVestingStartDateConfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <div class="all-form-title bold-text form-field two-collumns">
+                  <span class="text-label">What is the monthly vesting schedule?</span><br>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionTotalVestingMonth" name="Total vesting months">
+                    <div class="total-month-vesting-field-wrapper">
+                      <input v-model="stockOptionTotalVestingMonth" type="text" class="form-input form-control" placeholder="Total months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="{ errors }" mode="passive" rules="numeric" vid="stockOptionVestingCliffMonth" name="Cliff vesting months">
+                    <div class="cliff-month-vesting-field-wrapper">
+                      <input v-model="stockOptionVestingCliffMonth" type="text" class="form-input form-control" placeholder="Cliff months">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateStockOffer">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.scope" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define scope of work</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Scope of Work</span>
+                    <textarea v-model="scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateScope">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.endOfContract" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Define contract ending condition</span>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="terminationDate" name="Termination date">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Contract end date</span><br>
+                    <base-input class="text-label">
+                      <flat-picker
+                        v-model="contractEndDate"
+                        slot-scope="{focus, blur}"
+                        :config="contractEndDateconfig"
+                        class="form-control form-input datepicker"
+                        @on-open="focus"
+                        @on-close="blur"
+                      />
+                    </base-input>
+
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateEndOfContract">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
+    <modal :show.sync="modals.employeeDetails" size="lg" modal-classes="modal-contractor-details">
+      <template slot="header" />
+      <div class="full-contract-details-wrapper">
+        <div class="mr-3">
+          <div class="all-form-title bold-text form-field">
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+              <form @submit.prevent="handleSubmit(post)">
+                <div class="all-form-title bold-text form-field field-group">
+                  <span class="text-label">Edit employee details</span>
+                </div>
+                <div class="multiple-fields-wrapper">
+                  <div class="all-form-title bold-text form-field two-colls first-coll mb-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="employeeFirstName" name="Employee First and Middle Name">
+                      <span class="text-label">Employee first and middle name</span>
+                      <input v-model="employeeFirstName" type="text" class="form-input form-control" placeholder="">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="all-form-title bold-text form-field two-colls mb-4">
+                    <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="employeeLastName" name="Employee Last Name">
+                      <span class="text-label">Employee last name</span>
+                      <input v-model="employeeLastName" type="text" class="form-input form-control" placeholder="">
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                </div>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required|email" vid="contractorEmailAddress" name="Employee Personal Email Address">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Employee personal email address</span>
+                    <input v-model="employeePersonalEmailAddress" type="text" class="form-input form-control" placeholder="">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="employeeNationality" name="Employee Nationality">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Employee nationality</span>
+                    <country-select v-model="employeeNationality" :country="employeeNationality" top-country="SG" placeholder="Employee Nationality" class="form-input form-control" />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="employeeWorkingCountry" name="Country employee will be working from">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Country employee will be working from</span>
+                    <country-select v-model="employeeWorkingCountry" :country="employeeWorkingCountry" top-country="SG" placeholder="Country employee will be working from" class="form-input form-control" />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="employeeWorkingState" name="Employee State">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Employee state</span>
+                    <input v-model="employeeWorkingState" type="text" class="form-input form-control" placeholder="">
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="isEmployeeNeedWorkingVisa" name="">
+                  <div class="all-form-title bold-text form-field mb-4">
+                    <span class="text-label">Does the employee need a work visa?</span>
+                    <select v-model="isEmployeeNeedWorkingVisa" class="form-control form-input" @change="toggleEmployeeWorkEligibiltyDoc($event)">
+                      <option v-for="(needWorkingVisaOption, key) in needWorkingVisaOptions" :key="needWorkingVisaOption + key" :value="needWorkingVisaOption.id">
+                        {{ needWorkingVisaOption.name }}
+                      </option>
+                    </select>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </ValidationProvider>
+
+                <div v-if="showElement.employeeWorkEligibilityDoc" :key="showEmployeeWorkEligibilityDocKey" class="all-form-title bold-text form-field mb-4">
+                  <ValidationProvider
+                    ref="employeeWorkEligibilityDoc"
+                    v-slot="{ errors }"
+                  >
+                    <span class="text-label">Work eligibility document</span><br>
+                    <span class="text-label-desc">
+                      Optional, if you can’t provide this we will ask your employee
+                    </span>
+                    <input
+                      id="employeeWorkEligibilityDoc"
+                      ref="employeeWorkEligibilityDoc"
+                      type="file"
+                      class="btn btn-sm btn-secondary btn-add-doc"
+                      accept="application/pdf"
+                      @change="handleEmployeeWorkEligibiltyDocUpload($event)"
+                    >
+
+                    <span>{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </form>
+            </ValidationObserver>
+
+            <div class="button-wrapper">
+              <base-button type="primary" @click.prevent="updateEmployeeDetails">
+                Update
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="footer" />
+    </modal>
   </div>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import flatPicker from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+import 'vue-country-region-select'
 
 export default {
   layout: 'argon',
   auth: true,
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    flatPicker
   },
   async asyncData (context) {
     return await context.app.$axios.$get('/api/full/time/employee/contract/' + context.route.params.id)
@@ -1972,90 +2587,280 @@ export default {
   },
   data () {
     return {
-      crumbs: [
-        {
-          name: 'Contracts',
-          path: '/contracts'
-        },
-        {
-          name: 'Fixed Rate Contract',
-          path: '/forms/' + this.$route.params.id
-        }
-      ],
-      salaryFrequencies: [
-        {
-          name: 'Default'
-        },
-        {
-          name: 'Week',
-          id: 1
-        },
-        {
-          name: 'Every other week',
-          id: 2
-        },
-        {
-          name: 'Twice a month',
-          id: 3
-        },
-        {
-          name: 'Month',
-          id: 4
-        }
+      contractStatusOptions: [
+        { name: '' },
+        { name: 'DRAFT' },
+        { name: 'WAITING FOR CONTRACTOR SIGNATURE' },
+        { name: 'SIGNED BY BOTH PARTIES' }
       ],
       seniorityLevels: [
         {
-          name: 'Default'
-        },
-        {
           name: 'Not applicable',
-          id: 1
+          id: 0
         },
         {
           name: 'Junior',
-          id: 2
+          id: 1
         },
         {
           name: 'Mid',
-          id: 3
+          id: 2
         },
         {
           name: 'Senior',
-          id: 4
+          id: 3
         },
         {
           name: 'Lead',
-          id: 5
+          id: 4
         },
         {
           name: 'Principal / Staff',
-          id: 6
+          id: 5
         },
         {
           name: 'Director',
-          id: 7
+          id: 6
         },
         {
           name: 'Head of Department',
-          id: 8
+          id: 7
         },
         {
           name: 'Vice President',
-          id: 9
+          id: 8
         },
         {
           name: 'Senior Vice President',
-          id: 10
+          id: 9
         },
         {
           name: 'C-level Executive',
-          id: 11
+          id: 10
         }
+      ],
+      probationPeriodTypeOptions: [
+        {
+          name: 'No probation period',
+          id: 0
+        },
+        {
+          name: 'Probation period',
+          id: 1
+        }
+      ],
+      healthBenefitTypeOptions: [
+        {
+          name: 'No',
+          id: 0
+        },
+        {
+          name: 'Yes',
+          id: 1
+        }
+      ],
+      employmentTypeOptions: [
+        {
+          name: 'Full-time',
+          id: 0
+        },
+        {
+          name: 'Part-time',
+          id: 1
+        }
+      ],
+      timeOffTypeOptions: [
+        {
+          name: 'Standard',
+          id: 0
+        },
+        {
+          name: 'Specific',
+          id: 1
+        }
+      ],
+      contractTermTypeOptions: [
+        {
+          name: 'Indefinite',
+          id: 0
+        },
+        {
+          name: 'Definite',
+          id: 1
+        }
+      ],
+      salaryCurrencies: [
+        { name: 'SGD - Singapore Dollar', id: 'SGD' },
+        { name: 'AED - United Emirate Arabs Dirham', id: 'AED' },
+        { name: 'ALL - Albanian Lek', id: 'ALL' },
+        { name: 'AMD - Armenian Dram', id: 'AMD' },
+        { name: 'ARS - Argentine Peso', id: 'ARS' },
+        { name: 'AUD - Australian Dollar', id: 'AUD' },
+        { name: 'AZN - Azerbaijani Manat', id: 'AZN' },
+        { name: 'BAM - Bosnia and Herzegovina Convertible Mark', id: 'BAM' },
+        { name: 'BBD - Barbadian Dollar', id: 'BBD' },
+        { name: 'BDT - Bangladeshi Taka', id: 'BDT' },
+        { name: 'BGN - Bulgarian Lev', id: 'BGN' },
+        { name: 'BHD - Bahraini Dinar', id: 'BHD' },
+        { name: 'BMD - Bermudian Dollar', id: 'BMD' },
+        { name: 'BND - Brunei Dinar', id: 'BND' },
+        { name: 'BOB - Bolivian Boliviano', id: 'BOB' },
+        { name: 'BRL - Brazilian Real', id: 'BRL' },
+        { name: 'BSD - Bahamian Dollar', id: 'BSD' },
+        { name: 'BWP - Pula', id: 'BWP' },
+        { name: 'BYN - Belarusian Ruble', id: 'BYN' },
+        { name: 'BZD - Belize Dollar', id: 'BZD' },
+        { name: 'CAD - Canadian Dollar', id: 'CAD' },
+        { name: 'CDF - Congolese Franc', id: 'CDF' },
+        { name: 'CHF - Swiss Franc', id: 'CHF' },
+        { name: 'CLP - Chilean Peso', id: 'CLP' },
+        { name: 'CNY - Chinese Yuan', id: 'CNY' },
+        { name: 'COP - Colombian Peso', id: 'COP' },
+        { name: 'CRC - Costa Rican Colon', id: 'CRC' },
+        { name: 'CUP - Cuban Peso', id: 'CUP' },
+        { name: 'CVE - Cape Verdean Escudo', id: 'CVE' },
+        { name: 'CZK - Czech Koruna', id: 'CZK' },
+        { name: 'DJF - Djiboutian Franc', id: 'DJF' },
+        { name: 'DKK - Danish Krone', id: 'DKK' },
+        { name: 'DOP - Dominican Peso', id: 'DOP' },
+        { name: 'DZD - Algerian Dinar', id: 'DZD' },
+        { name: 'EGP - Egyptian Pound', id: 'EGP' },
+        { name: 'ETP - Ethiopian Birr', id: 'ETP' },
+        { name: 'EUR - Euro', id: 'EUR' },
+        { name: 'FJD - Fijian Dollar', id: 'FJD' },
+        { name: 'GBP - British Pound', id: 'GBP' },
+        { name: 'GEL - Georgian Lari', id: 'GEL' },
+        { name: 'GHS - Ghanian Cedi', id: 'GHS' },
+        { name: 'GIP - Gibraltar Pound', id: 'GIP' },
+        { name: 'GMD - Gambian Dalasi', id: 'GMD' },
+        { name: 'GNF - Guinea Franc', id: 'GNF' },
+        { name: 'GTQ - Guatemalan Quetzal', id: 'GTQ' },
+        { name: 'GYD - Guyanes Dollar', id: 'GYD' },
+        { name: 'HKD - Hong Kong Dollar', id: 'HKD' },
+        { name: 'HNL - Honduran Lempira', id: 'HNL' },
+        { name: 'HRK - Croatian Kuna', id: 'HRK' },
+        { name: 'HTG - Haitian Gourde', id: 'HTG' },
+        { name: 'HUF - Hungarian Forint', id: 'HUF' },
+        { name: 'IDR - Indonesian Rupiah', id: 'IDR' },
+        { name: 'ILS - Israeli New Shekel', id: 'ILS' },
+        { name: 'INR - Indian Rupee', id: 'INR' },
+        { name: 'ISK - Icelandic Króna', id: 'ISK' },
+        { name: 'JMD - Jamaican Dollar', id: 'JMD' },
+        { name: 'JOD - Jordanian Dinar', id: 'JOD' },
+        { name: 'JPY - Japanese Yen', id: 'JPY' },
+        { name: 'KES - Kenyan Shilling', id: 'KES' },
+        { name: 'KGS - Kyrgyzstani Som', id: 'KGS' },
+        { name: 'KHR - Cambodian Riel', id: 'KHR' },
+        { name: 'KMF - Comorian Franc', id: 'KMF' },
+        { name: 'KRW - South Korean Won', id: 'KRW' },
+        { name: 'KWD - Kuwaiti Dinar', id: 'KWD' },
+        { name: 'KYD - Cayman Island Dollar', id: 'KYD' },
+        { name: 'KZT - Kazakhstani Tenge', id: 'KZT' },
+        { name: 'LAK - KIP', id: 'LAK' },
+        { name: 'LBP - Lebanese Pound', id: 'LBP' },
+        { name: 'LKR - Sri Lankan Rupee', id: 'LKR' },
+        { name: 'LSL - Lesotho Loti', id: 'LSL' },
+        { name: 'LVL - Latvian Lats', id: 'LVL' },
+        { name: 'MAD - Moroccan Dirham', id: 'MAD' },
+        { name: 'MGA - Malagasy Ariary', id: 'MGA' },
+        { name: 'MMK - Burmese Kyat', id: 'MMK' },
+        { name: 'MNT - Mongolian Togrog', id: 'MNT' },
+        { name: 'MOP - Macanese Pataca', id: 'MOP' },
+        { name: 'MRO - Mauritanian Ouguiya', id: 'MRO' },
+        { name: 'MUR - Mauritian Rupee', id: 'MUR' },
+        { name: 'MVR - Maldivian Rufiyaa', id: 'MVR' },
+        { name: 'MWK - Malawian Kwacha', id: 'MWK' },
+        { name: 'MXN - Mexican Peso', id: 'MXN' },
+        { name: 'MYR - Malaysian Ringgit', id: 'MYR' },
+        { name: 'MZN - Mozambican Metical', id: 'MZN' },
+        { name: 'NAD - Namibia Dollar', id: 'NAD' },
+        { name: 'NGN - Nigerian Naira', id: 'NGN' },
+        { name: 'NIO - Nicaraguan Cordoba', id: 'NIO' },
+        { name: 'NOK - Norwegian Krone', id: 'NOK' },
+        { name: 'NPR - Nepalese Rupee', id: 'NPR' },
+        { name: 'NZD - New Zealand Dollar', id: 'NZD' },
+        { name: 'OMR - Omani Rial', id: 'OMR' },
+        { name: 'PAB - Panamanian Balboa', id: 'PAB' },
+        { name: 'PEN - Peruvian Sol', id: 'PEN' },
+        { name: 'PGK - Kina', id: 'PGK' },
+        { name: 'PHP - Philippine Peso', id: 'PHP' },
+        { name: 'PKR - Pakistani Rupee', id: 'PKR' },
+        { name: 'PLN - Polish Zloty', id: 'PLN' },
+        { name: 'PYG - Paraguayan Guarani', id: 'PYG' },
+        { name: 'QAR - Qatari Riyal', id: 'QAR' },
+        { name: 'RON - Romanian Leu', id: 'RON' },
+        { name: 'RSD - Serbian Dinar', id: 'RSD' },
+        { name: 'RUB - Russian Ruble', id: 'RUB' },
+        { name: 'RWF - Rwandan Franc', id: 'RWF' },
+        { name: 'SAR - Saudi Riyal ', id: 'SAR' },
+        { name: 'SEK - Swedish Krona', id: 'SEK' },
+        { name: 'SLL - Sierra Leonean Leone', id: 'SLL' },
+        { name: 'SRD - Surinamese Dollar', id: 'SRD' },
+        { name: 'SVC - Salvadoran Colon', id: 'SVC' },
+        { name: 'SZL - Swazi Lilangeni', id: 'SZL' },
+        { name: 'THB - Thai Baht', id: 'THB' },
+        { name: 'TJS - Tajikstani Somoni', id: 'TJS' },
+        { name: 'TMT - Turmenikstan Manat', id: 'TMT' },
+        { name: 'TND - Tunisian Dinar', id: 'TND' },
+        { name: 'TRY - Turkish Lira', id: 'TRY' },
+        { name: 'TTD - Trinidad and Tobago Dollar', id: 'TTD' },
+        { name: 'TWD - Taiwan Dollar', id: 'TWD' },
+        { name: 'UAH - Ukranian Hryvnia', id: 'UAH' },
+        { name: 'UGX - Ugandan Shilling', id: 'UGX' },
+        { name: 'USD - US Dollar', id: 'USD' },
+        { name: 'UYU - Uruguayan Peso', id: 'UYU' },
+        { name: 'VND - Vietnamese Dong', id: 'VND' },
+        { name: 'WST - Samoan Tala', id: 'WST' },
+        { name: 'ZAR - South African Rand', id: 'ZAR' }
       ],
       modals: {
         clientSignature: false,
         contractorSignature: false,
-        contractorEmailInvitation: false
+        contractorEmailInvitation: false,
+        contractDetails: false,
+        scope: false,
+        endOfContract: false,
+        stockOffer: false,
+        employeeDetails: false
+      },
+      showElement: {
+        partTimeFields: false,
+        contractEndDate: false,
+        probationPeriodTotalDays: false,
+        healthBenefitAmount: false,
+        employeeWorkEligibilityDoc: false
+      },
+      healthBenefitAmountKey: 0,
+      partTimeFieldsKey: 0,
+      contractEndDateKey: 0,
+      probationPeriodTotalDaysKey: 0,
+      showEmployeeWorkEligibilityDocKey: 0,
+
+      startDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      needWorkingVisaOptions: [
+        {
+          name: 'No',
+          id: false
+        },
+        {
+          name: 'Yes',
+          id: true
+        }
+      ],
+
+      contractEndDateconfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
+      },
+      stockOptionVestingStartDateConfig: {
+        allowInput: true,
+        altFormat: 'j F Y',
+        altInput: true
       },
       submenu: true,
       currentDate: new Date(),
@@ -2068,8 +2873,105 @@ export default {
     if (this.contractStatus > 1) {
       this.disableInvitationButton = false
     }
+
+    if (this.paymentPackageType === '0') {
+      this.showElement.salaryAmounts = true
+      this.showElement.salaryFrequency = true
+    } else {
+      this.showElement.salaryAmounts = false
+      this.showElement.salaryFrequency = false
+    }
+
+    if (this.employmentType === '1') {
+      this.showElement.partTimeFields = true
+    }
+
+    if (this.contractTermType === '1') {
+      this.showElement.contractEndDate = true
+    }
+
+    if (this.probationPeriodType === '1') {
+      this.showElement.probationPeriodTotalDays = true
+    }
+
+    if (this.healthBenefitType === '1') {
+      this.showElement.healthBenefitAmount = true
+    }
+
+    if (this.employeeWorkEligibilityDoc === '') {
+      this.showElement.employeeWorkEligibilityDoc = false
+    }
   },
   methods: {
+    handleEmployeeWorkEligibiltyDocUpload (event) {
+      this.employeeWorkEligibilityDoc = event.target.files[0]
+    },
+    toggleEmployeeWorkEligibiltyDoc (event) {
+      const isEmployeeNeedWorkingVisa = event.target.value
+
+      if (isEmployeeNeedWorkingVisa === 'false') {
+        this.showElement.employeeWorkEligibilityDoc = true
+      } else {
+        this.showElement.employeeWorkEligibilityDoc = false
+      }
+
+      this.showEmployeeWorkEligibilityDocKey++
+    },
+    downloadEmployeeWorkEligibilityDocFilename (filename) {
+      const apiHost = this.$axios.defaults.baseURL
+
+      window.open(apiHost + '/uploads/employee_work_eligibility_doc/' + filename, '_blank')
+    },
+    togglePartTimeFields (event) {
+      const partTimeFields = event.target.value
+
+      if (partTimeFields === '1') {
+        this.showElement.partTimeFields = true
+      } else {
+        this.showElement.partTimeFields = false
+      }
+
+      this.partTimeTotalWorkingDaysPerWeek = 0
+      this.partTimeTotalWorkingHoursPerDay = 0
+      this.partTimeTotalWorkingHoursPerWeek = 0
+      this.partTimeFieldsKey++
+    },
+    toggleContractEndDate (event) {
+      const contractEndDate = event.target.value
+
+      if (contractEndDate === '1') {
+        this.showElement.contractEndDate = true
+      } else {
+        this.showElement.contractEndDate = false
+      }
+
+      this.contractEndDate = ''
+      this.contractEndDateKey++
+    },
+    toggleProbationPeriodTotalDays (event) {
+      const probationPeriodTotalDays = event.target.value
+
+      if (probationPeriodTotalDays === '1') {
+        this.showElement.probationPeriodTotalDays = true
+      } else {
+        this.showElement.probationPeriodTotalDays = false
+      }
+
+      this.probationPeriodTotalDays = ''
+      this.probationPeriodTotalDaysKey++
+    },
+    toggleHealthBenefitAmount (event) {
+      const healthBenefitType = event.target.value
+
+      if (healthBenefitType === '1') {
+        this.showElement.healthBenefitAmount = true
+      } else {
+        this.showElement.healthBenefitAmount = false
+      }
+
+      this.healthBenefitAmount = ''
+      this.healthBenefitAmountKey++
+    },
     async sendClientSignature () {
       const isValid = await this.$refs.form.validate()
       if (!isValid) {
@@ -2249,6 +3151,352 @@ export default {
         return false
       })
     },
+    async updateContractDetails () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        employeeFirstName: this.employeeFirstName,
+        employeeLastName: this.employeeLastName,
+        employeePersonalEmailAddress: this.employeePersonalEmailAddress,
+        employeeNationality: this.employeeNationality,
+        employeeWorkingCountry: this.employeeWorkingCountry,
+        employeeWorkingState: this.employeeWorkingState,
+        isEmployeeNeedWorkingVisa: this.isEmployeeNeedWorkingVisa,
+        employeeWorkEligibilityDocFilename: this.employeeWorkEligibilityDocFilename,
+        seniorityLevel: this.seniorityLevel,
+        jobTitle: this.jobTitle,
+        scopeOfWork: this.scopeOfWork,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        anySigningBonus: this.anySigningBonus,
+        grossSigningBonusAmount: this.grossSigningBonusAmount,
+        anyVariableCompensation: this.anyVariableCompensation,
+        variableCompensationAmount: this.variableCompensationAmount,
+        employmentType: this.employmentType,
+        partTimeTotalWorkingDaysPerWeek: this.partTimeTotalWorkingDaysPerWeek,
+        partTimeTotalWorkingHoursPerDay: this.partTimeTotalWorkingHoursPerDay,
+        partTimeTotalWorkingHoursPerWeek: this.partTimeTotalWorkingHoursPerWeek,
+        employmentStartDate: this.employmentStartDate,
+        timeOffType: this.timeOffType,
+        timeOffPaidVacationDays: this.timeOffPaidVacationDays,
+        timeOffSickDays: this.timeOffSickDays,
+        contractTermType: this.contractTermType,
+        contractEndDate: this.contractEndDate,
+        probationPeriodType: this.probationPeriodType,
+        probationPeriodTotalDays: this.probationPeriodTotalDays,
+        healthBenefitType: this.healthBenefitType,
+        healthBenefitAmount: this.healthBenefitAmount,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        contractStatus: this.contractStatus,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        contractorJobTitle: this.contractorJobTitle,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        company: this.company.id
+      }).then(() => {
+        this.modals.contractDetails = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateEmployeeDetails () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        employeeFirstName: this.employeeFirstName,
+        employeeLastName: this.employeeLastName,
+        employeePersonalEmailAddress: this.employeePersonalEmailAddress,
+        employeeNationality: this.employeeNationality,
+        employeeWorkingCountry: this.employeeWorkingCountry,
+        employeeWorkingState: this.employeeWorkingState,
+        isEmployeeNeedWorkingVisa: this.isEmployeeNeedWorkingVisa,
+        employeeWorkEligibilityDocFilename: this.employeeWorkEligibilityDocFilename,
+        seniorityLevel: this.seniorityLevel,
+        jobTitle: this.jobTitle,
+        scopeOfWork: this.scopeOfWork,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        anySigningBonus: this.anySigningBonus,
+        grossSigningBonusAmount: this.grossSigningBonusAmount,
+        anyVariableCompensation: this.anyVariableCompensation,
+        variableCompensationAmount: this.variableCompensationAmount,
+        employmentType: this.employmentType,
+        partTimeTotalWorkingDaysPerWeek: this.partTimeTotalWorkingDaysPerWeek,
+        partTimeTotalWorkingHoursPerDay: this.partTimeTotalWorkingHoursPerDay,
+        partTimeTotalWorkingHoursPerWeek: this.partTimeTotalWorkingHoursPerWeek,
+        employmentStartDate: this.employmentStartDate,
+        timeOffType: this.timeOffType,
+        timeOffPaidVacationDays: this.timeOffPaidVacationDays,
+        timeOffSickDays: this.timeOffSickDays,
+        contractTermType: this.contractTermType,
+        contractEndDate: this.contractEndDate,
+        probationPeriodType: this.probationPeriodType,
+        probationPeriodTotalDays: this.probationPeriodTotalDays,
+        healthBenefitType: this.healthBenefitType,
+        healthBenefitAmount: this.healthBenefitAmount,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        contractStatus: this.contractStatus,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        contractorJobTitle: this.contractorJobTitle,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        company: this.company.id
+      }).then(() => {
+        this.modals.employeeDetails = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+
+    async updateScope () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        employeeFirstName: this.employeeFirstName,
+        employeeLastName: this.employeeLastName,
+        employeePersonalEmailAddress: this.employeePersonalEmailAddress,
+        employeeNationality: this.employeeNationality,
+        employeeWorkingCountry: this.employeeWorkingCountry,
+        employeeWorkingState: this.employeeWorkingState,
+        isEmployeeNeedWorkingVisa: this.isEmployeeNeedWorkingVisa,
+        employeeWorkEligibilityDocFilename: this.employeeWorkEligibilityDocFilename,
+        seniorityLevel: this.seniorityLevel,
+        jobTitle: this.jobTitle,
+        scopeOfWork: this.scopeOfWork,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        anySigningBonus: this.anySigningBonus,
+        grossSigningBonusAmount: this.grossSigningBonusAmount,
+        anyVariableCompensation: this.anyVariableCompensation,
+        variableCompensationAmount: this.variableCompensationAmount,
+        employmentType: this.employmentType,
+        partTimeTotalWorkingDaysPerWeek: this.partTimeTotalWorkingDaysPerWeek,
+        partTimeTotalWorkingHoursPerDay: this.partTimeTotalWorkingHoursPerDay,
+        partTimeTotalWorkingHoursPerWeek: this.partTimeTotalWorkingHoursPerWeek,
+        employmentStartDate: this.employmentStartDate,
+        timeOffType: this.timeOffType,
+        timeOffPaidVacationDays: this.timeOffPaidVacationDays,
+        timeOffSickDays: this.timeOffSickDays,
+        contractTermType: this.contractTermType,
+        contractEndDate: this.contractEndDate,
+        probationPeriodType: this.probationPeriodType,
+        probationPeriodTotalDays: this.probationPeriodTotalDays,
+        healthBenefitType: this.healthBenefitType,
+        healthBenefitAmount: this.healthBenefitAmount,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        contractStatus: this.contractStatus,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        contractorJobTitle: this.contractorJobTitle,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        company: this.company.id
+      }).then(() => {
+        this.modals.scope = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateStockOffer () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        employeeFirstName: this.employeeFirstName,
+        employeeLastName: this.employeeLastName,
+        employeePersonalEmailAddress: this.employeePersonalEmailAddress,
+        employeeNationality: this.employeeNationality,
+        employeeWorkingCountry: this.employeeWorkingCountry,
+        employeeWorkingState: this.employeeWorkingState,
+        isEmployeeNeedWorkingVisa: this.isEmployeeNeedWorkingVisa,
+        employeeWorkEligibilityDocFilename: this.employeeWorkEligibilityDocFilename,
+        seniorityLevel: this.seniorityLevel,
+        jobTitle: this.jobTitle,
+        scopeOfWork: this.scopeOfWork,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        anySigningBonus: this.anySigningBonus,
+        grossSigningBonusAmount: this.grossSigningBonusAmount,
+        anyVariableCompensation: this.anyVariableCompensation,
+        variableCompensationAmount: this.variableCompensationAmount,
+        employmentType: this.employmentType,
+        partTimeTotalWorkingDaysPerWeek: this.partTimeTotalWorkingDaysPerWeek,
+        partTimeTotalWorkingHoursPerDay: this.partTimeTotalWorkingHoursPerDay,
+        partTimeTotalWorkingHoursPerWeek: this.partTimeTotalWorkingHoursPerWeek,
+        employmentStartDate: this.employmentStartDate,
+        timeOffType: this.timeOffType,
+        timeOffPaidVacationDays: this.timeOffPaidVacationDays,
+        timeOffSickDays: this.timeOffSickDays,
+        contractTermType: this.contractTermType,
+        contractEndDate: this.contractEndDate,
+        probationPeriodType: this.probationPeriodType,
+        probationPeriodTotalDays: this.probationPeriodTotalDays,
+        healthBenefitType: this.healthBenefitType,
+        healthBenefitAmount: this.healthBenefitAmount,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        contractStatus: this.contractStatus,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        contractorJobTitle: this.contractorJobTitle,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        company: this.company.id
+      }).then(() => {
+        this.modals.stockOffer = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
+    async updateEndOfContract () {
+      const isValid = await this.$refs.form.validate()
+      if (!isValid) {
+        return false
+      }
+
+      this.$axios.$patch('/api/full/time/employee/contract/' + this.contractId, {
+        legalEntity: this.legalEntity,
+        employeeFirstName: this.employeeFirstName,
+        employeeLastName: this.employeeLastName,
+        employeePersonalEmailAddress: this.employeePersonalEmailAddress,
+        employeeNationality: this.employeeNationality,
+        employeeWorkingCountry: this.employeeWorkingCountry,
+        employeeWorkingState: this.employeeWorkingState,
+        isEmployeeNeedWorkingVisa: this.isEmployeeNeedWorkingVisa,
+        employeeWorkEligibilityDocFilename: this.employeeWorkEligibilityDocFilename,
+        seniorityLevel: this.seniorityLevel,
+        jobTitle: this.jobTitle,
+        scopeOfWork: this.scopeOfWork,
+        salaryAmount: this.salaryAmount,
+        salaryCurrency: this.salaryCurrency,
+        anySigningBonus: this.anySigningBonus,
+        grossSigningBonusAmount: this.grossSigningBonusAmount,
+        anyVariableCompensation: this.anyVariableCompensation,
+        variableCompensationAmount: this.variableCompensationAmount,
+        employmentType: this.employmentType,
+        partTimeTotalWorkingDaysPerWeek: this.partTimeTotalWorkingDaysPerWeek,
+        partTimeTotalWorkingHoursPerDay: this.partTimeTotalWorkingHoursPerDay,
+        partTimeTotalWorkingHoursPerWeek: this.partTimeTotalWorkingHoursPerWeek,
+        employmentStartDate: this.employmentStartDate,
+        timeOffType: this.timeOffType,
+        timeOffPaidVacationDays: this.timeOffPaidVacationDays,
+        timeOffSickDays: this.timeOffSickDays,
+        contractTermType: this.contractTermType,
+        contractEndDate: this.contractEndDate,
+        probationPeriodType: this.probationPeriodType,
+        probationPeriodTotalDays: this.probationPeriodTotalDays,
+        healthBenefitType: this.healthBenefitType,
+        healthBenefitAmount: this.healthBenefitAmount,
+        stockOptionCurrency: this.stockOptionCurrency,
+        stockOptionAggregateValue: this.stockOptionAggregateValue,
+        stockOptionTotalNumber: this.stockOptionTotalNumber,
+        stockOptionTotalVestingMonth: this.stockOptionTotalVestingMonth,
+        stockOptionVestingCliffMonth: this.stockOptionVestingCliffMonth,
+        stockOptionVestingStartDate: this.stockOptionVestingStartDate,
+        contractStatus: this.contractStatus,
+        contractorName: this.contractorName,
+        contractorEmailAddress: this.contractorEmailAddress,
+        contractorJobTitle: this.contractorJobTitle,
+        clientSignature: this.clientSignature,
+        clientSignedDate: this.clientSignedDate,
+        contractorSignature: this.contractorSignature,
+        contractorSignedDate: this.contractorSignedDate,
+        company: this.company.id
+      }).then(() => {
+        this.modals.endOfContract = false
+        return true
+      }).catch((e) => {
+        const errors = {}
+
+        Object.entries(e.response.data.errors).forEach(function (value) {
+          const key = value[0]
+          errors[key] = value[1]
+        })
+
+        this.$refs.form.setErrors(errors)
+        return false
+      })
+    },
     downloadPdf () {
       window.open('http://api.local.globelise.com/generate/contract/' + this.contractId, '_blank')
     }
@@ -2257,321 +3505,407 @@ export default {
 </script>
 
 <style scoped>
-    .card {
-        height: auto;
-    }
-
-    h1 {
-        font-size: 36px;
-        font-weight: bolder;
-    }
-
-    .form-title {
-        font-family: 'Roboto Condensed';
-        font-style: normal;
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 54px;
-        /* identical to box height */
-        letter-spacing: 0.75px;
-        /* Body Text */
-        color: #313131;
-    }
-
-    .bold-text{
-        font-weight:700 !important;
-    }
-    .contract-type-wrapper {
-        text-align: center;
-    }
+  .card {
+    height: auto;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: bolder;
+  }
+  .form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 54px;
+    /* identical to box height */
+    letter-spacing: 0.75px;
+    /* Body Text */
+    color: #2e4823;
+  }
+  .bold-text{
+    font-weight:700 !important;
+  }
+  .contract-type-wrapper {
+    text-align: center;
+  }
 </style>
 <style lang="scss">
-    .hide-btn {
-        display: block;
+  .full-width {
+    width: 100%;
+  }
+
+  .checkbox-wrapper {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+
+    .custom-toggle {
+      float: left;
+    }
+    .text-label-desc {
+      color: black !important;
+    }
+  }
+
+  .multiple-fields-wrapper {
+    display: inline-table;
+    width: 100%;
+  }
+  .download-contract-link {
+    margin-top: 35px;
+  }
+
+  .contract-type-img {
+    height: 100px;
+  }
+  .text-bold {
+    font-weight: 900;
+    color: #2e4823;
+  }
+  .hide-btn {
+    display: block;
+  }
+  .form-title-wrapper {
+    text-align: center;
+    span {
+      display: block;
+    }
+  }
+  .modal-stock-option {
+    .modal-body {
+      padding: 0 1.5rem;
     }
 
-    .form-title-wrapper {
-        text-align: center;
-        span {
-            display: block;
-        }
-    }
-    .modal-contract-details {
-        .full-contract-details-wrapper {
-            height: 380px;
-            overflow: auto;
-
-            .form-field {
-                color: #6a6969;
-
-                .contract-main-title {
-                    text-align: center;
-                }
-
-                .sub-point {
-                    margin-left: 25px;
-                }
-
-                .sub-sub-point {
-                    margin-left: 50px;
-                }
-
-                b {
-                    color: black;
-                    font-weight: 900;
-                }
-            }
-        }
-
-        .modal-footer {
-            display: block !important;
-            width: 100%;
-
-            .signature-wrapper {
-                width: 100%;
-            }
-
-            .button-wrapper {
-                padding: 10px 0;
-                width: 100%;
-                display: grid;
-            }
-        }
+    h3 {
+      font-size: 22px !important;
     }
 
-    .modal-contractor-invitation {
-        .full-contract-details-wrapper {
-            .form-field {
-                color: #6a6969;
-                margin-bottom: 20px;
-            }
-
-            textarea {
-                height: 100px;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
-
-        .modal-footer {
-            display: block !important;
-            width: 100%;
-
-            .signature-wrapper {
-                width: 100%;
-            }
-
-            .button-wrapper {
-                padding: 10px 0;
-                width: 100%;
-                display: grid;
-            }
-        }
+    .form-field {
+      margin-bottom: 10px;
     }
 
-    .contract-type-actions-wrapper {
-        margin-bottom: 20px;
-
-        .next-btn {
-            width: 100%;
-            margin-bottom: 5px;
-        }
-
-        .back-btn {
-            margin-top: 0;
-            background-color: transparent;
-            border: 0px;
-            box-shadow: none;
-            color: #525f7f;
-            float: left;
-            padding-left: 0px;
-
-            .fa {
-                margin-right: 5px;
-            }
-
-            &.btn-primary:hover, &.btn-primary:active {
-                background-color: transparent;
-                border: 0px;
-                box-shadow: none !important;
-                color: #525f7f;
-            }
-        }
+    .two-collumns {
+      height: 110px;
+      display: block;
     }
-    .signature-wrapper {
-      .form-field {
-        width: 45%;
+
+    .currency-field-wrapper {
+      width: 35%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .aggregate-value-field-wrapper {
+      width: 65%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .total-month-vesting-field-wrapper {
+      width: 49%;
+      display: block;
+      float: left;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .cliff-month-vesting-field-wrapper {
+      width: 50%;
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .information-text-wrapper {
+      background-color: #e8f1fe;
+      margin-bottom: 20px;
+      padding: 18px;
+      border-radius: 8px;
+
+      span {
+        color: #7c8286;
       }
     }
-    .all-form-title {
-        font-family: 'Roboto Condensed';
-        font-style: normal;
-        color: #313131;
-        text-align: center;
-        /*margin-bottom: 30px;*/
+  }
+  .modal-contract-details {
+    .full-contract-details-wrapper {
+      height: 380px;
+      overflow: auto;
 
-        &.form-field {
-            text-align: left;
+      .form-field {
+        color: #6a6969;
+
+        .contract-main-title {
+          text-align: center;
         }
 
-        &.two-colls {
-            &.first-coll {
-                padding-right: 10px;
-            }
-            float: left;
-            display: block;
-            width: 50%;
+        .sub-point {
+          margin-left: 25px;
         }
 
-        &.field-group {
-            .text-label {
-                font-size: 18px;
-            }
-            margin-bottom: 10px;
+        .sub-sub-point {
+          margin-left: 50px;
         }
 
-        h3 {
-            font-size: 18px;
+        b {
+          color: black;
+          font-weight: 900;
         }
-
-        .text-label {
-            font-size: 16px;
-            font-weight: 800 !important;
-            color: #313131;
-        }
-
-        .text-label-desc {
-            display: block;
-            font-size: 14px;
-            color: darkgrey;
-        }
-
-        .form-checkbox {
-            display: block;
-            float: right;
-            margin-top: -40px;
-        }
-
-        .form-control-label {
-            font-size: 16px;
-            font-weight: 800 !important;
-            color: #313131;
-        }
-
-        .text-label-desc {
-            .form-control-label {
-                display: block;
-                font-size: 14px;
-                color: darkgrey;
-            }
-        }
-
-        .form-input {
-            margin: 10px 0 5px 0;
-            width: 100%;
-            height: 100%;
-            outline: none;
-            font-size: 16px;
-            line-height: 24px;
-            color: var(--black);
-        }
-
-        .form-signature {
-            border: none;
-            border-bottom: 1px solid #eee;
-        }
-
-        .text-signature {
-            font-family: 'Birthstone', cursive;
-            color: black;
-            font-size: 24px;
-
-            &.client-signature {
-                font-size: 32px;
-            }
-        }
-
-        &.signed-signature-wrapper {
-            width: 100%;
-            display: inline-table;
-
-            .text-left {
-                float: left;
-            }
-
-            .text-right {
-                display: block;
-                float: right;
-                margin-top: 16px;
-            }
-        }
-
-        .contract-review-field-wrapper {
-            background-color: #f1eeee;
-            padding: 10px 10px;
-            height: 40px;
-            margin: 10px 0 0 0;
-            display: inline-table;
-            width: 100%;
-
-            &.no-background {
-                background-color: #ffffff !important;
-                padding-left: 0px;
-            }
-
-            .text-left {
-                float: left;
-            }
-
-            .text-right {
-                float: right;
-                font-weight: bold !important;
-            }
-
-            .signature-btn {
-                width: 150px;
-            }
-        }
+      }
     }
-    .list-packages{
+    .modal-footer {
+      display: block !important;
+      width: 100%;
+
+      .signature-wrapper {
+        width: 100%;
+      }
+
+      .button-wrapper {
+        padding: 10px 0;
+        width: 100%;
+        display: grid;
+      }
+    }
+  }
+  .modal-contractor-invitation {
+    .full-contract-details-wrapper {
+      .form-field {
+        color: #6a6969;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        height: 100px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    .modal-footer {
+      display: block !important;
+      width: 100%;
+
+      .signature-wrapper {
+        width: 100%;
+      }
+
+      .button-wrapper {
+        padding: 10px 0;
+        width: 100%;
+        display: grid;
+      }
+    }
+  }
+
+  .contract-type-actions-wrapper {
+    margin-bottom: 20px;
+
+    .next-btn {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    .back-btn {
+      margin-top: 0;
+      background-color: transparent;
+      border: 0px;
+      box-shadow: none;
+      color: #525f7f;
+      float: left;
+      padding-left: 0px;
+
+      .fa {
+        margin-right: 5px;
+      }
+
+      &.btn-primary:hover, &.btn-primary:active {
+        background-color: transparent;
+        border: 0px;
+        box-shadow: none !important;
+        color: #525f7f;
+      }
+    }
+  }
+  .signature-wrapper {
+    .form-field {
+      width: 45%;
+      margin-left: 20px;
+    }
+  }
+  .all-form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    color: #313131;
+    text-align: center;
+    /*margin-bottom: 30px;*/
+
+    &.form-field {
+      text-align: left;
+    }
+
+    &.two-colls {
+      &.first-coll {
+        padding-right: 10px;
+      }
+      float: left;
+      display: block;
+      width: 50%;
+    }
+
+    &.field-group {
+      .text-label {
+        font-size: 18px;
+      }
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    .text-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+
+    .text-label-desc {
+      display: block;
+      font-size: 14px;
+      color: darkgrey;
+    }
+
+    .form-checkbox {
+      display: block;
+      float: right;
+      margin-top: -40px;
+    }
+
+    .form-control-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+
+    .text-label-desc {
+      .form-control-label {
+        display: block;
+        font-size: 14px;
+        color: darkgrey;
+      }
+    }
+
+    .form-input {
+      margin: 10px 0 5px 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--black);
+    }
+
+    .form-signature {
+      border: none;
+      border-bottom: 1px solid #eee;
+    }
+
+    .text-signature {
+      font-family: 'Birthstone', cursive;
+      color: black;
+      font-size: 24px;
+
+      &.client-signature {
+        font-size: 32px;
+      }
+    }
+
+    &.signed-signature-wrapper {
+      width: 100%;
+      display: inline-table;
+
+      .text-left {
+        float: left;
+      }
+
+      .text-right {
+        display: block;
+        float: right;
+        margin-top: 16px;
+      }
+    }
+
+    .contract-review-field-wrapper {
+      background-color: #f4f3f5;
+      padding: 10px 10px;
+      height: 40px;
+      margin: 10px 0 0 0;
+      display: inline-table;
+      width: 100%;
+
+      &.no-background {
+        background-color: #ffffff !important;
         padding-left: 0px;
+      }
 
-        li{
-            list-style: none;
-        }
+      .text-left {
+        float: left;
+      }
+
+      .text-right {
+        float: right;
+        font-weight: bold !important;
+      }
+
+      .signature-btn {
+        width: 150px;
+      }
     }
-    .list-item-packages{
-        li{
-            list-style: inside;
-            font-family: 'Roboto Condensed';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 28px;
-            letter-spacing: 0.75px;
-            /* Body Text */
-            color: #000;
-        }
+  }
+  .list-packages{
+    padding-left: 0px;
+
+    li{
+      list-style: none;
     }
-    hr{
-        &.black-line{
-            width: 100%;
-            color: #E0E0E0;
-            background-color: #E0E0E0;
-            margin:1em auto;
-        }
+  }
+  .list-item-packages{
+    li{
+      list-style: inside;
+      font-family: 'Roboto Condensed';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+      letter-spacing: 0.75px;
+      /* Body Text */
+      color: #000;
     }
-    .cards-info{
-        span{
-            letter-spacing: 0.75px;
-            margin-rigt: 6px;
-        }
+  }
+  hr{
+    &.black-line{
+      width: 100%;
+      color: #E0E0E0;
+      background-color: #E0E0E0;
+      margin:1em auto;
     }
-    div{
-        &.divider{
-            border-left: 1px solid #EFF7FF !important;
-        }
+  }
+  .cards-info{
+    span{
+      letter-spacing: 0.75px;
+      margin-rigt: 6px;
     }
+  }
+  div{
+    &.divider{
+      border-left: 1px solid #EFF7FF !important;
+    }
+  }
 </style>

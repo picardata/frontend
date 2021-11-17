@@ -38,7 +38,7 @@
               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="contractStep1.scopeOfWork" name="Scope of Work">
                 <div class="all-form-title bold-text form-field mb-4">
                   <span class="text-label">Scope of Work</span>
-                  <textarea v-model="contractStep1.scopeOfWork" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
+                  <textarea v-model="contractStep1.scopeOfWork" rows="6" type="text" class="form-input form-control" placeholder="Describe the project scope here..." />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </div>
               </ValidationProvider>

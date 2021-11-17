@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a pay as you go contract</span>
+              <span class="form-title page-header">Creating a pay as you go contract</span>
               <span>For contracts with time sheets or submitted work every payment cycle</span>
             </div>
           </div>
@@ -216,7 +216,6 @@ export default {
         formData.append('contractorUserProfile', this.contract.contractorUserProfile)
         formData.append('clientUserProfile', this.contract.clientUserProfile)
         formData.append('customContract', this.contract.customContract)
-        formData.append('customContractFilename', this.contract.customContractFilename)
         formData.append('contractorTaxResidence', this.contract.contractorTaxResidence)
         formData.append('typeOfContractDocument', this.contract.typeOfContractDocument)
 
@@ -437,7 +436,7 @@ export default {
     }
 
     .contract-review-field-wrapper {
-      background-color: #f1eeee;
+      background-color: #f4f3f5;
       padding: 10px 10px;
       height: 40px;
       margin: 10px 0 0 0;

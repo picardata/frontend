@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title page-header">Upload Payslips</span>
+              <span class="form-title page-header">Upload Tax Documents</span>
             </div>
           </div>
           <div class="row mt-3 contract-type-wrapper">
@@ -15,13 +15,12 @@
                 <div class="text-label-desc-special p-4">
                   Sample Format <br>
                   Files should follow the following format <br>
-                  (This is so the system can identify the unique company/employee ID so that payslips will be uploaded in the correct designation)<br><br>
+                  (This is so the system can identify the unique company/employee ID so that tax document will be uploaded in the correct designation)<br><br>
 
                   <span class="special-mention">companyID_employeeID_filename.pdf</span><br>
-                  <span class="special-mention">Example: 34_29_SEP2022.pdf</span>
+                  <span class="special-mention">Example: 34_29_2021-TAX-RETURN.pdf</span>
                 </div>
               </div>
-
               <div class="card border p-4">
                 <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
                   <form @submit.prevent="handleSubmit(post)">
@@ -30,7 +29,7 @@
                       name="image"
                     >
                       <div class="all-form-title bold-text form-field field-group">
-                        <span class="text-label">Upload payslip</span>
+                        <span class="text-label">Upload tax form</span>
                       </div>
                       <div class="all-form-title bold-text form-field">
                         <input
@@ -40,23 +39,24 @@
                           class="btn btn-sm btn-secondary btn-add-doc"
                           accept="application/pdf"
                           multiple
-                          @change="handlePayslipUpload($event)"
+                          @change="handleTaxDocumentUpload($event)"
                         >
                       </div>
 
-                      <span id="successfullMessage" ref="successfullMessage" class="mt-4" style="display: none;">Payslis are uploaded successfully</span>
+                      <span id="successfullMessage" ref="successfullMessage" class="mt-4" style="display: none;">Tax Documents are uploaded successfully</span>
                     </ValidationProvider>
                   </form>
                 </ValidationObserver>
               </div>
-              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="uploadPayslip">
+
+              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="uploadTaxDocument">
                 Upload
               </button>
               <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="modals.employeeList = true">
                 Get Company ID
               </button>
-              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
-                View Uploaded Payslips
+              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="modals.uploadedTaxDocuments = true">
+                View Uploaded Tax Documents
               </button>
             </div>
           </div>
@@ -64,15 +64,15 @@
           <div class="row mt-3 mb-4">
             <div class="col-12" />
           </div>
-          <modal :show.sync="modals.uploadedPayslips" size="lg" modal-classes="modal-contract-details">
+          <modal :show.sync="modals.uploadedTaxDocuments" size="lg" modal-classes="modal-contract-details">
             <template slot="header">
               <h2 class="mb-0">
-                Uploaded Payslips
+                Uploaded TaxDocuments
               </h2>
             </template>
-            <UploadedPayslipList :uploaded-payslips-key="uploadedPayslipsKey" :uploaded-payslips="uploadedPayslips" />
+            <UploadedTaxDocumentList :uploaded-tax-documents-key="uploadedTaxDocumentsKey" :uploaded-tax-documents="uploadedTaxDocuments" />
             <template slot="footer">
-              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = false">
+              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedTaxDocuments = false">
                 <span>Close</span>
               </button>
             </template>
@@ -99,8 +99,8 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import loaderMixin from '~/mixins/loader'
-import UploadedPayslipList from '~/components/pages/payslips/UploadedPayslipList'
-import EmployeeList from '~/components/pages/payslips/EmployeeList'
+import UploadedTaxDocumentList from '~/components/pages/taxDocuments/UploadedTaxDocumentList'
+import EmployeeList from '~/components/pages/taxDocuments/EmployeeList'
 
 export default {
   name: 'IndexVue',
@@ -109,7 +109,7 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    UploadedPayslipList,
+    UploadedTaxDocumentList,
     EmployeeList
   },
   mixins: [
@@ -126,18 +126,18 @@ export default {
   },
   data () {
     return {
-      uploadedPayslipsKey: 1,
+      uploadedTaxDocumentsKey: 1,
       employeeListKey: 1,
-      uploadedPayslips: [],
-      newUploadedPayslips: [],
+      uploadedTaxDocuments: [],
+      newUploadedTaxDocuments: [],
       crumbs: [
         {
-          name: 'Upload Payslip',
-          path: '/payslips/upload-payslips'
+          name: 'Upload Tax Document',
+          path: '/tax-documents/upload-tax-documents'
         }
       ],
       modals: {
-        uploadedPayslips: false,
+        uploadedTaxDocuments: false,
         employeeList: false
       },
       submenu: true
@@ -146,55 +146,55 @@ export default {
   methods: {
     onFormChange () {
     },
-    handlePayslipUpload (event) {
-      this.newUploadedPayslips = event.target.files
+    handleTaxDocumentUpload (event) {
+      this.newUploadedTaxDocuments = event.target.files
     },
-    uploadPayslip () {
-      if (this.newUploadedPayslips.length > 0) {
+    uploadTaxDocument () {
+      if (this.newUploadedTaxDocuments.length > 0) {
         const axiosCall = this.$axios
         const apiHost = this.$config.axios.baseURL
-        const payslips = this.uploadedPayslips
+        const taxDocuments = this.uploadedTaxDocuments
 
-        this.newUploadedPayslips.forEach(function (newUploadedPayslip) {
-          const originalFileName = newUploadedPayslip.name.replace(/\.[^/.]+$/, '')
+        this.newUploadedTaxDocuments.forEach(function (newUploadedTaxDocument) {
+          const originalFileName = newUploadedTaxDocument.name.replace(/\.[^/.]+$/, '')
           const originalFileNameArr = originalFileName.split('_')
 
           const formData = new FormData()
-          formData.append('payslipDocument', newUploadedPayslip)
+          formData.append('taxDocument', newUploadedTaxDocument)
           formData.append('name', originalFileNameArr[2])
           formData.append('type', 'Upload')
           formData.append('company', originalFileNameArr[0])
           formData.append('employee', originalFileNameArr[1])
           formData.append('status', 1)
 
-          axiosCall.$post('/api/payslip/',
+          axiosCall.$post('/api/tax/document/',
             formData,
             {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
             }).then((data) => {
-            const payslip = {
+            const taxDocument = {
               name: data.name,
               filename: data.filename,
               employee: data.employee.userProfile.firstname,
               employeeId: data.employee.id,
-              url: apiHost + '/uploads/payslip_document/' + data.filename,
+              url: apiHost + '/uploads/tax_document/' + data.filename,
               uuid: data.uuid,
               companyId: data.company.id
             }
 
-            payslips.push(payslip)
+            taxDocuments.push(taxDocument)
           }).catch(() => {
             return false
           })
         })
-        this.uploadedPayslips = payslips
+        this.uploadedTaxDocuments = taxDocuments
         this.$refs.successfullMessage.style.display = 'block'
-        this.modals.uploadedPayslips = true
+        this.modals.uploadedTaxDocuments = true
       }
 
-      this.uploadedPayslipsKey++
+      this.uploadedTaxDocumentsKey++
     }
   }
 }
@@ -270,7 +270,6 @@ export default {
     font-size: 14px;
     padding: 10px 20px;
   }
-
   .contract-type-wrapper {
     text-align: center;
   }
