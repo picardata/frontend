@@ -272,13 +272,15 @@ export default {
   ],
   async asyncData (context) {
     const contractorUserProfile = context.app.$auth.user.userProfile.id
+    const employeeId = context.app.$auth.user.userProfile.employees[0].id
+
     const [profile, payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts, uploadedPayslips, uploadedTaxDocuments] = await Promise.all([
       context.app.$axios.get('/api/user-profiles/' + contractorUserProfile + '/employees/me'),
       context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
       context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&contractorUserProfile=' + contractorUserProfile),
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile),
-      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + contractorUserProfile)
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + employeeId),
+      context.app.$axios.get('/api/tax/document/?order[updatedAt]=asc&page_number=1&items_per_page=999&employee=' + employeeId)
     ])
 
     return {
