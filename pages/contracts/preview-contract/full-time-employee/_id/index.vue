@@ -6,7 +6,7 @@
           <div class="row align-items-center py-4">
             <div class="">
               <div class="">
-                <h2 class="form-title">
+                <h2 class="form-title  page-header">
                   {{ employeeFirstName }} {{ employeeLastName }} - {{ jobTitle }}
                 </h2>
                 <span class="mr-4">{{ contractStatusOptions[contractStatus].name }}</span>

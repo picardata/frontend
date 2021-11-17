@@ -28,13 +28,6 @@
           </tbody>
         </table>
       </div>
-      <Paging
-          style="width: 100%"
-          :data="taxDocuments"
-          :get-total-page="getTotalPage"
-          :get-current-page="getCurrentPage"
-          :set-current-page="setCurrentPage"
-      />
     </div>
   </div>
 </template>

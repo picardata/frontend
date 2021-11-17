@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a pay as you go contract</span>
+              <span class="form-title page-header">Creating a pay as you go contract</span>
               <span>For contracts with time sheets or submitted work every payment cycle</span>
             </div>
           </div>

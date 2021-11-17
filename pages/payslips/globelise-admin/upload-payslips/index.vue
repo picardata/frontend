@@ -2,62 +2,60 @@
   <div class="row picardata-form-index">
     <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
       <div>
-        <base-header type="grey" class="pb-6">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <route-breadcrumb :crumbs="crumbs" />
-              </nav>
-            </div>
-          </div>
-        </base-header>
-        <div class="container-fluid mt--6">
+        <div class="container-fluid pt-6">
           <div class="row mt-3">
-            <div class="col-12">
-              <span class="form-title">Upload Payslips</span>
+            <div class="col-12 form-title-wrapper">
+              <span class="form-title page-header">Upload Payslips</span>
             </div>
           </div>
-          <div class="row mt-3 mb-4">
-            <div class="col-12">
-              <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
-                <form @submit.prevent="handleSubmit(post)">
-                  <ValidationProvider
-                    ref="additionalDocument"
-                    name="image"
-                  >
-                    <div class="all-form-title bold-text form-field mb-4">
-                      <span class="text-label" /><br>
-                      <span class="text-label-desc">
-                        This feature allows you to upload payslip files for company and employees. You may upload 100 files at a time and each file should be not more than 2MB in size. To upload payslips for employees, files should follow the following pattern format:
-                      </span><br><br>
-                      <span style="font-weight: 800;font-size: 16px;"><b>companyID_employeeID_filename.pdf</b></span><br>
-                      <span style="font-weight: 800;font-size: 16px;">
-                        <b>Example: 34_29_SEP2022.pdf</b>
-                      </span><br>
-                      <button type="button" class="btn btn-sm btn-primary btn-add next-btn" @click.prevent="modals.employeeList = true">
-                        Get Company ID
-                      </button>
-                      <br><br>
-                      <br>
-                      <input
-                        id="additionalDocument"
-                        ref="additionalDocument"
-                        type="file"
-                        class="btn btn-sm btn-secondary btn-add-doc"
-                        accept="application/pdf"
-                        multiple
-                        @change="handlePayslipUpload($event)"
-                      >
-                    </div>
+          <div class="row mt-3 contract-type-wrapper">
+            <div class="col-3" />
+            <div class="col-7">
+              <div class="all-form-title mb-4">
+                <div class="text-label-desc p-4">
+                  Sample Format <br>
+                  Files should follow the following format <br>
+                  (This is so the system can identify the unique company/employee ID so that payslips will be uploaded in the correct designation)<br><br>
 
-                    <span id="successfullMessage" ref="successfullMessage" style="display: none;">Payslips are uploaded successfully</span><br><br>
-                  </ValidationProvider>
-                </form>
-              </ValidationObserver>
-              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="uploadPayslip">
+                  <span class="special-mention">companyID_employeeID_filename.pdf</span><br>
+                  <span class="special-mention">Example: 34_29_SEP2022.pdf</span>
+                </div>
+              </div>
+
+              <div class="card border p-4">
+                <ValidationObserver ref="form" v-slot="{ handleSubmit }" @keyup="onFormChange">
+                  <form @submit.prevent="handleSubmit(post)">
+                    <ValidationProvider
+                      ref="additionalDocument"
+                      name="image"
+                    >
+                      <div class="all-form-title bold-text form-field field-group">
+                        <span class="text-label">Upload payslip</span>
+                      </div>
+                      <div class="all-form-title bold-text form-field">
+                        <input
+                          id="additionalDocument"
+                          ref="additionalDocument"
+                          type="file"
+                          class="btn btn-sm btn-secondary btn-add-doc"
+                          accept="application/pdf"
+                          multiple
+                          @change="handlePayslipUpload($event)"
+                        >
+                      </div>
+
+                      <span id="successfullMessage" ref="successfullMessage" class="mt-4" style="display: none;">Payslis are uploaded successfully</span>
+                    </ValidationProvider>
+                  </form>
+                </ValidationObserver>
+              </div>
+              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="uploadPayslip">
                 Upload
               </button>
-              <button type="button" class="btn btn-lg btn-primary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
+              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="modals.employeeList = true">
+                Get Company ID
+              </button>
+              <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="modals.uploadedPayslips = true">
                 View Uploaded Payslips
               </button>
             </div>
@@ -272,9 +270,130 @@ export default {
     font-size: 14px;
     padding: 10px 20px;
   }
+
+  .contract-type-wrapper {
+    text-align: center;
+  }
 </style>
 
 <style lang="scss">
+  .form-title-wrapper {
+    text-align: center;
+    span {
+      display: block;
+    }
+  }
+  .all-form-title {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    color: #313131;
+    text-align: center;
+    /*margin-bottom: 30px;*/
+
+    &.form-field {
+      text-align: left;
+    }
+
+    &.two-colls {
+      &.first-coll {
+        padding-right: 10px;
+      }
+      float: left;
+      display: block;
+      width: 50%;
+    }
+
+    &.field-group {
+      .text-label {
+        font-size: 18px;
+      }
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    .text-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+    .entity-name {
+      font-size: 20px !important;
+      margin: 10px 0;
+      display: block;
+    }
+
+    .text-label-desc {
+      display: block;
+      font-size: 14px;
+      color: #2E4823;
+      background-color: #eaf1d2;
+      text-align: left;
+      line-height: 20px;
+      .special-mention {
+        font-family: 'Roboto', sans-serif;
+      }
+    }
+
+    .form-checkbox {
+      display: block;
+      float: right;
+      margin-top: -40px;
+    }
+
+    .form-control-label {
+      font-size: 16px;
+      font-weight: 800 !important;
+      color: #313131;
+    }
+
+    .text-label-desc {
+      .form-control-label {
+        display: block;
+        font-size: 14px;
+        color: darkgrey;
+      }
+    }
+
+    .form-input {
+      margin: 10px 0 5px 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--black);
+    }
+
+    .form-signature {
+      border: none;
+      border-bottom: 1px solid #eee;
+      font-family: 'Birthstone', cursive;
+      color: black;
+      font-size: 24px;
+    }
+
+    .contract-review-field-wrapper {
+      background-color: #f4f3f5;
+      padding: 10px 10px;
+      height: 40px;
+      margin: 10px 0 0 0;
+      display: inline-table;
+      width: 100%;
+
+      .text-left {
+        float: left;
+      }
+
+      .text-right {
+        float: right;
+        font-weight: bold !important;
+      }
+    }
+  }
+
   .list-packages{
     padding-left: 0px;
     li{

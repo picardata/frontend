@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper text-left">
-              <span class="form-title">Contract Type</span>
+              <span class="form-title page-header">Contract Type</span>
               <span>Start creating your contract by selecting the most relevant type.
               </span>
             </div>

@@ -32,13 +32,6 @@
           </tbody>
         </table>
       </div>
-      <Paging
-          style="width: 100%"
-          :data="invoices"
-          :get-total-page="getTotalPage"
-          :get-current-page="getCurrentPage"
-          :set-current-page="setCurrentPage"
-      />
     </div>
   </div>
 </template>

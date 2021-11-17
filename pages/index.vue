@@ -17,7 +17,7 @@
             <div class="col-12">
               <div v-if="isGlobeliseAdmin === true" class="row">
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text row">
                         <div class="col-6">
@@ -35,7 +35,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text">
                         <div>
@@ -54,7 +54,7 @@
               </div>
               <div v-else-if="isCompanyAdmin === true" class="row">
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text row">
                         <div class="col-6">
@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border p-4">
+                  <div class="card border table-primary p-4">
                     <div class="mr-3">
                       <div class="all-form-title bold-text">
                         <div>
@@ -91,7 +91,7 @@
               </div>
               <div v-else class="row">
                 <div class="col-6">
-                  <div class="card border">
+                  <div class="card border table-primary">
                     <div class="">
                       <div class="">
                         <div class="border-0 card-header">
@@ -116,7 +116,7 @@
                           <tbody v-if="myContracts.length">
                             <tr v-for="(contract, index) in myContracts" :key="index">
                               <td>
-                                <NuxtLink :to="`${contract.url}`">
+                                <NuxtLink :to="`${contract.url}`" class="">
                                   <span class="contract-name">{{ contract.contractName }}</span> <br>
                                   <span class="contract-type">{{ contract.contractType }}</span>
                                 </NuxtLink>
@@ -135,23 +135,19 @@
                           </tbody>
                           <tbody v-else>
                             <tr>
-                              <td>There is no contract</td>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no contract</span>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                      <Paging
-                        style="width: 100%"
-                        :data="myContracts"
-                        :get-total-page="getMyContractTotalPage"
-                        :get-current-page="getMyContractCurrentPage"
-                        :set-current-page="setMyContractCurrentPage"
-                      />
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card border">
+                  <div class="card border table-primary">
                     <div class="">
                       <div class="">
                         <div class="border-0 card-header">
@@ -183,21 +179,24 @@
                               </td>
                               <td class="contract-amount-wrapper">
                                 <a :href="`${payslip.url}`" target="_blank">
-                                  <span class="contract-name">{{ payslip.filename }}</span>
+                                  <span class="contract-name file-url">{{ payslip.filename }}</span>
                                 </a>
                               </td>
                             </tr>
                           </tbody>
                           <tbody v-else>
                             <tr>
-                              <td>There is no payslips</td>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no payslip</span>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
-                  <div class="card border">
+                  <div class="card border table-primary">
                     <div class="">
                       <div class="">
                         <div class="border-0 card-header">
@@ -229,14 +228,17 @@
                               </td>
                               <td class="contract-amount-wrapper">
                                 <a :href="`${taxDocument.url}`" target="_blank">
-                                  <span class="contract-name">{{ taxDocument.filename }}</span>
+                                  <span class="contract-name file-url">{{ taxDocument.filename }}</span>
                                 </a>
                               </td>
                             </tr>
                           </tbody>
                           <tbody v-else>
                             <tr>
-                              <td>There is no tax documents</td>
+                              <td colspan="3" class="no-data">
+                                <img src="~/assets/menu_icons/Not_found.png" alt="No data"><br><br>
+                                <span>There is no tax document</span>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -433,6 +435,27 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+  .table-primary {
+    color: #2E4823 !important;
+
+    th, td {
+      color: #2E4823 !important;
+      font-weight: 900 !important;
+      letter-spacing: 0;
+    }
+
+    .file-url {
+      color: #6BB745 !important;
+    }
+
+    .no-data {
+      text-align: center;
+
+      img {
+        width: 120px;
+      }
+    }
+  }
   .my-contracts-table {
     font-family: 'Roboto Condensed';
 
@@ -539,8 +562,9 @@ export default {
       margin-right: 24px;
     }
     .name{
-      font-weight: bolder;
-      font-size: 24px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 28px;
       color: #2E4823;
     }
     .role{
@@ -561,9 +585,10 @@ export default {
       margin-right: 24px;
     }
     .name{
+      font-family: 'Roboto', sans-serif;
       font-weight: 600;
-      font-size: 20px;
-      color: #14142B;
+      font-size: 28px;
+      color: #2E4823;
     }
     .role{
       font-weight: 500;

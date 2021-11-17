@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12 form-title-wrapper">
-              <span class="form-title">Creating a milestone contract</span>
+              <span class="form-title page-header">Creating a milestone contract</span>
             </div>
           </div>
           <div class="row mt-6 contract-type-wrapper">
