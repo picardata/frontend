@@ -12,7 +12,7 @@
             <div class="col-3" />
             <div class="col-7">
               <div class="all-form-title mb-4">
-                <div class="text-label-desc p-4">
+                <div class="text-label-desc-special p-4">
                   Sample Format <br>
                   Files should follow the following format <br>
                   (This is so the system can identify the unique company/employee ID so that payslips will be uploaded in the correct designation)<br><br>
@@ -325,7 +325,7 @@ export default {
       display: block;
     }
 
-    .text-label-desc {
+    .text-label-desc-special {
       display: block;
       font-size: 14px;
       color: #2E4823;

@@ -92,7 +92,7 @@
                 </h2>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div v-if="typeOfContractDocument === '1'" class="all-form-title bold-text form-field">
                     <img class="contract-type-img mr-4 text-right" src="~/assets/contract/pay_as_you_go_contract.png" alt="Pay as you go contract">
 
@@ -114,7 +114,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Contract details </span><br>
                     <div class="contract-review-field-wrapper">
@@ -133,7 +133,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Job Role </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.jobRole = true">
@@ -151,7 +151,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Payment Details </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.paymentDetails = true">
@@ -180,7 +180,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">First payment </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.firstPayment = true">
@@ -194,7 +194,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Stock options </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.stockOffer = true">
@@ -210,7 +210,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label"> Scope </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.scope = true">
@@ -223,7 +223,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Country compliance </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.countryCompliance = true">
@@ -237,7 +237,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">Other specifics</span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.otherSpecific = true">
@@ -269,7 +269,7 @@
                 </div>
               </div>
               <div class="card border p-4">
-                <div class="mr-3">
+                <div>
                   <div class="all-form-title bold-text form-field">
                     <span class="text-label">End of contract </span>
                     <button v-if="contractStatus === '1'" type="button" class="btn btn-sm btn-tertiary float-right mr-0" @click.prevent="modals.endOfContract = true">
