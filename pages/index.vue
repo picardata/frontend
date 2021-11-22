@@ -440,6 +440,9 @@ export default {
   .table-primary {
     color: #2E4823 !important;
 
+    td {
+      border-color: #e9ecef;
+    }
     th, td {
       color: #2E4823 !important;
       font-weight: 900 !important;
