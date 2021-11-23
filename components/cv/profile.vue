@@ -39,7 +39,7 @@
             </div>
           </ValidationProvider>
 
-          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.street" name="street">
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.street" name="Street">
             <div class="all-form-title bold-text form-field mb-4">
               <span class="text-label">Street</span>
               <input v-model="profileForm.street" type="text" class="form-input form-control" placeholder="">
@@ -47,7 +47,7 @@
             </div>
           </ValidationProvider>
 
-          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.postalCode" name="postalCode">
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.postalCode" name="Postal Code">
             <div class="all-form-title bold-text form-field mb-4">
               <span class="text-label">Postal Code</span>
               <input v-model="profileForm.postalCode" type="text" class="form-input form-control" placeholder="">
@@ -55,7 +55,7 @@
             </div>
           </ValidationProvider>
 
-          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.taxID" name="taxID">
+          <ValidationProvider v-slot="{ errors }" mode="passive" vid="profileForm.taxID" name="TAX ID">
             <div class="all-form-title bold-text form-field mb-4">
               <span class="text-label">Tax ID</span>
               <input v-model="profileForm.taxID" type="text" class="form-input form-control" placeholder="">
@@ -63,7 +63,7 @@
             </div>
           </ValidationProvider>
 
-          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.phoneNumber" name="phoneNumber">
+          <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="profileForm.phoneNumber" name="Phone Number">
             <div class="all-form-title bold-text form-field mb-4">
               <span class="text-label">Phone Number</span>
               <VuePhoneNumberInput
