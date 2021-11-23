@@ -145,6 +145,30 @@
                       </div>
                     </div>
                   </div>
+                  <div class="card border table-primary">
+                    <div class="">
+                      <div class="">
+                        <div class="border-0 card-header">
+                          <h2 class="mb-0">
+                            My CV
+                          </h2>
+                        </div>
+
+                        <table class="table table-striped my-contracts-table">
+                          <tbody>
+                            <tr>
+                              <td colspan="3" class="no-data">
+                                <img class="mb-4" style="height: 150px" src="~/assets/onboarding/individual.png" alt="Edit CV"><br>
+                                <button type="button" class="btn btn-lg btn-tertiary mr-0 pl-4 pr-4" @click.prevent="goToEditCVPage">
+                                  View
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-6">
                   <div class="card border table-primary">
@@ -418,6 +442,9 @@ export default {
     this.myTaxDocuments = taxDocuments
   },
   methods: {
+    goToEditCVPage () {
+      window.location.href = '/cv'
+    },
     setMyContractCurrentPage (currentPage) {
       if (currentPage > 0 && currentPage <= this.myContractsTotalPage) {
         this.myContractsCurrentPage = currentPage
@@ -440,6 +467,9 @@ export default {
   .table-primary {
     color: #2E4823 !important;
 
+    td {
+      border-color: #e9ecef;
+    }
     th, td {
       color: #2E4823 !important;
       font-weight: 900 !important;

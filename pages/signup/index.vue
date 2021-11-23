@@ -4,9 +4,15 @@
       <div class="container picardata-container">
         <div class="row">
           <div class="col-md-12">
-            <div class="title-wrapper text-center mb-5">
+            <div v-if="isCVSignupFlow" class="title-wrapper mb-5 text-left text-primary">
+              <h2>Create a free account</h2>
+              <p>Be notified when there is a match between your profile with an employer's</p>
+              <p>At Globelise, our automated intelligence system works through thousand of employer and employee profiles everyday to find matches in expectations in terms of interest, skillset, personalities, working styles and work culture.</p>
+              <p>Build your professional career with ease, by letting Globelise help you find your ideal employer from anywhere in the world with just a few clicks.</p>
+            </div>
+            <div v-else class="title-wrapper text-center mb-5">
               <h2>Sign up</h2>
-              <span>Choose sign up method</span>
+              <span />
             </div>
 
             <div class="body-form-wrapper">
@@ -168,7 +174,14 @@ export default {
       password: '',
       passwordAgain: '',
       firstname: '',
-      termAndPrivacy: false
+      termAndPrivacy: false,
+      isCVSignupFlow: false,
+      userProfileId: null
+    }
+  },
+  created () {
+    if (Object.hasOwnProperty.call(this.$route.query, 'cv')) {
+      this.isCVSignupFlow = true
     }
   },
   mounted () {
@@ -187,15 +200,17 @@ export default {
       if (!this.isLogin) {
         let result
         try {
-          result = await this.$axios
-            .$post('/api/users/', {
-              username: this.username,
-              password: this.password,
-              userProfile: {
-                firstname: this.firstname,
-                email: this.username
-              }
-            })
+          result = await this.$axios.$post('/api/users/', {
+            username: this.username,
+            password: this.password,
+            userProfile: {
+              firstname: this.firstname,
+              email: this.username
+            }
+          }).then((data) => {
+            this.userProfileId = data.userProfile.id
+            console.log(data)
+          })
         } catch (e) {
           this.errors = []
           for (const field of ['username', 'password']) {
@@ -230,6 +245,32 @@ export default {
             const contractType = this.$route.query.type
 
             this.$router.push('/onboarding?id=' + id + '&type=' + contractType)
+          } else if (Object.hasOwnProperty.call(this.$route.query, 'cv')) {
+            const employeeData = {
+              userProfile: this.userProfileId,
+              role: '',
+              occupation: '',
+              taxID: '',
+              nationality: '',
+              countryOfTaxResidence: '',
+              timezone: '',
+              street: '',
+              city: '',
+              postalCode: '',
+              phoneNumber: '',
+              isCompanyAdmin: false,
+              isGlobeliseAdmin: false,
+              company: null
+            }
+
+            this.$axios.$post('/api/employees/',
+              employeeData
+            ).then((data) => {
+              this.$auth.setUser(data)
+              window.location.href = '/cv/edit'
+            }).catch(() => {
+              return false
+            })
           } else {
             this.$router.push('/onboarding')
           }
@@ -561,6 +602,7 @@ input:focus:-ms-input-placeholder {
     font-size: 32px;
     font-weight: 900;
     color: #2e4823;
+    font-family: 'Roboto', sans-serif;
   }
 }
 
