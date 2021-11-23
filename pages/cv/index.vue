@@ -4,46 +4,117 @@
       <div>
         <div class="container-fluid pt-6">
           <div class="row mt-3">
-            <div class="col-12 form-title-wrapper">
-              <span class="form-title page-header">Build your resume</span>
+            <div class="col-1" />
+            <div class="col-11 form-title-wrapper">
+              <span class="form-title page-header float-left">My CV</span>
             </div>
           </div>
-          <div class="row mt-6 contract-type-wrapper">
-            <div class="col-3" />
+          <div class="row mt-2 contract-type-wrapper full-contract-details">
+            <div class="col-1" />
             <div class="col-7">
-              <div class="row">
-                <div class="col-12">
-                  <div v-if="step === 1">
-                    <profile ref="profile" :profile="profile" :employee="employee" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-
-                  <div v-if="step === 2">
-                    <education ref="education" :educations="educations" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-
-                  <div v-if="step === 3">
-                    <workExperience ref="workExperience" :work-experiences="workExperiences" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-
-                  <div v-if="step === 4">
-                    <skill ref="skill" :skills="skills" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-
-                  <div v-if="step === 5">
-                    <additionalInfo ref="additionalInfo" :additional-info="additionalInfo" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
-                  </div>
-
-                  <div class="contract-type-actions-wrapper">
-                    <button v-if="step < 6" type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="next">
-                      Next
+              <div class="card border p-4">
+                <div>
+                  <div class="all-form-title bold-text form-field">
+                    <button type="button" class="btn btn-lg btn-tertiary float-right mr-0 pl-4 pr-4" @click.prevent="goToEditPage">
+                      Edit
                     </button>
+                    <span class="text-label fs-20 ff-roboto"> {{ profile.firstName }} {{ profile.lastName }}</span><br>
+                    <span class="text-label fs-14"> {{ employee.street }} {{ employee.city }} {{ employee.postalCode }} {{ employee.countryOfTaxResidence }} </span><br>
+                    <span class="text-label fs-14"> {{ profile.userName }}</span><br>
+                    <span class="text-label fs-14"> {{ employee.phoneNumber }}</span><br>
+                  </div>
 
-                    <button v-if="step > 1 && step < 6" type="button" class="btn btn-lg btn-primary btn-add back-btn" @click.prevent="back">
-                      <i class="fas fa-arrow-left" />
-                      Back
-                    </button>
+                  <div class="all-form-title bold-text form-field pl-4 pt-4 pb-2">
+                    <div class="pb-3 mb-3 border-bottom">
+                      <span class="text-label fs-16 ff-roboto font-weight-600"> Work Experience</span>
+                    </div>
+                    <div v-for="(workExperience, index) in workExperiences" :key="'workExperiences-' + index" class="pb-3">
+                      <span class="text-label fs-14"> {{ workExperience.jobTitle }} </span><br>
+                      <span class="text-label fs-14"> {{ workExperience.company }} {{ workExperience.city }}</span><br>
+                      <span class="text-label fs-14"> From {{ $moment(workExperience.startDate).format("MMMM YYYY") }} to {{ $moment(workExperience.endDate).format("MMMM YYYY") }}</span><br>
+                    </div>
+                  </div>
+
+                  <div class="all-form-title bold-text form-field pl-4 pt-4 pb-2">
+                    <div class="pb-3 mb-3 border-bottom">
+                      <span class="text-label fs-16 ff-roboto font-weight-600"> Education</span>
+                    </div>
+                    <div v-for="(education, index) in educations" :key="'educations-' + index" class="pb-3">
+                      <span class="text-label fs-14"> {{ degrees[education.degree].name }} </span><br>
+                      <span class="text-label fs-14"> {{ education.school }} {{ education.city }}</span><br>
+                      <span class="text-label fs-14"> From {{ $moment(education.startDate).format("MMMM YYYY") }} to {{ $moment(education.endDate).format("MMMM YYYY") }}</span><br>
+                    </div>
+                  </div>
+
+                  <div class="all-form-title bold-text form-field pl-4 pt-4 pb-2">
+                    <div class="pb-3 mb-3 border-bottom">
+                      <span class="text-label fs-16 ff-roboto font-weight-600"> Skills</span>
+                    </div>
+                    <div v-for="(skill, index) in skills" :key="'educations-' + index" class="pb-1">
+                      <span class="text-label fs-14"> {{ skill.name }} </span><br>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="pl-4 pt-2 cv-right-menu text-left">
+                <a href="#" class="p-3 border-bottom text-left text-secondary">
+                  <img src="~/assets/menu_icons/delete.png" alt="Delete CV">
+                  <span class="pl-2">
+                    Delete this resume
+                  </span>
+
+                </a>
+                <a href="#" class="p-3 border-bottom text-left text-secondary">
+                  <img src="~/assets/menu_icons/Download.png" alt="Download as PDF">
+                  <span class="pl-2">
+                    Download as PDF
+                  </span>
+                </a>
+                <a href="#" class="p-3 border-bottom text-left text-secondary">
+                  <img src="~/assets/menu_icons/info.png" alt="Visit the help center">
+                  <span class="pl-2">
+                    Visit the help center
+                  </span>
+                </a>
+                <a href="#" class="p-3 border-bottom text-left text-secondary">
+                  <img src="~/assets/menu_icons/Contracts.png" alt="View CV as Public">
+                  <span class="pl-2">
+                    View CV as Public
+                  </span>
+                </a>
+              </div>
+
+              <div class="pl-4 pt-6 cv-right-menu text-left">
+                <span class="text-primary">Resume private settings</span>
+                <a href="#" class="p-3 text-left text-primary">
+                  <img src="~/assets/menu_icons/Tick.png" alt="Delete CV">
+                  <span class="pl-2">
+                    Draft
+                  </span><br>
+
+                  <span class="description d-block">No view access</span>
+
+                </a>
+                <a href="#" class="p-3 text-left text-primary">
+                  <img src="~/assets/menu_icons/Untick.png" alt="Download as PDF">
+                  <span class="pl-2">
+                    Public
+                  </span><br>
+                  <span class="description d-block">
+                    Can be found and viewed by all employers on Globelise via search candidate feature, employers you are applying to and via view access link that you share
+                  </span>
+                </a>
+                <a href="#" class="p-3 text-left text-primary">
+                  <img src="~/assets/menu_icons/Untick.png" alt="Visit the help center">
+                  <span class="pl-2">
+                    Private
+                  </span><br>
+                  <span class="description d-block">
+                    Can be found and viewed by employers you are applying to and via view access link that you share
+                  </span>
+                </a>
               </div>
             </div>
           </div>
@@ -66,21 +137,11 @@
 <script>
 import 'vue-phone-number-input/dist/vue-phone-number-input.css'
 import 'vue-country-region-select'
-import profile from '@/components/cv/profile'
-import education from '@/components/cv/education'
-import workExperience from '@/components/cv/workExperience'
-import skill from '@/components/cv/skill'
-import additionalInfo from '@/components/cv/additionalInfo'
 
 export default {
   layout: 'argon',
   auth: true,
   components: {
-    profile,
-    education,
-    workExperience,
-    skill,
-    additionalInfo
   },
   async asyncData (context) {
     const employeeId = context.app.$auth.user.userProfile.employees[0].id
@@ -107,10 +168,45 @@ export default {
     return {
       step: 1,
       submenu: true,
+      degrees: [
+        {
+          name: 'Elementary School',
+          id: 0
+        },
+        {
+          name: 'Junior High School',
+          id: 1
+        },
+        {
+          name: 'Senior High School',
+          id: 2
+        },
+        {
+          name: 'Associate Degree',
+          id: 3
+        },
+        {
+          name: 'Bachelor Degree',
+          id: 4
+        },
+        {
+          name: 'Master Degree',
+          id: 5
+        },
+        {
+          name: 'Doctoral Degree',
+          id: 6
+        },
+        {
+          name: 'Other',
+          id: 7
+        }
+      ],
       profile: {
         firstName: '',
         lastName: '',
-        id: ''
+        id: '',
+        userName: ''
       },
       employee: {
         id: '',
@@ -188,6 +284,7 @@ export default {
   created () {
     this.profile.firstName = this.profileRaw.user.userProfile.firstname
     this.profile.lastName = this.profileRaw.user.userProfile.lastname
+    this.profile.userName = this.profileRaw.user.username
     this.profile.id = this.profileRaw.user.userProfile.id
     this.employee.countryOfTaxResidence = this.profileRaw.user.userProfile.employees[0].countryOfTaxResidence
     this.employee.city = this.profileRaw.user.userProfile.employees[0].city
@@ -305,336 +402,8 @@ export default {
     }
   },
   methods: {
-    changeFormComplete (complete) {
-      this.isProfileCompleted = complete
-    },
-    async next () {
-      if (this.step === 1) {
-        const isValid = await this.$refs.profile.post()
-        if (!isValid) {
-          return false
-        }
-
-        this.step++
-
-        this.$axios.$patch('/api/employees/' + this.employee.uuid, {
-          userProfile: this.employee.userProfile,
-          role: this.employee.role,
-          occupation: this.employee.occupation,
-          taxID: this.employee.taxID,
-          nationality: this.employee.nationality,
-          countryOfTaxResidence: this.employee.countryOfTaxResidence,
-          timezone: this.employee.timezone,
-          street: this.employee.street,
-          city: this.employee.city,
-          postalCode: this.employee.postalCode,
-          phoneNumber: this.employee.phoneNumber,
-          isCompanyAdmin: this.employee.isCompanyAdmin,
-          isGlobeliseAdmin: this.employee.isGlobeliseAdmin,
-          company: this.employee.company
-        }).then(() => {
-          this.$axios.$patch('/api/user-profiles/' + this.profile.id, {
-            firstname: this.profile.firstName,
-            lastname: this.profile.lastName
-          }).then(() => {
-            return true
-          }).catch((e) => {
-            const errors = {}
-            Object.entries(e.response.data.errors).forEach(function (value) {
-              const key = value[0]
-              errors[key] = value[1]
-            })
-            this.$refs.form.setErrors(errors)
-            return false
-          })
-
-          return true
-        }).catch((e) => {
-          const errors = {}
-
-          Object.entries(e.response.data.errors).forEach(function (value) {
-            const key = value[0]
-            errors[key] = value[1]
-          })
-
-          this.$refs.form.setErrors(errors)
-          return false
-        })
-      } else if (this.step === 2) {
-        const isValid = await this.$refs.education.post()
-        if (!isValid) {
-          return false
-        }
-
-        this.step++
-
-        const employeeId = this.employee.id
-        const axiosCall = this.$axios
-
-        this.educations.forEach(function (education) {
-          if (Object.hasOwnProperty.call(education, 'id')) {
-            const educationUuid = education.uuid
-
-            axiosCall.$patch('/api/education/' + educationUuid, {
-              degree: education.degree,
-              fieldOfStudy: education.fieldOfStudy,
-              school: education.school,
-              country: education.country,
-              city: education.city,
-              startDate: education.startDate,
-              endDate: education.endDate,
-              currentlyAttending: education.currentlyAttending,
-              status: education.status,
-              employee: education.employee
-            }).then(() => {
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          } else {
-            axiosCall.$post('/api/education/', {
-              degree: education.degree,
-              fieldOfStudy: education.fieldOfStudy,
-              school: education.school,
-              country: education.country,
-              city: education.city,
-              startDate: education.startDate,
-              endDate: education.endDate,
-              currentlyAttending: education.currentlyAttending,
-              status: education.status,
-              employee: employeeId
-            }).then((data) => {
-              education.id = data.id
-              education.uuid = data.uuid
-              education.employee = data.employee.id
-
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          }
-        })
-      } else if (this.step === 3) {
-        const isValid = await this.$refs.workExperience.post()
-        if (!isValid) {
-          return false
-        }
-
-        this.step++
-
-        const employeeId = this.employee.id
-        const axiosCall = this.$axios
-
-        this.workExperiences.forEach(function (workExperience) {
-          if (Object.hasOwnProperty.call(workExperience, 'id')) {
-            const workExperienceUuid = workExperience.uuid
-
-            axiosCall.$patch('/api/work/experience/' + workExperienceUuid, {
-              jobTitle: workExperience.jobTitle,
-              company: workExperience.company,
-              country: workExperience.country,
-              city: workExperience.city,
-              currentWorkplace: workExperience.currentWorkplace,
-              description: workExperience.description,
-              startDate: workExperience.startDate,
-              endDate: workExperience.endDate,
-              status: workExperience.status,
-              employee: workExperience.employee
-            }).then(() => {
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          } else {
-            axiosCall.$post('/api/work/experience/', {
-              jobTitle: workExperience.jobTitle,
-              company: workExperience.company,
-              country: workExperience.country,
-              city: workExperience.city,
-              currentWorkplace: workExperience.currentWorkplace,
-              description: workExperience.description,
-              startDate: workExperience.startDate,
-              endDate: workExperience.endDate,
-              status: workExperience.status,
-              employee: employeeId
-            }).then((data) => {
-              workExperience.id = data.id
-              workExperience.uuid = data.uuid
-              workExperience.employee = data.employee.id
-
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          }
-        })
-      } else if (this.step === 4) {
-        const isValid = await this.$refs.skill.post()
-        if (!isValid) {
-          return false
-        }
-
-        this.step++
-
-        const employeeId = this.employee.id
-        const axiosCall = this.$axios
-
-        this.skills.forEach(function (skill) {
-          if (Object.hasOwnProperty.call(skill, 'id')) {
-            const skillUuid = skill.uuid
-
-            axiosCall.$patch('/api/skill/' + skillUuid, {
-              name: skill.name,
-              status: skill.status,
-              employee: skill.employee
-            }).then(() => {
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          } else {
-            axiosCall.$post('/api/skill/', {
-              name: skill.name,
-              status: skill.status,
-              employee: employeeId
-            }).then((data) => {
-              skill.id = data.id
-              skill.uuid = data.uuid
-              skill.employee = data.employee.id
-
-              return true
-            }).catch((e) => {
-              const errors = {}
-
-              Object.entries(e.response.data.errors).forEach(function (value) {
-                const key = value[0]
-                errors[key] = value[1]
-              })
-
-              this.$refs.form.setErrors(errors)
-              return false
-            })
-          }
-        })
-      } else if (this.step === 5) {
-        const isValid = await this.$refs.additionalInfo.post()
-        if (!isValid) {
-          return false
-        }
-
-        this.step = 1
-        this.modals.successfullSubmission = true
-
-        const employeeId = this.employee.id
-        const axiosCall = this.$axios
-
-        if (Object.hasOwnProperty.call(this.additionalInfo, 'id')) {
-          const additionalInfoUuid = this.additionalInfo.uuid
-
-          axiosCall.$patch('/api/additional/info/' + additionalInfoUuid, {
-            jobTitle: this.additionalInfo.jobTitle,
-            jobType: this.additionalInfo.jobType,
-            industry: this.additionalInfo.industry,
-            yearOfExperience: this.additionalInfo.yearOfExperience,
-            salaryCurrency: this.additionalInfo.salaryCurrency,
-            salaryAmount: this.additionalInfo.salaryAmount,
-            willingToRelocate: this.additionalInfo.willingToRelocate,
-            countryPreference: this.additionalInfo.countryPreference,
-            workingDays: this.additionalInfo.workingDays,
-            shifts: this.additionalInfo.shifts,
-            otherWorkArrangements: this.additionalInfo.otherWorkArrangements,
-            status: this.additionalInfo.status,
-            employee: this.additionalInfo.employee
-          }).then(() => {
-            return true
-          }).catch((e) => {
-            const errors = {}
-
-            Object.entries(e.response.data.errors).forEach(function (value) {
-              const key = value[0]
-              errors[key] = value[1]
-            })
-
-            this.$refs.form.setErrors(errors)
-            return false
-          })
-        } else {
-          axiosCall.$post('/api/additional/info/', {
-            jobTitle: this.additionalInfo.jobTitle,
-            jobType: this.additionalInfo.jobType,
-            industry: this.additionalInfo.industry,
-            yearOfExperience: this.additionalInfo.yearOfExperience,
-            salaryCurrency: this.additionalInfo.salaryCurrency,
-            salaryAmount: this.additionalInfo.salaryAmount,
-            willingToRelocate: this.additionalInfo.willingToRelocate,
-            countryPreference: this.additionalInfo.countryPreference,
-            workingDays: this.additionalInfo.workingDays,
-            shifts: this.additionalInfo.shifts,
-            otherWorkArrangements: this.additionalInfo.otherWorkArrangements,
-            status: this.additionalInfo.status,
-            employee: employeeId
-          }).then((data) => {
-            this.additionalInfo.id = data.id
-            this.additionalInfo.uuid = data.uuid
-            this.additionalInfo.employee = data.employee.id
-
-            return true
-          }).catch((e) => {
-            const errors = {}
-
-            Object.entries(e.response.data.errors).forEach(function (value) {
-              const key = value[0]
-              errors[key] = value[1]
-            })
-
-            this.$refs.form.setErrors(errors)
-            return false
-          })
-        }
-      }
-    },
-    back () {
-      this.step--
+    goToEditPage () {
+      window.location.href = '/cv/edit'
     }
   }
 }
@@ -672,6 +441,26 @@ export default {
 
 <style lang="scss">
 
+  .cv-right-menu {
+    a {
+      display: block;
+
+      span {
+        vertical-align: bottom;
+      }
+
+      img {
+        height: 24px;
+      }
+
+      .description {
+        font-size: 14px;
+        padding-left: 35px;
+        padding-top: 10px;
+      }
+    }
+  }
+
   .multiple-fields-wrapper {
     display: inline-table;
     width: 100%;
@@ -704,6 +493,35 @@ export default {
         color: black;
         font-weight: 900;
       }
+
+      .fs-14 {
+        font-size: 14px;
+      }
+
+      .fs-16 {
+        font-size: 16px;
+      }
+
+      .fs-18 {
+        font-size: 18px;
+      }
+
+      .fs-20 {
+        font-size: 20px;
+      }
+
+      .fs-22 {
+        font-size: 22px;
+      }
+
+      .fs-24 {
+        font-size: 24px;
+      }
+
+      .ff-roboto {
+        font-family: 'Roboto', sans-serif;
+      }
+
     }
   }
   .contract-type-actions-wrapper {
