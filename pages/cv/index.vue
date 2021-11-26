@@ -210,7 +210,7 @@ export default {
       },
       employee: {
         id: '',
-        countryOfTaxResidence: '',
+        countryOfTaxResidence: 'SG',
         city: '',
         street: '',
         postalCode: '',
@@ -219,7 +219,7 @@ export default {
         role: '',
         occupation: '',
         dateOfBirth: '',
-        nationality: '',
+        nationality: 'SG',
         timezone: '',
         isGlobeliseAdmin: '',
         isCompanyAdmin: '',
@@ -228,10 +228,10 @@ export default {
       },
       educations: [
         {
-          degree: '',
+          degree: 0,
           fieldOfStudy: '',
           school: '',
-          country: '',
+          country: 'SG',
           city: '',
           startDate: '',
           endDate: '',
@@ -244,7 +244,7 @@ export default {
         {
           jobTitle: '',
           company: '',
-          country: '',
+          country: 'SG',
           city: '',
           startDate: '',
           endDate: '',

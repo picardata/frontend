@@ -51,6 +51,7 @@
     "vue-clipboard2": "^0.3.0",
     "vue-country-region-select": "^2.0.14",
     "vue-flatpickr-component": "^8.1.2",
+    "vue-google-login": "^2.0.5",
     "vue-js-modal": "^2.0.0-rc.6",
     "vue-phone-number-input": "^1.1.10",
     "vue-sidebar-menu": "^4.7.4",

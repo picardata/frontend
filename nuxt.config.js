@@ -157,6 +157,22 @@ export default {
           logout: { url: '/api/logout', method: 'post' },
           user: { url: '/api/users/me', method: 'get' }
         }
+      },
+      customLogin: {
+        scheme: '~/schemes/googleLoginScheme',
+        token: {
+          property: 'token',
+          required: true
+        },
+        user: {
+          property: 'user',
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/google/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/logout', method: 'post' },
+          user: { url: '/api/users/me', method: 'get' }
+        }
       }
     }
   }

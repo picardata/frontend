@@ -6,7 +6,16 @@
           <div class="col-md-12">
             <div class="title-wrapper text-center">
               <h2>Log in</h2>
-              <span>Log in using email address</span>
+            </div>
+
+            <div class="google-login-wrapper mb-4">
+              <GoogleLogin :params="params" :render-params="renderParams" :on-success="onSuccess" :on-failure="onFailure">
+                Login
+              </GoogleLogin>
+            </div>
+
+            <div class="title-wrapper text-center">
+              <span>or</span>
             </div>
 
             <div class="form-group mt-4">
@@ -90,17 +99,27 @@
 <script>
 
 import ForgotPassword from '@/components/pages/Login/ForgotPassword'
+import GoogleLogin from 'vue-google-login'
 
 export default {
   name: 'AdminAuthPage',
   middleware: 'authenticated',
   components: {
-    ForgotPassword
+    ForgotPassword,
+    GoogleLogin
   },
   layout: 'empty',
   auth: false,
   data () {
     return {
+      params: {
+        client_id: '581341020272-t0geef2e7q4pmimguk3lseh774n12lkd.apps.googleusercontent.com'
+      },
+      renderParams: {
+        height: 40,
+        width: 374,
+        longtitle: true
+      },
       errors: {
         email: '',
         password: ''
@@ -142,6 +161,23 @@ export default {
     }
   },
   methods: {
+    async onSuccess (googleUser) {
+      const idToken = googleUser.getAuthResponse().id_token
+      await this.$auth.loginWith('customLogin', {
+        data: {
+          idToken
+        }
+      })
+
+      if (!this.isLogin) {
+        this.$router.push('/onboarding')
+      } else {
+        this.$router.push('/')
+      }
+    },
+    onFailure () {
+
+    },
     async onSubmit () {
       const isValidate = this.validateEmail() && this.validatePassword()
       if (!isValidate) {
@@ -154,9 +190,7 @@ export default {
             username: this.email,
             password: this.password
           })
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
+          .then(() => {
           })
           .catch((e) => {
             this.errors = []
@@ -168,11 +202,13 @@ export default {
             }
             return false
           })
+
         if (result === false) {
           this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
           return false
         }
       }
+
       try {
         await this.$auth.loginWith('local', {
           data: {
@@ -243,6 +279,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .google-login-wrapper {
+    .abcRioButton {
+      width: 100% !important;
+    }
+  }
+
 .bg-outer{
   min-height: 100vh;
   display: flex;
