@@ -15,14 +15,24 @@
               <span />
             </div>
 
-            <div class="body-form-wrapper">
+            <div class="google-login-wrapper mb-4">
+              <GoogleLogin :params="params" :render-params="renderParams" :on-success="onSuccess" :on-failure="onFailure">
+                Sign up
+              </GoogleLogin>
+            </div>
+
+            <div class="title-wrapper text-center">
+              <span>or</span>
+            </div>
+
+            <div class="body-form-wrapper mt-4">
               <span class="description">Sign up using email address</span>
 
               <div class="form-group mt-4">
                 <label
                   :class="[`form-control-label`, {'d-none': !errors.firstname}]"
                 >
-                  Full Name
+                  First Name
                 </label>
                 <input
                   v-model="firstname"
@@ -36,6 +46,26 @@
                   {{ errors.firstname }}
                 </span>
               </div>
+
+              <div class="form-group mt-4">
+                <label
+                  :class="[`form-control-label`, {'d-none': !errors.lastname}]"
+                >
+                  Last Name
+                </label>
+                <input
+                  v-model="lastname"
+                  :class="[`form-control`, 'login-credential-input', {'error': errors.lastname}]"
+                  placeholder="Last Name"
+                >
+                <span v-if="this.lastname.length > 0 && errors.lastname" class="form-icon" @click="emptyInput('lastname')"><i class="fa fa-times" /></span>
+                <span
+                  :class="['form-control-error', {'d-none': !errors.lastname}]"
+                >
+                  {{ errors.lastname }}
+                </span>
+              </div>
+
               <div class="form-group mt-4">
                 <label
                   :class="[`form-control-label`, {'d-none': !errors.username}]"
@@ -149,12 +179,16 @@
 </template>
 <script>
 
+import GoogleLogin from 'vue-google-login'
 import loaderMixin from '~/mixins/loader'
 
 export default {
   name: 'AdminAuthPage',
   layout: 'empty',
   auth: false,
+  components: {
+    GoogleLogin
+  },
   mixins: [
     loaderMixin
   ],
@@ -164,7 +198,16 @@ export default {
         username: '',
         password: '',
         passwordAgain: '',
-        firstname: ''
+        firstname: '',
+        lastname: ''
+      },
+      params: {
+        client_id: '581341020272-t0geef2e7q4pmimguk3lseh774n12lkd.apps.googleusercontent.com'
+      },
+      renderParams: {
+        height: 40,
+        width: 499,
+        longtitle: true
       },
       showPassword: false,
       showPasswordAgain: false,
@@ -174,6 +217,7 @@ export default {
       password: '',
       passwordAgain: '',
       firstname: '',
+      lastname: '',
       termAndPrivacy: false,
       isCVSignupFlow: false,
       userProfileId: null
@@ -191,6 +235,109 @@ export default {
   //   return this.$auth.loggedIn ? this.$router.push('/') : ''
   // },
   methods: {
+    onFailure () {
+
+    },
+    async onSuccess (googleUser) {
+      const idToken = googleUser.getAuthResponse().id_token
+
+      await this.$axios
+        .$post('/google/validate/user', {
+          idToken
+        })
+        .then((data) => {
+          this.username = data.username
+          this.firstname = data.givenname
+          this.lastname = data.familyname
+          this.password = this.passwordAgain = this.generatePassword()
+
+          if (!this.isLogin) {
+            let result = this.$axios
+              .$post('/api/users/', {
+                username: this.username,
+                password: this.password,
+                userProfile: {
+                  firstname: this.firstname,
+                  lastname: this.lastname,
+                  email: this.username
+                }
+              })
+              .then((data) => {
+                this.userProfileId = data.userProfile.id
+
+                this.$auth.loginWith('local', {
+                  data: {
+                    username: this.username,
+                    password: this.password,
+                    userProfile: {
+                      firstname: this.firstname,
+                      email: this.username
+                    }
+                  }
+                }).then(() => {
+                  if (!this.isLogin) {
+                    if (Object.hasOwnProperty.call(this.$route.query, 'id') && Object.hasOwnProperty.call(this.$route.query, 'type')) {
+                      const id = this.$route.query.id
+                      const contractType = this.$route.query.type
+
+                      window.location.href = '/onboarding?id=' + id + '&type=' + contractType
+                    } else if (Object.hasOwnProperty.call(this.$route.query, 'cv')) {
+                      const employeeData = {
+                        userProfile: this.userProfileId,
+                        role: '',
+                        occupation: '',
+                        taxID: '',
+                        nationality: '',
+                        countryOfTaxResidence: '',
+                        timezone: '',
+                        street: '',
+                        city: '',
+                        postalCode: '',
+                        phoneNumber: '',
+                        isCompanyAdmin: false,
+                        isGlobeliseAdmin: false,
+                        company: null
+                      }
+
+                      this.$axios.$post('/api/employees/',
+                        employeeData
+                      ).then((data) => {
+                        this.$auth.setUser(data)
+                        window.location.href = '/cv/edit'
+                      }).catch(() => {
+                        return false
+                      })
+                    } else {
+                      window.location.href = '/onboarding'
+                    }
+                  } else {
+                    window.location.href = '/'
+                  }
+                })
+              })
+              .catch((e) => {
+                this.errors = []
+                for (const field of ['username', 'password']) {
+                  const errors = e.response.data.errors[field]
+                  if (errors !== undefined) {
+                    this.errors[field] = errors.join(', ')
+                  }
+                }
+
+                result = false
+              })
+
+            if (result === false) {
+              this.errors.password = '<i class="fa fa-exclamation-circle"></i> Email or password  you entered is incorrect'
+              return false
+            }
+          }
+        })
+        .catch(() => {
+          this.errors.username = '<i class="fa fa-exclamation-circle"></i> Invalid username'
+          return false
+        })
+    },
     async onSubmit () {
       const isValidate = this.validateEmail() && this.validatePassword() && this.validatePasswordAgain()
       if (!isValidate) {
@@ -205,17 +352,16 @@ export default {
             password: this.password,
             userProfile: {
               firstname: this.firstname,
+              lastname: this.lastname,
               email: this.username
             }
           }).then((data) => {
             this.userProfileId = data.userProfile.id
-            console.log(data)
           })
         } catch (e) {
           this.errors = []
           for (const field of ['username', 'password']) {
             const errors = e.response.data.errors[field]
-            console.log(errors)
             if (errors !== undefined) {
               this.errors[field] = errors.join(', ')
             }
@@ -402,6 +548,15 @@ export default {
       this.errors.passwordAgain = ''
       this.errors.password = ''
       return true
+    },
+    generatePassword () {
+      const length = 16
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*!'
+      let retVal = ''
+      for (let i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n))
+      }
+      return retVal
     },
     isFieldValid () {
       return this.isEmailFormatValid(this.username) &&
