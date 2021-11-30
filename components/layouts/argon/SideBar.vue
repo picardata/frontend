@@ -132,6 +132,24 @@ export default {
           link: '/'
         },
         {
+          name: 'benefits',
+          displayName: 'Benefits',
+          icon: 'Perks.png',
+          link: '/locked'
+        },
+        {
+          name: 'insurance',
+          displayName: 'Insurance',
+          icon: 'Insurance.png',
+          link: '/locked'
+        },
+        {
+          name: 'wallet',
+          displayName: 'Wallet',
+          icon: 'Wallet.png',
+          link: '/locked'
+        },
+        {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
@@ -179,55 +197,55 @@ export default {
           name: 'reports',
           displayName: 'Reports',
           icon: 'Reports.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'compliance-documents',
           displayName: 'Compliance Documents',
           icon: 'Compliance_document.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'invoices-receipts',
           displayName: 'Invoices & Receipts',
           icon: 'Invoices_Receipts.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'taxes',
           displayName: 'Taxes',
           icon: 'Taxes.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'team-settings',
           displayName: 'Team Settings',
           icon: 'Team_setting.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'benefits',
           displayName: 'Benefits',
           icon: 'Perks.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'separator',
           displayName: 'User Settings',
           icon: 'User_setting.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'payments',
           displayName: 'Payments',
           icon: 'Payment_methods.png',
-          link: '#'
+          link: '/locked'
         },
         {
           name: 'logout',
