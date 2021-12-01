@@ -41,7 +41,7 @@ export default {
     }
 
     const [uploadedPayslips] = await Promise.all([
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
+      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + companyId)
     ])
 
     return {
