@@ -45,9 +45,9 @@ export default {
     }
 
     const [payAsYouGoContracts, milestoneContracts, fullTimeEmployeeContracts] = await Promise.all([
-      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId),
-      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&company=' + companyId)
+      context.app.$axios.get('/api/pay/as/you/go/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + companyId),
+      context.app.$axios.get('/api/milestone/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + companyId),
+      context.app.$axios.get('/api/full/time/employee/contract/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + companyId)
     ])
 
     return {
