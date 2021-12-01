@@ -33,7 +33,7 @@
         <div class="all-form-title bold-text form-field mb-4">
           <span class="text-label">Stock options offer</span><br>
           <span class="text-label-desc">
-            Make stock option offers and track grants using Globelise. Please be aware that establishing an international stock option plan, and making stock option grants typically requires legal counsel and approval from the company board of directors. A separate form of contract should be signed and prepared off platform to grant equity.
+            Now you can also make stock option offers and take grants using Globelise. Please make sure that you have the necessary legal counsel and approval from the company board of directors to make stock option grants. Separate contracts may be required.
           </span>
 
           <button type="button" class="btn btn-sm btn-secondary btn-offer-stock" @click.prevent="modals.stockOption = true">
