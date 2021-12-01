@@ -112,23 +112,22 @@
           </p>
 
           <p>
-            <b>2.4.</b> Client acknowledges that Contractor has appointed Deel. Inc, a Delaware
-            registered company having its headquarters at 650 2nd St, 94107, San
-            Francisco, California, United States <b>(“Deel”)</b> as Contractor's limited payment
+            <b>2.4.</b> Client acknowledges that Contractor has appointed Globelise Pte Ltd, a Singapore
+            registered company as Contractor's limited payment
             agent for the purpose of facilitating the receipt of payments made by Client for
             services provided in connection with this Agreement and each Statement of Work
-            using a payment method supported by Deel or by one of Deel's Payment Service
+            using a payment method supported by Globelise or by one of Globelise's Payment Service
             Providers, and the disbursement of those payments to Contractor.
           </p>
 
           <p>
             <b>2.5.</b> Client agrees to make all payments to Contractor using one of the payment
-            methods supported by the Deel platform. Client and Contractor represent and
-            warrant that they have carefully read, understood and accepted the Deel
-            platform terms and conditions (the <b>“Deel Terms and Conditions”</b>) available on
-            the Deels’ website ( www.letsdeel.com/terms). In the event of any conflict
-            between this Agreement and the Deel Terms and Conditions, this Agreement will
-            govern. Both parties acknowledge that acceptance of the Deel Terms and
+            methods supported by the Globelise platform. Client and Contractor represent and
+            warrant that they have carefully read, understood and accepted the Globelise
+            platform terms and conditions (the <b>“Globelise Terms and Conditions”</b>) available on
+            the Globelise’s website ( www.globelise.com/terms). In the event of any conflict
+            between this Agreement and the Globelise Terms and Conditions, this Agreement will
+            govern. Both parties acknowledge that acceptance of the Globelise Terms and
             Conditions by each party is a precondition to entering into this Agreement.
             Client will collect and process Contractor’s Personal Data in accordance with its
             privacy notice and applicable laws.
@@ -684,10 +683,10 @@
           </p>
 
           <p>
-            <b>8.4. Termination of Deel Terms and Conditions.</b> This Agreement will
-            automatically terminate upon termination of the Deel Terms and Conditions by
-            either party, or in the event that Deel terminates Client’s or Contractor’s use of the
-            Deel platform for any reason.
+            <b>8.4. Termination of Globelise Terms and Conditions.</b> This Agreement will
+            automatically terminate upon termination of the Globelise Terms and Conditions by
+            either party, or in the event that Globelise terminates Client’s or Contractor’s use of the
+            Globelise platform for any reason.
           </p>
 
           <p>
@@ -859,7 +858,7 @@
 
           <p>
             <b>10.14. Electronic Signatures.</b> Except where prohibited by law, the parties
-            consent to use Deel’s electronic signature service to execute this Agreement and
+            consent to use Globelise’s electronic signature service to execute this Agreement and
             agree that such signatures are valid and binding on the parties.
           </p>
 
