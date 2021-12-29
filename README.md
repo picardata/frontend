@@ -21,8 +21,8 @@ make setup
 
 ## Add this to your `/etc/host`
 ```
-local.picardata.com 127.0.0.1
-api.local.picardata.com 127.0.0.1
+local.globelise.com 127.0.0.1
+api.local.globelise.com 127.0.0.1
 ```
 
 ## Difference between `setup-dev` and `setup`
