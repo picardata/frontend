@@ -1,24 +1,30 @@
 <template>
   <no-ssr>
     <bread-crumb list-classes="breadcrumb-links breadcrumb-light">
-      <BreadCrumbItem>
+      <!-- <BreadCrumbItem>
         <nuxt-link to="/" aria-label="Dashboard">
           {{ home }}
         </nuxt-link>
-      </BreadCrumbItem>
+      </BreadCrumbItem> -->
       <BreadCrumbItem
         v-for="(crumb, index) in crumbs"
         :key="crumb.name"
         :active="index === crumbs.length - 1"
         style="display:inline-block"
       >
-        <i class="fa fa-chevron-right fa-xs" aria-hidden="true"></i> <nuxt-link
+        <nuxt-link
           :to="crumb.path"
           v-if="index < crumbs.length - 1"
         >
           {{ crumb.name }}
+
+          <i class="fa fa-chevron-right fa-xs" aria-hidden="true"></i>
+
         </nuxt-link>
+        
         <span v-else>{{ crumb.name }}</span>
+
+
       </BreadCrumbItem>
     </bread-crumb>
   </no-ssr>

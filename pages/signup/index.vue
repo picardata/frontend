@@ -307,6 +307,32 @@ export default {
                       }).catch(() => {
                         return false
                       })
+                    } else if (Object.hasOwnProperty.call(this.$route.query, 'partnerRegistration')) {
+                      const employeeData = {
+                        userProfile: this.userProfileId,
+                        role: '',
+                        occupation: '',
+                        taxID: '',
+                        nationality: '',
+                        countryOfTaxResidence: '',
+                        timezone: '',
+                        street: '',
+                        city: '',
+                        postalCode: '',
+                        phoneNumber: '',
+                        isCompanyAdmin: false,
+                        isGlobeliseAdmin: false,
+                        company: null
+                      }
+
+                      this.$axios.$post('/api/employees/',
+                        employeeData
+                      ).then((data) => {
+                        this.$auth.setUser(data)
+                        window.location.href = '/store/partners/register'
+                      }).catch(() => {
+                        return false
+                      })
                     } else {
                       window.location.href = '/onboarding'
                     }
@@ -405,6 +431,7 @@ export default {
               postalCode: '',
               phoneNumber: '',
               isCompanyAdmin: false,
+              isPartnerAdmin: false,
               isGlobeliseAdmin: false,
               company: null
             }
@@ -414,6 +441,73 @@ export default {
             ).then((data) => {
               this.$auth.setUser(data)
               window.location.href = '/cv/edit'
+            }).catch(() => {
+              return false
+            })
+          } else if (Object.hasOwnProperty.call(this.$route.query, 'partnerRegistration')) {
+            const employeeData = {
+              userProfile: this.userProfileId,
+              role: '',
+              occupation: '',
+              taxID: '',
+              nationality: '',
+              countryOfTaxResidence: '',
+              timezone: '',
+              street: '',
+              city: '',
+              postalCode: '',
+              phoneNumber: '',
+              isCompanyAdmin: false,
+              isPartnerAdmin: true,
+              isGlobeliseAdmin: false,
+              company: null
+            }
+
+            const marketplacePartnerData = {
+              name: '',
+              country: 'SG',
+              registrationNumber: '',
+              industry: '',
+              website: '',
+              businessDescription: '',
+              partnershipStatus: 1
+            }
+
+            const companyData = {
+              name: '',
+              location: '',
+              street: '',
+              city: '',
+              postalCode: '',
+              entityType: '',
+              vatID: '',
+              registrationNumber: '',
+              country: '',
+              companyMarketplacePartner: ''
+            }
+
+            await this.$axios.$post('/api/marketplace/partner/',
+              marketplacePartnerData
+            ).then((data) => {
+              const marketPlace = data
+              companyData.companyMarketplacePartner = marketPlace.id
+
+              this.$axios.$post('/api/companies/',
+                companyData
+              ).then((data) => {
+                employeeData.company = data.id
+
+                this.$axios.$post('/api/employees/',
+                  employeeData
+                ).then((data) => {
+                  this.$auth.setUser(data)
+                  window.location.href = '/store/partners/' + marketPlace.uuid + '/edit'
+                }).catch(() => {
+                  return false
+                })
+              }).catch(() => {
+                return false
+              })
             }).catch(() => {
               return false
             })

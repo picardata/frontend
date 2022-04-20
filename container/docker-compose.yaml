@@ -37,12 +37,31 @@ services:
     depends_on:
       - mysql
       - redis
+      - placement
     extra_hosts:
       - "api.local.globelise.com:10.5.1.21"
 
     networks:
       vpcbr:
         ipv4_address: 10.5.3.21
+  api-dapr:
+    container_name: api-dapr
+    image: "daprio/daprd:edge"
+    command: ["./daprd", "-app-id", "api", "-placement-host-address", "placement:50006", "-components-path", "/components"]
+    volumes:
+      - "./components/:/components"
+    depends_on:
+      - api
+    network_mode: "service:api"
+  placement:
+    container_name: placement
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.7.21
 
   redis:
     container_name: redis
