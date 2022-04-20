@@ -1,4 +1,4 @@
-# Picardata Frontend
+# Globelise Frontend
 
 ## Prerequisite
 * Clone [Picardata API](https://github.com/picardata-labs/api) and put it in the same directory with `frontend` folder
