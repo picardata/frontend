@@ -130,13 +130,13 @@ export default {
           name: 'index',
           displayName: 'Home',
           icon: 'Home.png',
-          link: '/'
+          link: '/store'
         },
         {
           name: 'my-carts',
           displayName: 'My Carts',
           icon: 'Wallet.png',
-          link: '/locked'
+          link: '#'
         },
         {
           name: 'user-settings',
@@ -156,13 +156,13 @@ export default {
           name: 'index',
           displayName: 'Home',
           icon: 'Home.png',
-          link: '/'
+          link: '/store'
         },
         {
           name: 'product-listing',
           displayName: 'Product Listing',
           icon: 'Invoices_Receipts.png',
-          link: '/locked'
+          link: '#'
         },
         {
           name: 'partner-listing',
@@ -174,7 +174,7 @@ export default {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
-          link: '/locked'
+          link: '#'
         },
         {
           name: 'logout',
@@ -188,19 +188,19 @@ export default {
           name: 'index',
           displayName: 'Home',
           icon: 'Home.png',
-          link: '/'
+          link: '/store'
         },
         {
           name: 'product-listing',
           displayName: 'Product Listing',
           icon: 'Invoices_Receipts.png',
-          link: '/locked'
+          link: '#'
         },
         {
           name: 'partner-listing',
           displayName: 'Partner Listing',
           icon: 'Invoices_Receipts.png',
-          link: '/store/partners/register'
+          link: '/store/globelise-admin/partners/listing'
         },
         {
           name: 'user-settings',
@@ -221,29 +221,19 @@ export default {
     }
   },
   created () {
-    // if (Object.hasOwnProperty.call(this.$auth.user.company.companyMarketplacePartner, 'uuid')) {
-    //   this.markeplacePartnerUuid = this.$auth.user.company.companyMarketplacePartner.uuid
-    // }
-
-    // if (this.markeplacePartnerUuid != null) {
-    //   this.adminMenus[2].link = '/store/partners/' + this.markeplacePartnerUuid
-    // }
-  
-    console.log(this.$auth)
-
-    if (Object.hasOwnProperty.call(this.$auth.user, 'company')) {
+    if (Object.hasOwnProperty.call(this.$auth.user, 'company') && this.$auth.user.company.companyMarketplacePartner != null) {
       const markeplacePartnerUuid = this.$auth.user.company.companyMarketplacePartner.uuid
 
       if (markeplacePartnerUuid != null) {
         this.adminMenus[2].link = '/store/partners/' + markeplacePartnerUuid
       }
-    } else {
+    } if (this.$auth.user.userProfile.employees[0].company.companyMarketplacePartner != null) {
       const markeplacePartnerUuid = this.$auth.user.userProfile.employees[0].company.companyMarketplacePartner.uuid
 
       if (markeplacePartnerUuid != null) {
         this.adminMenus[2].link = '/store/partners/' + markeplacePartnerUuid
       }
-    } 
+    }
 
     if (Object.hasOwnProperty.call(this.$auth.user, 'isPartnerAdmin')) {
       this.isPartnerAdmin = this.$auth.user.isPartnerAdmin
