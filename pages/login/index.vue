@@ -216,6 +216,7 @@ export default {
             password: this.password
           }
         })
+
         if (!this.isLogin) {
           this.$router.push('/onboarding')
         } else {

@@ -109,7 +109,7 @@
                 </ValidationProvider>
               </div>
 
-               <ValidationProvider v-slot="{ errors }" mode="passive" rules="required" vid="productStep1.marketplaceProductMarketplacePartner" name="Partner">
+               <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="productStep1.marketplaceProductMarketplacePartner" name="Partner">
                 <div v-if="isGlobeliseAdmin === true" class="all-form-title bold-text form-field mb-4">
                   <span class="text-label">Partner</span>
                   <select v-model="productStep1.marketplaceProductMarketplacePartner" class="form-control form-input">
@@ -150,8 +150,6 @@ export default {
     'isGlobeliseAdmin'
   ],
   data () {
-    console.log(this)
-    console.log('adsfafds')
     return {
       productStep1: {
         name: this.product.name,

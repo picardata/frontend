@@ -223,14 +223,15 @@ export default {
   created () {
     if (Object.hasOwnProperty.call(this.$auth.user, 'company') && this.$auth.user.company.companyMarketplacePartner != null) {
       const markeplacePartnerUuid = this.$auth.user.company.companyMarketplacePartner.uuid
-
       if (markeplacePartnerUuid != null) {
+        this.adminMenus[1].link = '/store/partners/' + markeplacePartnerUuid + '/listing'
         this.adminMenus[2].link = '/store/partners/' + markeplacePartnerUuid
       }
-    } if (this.$auth.user.userProfile.employees[0].company.companyMarketplacePartner != null) {
+    } else if (this.$auth.user.userProfile.employees[0].company.companyMarketplacePartner != null) {
       const markeplacePartnerUuid = this.$auth.user.userProfile.employees[0].company.companyMarketplacePartner.uuid
 
       if (markeplacePartnerUuid != null) {
+        this.adminMenus[1].link = '/store/partners/' + markeplacePartnerUuid + '/listing'
         this.adminMenus[2].link = '/store/partners/' + markeplacePartnerUuid
       }
     }
