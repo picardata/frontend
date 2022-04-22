@@ -51,7 +51,7 @@
                         <a :href="`${product.productUrl}`" target="_blank">
                           <div class="text-area">
                             <div style="text-align:center;height:200px;max-height:200px;">
-                              <img class="contract-type-img mb-4" :src="product.productImageUrl" alt="Product Image" height="180px">
+                              <img class="contract-type-img mb-4" :src="product.productImageUrl" alt="Product Image" style="max-width:180px;max-height:250px;">
                             </div>
                             <h3>
                               {{ product.name }}
@@ -99,7 +99,7 @@ export default {
   ],
   async asyncData (context) {
     const [productsRawData] = await Promise.all([
-      context.app.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+      context.app.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1&productStatus=3')
     ])
 
     return {
