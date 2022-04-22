@@ -194,7 +194,7 @@ export default {
           name: 'product-listing',
           displayName: 'Product Listing',
           icon: 'Invoices_Receipts.png',
-          link: '#'
+          link: '/store/globelise-admin/products/listing'
         },
         {
           name: 'partner-listing',

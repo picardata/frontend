@@ -14,11 +14,12 @@
               <div class="row">
                 <div class="col-12">
                   <div v-if="step === 1">
-                    <step1 ref="step1" :product="product" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
+                    <step1 ref="step1" :product="product" :partnerArr="partnerArr" :isGlobeliseAdmin="isGlobeliseAdmin" @finishSaveProfile="next" @formProfileChange="changeFormComplete($event)" />
                   </div>
                   
                   <div class="contract-type-actions-wrapper row">
-                    <div class="col-6"></div>
+                    <div v-if="isGlobeliseAdmin === true" class="col-3"></div>
+                    <div v-else class="col-6"></div>
                     <div class="col-3">
                       <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="next">
                         Save as Draft
@@ -30,7 +31,11 @@
                         Submit for Approval
                       </button>
                     </div>
-                    
+                    <div v-if="isGlobeliseAdmin === true" class="col-3">
+                      <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="approve">
+                        Approve
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -80,18 +85,37 @@ export default {
         productStatus: '1',
       },
       createdProduct: '',
-      crumbs: [
-        {
-          name: 'Create Contract',
-          path: '/create-contract'
-        },
-        {
-          name: 'Milestone',
-          path: '/create-contract/milestone'
-        }
-      ],
-      submenu: true
+      crumbs: [],
+      submenu: true,
+      isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
+      partnerArr: []
     }
+  },
+  created () {
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
+      this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
+    }
+
+    this.$axios.get('/api/marketplace/partner/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+      .then((partnerRawsData) => {
+        const partners = []
+
+        partnerRawsData.data.forEach(function (partnerRaw) {
+          if (partnerRaw.name != null) {
+            const partner = {
+              name: partnerRaw.name,
+              uuid: partnerRaw.uuid,
+              id: partnerRaw.id,
+            }
+
+            partners.push(partner)
+          }
+        })
+
+        this.partnerArr = partners
+      }).catch(() => {
+        return false
+      })
   },
   methods: {
     changeFormComplete (complete) {
@@ -101,17 +125,23 @@ export default {
       this.product.productStatus = '2'
       this.next()
     },
+    approve() {
+      this.product.productStatus = '3'
+      this.next()
+    },
     async next () {
       if (this.step === 1) {
         const isValid = await this.$refs.step1.post()
 
-    
         if (!isValid) {
           return false
         }
 
-        const userMe = await this.$axios.get('/api/users/me')
-
+        if (this.product.marketplaceProductMarketplacePartner == '') {
+          const userMe = await this.$axios.get('/api/users/me')
+          this.product.marketplaceProductMarketplacePartner = userMe.data.employees[0].company.companyMarketplacePartner.id
+        }
+        
         const formData = new FormData()
         formData.append('name', this.product.name)
         formData.append('category', this.product.category)
@@ -124,7 +154,7 @@ export default {
         formData.append('callToAction', this.product.callToAction)
         formData.append('mainImage', this.product.mainImage)
         formData.append('productStatus', this.product.productStatus)
-        formData.append('marketplaceProductMarketplacePartner', userMe.data.employees[0].company.companyMarketplacePartner.id)
+        formData.append('marketplaceProductMarketplacePartner', this.product.marketplaceProductMarketplacePartner)
 
         this.$axios.$post('/api/marketplace/product/',
           formData,

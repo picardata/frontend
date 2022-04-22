@@ -19,13 +19,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search" /></span>
                           </div>
-                            <input class="form-control form-input" v-model="partnerSearchKeyword" placeholder="Search partner name here..." @change="getPartnerList($event)">
-
-                          <!-- <select v-model="selectedCompany" class="form-control form-input" @change="getPayslipList($event)">
-                            <option v-for="(company, key) in companyArr" :key="company.uuid + key" :value="company.id">
-                              {{ company.name }} (REGISTRATION NO.: {{ company.registrationNumber }}, COUNTRY: {{ company.country }})
-                            </option>
-                          </select> -->
+                            <input class="form-control form-input" v-model="partnerSearchKeyword" placeholder="Type Partner Name here..." @change="getPartnerList($event)">
                         </div>
                       </div>
                     </form>
