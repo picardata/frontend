@@ -221,8 +221,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$auth.user)
-
     if (Object.hasOwnProperty.call(this.$auth.user, 'company') &&
       this.$auth.user.company != null &&
       this.$auth.user.company.companyMarketplacePartner != null) {
