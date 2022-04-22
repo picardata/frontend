@@ -8,6 +8,7 @@
               <h2 class="form-title page-header">
                 PARTNER PAGE
               </h2>
+              
             </div>
           </div>
         </base-header>
@@ -20,8 +21,14 @@
                 </div>
                 <div class="col-9">
                   <div class="all-form-title bold-text form-field">
-                    <span class="entity-name"> {{name}} </span>
-                     <div>
+                    <span class="entity-name"> 
+                      {{name}} 
+                      <button type="button" class="btn btn-lg btn-tertiary float-right mr-0 pl-4 pr-4" @click.prevent="goToEditPage">
+                        Edit
+                      </button>
+                    </span>
+  
+                    <div>
                       <span>{{ country }}</span>
                     </div>
                     <div class="mt-4">
@@ -83,6 +90,9 @@ export default {
     this.logoPath = apiHost + '/uploads/marketplace_partner_logo/' + this.logoFilename
   },
   methods: {
+    goToEditPage () {
+      window.location.href = '/store/partners/' + this.$route.params.id + '/edit'
+    }
   }
 }
 </script>

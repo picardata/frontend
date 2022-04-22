@@ -131,6 +131,8 @@ export default {
         phoneNumber: '',
         isCompanyAdmin: false,
         isGlobeliseAdmin: false,
+        isPartnerAdmin: false,
+        isStoreUser: false,
         company: {
           name: '',
           location: '',

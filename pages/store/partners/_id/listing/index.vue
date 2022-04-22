@@ -3,16 +3,16 @@
     <div v-show="submenu" class="col-xl-12 pl-0 mt-4">
       <div>
         <div class="container-fluid pt-6">
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-12">
-              <span class="form-title page-header"></span>
+              <span class="form-title page-header">Product Listing</span>
             </div>
           </div>
           <div class="row mt-3 mb-4">
             <div class="col-12">
               <div>
                 <div class="row mt-3">
-                  <div class="col-10 mb-4">
+                  <div class="col-8 mb-4 pl-0">
                     <form id="navbar-search-main" :key="productSearchKey" class="navbar-search form-inline navbar-search-light">
                       <div class="form-group" style="width: 100%">
                         <div class="input-group input-group-alternative company-search-bar">
@@ -24,52 +24,70 @@
                       </div>
                     </form>
                   </div>
-
-                  <div class="col-2 mb-4">
+                  <div class="col-2 mb-4 pr-0">
                     <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="getAllProductList()">
                       <span>Clear Search</span>
                     </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-12 mb-4">
-              <span class="form-title page-header">Recommended for you</span>
-            </div>
-          </div>
-
-          <div class="row" :key="productKey">
-            <div v-for="(product, index) in products" :key="index"  class="col-4">
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="card border p-4">
-                    <div class="">
-                      <div class="product-card-mode bold-text">
-                        <a :href="`${product.productUrl}`" target="_blank">
-                          <div class="text-area">
-                            <div style="text-align:center;height:200px;max-height:200px;">
-                              <img class="contract-type-img mb-4" :src="product.productImageUrl" alt="Product Image" height="180px">
+                  <div class="col-2 mb-4 pr-0">
+                    <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="goToAddProductPage()">
+                      <span>Add New Product</span>
+                    </button>
+                  </div>
+                  <div class="col-12 card border pr-0 pl-0">
+                    <table :key="productKey" class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            Name
+                          </th>
+                          <th scope="col">
+                            Partner Name
+                          </th>
+                          <th scope="col">
+                            Category
+                          </th>
+                          <th scope="col">
+                            Status
+                          </th>
+                          <th scope="col">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(product, index) in products" :key="index">
+                          <td>
+                            <a :href="`${product.productUrl}`" target="_blank">
+                              <span class="contract-name">{{ product.name }}</span>
+                            </a>
+                          </td>
+                          <td>
+                            <a :href="`${product.partnerUrl}`" target="_blank">
+                              <span class="contract-name">{{ product.partnerName }}</span>
+                            </a>
+                          </td>
+                          <td>
+                            <span class="contract-name">{{ product.category }}</span>
+                          </td>
+                          <td>
+                              <span v-if="product.productStatus == 3" class="contract-name">Approved</span>
+                              <span v-else-if="product.productStatus == 2" class="contract-name">Pending for Approval</span>
+                              <span v-else class="contract-name">Draft</span>
+                          </td>
+                          <td>
+                            <div v-if="product.productStatus == 1">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="submitForApprovalProduct(product.uuid, index, product.partnerId)">
+                                <span>Submit for Approval</span>
+                              </button>
                             </div>
-                            <h3>
-                              {{ product.name }}
-                            </h3>
-                            <span>
-                              {{ product.description }}
-                            </span><br/>
-
-                            <span class="mt-2">
-                              $ {{ product.price }}
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div class="col-sm-5 text-right" />
               </div>
             </div>
           </div>
@@ -98,12 +116,12 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    const [productsRawData] = await Promise.all([
-      context.app.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+    const [partnerData] = await Promise.all([
+      context.app.$axios.get('/api/marketplace/partner/' + context.route.params.id)
     ])
 
     return {
-      productsRawData: productsRawData.data
+      partnerData: partnerData.data
     }
   },
   data () {
@@ -123,47 +141,49 @@ export default {
     }
   },
   created () {
-    const products = []
-    const apiHost = this.$config.axios.baseURL
+    this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1&marketplaceProductMarketplacePartner=' + this.partnerData.id)
+    .then((productsRawData) => {
+      const products = []
+      const apiHost = this.$config.axios.baseURL
 
-    this.productsRawData.forEach(function (productsRaw) {
-      if (productsRaw.name != null && productsRaw.name != '') {
+      productsRawData.data.forEach(function (productsRaw) {
+        if (productsRaw.name != null && productsRaw.name != '') {
 
-        var partnerName = '';
-        var partnerUrl = '';
-        var partnerId = '';
-        if (productsRaw.marketplaceProductMarketplacePartner != null) {
-          partnerName = productsRaw.marketplaceProductMarketplacePartner.name
-          partnerUrl = '/store/partners/' + productsRaw.marketplaceProductMarketplacePartner.uuid
-          partnerId = productsRaw.marketplaceProductMarketplacePartner.id
+          var partnerName = '';
+          var partnerUrl = '';
+          var partnerId = '';
+          if (productsRaw.marketplaceProductMarketplacePartner != null) {
+            partnerName = productsRaw.marketplaceProductMarketplacePartner.name
+            partnerUrl = '/store/partners/' + productsRaw.marketplaceProductMarketplacePartner.uuid
+            partnerId = productsRaw.marketplaceProductMarketplacePartner.id
+          }
+
+          const product = {
+            name: productsRaw.name,
+            category: productsRaw.category,
+            productStatus: productsRaw.productStatus,
+            uuid: productsRaw.uuid,
+            description: productsRaw.description,
+            productUrl: '/store/products/' + productsRaw.uuid,
+            partnerName: partnerName,
+            partnerUrl: partnerUrl,
+            partnerId: partnerId
+          }
+
+          products.push(product)
         }
-
-        const product = {
-          name: productsRaw.name,
-          category: productsRaw.category,
-          productStatus: productsRaw.productStatus,
-          uuid: productsRaw.uuid,
-          description: productsRaw.description.slice(0, 100),
-          price: productsRaw.price,
-          productImageUrl: apiHost + '/uploads/marketplace_product_main_image/' + productsRaw.mainImageFilename,
-          productUrl: '/store/products/' + productsRaw.uuid,
-          partnerName: partnerName,
-          partnerUrl: partnerUrl,
-          partnerId: partnerId
-        }
-
-        products.push(product)
-      }
+      })
+      this.products = products
+    }).catch(() => {
+      return false
     })
-    this.products = products
-
   },
   methods: {
-    approveProduct(paramUuid, paramIndex, paramPartnerId) {
+    submitForApprovalProduct(paramUuid, paramIndex, paramPartnerId) {
 
       const formData = new FormData()
       formData.append('marketplaceProductMarketplacePartner', paramPartnerId)
-      formData.append('productStatus', 3)
+      formData.append('productStatus', 2)
       
       this.$axios.$post('/api/marketplace/product/' + paramUuid,
         formData,
@@ -179,7 +199,7 @@ export default {
           currentProducts.forEach(function (product) {
             
             if (product.uuid == paramUuid) {
-              product.productStatus = 3
+              product.productStatus = 2
             }
 
             products.push(product)
@@ -205,7 +225,7 @@ export default {
         nameParameter = '&name=' + this.productSearchKeyword
       }
 
-      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&productStatus=3&status=1' + nameParameter)
+      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1&marketplaceProductMarketplacePartner='  + this.partnerData.id + nameParameter)
         .then((partnerDatas) => {
           const products = []
           const apiHost = this.$config.axios.baseURL
@@ -229,10 +249,8 @@ export default {
                   category: partnerData.category,
                   productStatus: partnerData.productStatus,
                   uuid: partnerData.uuid,
-                  description: partnerData.description.slice(0, 100),
-                  price: partnerData.price,
+                  description: partnerData.description,
                   productUrl: '/store/products/' + partnerData.uuid,
-                  productImageUrl: apiHost + '/uploads/marketplace_product_main_image/' + partnerData.mainImageFilename,
                   partnerName: partnerName,
                   partnerUrl: partnerUrl,
                   partnerId: partnerId
@@ -250,7 +268,7 @@ export default {
         })
     },
     getAllProductList () {
-      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1')
+      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1&marketplaceProductMarketplacePartner=' + this.partnerData.id)
         .then((partnerDatas) => {
           const products = []
           const apiHost = this.$config.axios.baseURL
@@ -265,6 +283,7 @@ export default {
                   partnerName = partnerData.marketplaceProductMarketplacePartner.name
                   partnerUrl = '/store/partners/' + partnerData.marketplaceProductMarketplacePartner.uuid
                   partnerId = partnerData.marketplaceProductMarketplacePartner.id
+
                 }
 
                 const product = {
@@ -272,10 +291,8 @@ export default {
                   category: partnerData.category,
                   productStatus: partnerData.productStatus,
                   uuid: partnerData.uuid,
-                  description: partnerData.description.slice(0, 100),
-                  price: partnerData.price,
+                  description: partnerData.description,
                   productUrl: '/store/products/' + partnerData.uuid,
-                  productImageUrl: apiHost + '/uploads/marketplace_product_main_image/' + partnerData.mainImageFilename,
                   partnerName: partnerName,
                   partnerUrl: partnerUrl,
                   partnerId: partnerId
@@ -359,7 +376,6 @@ export default {
     /* Body Text */
     color: #313131;
   }
-  
   .bold-text{
     font-weight:700 !important;
   }
@@ -391,27 +407,6 @@ export default {
     select {
       margin-right: 10px !important;
       height: 51px;
-    }
-  }
-
-  .product-card-mode {
-    font-family: 'Roboto Condensed';
-    font-style: normal;
-    color: #313131;
-    text-align: left;
-    h3 {
-      font-size: 18px;
-    }
-    span {
-      font-size: 14px;
-      font-weight: normal !important;
-    }
-    .text-area {
-        height: 320px;
-    }
-
-    img {
-      text-align: center;
     }
   }
 

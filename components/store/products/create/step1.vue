@@ -109,6 +109,18 @@
                 </ValidationProvider>
               </div>
 
+               <ValidationProvider v-slot="{ errors }" mode="passive" rules="" vid="productStep1.marketplaceProductMarketplacePartner" name="Partner">
+                <div v-if="isGlobeliseAdmin === true" class="all-form-title bold-text form-field mb-4">
+                  <span class="text-label">Partner</span>
+                  <select v-model="productStep1.marketplaceProductMarketplacePartner" class="form-control form-input">
+                    <option v-for="(partner, key) in partnerArr" :key="partner + key" :value="partner.id">
+                      {{ partner.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </div>
+              </ValidationProvider>
+
             </form>
           </ValidationObserver>
         </div>
@@ -133,7 +145,9 @@ export default {
     flatPicker
   },
   props: [
-    'product'
+    'product',
+    'partnerArr',
+    'isGlobeliseAdmin'
   ],
   data () {
     return {

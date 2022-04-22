@@ -169,7 +169,9 @@ export default {
         }
       })
 
-      if (!this.isLogin) {
+      if (this.$auth.user.userProfile.employees[0].isStoreUser === true) {
+        this.$router.push('/store')
+      } else if (!this.isLogin) {
         this.$router.push('/onboarding')
       } else {
         this.$router.push('/')
@@ -216,7 +218,10 @@ export default {
             password: this.password
           }
         })
-        if (!this.isLogin) {
+
+        if (this.$auth.user.userProfile.employees[0].isStoreUser === true) {
+          this.$router.push('/store')
+        } else if (!this.isLogin) {
           this.$router.push('/onboarding')
         } else {
           this.$router.push('/')
