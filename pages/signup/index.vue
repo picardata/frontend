@@ -281,6 +281,105 @@ export default {
                       const contractType = this.$route.query.type
 
                       window.location.href = '/onboarding?id=' + id + '&type=' + contractType
+                    } else if (Object.hasOwnProperty.call(this.$route.query, 'partnerRegistration')) {
+                      const employeeData = {
+                        userProfile: this.userProfileId,
+                        role: '',
+                        occupation: '',
+                        taxID: '',
+                        nationality: '',
+                        countryOfTaxResidence: '',
+                        timezone: '',
+                        street: '',
+                        city: '',
+                        postalCode: '',
+                        phoneNumber: '',
+                        isCompanyAdmin: false,
+                        isPartnerAdmin: true,
+                        isGlobeliseAdmin: false,
+                        isStoreUser: true,
+                        company: null
+                      }
+
+                      const companyData = {
+                        name: '',
+                        location: '',
+                        street: '',
+                        city: '',
+                        postalCode: '',
+                        entityType: '',
+                        vatID: '',
+                        registrationNumber: '',
+                        country: '',
+                        companyMarketplacePartner: ''
+                      }
+
+                      const partnerData = {
+                        name: '',
+                        country: '',
+                        registrationNumber: '',
+                        industry: '',
+                        website: '',
+                        businessDescription: '',
+                        partnershipStatus: '3',
+                        logoFilename: ''
+                      }
+
+                      let marketPlacePartnerUuid = ''
+
+                      this.$axios.$post('/api/marketplace/partner/',
+                        partnerData
+                      ).then((partnerRawData) => {
+                        companyData.companyMarketplacePartner = partnerRawData.id
+                        marketPlacePartnerUuid = partnerRawData.uuid
+
+                        this.$axios.$post('/api/companies/',
+                          companyData
+                        ).then((companyRawData) => {
+                          employeeData.company = companyRawData.id
+
+                          this.$axios.$post('/api/employees/',
+                            employeeData
+                          ).then((data) => {
+                            this.$auth.setUser(data)
+                            window.location.href = '/store/partners/' + marketPlacePartnerUuid + '/edit'
+                          }).catch(() => {
+                            return false
+                          })
+                        }).catch(() => {
+                          return false
+                        })
+                      }).catch(() => {
+                        return false
+                      })
+                    } else if (Object.hasOwnProperty.call(this.$route.query, 'storeCustomerRegistration')) {
+                      const employeeData = {
+                        userProfile: this.userProfileId,
+                        role: '',
+                        occupation: '',
+                        taxID: '',
+                        nationality: '',
+                        countryOfTaxResidence: '',
+                        timezone: '',
+                        street: '',
+                        city: '',
+                        postalCode: '',
+                        phoneNumber: '',
+                        isCompanyAdmin: false,
+                        isPartnerAdmin: false,
+                        isStoreUser: true,
+                        isGlobeliseAdmin: false,
+                        company: null
+                      }
+
+                      this.$axios.$post('/api/employees/',
+                        employeeData
+                      ).then((data) => {
+                        this.$auth.setUser(data)
+                        window.location.href = '/store'
+                      }).catch(() => {
+                        return false
+                      })
                     } else if (Object.hasOwnProperty.call(this.$route.query, 'cv')) {
                       const employeeData = {
                         userProfile: this.userProfileId,
@@ -461,6 +560,34 @@ export default {
               }).catch(() => {
                 return false
               })
+            }).catch(() => {
+              return false
+            })
+          } else if (Object.hasOwnProperty.call(this.$route.query, 'storeCustomerRegistration')) {
+            const employeeData = {
+              userProfile: this.userProfileId,
+              role: '',
+              occupation: '',
+              taxID: '',
+              nationality: '',
+              countryOfTaxResidence: '',
+              timezone: '',
+              street: '',
+              city: '',
+              postalCode: '',
+              phoneNumber: '',
+              isCompanyAdmin: false,
+              isPartnerAdmin: false,
+              isStoreUser: true,
+              isGlobeliseAdmin: false,
+              company: null
+            }
+
+            this.$axios.$post('/api/employees/',
+              employeeData
+            ).then((data) => {
+              this.$auth.setUser(data)
+              window.location.href = '/store'
             }).catch(() => {
               return false
             })
