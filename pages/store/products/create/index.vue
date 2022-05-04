@@ -80,6 +80,7 @@ export default {
         offering: '',
         termAndCondition: '',
         callToAction: '',
+        currency: '',
         marketplaceProductMarketplacePartner: '',
         mainImage: '',
         productStatus: '1',
@@ -152,6 +153,7 @@ export default {
         formData.append('description', this.product.description)
         formData.append('offering', this.product.offering)
         formData.append('termAndCondition', this.product.termAndCondition)
+        formData.append('currency', this.product.currency)
         formData.append('callToAction', this.product.callToAction)
         formData.append('mainImage', this.product.mainImage)
         formData.append('productStatus', this.product.productStatus)
