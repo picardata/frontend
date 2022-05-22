@@ -54,6 +54,46 @@
             </div>
           </div>
         </div>
+        <div v-if="statusLogsArr != ''" class="container-fluid mt-6">
+          <div class="col-12 card border pr-0 pl-0">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    From
+                  </th>
+                  <th scope="col">
+                    To
+                  </th>
+                  <th scope="col">
+                    Date and Time
+                  </th>
+                  
+                  <th scope="col">
+                    Author
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(statusLog, index) in statusLogsArr" :key="index">
+                  <td>
+                    <span class="contract-name">{{ statusOptions[statusLog.updatedFrom].name }}</span>
+                  </td>
+                  <td>
+                    <span class="contract-name">{{ statusOptions[statusLog.updatedTo].name }}</span>
+                  </td>
+                  <td>
+                    <span class="contract-name">{{ $moment(statusLog.createdAt).format("MMMM Do YYYY, h:mm:ss a") }}</span>
+                  </td>
+                  
+                  <td>
+                    <span class="contract-name">{{ statusLog.employee }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -88,9 +128,12 @@ export default {
         altInput: true
       },
       statusOptions: [
-        { name: '' },
+        { name: 'CREATION' },
+        { name: 'DRAFT' },
         { name: 'PENDING FOR APPROVAL' },
-        { name: 'APPROVED' }
+        { name: 'APPROVED/PUBLISHED' },
+        { name: 'REJECTED' },
+        { name: 'UNPUBLISHED' },
       ],
       submenu: true,
       currentDate: new Date(),
@@ -102,6 +145,41 @@ export default {
         }
       ],
       mainImagePath: "",
+      statusLogsArr: "",
+      isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
+    }
+  },
+  created () {
+    if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
+      this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
+    }
+
+    if (this.isGlobeliseAdmin) {
+      this.$axios.get('/api/marketplace/product/status/log/?order[createdAt]=asc&page_number=1&items_per_page=999&status=1&product=' + this.id)
+        .then((statusLogsRawData) => {
+          const statusLogs = []
+
+          
+          statusLogsRawData.data.forEach(function (statusLogsRaw) {
+            let employeeFullName = statusLogsRaw.createdByEmployee.userProfile.firstname + " " + statusLogsRaw.createdByEmployee.userProfile.lastname;
+
+            
+          
+            const statusLog = {
+              updatedFrom: statusLogsRaw.updatedFrom,
+              updatedTo: statusLogsRaw.updatedTo,
+              employee: employeeFullName,
+              createdAt: statusLogsRaw.createdAt
+            }
+
+            console.log(statusLog)
+            statusLogs.push(statusLog)
+          })
+
+          this.statusLogsArr = statusLogs
+        }).catch(() => {
+          return false
+        })
     }
   },
   mounted () {

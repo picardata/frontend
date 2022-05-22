@@ -31,11 +31,11 @@
                         Submit for Approval
                       </button>
                     </div>
-                    <div v-if="isGlobeliseAdmin === true" class="col-3">
+                    <!-- <div v-if="isGlobeliseAdmin === true" class="col-3">
                       <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="approve">
                         Approve
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -80,9 +80,11 @@ export default {
         offering: '',
         termAndCondition: '',
         callToAction: '',
+        currency: '',
         marketplaceProductMarketplacePartner: '',
         mainImage: '',
         productStatus: '1',
+        creatorRole: 'partner'
       },
       createdProduct: '',
       crumbs: [],
@@ -95,7 +97,11 @@ export default {
     if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
       this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
     }
-  
+
+    if (this.isGlobeliseAdmin) {
+      this.product.creatorRole = 'globelise_admin'
+    }
+      
     this.$axios.get('/api/marketplace/partner/?order[name]=asc&page_number=1&items_per_page=999&status=1')
       .then((partnerRawsData) => {
         const partners = []
@@ -131,15 +137,15 @@ export default {
     },
     async next () {
       if (this.step === 1) {
-        console.log('kkkkkkk')
         const isValid = await this.$refs.step1.post()
 
         if (!isValid) {
           return false
         }
 
+        const userMe = await this.$axios.get('/api/users/me')
+        const employeeId = userMe.data.employees[0].id
         if (this.product.marketplaceProductMarketplacePartner == '') {
-          const userMe = await this.$axios.get('/api/users/me')
           this.product.marketplaceProductMarketplacePartner = userMe.data.employees[0].company.companyMarketplacePartner.id
         }
         
@@ -152,22 +158,41 @@ export default {
         formData.append('description', this.product.description)
         formData.append('offering', this.product.offering)
         formData.append('termAndCondition', this.product.termAndCondition)
+        formData.append('currency', this.product.currency)
         formData.append('callToAction', this.product.callToAction)
         formData.append('mainImage', this.product.mainImage)
         formData.append('productStatus', this.product.productStatus)
+        formData.append('creatorRole', this.product.creatorRole)
         formData.append('marketplaceProductMarketplacePartner', this.product.marketplaceProductMarketplacePartner)
 
         this.$axios.$post('/api/marketplace/product/',
-          formData,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((data) => {
+          this.createdProduct = data
+
+          // create status log
+          const statusLogFormData = new FormData()
+          statusLogFormData.append('product', this.createdProduct.id)
+          statusLogFormData.append('updatedFrom', 0)
+          statusLogFormData.append('updatedTo', this.createdProduct.productStatus)
+          statusLogFormData.append('createdByEmployee', employeeId)
+
+          this.$axios.$post('/api/marketplace/product/status/log/',
+          statusLogFormData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           }).then((data) => {
-          this.createdProduct = data
-
-          this.$router.push('/store/products/' + this.createdProduct.uuid)
-          return true
+            this.$router.push('/store/products/' + this.createdProduct.uuid)
+            return true
+          }).catch((e) => {
+            return false
+          })
         }).catch((e) => {
           const errors = {}
 
