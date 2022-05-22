@@ -72,14 +72,39 @@
                             <span class="contract-name">{{ product.category }}</span>
                           </td>
                           <td>
-                              <span v-if="product.productStatus == 3" class="contract-name">Approved</span>
-                              <span v-else-if="product.productStatus == 2" class="contract-name">Pending for Approval</span>
+                              <span v-if="product.productStatus == 2" class="contract-name">Pending for Approval</span>
+                              <span v-else-if="product.productStatus == 3" class="contract-name">Approved/Published</span>
+                              <span v-else-if="product.productStatus == 4" class="contract-name">Rejected</span>
+                              <span v-else-if="product.productStatus == 5" class="contract-name">Unpublished</span>
                               <span v-else class="contract-name">Draft</span>
                           </td>
                           <td>
-                            <div v-if="product.productStatus != 3">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="approveProduct(product.uuid, index, product.partnerId)">
+                            <div v-if="product.productStatus == 1">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 2, product.creatorRole)">
+                                <span>Submit for Approval</span>
+                              </button>
+                            </div>
+                            <div v-if="product.productStatus == 2 && product.creatorRole === 'partner'">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 3, product.creatorRole)">
                                 <span>Approve</span>
+                              </button>
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 4, product.creatorRole)">
+                                <span>Reject</span>
+                              </button>
+                            </div>
+                            <div v-if="product.productStatus == 3">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 5, product.creatorRole)">
+                                <span>Unpublish</span>
+                              </button>
+                            </div>
+                            <div v-if="product.productStatus == 4">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 1, product.creatorRole)">
+                                <span>Save as Draft</span>
+                              </button>
+                            </div>
+                            <div v-if="product.productStatus == 5">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 1, product.creatorRole)">
+                                <span>Save as Draft</span>
                               </button>
                             </div>
                           </td>
@@ -145,6 +170,7 @@ export default {
     const apiHost = this.$config.axios.baseURL
 
     this.productsRawData.forEach(function (productsRaw) {
+      console.log(productsRaw);
       if (productsRaw.name != null && productsRaw.name != '') {
 
         var partnerName = '';
@@ -156,6 +182,10 @@ export default {
           partnerId = productsRaw.marketplaceProductMarketplacePartner.id
         }
 
+        if (productsRaw.creatorRole == '') {
+          productsRaw.creatorRole = 'globelise_admin'
+        }
+
         const product = {
           name: productsRaw.name,
           category: productsRaw.category,
@@ -165,7 +195,8 @@ export default {
           productUrl: '/store/products/' + productsRaw.uuid,
           partnerName: partnerName,
           partnerUrl: partnerUrl,
-          partnerId: partnerId
+          partnerId: partnerId,
+          creatorRole: productsRaw.creatorRole
         }
 
         products.push(product)
@@ -173,13 +204,16 @@ export default {
     })
     this.products = products
 
+    console.log(this.products);
+
   },
   methods: {
-    approveProduct(paramUuid, paramIndex, paramPartnerId) {
+    changeProductStatus(paramUuid, paramIndex, paramPartnerId, newStatus, creatorRole) {
 
       const formData = new FormData()
       formData.append('marketplaceProductMarketplacePartner', paramPartnerId)
-      formData.append('productStatus', 3)
+      formData.append('productStatus', newStatus)
+      formData.append('creatorRole', creatorRole)
       
       this.$axios.$post('/api/marketplace/product/' + paramUuid,
         formData,
@@ -191,11 +225,9 @@ export default {
           const currentProducts = this.products
           const products = []
           
-
           currentProducts.forEach(function (product) {
-            
             if (product.uuid == paramUuid) {
-              product.productStatus = 3
+              product.productStatus = newStatus
             }
 
             products.push(product)

@@ -31,11 +31,11 @@
                         Submit for Approval
                       </button>
                     </div>
-                    <div v-if="isGlobeliseAdmin === true" class="col-3">
+                    <!-- <div v-if="isGlobeliseAdmin === true" class="col-3">
                       <button type="button" class="btn btn-lg btn-secondary btn-add next-btn" @click.prevent="approve">
                         Approve
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -84,6 +84,7 @@ export default {
         marketplaceProductMarketplacePartner: '',
         mainImage: '',
         productStatus: '1',
+        creatorRole: 'partner'
       },
       createdProduct: '',
       crumbs: [],
@@ -96,7 +97,11 @@ export default {
     if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
       this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
     }
-  
+
+    if (this.isGlobeliseAdmin) {
+      this.product.creatorRole = 'globelise_admin'
+    }
+      
     this.$axios.get('/api/marketplace/partner/?order[name]=asc&page_number=1&items_per_page=999&status=1')
       .then((partnerRawsData) => {
         const partners = []
@@ -132,7 +137,6 @@ export default {
     },
     async next () {
       if (this.step === 1) {
-        console.log('kkkkkkk')
         const isValid = await this.$refs.step1.post()
 
         if (!isValid) {
@@ -157,6 +161,7 @@ export default {
         formData.append('callToAction', this.product.callToAction)
         formData.append('mainImage', this.product.mainImage)
         formData.append('productStatus', this.product.productStatus)
+        formData.append('creatorRole', this.product.creatorRole)
         formData.append('marketplaceProductMarketplacePartner', this.product.marketplaceProductMarketplacePartner)
 
         this.$axios.$post('/api/marketplace/product/',
