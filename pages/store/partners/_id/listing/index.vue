@@ -80,30 +80,30 @@
                           </td>
                           <td>
                             <div v-if="product.productStatus == 1">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 2, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 2, product.creatorRole)">
                                 <span>Submit for Approval</span>
                               </button>
                             </div>
                             <div v-if="product.productStatus == 2 && product.creatorRole === 'globelise_admin'">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 3, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 3, product.creatorRole)">
                                 <span>Approve</span>
                               </button>
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 4, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 4, product.creatorRole)">
                                 <span>Reject</span>
                               </button>
                             </div>
                             <div v-if="product.productStatus == 3">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 5, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 5, product.creatorRole)">
                                 <span>Unpublish</span>
                               </button>
                             </div>
                             <div v-if="product.productStatus == 4">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 1, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 1, product.creatorRole)">
                                 <span>Save as Draft</span>
                               </button>
                             </div>
                             <div v-if="product.productStatus == 5">
-                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, index, product.partnerId, 1, product.creatorRole)">
+                              <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="changeProductStatus(product.uuid, product.id, index, product.partnerId, product.productStatus, 1, product.creatorRole)">
                                 <span>Save as Draft</span>
                               </button>
                             </div>
@@ -192,6 +192,7 @@ export default {
             category: productsRaw.category,
             productStatus: productsRaw.productStatus,
             uuid: productsRaw.uuid,
+            id: productsRaw.id,
             description: productsRaw.description,
             productUrl: '/store/products/' + productsRaw.uuid,
             partnerName: partnerName,
@@ -209,14 +210,16 @@ export default {
     })
   },
   methods: {
-    changeProductStatus(paramUuid, paramIndex, paramPartnerId, newStatus, creatorRole) {
+    async changeProductStatus(uuid, id, paramIndex, partnerId, oldStatus, newStatus, creatorRole) {
+      const userMe = await this.$axios.get('/api/users/me')
+      const employeeId = userMe.data.employees[0].id
 
       const formData = new FormData()
-      formData.append('marketplaceProductMarketplacePartner', paramPartnerId)
+      formData.append('marketplaceProductMarketplacePartner', partnerId)
       formData.append('productStatus', newStatus)
       formData.append('creatorRole', creatorRole)
       
-      this.$axios.$post('/api/marketplace/product/' + paramUuid,
+      this.$axios.$post('/api/marketplace/product/' + uuid,
         formData,
         {
           headers: {
@@ -227,7 +230,7 @@ export default {
           const products = []
           
           currentProducts.forEach(function (product) {
-            if (product.uuid == paramUuid) {
+            if (product.uuid == uuid) {
               product.productStatus = newStatus
             }
 
@@ -236,6 +239,25 @@ export default {
 
           this.products = products
           this.productKey++
+
+          const statusLogFormData = new FormData()
+          statusLogFormData.append('product', id)
+          statusLogFormData.append('updatedFrom', oldStatus)
+          statusLogFormData.append('updatedTo', newStatus)
+          statusLogFormData.append('createdByEmployee', employeeId)
+
+          this.$axios.$post('/api/marketplace/product/status/log/',
+          statusLogFormData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then((data) => {
+            return true
+          }).catch((e) => {
+            return false
+          })
+
         return true
       }).catch((e) => {
         return false

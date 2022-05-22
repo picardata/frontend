@@ -143,8 +143,9 @@ export default {
           return false
         }
 
+        const userMe = await this.$axios.get('/api/users/me')
+        const employeeId = userMe.data.employees[0].id
         if (this.product.marketplaceProductMarketplacePartner == '') {
-          const userMe = await this.$axios.get('/api/users/me')
           this.product.marketplaceProductMarketplacePartner = userMe.data.employees[0].company.companyMarketplacePartner.id
         }
         
@@ -165,16 +166,33 @@ export default {
         formData.append('marketplaceProductMarketplacePartner', this.product.marketplaceProductMarketplacePartner)
 
         this.$axios.$post('/api/marketplace/product/',
-          formData,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((data) => {
+          this.createdProduct = data
+
+          // create status log
+          const statusLogFormData = new FormData()
+          statusLogFormData.append('product', this.createdProduct.id)
+          statusLogFormData.append('updatedFrom', 0)
+          statusLogFormData.append('updatedTo', this.createdProduct.productStatus)
+          statusLogFormData.append('createdByEmployee', employeeId)
+
+          this.$axios.$post('/api/marketplace/product/status/log/',
+          statusLogFormData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           }).then((data) => {
-          this.createdProduct = data
-
-          this.$router.push('/store/products/' + this.createdProduct.uuid)
-          return true
+            this.$router.push('/store/products/' + this.createdProduct.uuid)
+            return true
+          }).catch((e) => {
+            return false
+          })
         }).catch((e) => {
           const errors = {}
 
