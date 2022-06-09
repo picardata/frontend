@@ -162,6 +162,7 @@ export default {
           const formData = new FormData()
           formData.append('payslipDocument', newUploadedPayslip)
           formData.append('name', originalFileNameArr[2])
+          formData.append('currency', '')
           formData.append('type', 'Upload')
           formData.append('company', originalFileNameArr[0])
           formData.append('employee', originalFileNameArr[1])

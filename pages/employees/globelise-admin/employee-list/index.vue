@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row mt-3">
             <div class="col-12">
-              <span class="form-title page-header">Payslips</span>
+              <span class="form-title page-header">Employees</span>
             </div>
           </div>
           <div class="row mt-3 mb-4">
@@ -20,7 +20,7 @@
                             <span class="input-group-text"><i class="fas fa-search" /></span>
                           </div>
 
-                          <select v-model="selectedCompany" class="form-control form-input" @change="getPayslipList($event)">
+                          <select v-model="selectedCompany" class="form-control form-input" @change="getEmployeeList($event)">
                             <option v-for="(company, key) in companyArr" :key="company.uuid + key" :value="company.id">
                               {{ company.name }} (REGISTRATION NO.: {{ company.registrationNumber }}, COUNTRY: {{ company.country }})
                             </option>
@@ -30,22 +30,19 @@
                     </form>
                   </div>
                   <div class="col-2 mb-4 pr-0">
-                    <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="getAllPayslipList()">
+                    <button type="button" class="btn btn-lg btn-primary btn-add next-btn float-right" @click.prevent="getAllEmployeeList()">
                       <span>Clear Search</span>
                     </button>
                   </div>
                   <div class="col-12 card border pr-0 pl-0">
-                    <table :key="payslipKey" class="table table-striped">
+                    <table :key="employeeKey" class="table table-striped">
                       <thead>
                         <tr>
-                          <th scope="col">
-                            Payslip Name
-                          </th>
                           <th scope="col">
                             Employee
                           </th>
                           <th scope="col">
-                            Filename
+                            Company
                           </th>
                           <th scope="col">
                             Action
@@ -53,23 +50,18 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(payslip, index) in payslips" :key="index">
+                        <tr v-for="(employee, index) in employees" :key="index">
                           <td>
-                            <span class="contract-name">{{ payslip.name }}</span>
+                            <span class="contract-name">{{ employee.fullName }}</span>
                           </td>
                           <td>
-                            <span class="contract-name">{{ payslip.employee }}</span>
+                            <span class="contract-name">{{ employee.company }}</span>
                           </td>
                           <td>
-                            <a :href="`${payslip.url}`" target="_blank">
-                              <span class="contract-name">{{ payslip.filename }}</span>
-                            </a>
-                          </td>
-                          <td>
-                            <button :id="'payslip-' + index" class="btn btn-gray-light delete-payslip-btn" @click="deletePayslip(payslip, index)">
-                              <span class="share-open">Delete</span>
+                            <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="createPayslip(employee.url)">
+                              <span>Create Payslip</span>
                             </button>
-                          </td>
+                          </td><td />
                         </tr>
                       </tbody>
                     </table>
@@ -94,59 +86,43 @@ export default {
     loaderMixin
   ],
   async asyncData (context) {
-    const [uploadedPayslips, companiesRawData] = await Promise.all([
-      context.app.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1'),
+    const [employeesRawData, companiesRawData] = await Promise.all([
+      context.app.$axios.get('/api/employees/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1'),
       context.app.$axios.get('/api/companies/?order[name]=asc&page_number=1&items_per_page=999&status=1')
     ])
 
     return {
-      uploadedPayslips: uploadedPayslips.data,
+      employeesRawData: employeesRawData.data,
       companiesRawData: companiesRawData.data
     }
   },
   data () {
     return {
-      crumbs: [
-        {
-          name: 'Payslip List',
-          path: '/payslips'
-        }
-      ],
+      crumbs: [],
       submenu: true,
-      payslipKey: 0,
-      payslipSearchKey: 0,
+      employeeKey: 0,
+      employeeSearchKey: 0,
       selectedCompany: '',
       companyArr: []
     }
   },
   created () {
-    const payslips = []
-    const apiHost = this.$config.axios.baseURL
+    const employees = []
 
-    this.uploadedPayslips.forEach(function (uploadedPayslip) {
-      let url = ''
-      let filename = ''
-      if (uploadedPayslip.type === 'manualForm') {
-        url = '/payslips/globelise-admin/view-payslip/' + uploadedPayslip.uuid
-        filename = 'View Payslip'
-      } else {
-        url = apiHost + '/uploads/payslip_document/' + uploadedPayslip.filename
-        filename = uploadedPayslip.filename
+    this.employeesRawData.forEach(function (employeeRawData) {
+      if (employeeRawData.company !== null && employeeRawData.company.name !== null && employeeRawData.isGlobeliseAdmin === false) {
+        const employee = {
+          fullName: employeeRawData.userProfile.firstname + ' ' + employeeRawData.userProfile.lastname,
+          company: employeeRawData.company.name,
+          uuid: employeeRawData.uuid,
+          employeeId: employeeRawData.id,
+          url: '/payslips/globelise-admin/create-payslip/' + employeeRawData.id
+        }
+
+        employees.push(employee)
       }
-
-      const payslip = {
-        name: uploadedPayslip.name,
-        employee: uploadedPayslip.employee.userProfile.firstname,
-        filename,
-        url,
-        uuid: uploadedPayslip.uuid,
-        employeeId: uploadedPayslip.employee.id,
-        companyId: uploadedPayslip.company.id
-      }
-
-      payslips.push(payslip)
     })
-    this.payslips = payslips
+    this.employees = employees
 
     const companies = []
     this.companiesRawData.forEach(function (companyRaw) {
@@ -166,100 +142,65 @@ export default {
     this.companyArr = companies
   },
   methods: {
-    getPayslipList (event) {
+    createPayslip (url) {
+      this.$router.push(url)
+    },
+    getEmployeeList (event) {
       this.selectedCompany = event.target.value
-      this.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + this.selectedCompany)
-        .then((payslipDatas) => {
-          const payslips = []
-          const apiHost = this.$config.axios.baseURL
-          if (payslipDatas.data.length > 0) {
-            payslipDatas.data.forEach(function (payslipData) {
-              let url = ''
-              let filename = ''
-              if (payslipData.type === 'manualForm') {
-                url = '/payslips/globelise-admin/view-payslip/' + payslipData.uuid
-                filename = 'View Payslip'
-              } else {
-                url = apiHost + '/uploads/payslip_document/' + payslipData.filename
-                filename = payslipData.filename
-              }
+      this.$axios.get('/api/employees/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1&company=' + this.selectedCompany)
+        .then((employeeDatas) => {
+          const employees = []
+          if (employeeDatas.data.length > 0) {
+            employeeDatas.data.forEach(function (employeeRawData) {
+              if (employeeRawData.company !== null && employeeRawData.company.name !== null && employeeRawData.isGlobeliseAdmin === false) {
+                const employee = {
+                  fullName: employeeRawData.userProfile.firstname + ' ' + employeeRawData.userProfile.lastname,
+                  company: employeeRawData.company.name,
+                  uuid: employeeRawData.uuid,
+                  employeeId: employeeRawData.id,
+                  url: '/payslips/globelise-admin/create-payslip/' + employeeRawData.id
+                }
 
-              const payslip = {
-                name: payslipData.name,
-                filename,
-                employee: payslipData.employee.userProfile.firstname,
-                url,
-                uuid: payslipData.uuid,
-                employeeId: payslipData.employee.id,
-                companyId: payslipData.company.id
+                employees.push(employee)
               }
-
-              payslips.push(payslip)
             })
           }
 
-          this.payslips = payslips
+          this.employees = employees
           console.log(this)
-          this.payslipKey++
+          this.employeeKey++
         }).catch(() => {
           return false
         })
     },
-    getAllPayslipList () {
-      this.$axios.get('/api/payslip/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1')
-        .then((payslipDatas) => {
-          const payslips = []
-          const apiHost = this.$config.axios.baseURL
-          if (payslipDatas.data.length > 0) {
-            payslipDatas.data.forEach(function (payslipData) {
-              let url = ''
-              let filename = ''
-              if (payslipData.type === 'manualForm') {
-                url = '/payslips/globelise-admin/view-payslip/' + payslipData.uuid
-                filename = 'View Payslip'
-              } else {
-                url = apiHost + '/uploads/payslip_document/' + payslipData.filename
-                filename = payslipData.filename
-              }
+    getAllEmployeeList () {
+      this.$axios.get('/api/employees/?order[updatedAt]=asc&page_number=1&items_per_page=999&status=1')
+        .then((employeeDatas) => {
+          const employees = []
+          if (employeeDatas.data.length > 0) {
+            employeeDatas.data.forEach(function (employeeRawData) {
+              if (employeeRawData.company !== null && employeeRawData.company.name !== null && employeeRawData.isGlobeliseAdmin === false) {
+                const employee = {
+                  fullName: employeeRawData.userProfile.firstname + ' ' + employeeRawData.userProfile.lastname,
+                  company: employeeRawData.company.name,
+                  uuid: employeeRawData.uuid,
+                  employeeId: employeeRawData.id,
+                  url: '/payslips/globelise-admin/create-payslip/' + employeeRawData.id
+                }
 
-              const payslip = {
-                name: payslipData.name,
-                filename,
-                employee: payslipData.employee.userProfile.firstname,
-                url,
-                uuid: payslipData.uuid,
-                employeeId: payslipData.employee.id,
-                companyId: payslipData.company.id
+                employees.push(employee)
               }
-
-              payslips.push(payslip)
             })
           }
           this.selectedCompany = ''
-          this.payslips = payslips
-          this.payslipKey++
-          this.payslipSearchKey++
+          this.employees = employees
+          this.employeeKey++
+          this.employeeSearchKey++
         }).catch(() => {
           return false
         })
-    },
-
-    deletePayslip (payslip, index) {
-      this.$axios.$patch('/api/payslip/' + payslip.uuid,
-        {
-          status: 0,
-          name: payslip.name,
-          employee: payslip.employeeId,
-          company: payslip.companyId,
-          type: 'Upload'
-        }
-      ).then(() => {
-        this.payslips.splice(index, 1)
-        this.payslipKey++
-      }).catch(() => {
-        return false
-      })
     }
+
   }
 
 }
