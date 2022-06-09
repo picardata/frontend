@@ -262,6 +262,12 @@ export default {
           link: '/'
         },
         {
+          name: 'emmployees',
+          displayName: 'Employees',
+          icon: 'User_setting.png',
+          link: '/employees/globelise-admin/employee-list'
+        },
+        {
           name: 'payslips',
           displayName: 'Payslips',
           icon: 'Invoices_Receipts.png',
