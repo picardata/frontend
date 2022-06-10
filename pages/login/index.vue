@@ -5,6 +5,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="title-wrapper text-center">
+              <img src="~/assets/aligngrouplogo.png" alt="Logo">
               <h2>Log in</h2>
             </div>
 

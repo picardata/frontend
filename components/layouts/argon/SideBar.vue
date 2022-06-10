@@ -1,8 +1,8 @@
 <template>
   <div class="navbar navbar-vertical fixed-left navbar-light bg-white sidebar-picardata">
     <div class="scrollbar-inner">
-      <div class="sidenav-header d-flex align-items-center">
-        <a class="navbar-brand text-white" href="/"><img src="~/assets/text_logo.png" alt="Globelise Logo"></a>
+      <div class="sidenav-header d-flex align-items-center mt--2">
+        <img src="~/assets/aligngrouplogo.png" alt="Globelise Logo" height="70">
       </div>
       <div class="navbar-inner">
         <ul v-if="isGlobeliseAdmin === true" class="navbar-nav mt-5">
