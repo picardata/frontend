@@ -136,7 +136,7 @@ export default {
           name: 'my-carts',
           displayName: 'My Carts',
           icon: 'Wallet.png',
-          link: '#'
+          link: '/cart'
         },
         {
           name: 'user-settings',
