@@ -15,97 +15,74 @@
           <div class="row mt-6 contract-type-wrapper">
             <div class="col-12">
               <div class="p-4 row">
-                <div class="col-3">
-                  <img class="mb-4" :src="mainImagePath" alt="Partner Logo" width="200">
-                </div>
-                <div class="col-9">
+                <div class="col-12" :key="orderStatusKey">
                   <div class="all-form-title bold-text form-field">
                     <div>
-                      <span>{{category}}</span>
+                      <span class="entity-name"> {{orderId}} </span>
+
+                      <div class="float-right" v-if="orderStatus == 1">
+                        
+                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right" @click.prevent="updateOrderStatus(3)">
+                          <span>Reject Order</span>
+                        </button>
+
+                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right mr-2" @click.prevent="updateOrderStatus(2)">
+                          <span>Process Order</span>
+                        </button>
+                      </div>
+
+                      <div class="float-right" v-else-if="orderStatus == 2">
+                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right" @click.prevent="updateOrderStatus(4)">
+                          <span>Cancel Order</span>
+                        </button>
+                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right mr-2" @click.prevent="updateOrderStatus(5)">
+                          <span>Complete Order</span>
+                        </button>
+                      </div>
+
+                      <div class="float-right" v-else-if="orderStatus == 3">
+                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right" @click.prevent="updateOrderStatus(2)">
+                          <span>Process Order</span>
+                        </button>
+                      </div>                     
+
                     </div>
-                    <div :key="itemInTheCartKey">
-                      <span class="entity-name"> {{name}} </span>
-
-                      <div class="float-right" v-if="isItemInTheCart == 0">
-                        <button type="button" class="btn btn-md btn-secondary btn-add next-btn float-right" @click.prevent="addToCart()">
-                          <span>Add to Cart</span>
-                        </button>
-                      </div>
-                      <div class="float-right" v-else-if="isItemInTheCart == 1">
-                        <button type="button" class="btn btn-md btn-primary btn-add next-btn float-right" disabled>
-                          <span>Added to Cart</span>
-                        </button>
-                      </div>
-
+                    <div>
+                      <span>ORDER STATUS: {{statusOptions[orderStatus].name}}</span>
                     </div>
                     <div>
                       <span></span>
                     </div>
                     <div class="mt-4">
-                      <span>{{ description }}</span>
+                      <span>Partner:</span>
+                      <span>{{ product.marketplaceProductMarketplacePartner.name }}</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="p-4 row mt-2">
-                <div class="col-12">
-                  <div class="all-form-title bold-text form-field">
-                    <div>
-                      <h3>Details</h3>
-                      <span>{{ offering }}</span>
-                    </div>
-                    
                     <div class="mt-4">
-                      <h3>Terms and Conditions</h3>
-                      <span>{{ termAndCondition }}</span>
+                      <span>Order Date:</span>
+                      <span>{{ $moment(createdAt).format("ll") }}</span>
+                    </div>
+
+                    <div class="mt-4">
+                      <span>Product:</span>
+                      <span>{{ product.name }}</span>
+                    </div>
+
+                    <div class="mt-4">
+                      <span>Transaction Price:</span>
+                      <span>{{ toCurrencyString(totalPrice) }}</span>
+                    </div>
+
+                    <div class="mt-4">
+                      <span>Actual Price:</span>
+                      <span>{{ toCurrencyString(actualTotalPrice) }}</span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> 
             </div>
           </div>
         </div>
-        <div v-if="statusLogsArr != ''" class="container-fluid mt-6">
-          <div class="col-12 card border pr-0 pl-0">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    From
-                  </th>
-                  <th scope="col">
-                    To
-                  </th>
-                  <th scope="col">
-                    Date and Time
-                  </th>
-                  
-                  <th scope="col">
-                    Author
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(statusLog, index) in statusLogsArr" :key="index">
-                  <td>
-                    <span class="contract-name">{{ statusOptions[statusLog.updatedFrom].name }}</span>
-                  </td>
-                  <td>
-                    <span class="contract-name">{{ statusOptions[statusLog.updatedTo].name }}</span>
-                  </td>
-                  <td>
-                    <span class="contract-name">{{ $moment(statusLog.createdAt).format("MMMM Do YYYY, h:mm:ss a") }}</span>
-                  </td>
-                  
-                  <td>
-                    <span class="contract-name">{{ statusLog.employee }}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -125,7 +102,7 @@ export default {
     flatPicker
   },
   async asyncData (context) {
-    return await context.app.$axios.$get('/api/marketplace/product/' + context.route.params.id)
+    return await context.app.$axios.$get('/api/marketplace/order/' + context.route.params.id)
       .then((data) => {
         console.log(data)
         return data
@@ -140,12 +117,12 @@ export default {
         altInput: true
       },
       statusOptions: [
-        { name: 'CREATION' },
-        { name: 'DRAFT' },
-        { name: 'PENDING FOR APPROVAL' },
-        { name: 'APPROVED/PUBLISHED' },
-        { name: 'REJECTED' },
-        { name: 'UNPUBLISHED' },
+        {},
+        { name: 'ORDER RECEIVED' },
+        { name: 'ORDER IN PROCESS' },
+        { name: 'ORDER REJECTED' },
+        { name: 'ORDER CANCELLED' },
+        { name: 'ORDER COMPLETED' },
       ],
       submenu: true,
       currentDate: new Date(),
@@ -159,41 +136,17 @@ export default {
       mainImagePath: "",
       statusLogsArr: "",
       isGlobeliseAdmin: this.$auth.user.userProfile.employees[0].isGlobeliseAdmin,
-      isItemInTheCart: 0,
-      itemInTheCartKey: 0
+      orderStatusKey: 0
     }
   },
   created () {
+    console.log(this)
     if (Object.hasOwnProperty.call(this.$auth.user, 'isGlobeliseAdmin')) {
       this.isGlobeliseAdmin = this.$auth.user.isGlobeliseAdmin
     }
 
     if (this.isGlobeliseAdmin) {
-      this.$axios.get('/api/marketplace/product/status/log/?order[createdAt]=asc&page_number=1&items_per_page=999&status=1&product=' + this.id)
-        .then((statusLogsRawData) => {
-          const statusLogs = []
-
-          
-          statusLogsRawData.data.forEach(function (statusLogsRaw) {
-            let employeeFullName = statusLogsRaw.createdByEmployee.userProfile.firstname + " " + statusLogsRaw.createdByEmployee.userProfile.lastname;
-
-            
-          
-            const statusLog = {
-              updatedFrom: statusLogsRaw.updatedFrom,
-              updatedTo: statusLogsRaw.updatedTo,
-              employee: employeeFullName,
-              createdAt: statusLogsRaw.createdAt
-            }
-
-            console.log(statusLog)
-            statusLogs.push(statusLog)
-          })
-
-          this.statusLogsArr = statusLogs
-        }).catch(() => {
-          return false
-        })
+      
     }
   },
   mounted () {
@@ -203,40 +156,29 @@ export default {
         path: ''
       }
     )
-    
-    //set main image path
-    const apiHost = this.$axios.defaults.baseURL
-    this.mainImagePath = apiHost + '/uploads/marketplace_product_main_image/' + this.mainImageFilename
-
-    //check if item has been added to user shopping cart
-    this.$axios.$get('/api/marketplace/shopping/cart/?order[product]=asc&page_number=1&items_per_page=999&status=1&createdBy=' + this.$auth.user.id + '&product=' + this.id)
-      .then((data) => {
-        if (data.length > 0) {
-          this.isItemInTheCart = 1
-          this.itemInTheCartKey++
-        }
-
-      })
-      .catch(e => console.log(e))
+  
   },
   methods: {
-    async addToCart() {
+    async updateOrderStatus(newStatus) {
       
-      const formData = new FormData()
-      formData.append('status', 1)
-      formData.append('product', this.id)
-      formData.append('quantity', 1)
-      formData.append('unitPrice', Number(this.price))
+      const orderFormData = new FormData()
+      orderFormData.append('orderId', this.orderId)
+      orderFormData.append('product', this.product.id)
+      orderFormData.append('unitPrice', this.unitPrice)
+      orderFormData.append('quantity', this.quantity)
+      orderFormData.append('totalPrice', this.totalPrice)
+      orderFormData.append('actualTotalPrice', this.actualTotalPrice)
+      orderFormData.append('orderStatus', newStatus)
       
-      this.$axios.$post('/api/marketplace/shopping/cart/',
-        formData,
+      this.$axios.$post('/api/marketplace/order/' + this.uuid,
+        orderFormData,
         {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         }).then((data) => {
-          this.itemIsInTheCart = 1
-          this.itemInTheCartKey++ 
+          this.orderStatus = newStatus
+          this.orderStatusKey++ 
 
         return true
       }).catch((e) => {
@@ -244,6 +186,9 @@ export default {
       })
 
     },
+    toCurrencyString(number) {
+      return number.toLocaleString('en-UK', { style: 'currency', currency: 'SGD' })
+    }
   }
 }
 </script>

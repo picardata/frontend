@@ -5,7 +5,7 @@
         <div class="container-fluid pt-6">
           <div class="row">
             <div class="col-12">
-              <span class="form-title page-header"></span>
+              <span class="form-title page-header" />
             </div>
           </div>
 
@@ -52,21 +52,46 @@
                         <span class="contract-name">{{ product.partnerName }}</span>
                       </a>
                     </td>
-                    
+
                     <td class="text-right">
                       <span class="contract-name">{{ toCurrencyString(product.unitPrice) }}</span>
                     </td>
-                  
+
                     <td class="text-right">
-                      <span class="contract-name">{{ product.quantity }}</span>
+                      <input v-model="product.quantity" class="quantity-input" @keypress="isNumber($event)">
+                      <button type="button" class="btn btn-sm btn-tertiary btn-add next-btn float-right" @click.prevent="updateQuantity(product.productInTheCartUuid, product.productId, product.quantity, index)">
+                        <span>Update</span>
+                      </button>
                     </td>
 
                     <td class="text-right">
-                      <span class="contract-name">{{ toCurrencyString(product.totalPrice) }}</span>
+                      <span class="contract-name">{{ toCurrencyString(product.productPrice) }}</span>
                     </td>
 
                     <td>
-                      <span class="contract-name"></span>
+                      <button type="button" class="btn btn-sm btn-secondary btn-add next-btn float-left" @click.prevent="removeFromCart(product.productInTheCartUuid, product.productId, index)">
+                        <span>Remove</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table :key="checkoutKey" class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td class="text-right" />
+                    <td class="text-right" />
+                    <td class="text-right" />
+                    <td class="text-right">
+                      <span class="contract-name">
+                        Total ({{ totalItem }} item): {{ toCurrencyString(totalPrice) }}
+                      </span>
+                    </td>
+                    <td class="text-right">
+                      <button type="button" class="btn btn-md btn-primary btn-add next-btn" @click.prevent="checkout()">
+                        <span>Checkout</span>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -81,25 +106,17 @@
 
 <script>
 import loaderMixin from '~/mixins/loader'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import flatPicker from 'vue-flatpickr-component'
-import 'flatpickr/dist/flatpickr.css'
 
 export default {
   name: 'IndexVue',
   layout: 'storeLayout',
   auth: true,
-  components: {
-    ValidationObserver,
-    ValidationProvider,
-    flatPicker
-  },
   mixins: [
     loaderMixin
   ],
   async asyncData (context) {
     const [productsInTheCartArrData] = await Promise.all([
-      context.app.$axios.get('/api/marketplace/shopping/cart/?order[product]=asc&page_number=1&items_per_page=999&status=1&createdBy=2')
+      context.app.$axios.get('/api/marketplace/shopping/cart/?order[product]=asc&page_number=1&items_per_page=999&status=1&createdBy=' + context.$auth.user.id)
     ])
 
     return {
@@ -110,191 +127,192 @@ export default {
     return {
       submenu: true,
       productKey: 0,
+      checkoutKey: 0,
       selectedCompany: '',
       products: '',
+      totalPrice: 0,
+      totalItem: 0
     }
   },
   created () {
     const products = []
-    const apiHost = this.$config.axios.baseURL
 
-    this.productsInTheCartArr.forEach(function (productInTheCart) {      
-      console.log(productInTheCart)
-
-      if (productInTheCart.product.name != null && productInTheCart.product.name != '') {
-        var partnerName = ''
-        var partnerUrl = ''
-        var partnerId = ''
-        if (productInTheCart.product.marketplaceProductMarketplacePartner != null) {
+    let totalPrice = 0
+    let totalItem = 0
+    this.productsInTheCartArr.forEach(function (productInTheCart) {
+      if (productInTheCart.product.name !== null && productInTheCart.product.name !== '') {
+        let partnerName = ''
+        let partnerUrl = ''
+        let partnerId = ''
+        if (productInTheCart.product.marketplaceProductMarketplacePartner !== null) {
           partnerName = productInTheCart.product.marketplaceProductMarketplacePartner.name
           partnerUrl = '/store/partners/' + productInTheCart.product.marketplaceProductMarketplacePartner.uuid
           partnerId = productInTheCart.product.marketplaceProductMarketplacePartner.id
         }
 
-        var totalPrice = 0
-        var quantity = Number(productInTheCart.quantity)
-        var unitPrice = Number(productInTheCart.unitPrice)
+        let productPrice = 0
+        let quantity = Number(productInTheCart.quantity)
+        let unitPrice = Number(productInTheCart.unitPrice)
 
-        if (typeof unitPrice == 'number' && typeof quantity == 'number') {
+        if (typeof unitPrice === 'number' && typeof quantity === 'number') {
           quantity = productInTheCart.quantity
           unitPrice = productInTheCart.unitPrice
-          totalPrice = quantity * unitPrice
+          productPrice = quantity * unitPrice
+
+          totalPrice = Number(totalPrice) + productPrice
+          totalItem++
         }
 
         const product = {
           name: productInTheCart.product.name,
-          partnerName: partnerName,
-          uuid: productInTheCart.product.uuid,
-          unitPrice: unitPrice,
-          quantity: quantity,
+          partnerName,
+          productInTheCartUuid: productInTheCart.uuid,
+          productId: productInTheCart.product.id,
+          unitPrice,
+          quantity,
           productUrl: '/store/products/' + productInTheCart.product.uuid,
-          partnerUrl: partnerUrl,
-          partnerId: partnerId,
-          totalPrice: totalPrice,
+          partnerUrl,
+          partnerId,
+          productPrice,
+          id: productInTheCart.id
         }
 
         products.push(product)
       }
     })
-    this.products = products
 
+    this.products = products
+    this.totalPrice = totalPrice
+    this.totalItem = totalItem
   },
   methods: {
-    approveProduct(paramUuid, paramIndex, paramPartnerId) {
-
+    async removeFromCart (uuid, productId, paramIndex) {
       const formData = new FormData()
-      formData.append('marketplaceProductMarketplacePartner', paramPartnerId)
-      formData.append('productStatus', 3)
-      
-      this.$axios.$post('/api/marketplace/product/' + paramUuid,
+      formData.append('status', 0)
+      formData.append('product', productId)
+
+      await this.$axios.$post('/api/marketplace/shopping/cart/' + uuid,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
-        }).then((data) => {
-          const currentProducts = this.products
-          const products = []
-          
+        }).then(() => {
+        this.products.splice(paramIndex, 1)
+        this.productKey++
 
-          currentProducts.forEach(function (product) {
-            
-            if (product.uuid == paramUuid) {
-              product.productStatus = 3
-            }
-
-            products.push(product)
-          })
-
-          this.products = products
-          this.productKey++
+        this.checkoutKey++
         return true
-      }).catch((e) => {
+      }).catch(() => {
         return false
       })
+    },
+    async updateQuantity (uuid, productId, quantity) {
+      const formData = new FormData()
+      formData.append('status', 1)
+      formData.append('product', productId)
+      formData.append('quantity', quantity)
 
+      await this.$axios.$post('/api/marketplace/shopping/cart/' + uuid,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(() => {
+        const products = []
+        let totalPrice = 0
+        let totalItem = 0
+        this.products.forEach(function (orderItem) {
+          const productPrice = orderItem.quantity * orderItem.unitPrice
+
+          totalPrice = Number(totalPrice) + productPrice
+          totalItem++
+
+          const product = {
+            name: orderItem.name,
+            partnerName: orderItem.partnerName,
+            productInTheCartUuid: orderItem.productInTheCartUuid,
+            productId: orderItem.productId,
+            unitPrice: orderItem.unitPrice,
+            quantity: orderItem.quantity,
+            productUrl: orderItem.productUrl,
+            partnerUrl: orderItem.partnerUrl,
+            partnerId: orderItem.partnerId,
+            productPrice,
+            id: orderItem.id
+          }
+
+          products.push(product)
+        })
+
+        this.products = products
+        this.totalPrice = totalPrice
+        this.totalItem = totalItem
+
+        this.productKey++
+        this.checkoutKey++
+        return true
+      }).catch(() => {
+        return false
+      })
     },
-    goToAddProductPage () {
-      window.location.href = '/store/products/create'
+    checkout () {
+      const axiosCall = this.$axios
+      this.products.forEach(function (orderItem) {
+        const orderId = 'PO/' + orderItem.partnerId + '/' + orderItem.id
+        const orderFormData = new FormData()
+        orderFormData.append('orderId', orderId)
+        orderFormData.append('product', orderItem.productId)
+        orderFormData.append('unitPrice', orderItem.unitPrice)
+        orderFormData.append('quantity', orderItem.quantity)
+        orderFormData.append('totalPrice', orderItem.productPrice)
+        orderFormData.append('actualTotalPrice', orderItem.productPrice)
+        orderFormData.append('orderStatus', '1')
+
+        axiosCall.$post('/api/marketplace/order/',
+          orderFormData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then(() => {
+          const productFormData = new FormData()
+          productFormData.append('status', 0)
+          productFormData.append('product', orderItem.productId)
+
+          axiosCall.$post('/api/marketplace/shopping/cart/' + orderItem.productInTheCartUuid,
+            productFormData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }).then(() => {
+
+          }).catch(() => {
+            return false
+          })
+        }).catch(() => {
+          return false
+        })
+      })
+
+      this.products = []
+      this.productKey++
+      this.checkoutKey++
+      this.totalItem = 0
+      this.totalPrice = 0
     },
-    getProductList (event) {
-      console.log('getProductList')
-      this.productSearchKeyword = event.target.value
-      var nameParameter = '' 
-      
-      if (this.partnerSearchKeyword != '') {
-        nameParameter = '&name=' + this.productSearchKeyword
+    isNumber (evt) {
+      evt = (evt) || window.event
+      const charCode = (evt.which) ? evt.which : evt.keyCode
+      if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+        evt.preventDefault()
+      } else {
+        return true
       }
-
-      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&productStatus=3&status=1' + nameParameter)
-        .then((partnerDatas) => {
-          const products = []
-          const apiHost = this.$config.axios.baseURL
-
-          if (partnerDatas.data.length > 0) {
-            partnerDatas.data.forEach(function (partnerData) {
-        
-              if (partnerData.name != null && partnerData.name != '') {
-                var partnerName = '';
-                var partnerUrl = '';
-                var partnerId = '';
-
-                if (partnerData.marketplaceProductMarketplacePartner != null) {
-                  partnerName = partnerData.marketplaceProductMarketplacePartner.name
-                  partnerUrl = '/store/partners/' + partnerData.marketplaceProductMarketplacePartner.uuid
-                  partnerId = partnerData.marketplaceProductMarketplacePartner.id
-                }
-
-                const product = {
-                  name: partnerData.name,
-                  category: partnerData.category,
-                  productStatus: partnerData.productStatus,
-                  uuid: partnerData.uuid,
-                  description: partnerData.description.slice(0, 100),
-                  price: partnerData.price,
-                  productUrl: '/store/products/' + partnerData.uuid,
-                  productImageUrl: apiHost + '/uploads/marketplace_product_main_image/' + partnerData.mainImageFilename,
-                  partnerName: partnerName,
-                  partnerUrl: partnerUrl,
-                  partnerId: partnerId
-                }
-
-                products.push(product)
-              }
-            })
-          }
-
-          this.products = products
-          this.productKey++
-        }).catch(() => {
-          return false
-        })
     },
-    getAllProductList () {
-      this.$axios.get('/api/marketplace/product/?order[name]=asc&page_number=1&items_per_page=999&status=1')
-        .then((partnerDatas) => {
-          const products = []
-          const apiHost = this.$config.axios.baseURL
-          if (partnerDatas.data.length > 0) {
-            partnerDatas.data.forEach(function (partnerData) {
-              if (partnerData.name != null && partnerData.name != '') {
-                var partnerName = '';
-                var partnerUrl = '';
-                var partnerId = '';
-
-                if (partnerData.marketplaceProductMarketplacePartner != null) {
-                  partnerName = partnerData.marketplaceProductMarketplacePartner.name
-                  partnerUrl = '/store/partners/' + partnerData.marketplaceProductMarketplacePartner.uuid
-                  partnerId = partnerData.marketplaceProductMarketplacePartner.id
-                }
-
-                const product = {
-                  name: partnerData.name,
-                  category: partnerData.category,
-                  productStatus: partnerData.productStatus,
-                  uuid: partnerData.uuid,
-                  description: partnerData.description.slice(0, 100),
-                  price: partnerData.price,
-                  productUrl: '/store/products/' + partnerData.uuid,
-                  productImageUrl: apiHost + '/uploads/marketplace_product_main_image/' + partnerData.mainImageFilename,
-                  partnerName: partnerName,
-                  partnerUrl: partnerUrl,
-                  partnerId: partnerId
-                }
-
-                products.push(product)
-              }
-            })
-          }
-          this.selectedCompany = ''
-          this.products = products
-          this.productKey++
-          this.productSearchKey++
-        }).catch(() => {
-          return false
-        })
-    },
-    toCurrencyString(number){
+    toCurrencyString (number) {
       return number.toLocaleString('en-UK', { style: 'currency', currency: 'SGD' })
     }
   }
@@ -363,7 +381,7 @@ export default {
     /* Body Text */
     color: #313131;
   }
-  
+
   .bold-text{
     font-weight:700 !important;
   }
@@ -476,6 +494,12 @@ export default {
         padding-left: 5px;
       }
     }
+
+    .quantity-input {
+      width: 100px;
+      margin-right: 10px;
+    }
+
     .contract-name {
       font-weight: 800;
     }
@@ -550,7 +574,7 @@ export default {
   .cards-info{
     span{
       letter-spacing: 0.75px;
-      margin-rigt: 6px;
+      margin-right: 6px;
     }
   }
   div{

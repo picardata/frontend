@@ -171,6 +171,12 @@ export default {
           link: '/store/partners/register'
         },
         {
+          name: 'order-listing',
+          displayName: 'Order Listing',
+          icon: 'Invoices_Receipts.png',
+          link: '/store/partners/orders/listing'
+        },
+        {
           name: 'user-settings',
           displayName: 'User Settings',
           icon: 'User_setting.png',
@@ -201,6 +207,12 @@ export default {
           displayName: 'Partner Listing',
           icon: 'Invoices_Receipts.png',
           link: '/store/globelise-admin/partners/listing'
+        },
+        {
+          name: 'order-listing',
+          displayName: 'Order Listing',
+          icon: 'Invoices_Receipts.png',
+          link: '/store/globelise-admin/orders/listing'
         },
         {
           name: 'user-settings',
