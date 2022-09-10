@@ -82,6 +82,12 @@
               Login
             </button>
 
+            <button
+              @click="mainAppLogin"
+            >
+              Main App Login
+            </button>
+
             <div class="col-md-12 text-center register-wrapper">
               Don't have an account?
               <nuxt-link to="/signup" class="btn btn-register text-link">
@@ -159,8 +165,28 @@ export default {
     if (query.resetpassword) {
       this.modals.fillPassword = true
     }
+
+    if (Object.hasOwnProperty.call(this.$route.query, 'token')) {
+      this.mainAppLogin()
+    }
   },
   methods: {
+    async mainAppLogin () {
+      const token = this.$route.query.token
+      await this.$auth.loginWith('local2', {
+        data: {
+          token
+        }
+      })
+
+      if (this.$auth.user.userProfile.employees[0].isStoreUser === true) {
+        this.$router.push('/store')
+      } else if (!this.isLogin) {
+        this.$router.push('/onboarding')
+      } else {
+        this.$router.push('/')
+      }
+    },
     async onSuccess (googleUser) {
       const idToken = googleUser.getAuthResponse().id_token
       await this.$auth.loginWith('customLogin', {
