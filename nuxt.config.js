@@ -158,6 +158,22 @@ export default {
           user: { url: '/api/users/me', method: 'get' }
         }
       },
+      local2: {
+        scheme: 'local',
+        token: {
+          property: 'token',
+          required: true
+        },
+        user: {
+          property: 'user',
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/mainapp/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/logout', method: 'post' },
+          user: { url: '/api/users/me', method: 'get' }
+        }
+      },
       customLogin: {
         scheme: '~/schemes/googleLoginScheme',
         token: {
